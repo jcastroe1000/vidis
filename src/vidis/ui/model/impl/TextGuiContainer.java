@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
 import vidis.ui.events.GuiMouseEvent;
 import vidis.ui.model.structure.AGuiContainer;
 
-import com.sun.opengl.util.GLUT;
 import com.sun.opengl.util.j2d.TextRenderer;
 
 
@@ -23,7 +22,6 @@ public class TextGuiContainer extends AGuiContainer {
 	private static TextRenderer textRenderer = new TextRenderer( new Font("Times New Roman", Font.PLAIN, 130 ), true, true );
 	
 	private void renderStrokeString(GL gl, int font, String string, double contwith) {
-        GLUT glut = new GLUT();
         gl.glEnable(GL.GL_LINE_SMOOTH);
         gl.glColor3d(1, 0, 0);
         gl.glLineWidth(2.0f);

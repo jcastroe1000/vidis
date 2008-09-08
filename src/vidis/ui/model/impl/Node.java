@@ -2,13 +2,9 @@ package vidis.ui.model.impl;
 
 import javax.media.opengl.GL;
 
+import vidis.data.var.IVariableContainer;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.model.structure.ASimObject;
-
-
-import com.sun.opengl.util.GLUT;
-
-import vidis.data.var.IVariableContainer;
 
 public class Node extends ASimObject {
 	
@@ -29,7 +25,6 @@ public class Node extends ASimObject {
 	}
 	
 	public void preRenderObject(GL gl) {
-		GLUT glut = new GLUT();
 		gl.glNewList( displayListId, GL.GL_COMPILE );
 			glut.glutSolidSphere(0.5, 20, 20);
 		gl.glEndList();

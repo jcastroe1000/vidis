@@ -25,7 +25,6 @@ public class BasicGuiContainer extends AGuiContainer {
 	}
 	
 	void renderStrokeString(GL gl, int font, String string, double contwith) {
-        GLUT glut = new GLUT();
 		// Center Our Text On The Screen
         float strwidth = glut.glutStrokeLengthf(font, string);
         
@@ -41,7 +40,6 @@ public class BasicGuiContainer extends AGuiContainer {
 	
 	@Override
 	public void renderContainer(GL gl) {
-		GLUT glut = new GLUT();
 //		gl.glPushMatrix();
 //		renderStrokeString(gl, GLUT.STROKE_MONO_ROMAN, "BasicGuiContainer", getWidth());
 //		gl.glPopMatrix();

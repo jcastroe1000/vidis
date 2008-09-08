@@ -3,15 +3,11 @@ package vidis.ui.model.impl;
 import javax.media.opengl.GL;
 import javax.vecmath.Tuple3d;
 import javax.vecmath.Vector3d;
-import javax.vecmath.Vector3f;
-
-import vidis.ui.events.IVidisEvent;
-import vidis.ui.model.structure.ASimObject;
-
-import com.sun.opengl.util.GLUT;
 
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
+import vidis.ui.events.IVidisEvent;
+import vidis.ui.model.structure.ASimObject;
 
 
 public class Packet extends ASimObject {
@@ -34,7 +30,6 @@ public class Packet extends ASimObject {
 	}
 	
 	public void preRenderObject( GL gl ) {
-		GLUT glut = new GLUT();
 		gl.glNewList( displayListId, GL.GL_COMPILE );
 			glut.glutSolidCube( 0.2f );
 		gl.glEndList();
