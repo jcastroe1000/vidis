@@ -1,8 +1,10 @@
 package vidis.ui.model.impl;
 
 import java.nio.DoubleBuffer;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.media.opengl.GL;
@@ -12,6 +14,8 @@ import javax.vecmath.Vector3d;
 
 import org.apache.log4j.Logger;
 
+import vidis.data.sim.SimLink;
+import vidis.data.var.IVariableContainer;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.model.structure.ASimObject;
 import vidis.ui.vis.VecUtil;
@@ -19,14 +23,12 @@ import vidis.ui.vis.shader.IProgram;
 import vidis.ui.vis.shader.IShader;
 import vidis.ui.vis.shader.ShaderFactory;
 import vidis.ui.vis.shader.impl.ShaderException;
-import vidis.data.sim.SimLink;
-import vidis.data.var.IVariableContainer;
 
 public class Link extends ASimObject {
 	
 	private static Logger logger = Logger.getLogger( Link.class );
 	
-	private Set<Packet> packets = Collections.synchronizedSet( new HashSet<Packet>() );
+	private List<Packet> packets = new ArrayList<Packet>();
 	
 	DoubleBuffer surfaceControlPointsRightDown = DoubleBuffer.allocate( 3 * 4 * 3 ); // 3 doubles per point, 4 * 3 points per surface, 4 surfaces
 	DoubleBuffer surfaceControlPointsLeftDown = DoubleBuffer.allocate( 3 * 4 * 3 );
@@ -129,11 +131,16 @@ public class Link extends ASimObject {
 			packets.removeAll( todel );
 		}
 		
-//		packets = (List<Packet>)getVariableById( "virtual.packetlist" ); 
-		
+		int j=0;
 		for ( int i=0; i<packets.size(); i++ ) {
-			if ( i > 9 ) break;
-			linkProgram.getVariableByName( "packet" + i ).setValue( ((Packet)packets.toArray()[i]).getPosition(), gl );
+			if ( j > 9 ) break;
+			Packet p = packets.get(i);
+			Vector3d pos = p.getPosition();
+			if(pos != null) {
+				linkProgram.getVariableByName("packet" + j).setValue(pos, gl);
+				j++;
+			}
+			//linkProgram.getVariableByName( "packet" + i ).setValue( ((Packet)packets.toArray()[i]).getPosition(), gl );
 		}
 		
 		
