@@ -52,7 +52,6 @@ public class Basic3DScrollPane extends AGuiContainer {
 						gl.glVertex2d(getWidth()/2 + 0.5, (getHeight())*scrollpane_position - 0.2);	
 					gl.glEnd();
 				} else if(scrollpane_dingsl == 1) {
-				GLUT glut = new GLUT();
 					gl.glPushMatrix();
 						gl.glTranslated(getWidth()/2, getHeight()*scrollpane_position, 1.0);
 						glut.glutSolidSphere(Math.min(0.8, Math.max(0.3, Math.sin(scrollpane_position*Math.PI)*0.7)), 16, 16);
