@@ -138,12 +138,8 @@ public class Link extends ASimObject {
 		
 		
 		
-		
-		gl.glEnable( GL.GL_BLEND );
-		gl.glBlendFunc( GL.GL_ONE, GL.GL_DST_ALPHA );
-		gl.glColor4d( 0, 0, 1, 0.7 );
+
 		gl.glCallList( displayListId );
-		gl.glDisable( GL.GL_BLEND );
 		
 //		gl.glMap1d( GL.GL_MAP1_VERTEX_3, 0, 1, 3, 3, linesControlPoints.array(), 0 );
 //		gl.glEnable( GL.GL_MAP1_VERTEX_3 );
