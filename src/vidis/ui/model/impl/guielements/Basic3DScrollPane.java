@@ -25,7 +25,7 @@ public class Basic3DScrollPane extends AGuiContainer {
 	// position in percentage
 	private double scrollpane_position = 0.3;
 	// scrollpane dingsl, 0:strichele, 1:kugele
-	private int scrollpane_dingsl = 1;
+	private int scrollpane_dingsl = 0;
 	
 	
 	// debug stuff
