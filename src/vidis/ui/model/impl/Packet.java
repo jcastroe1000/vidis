@@ -19,13 +19,22 @@ public class Packet extends ASimObject {
 
 	private static int displayListId = -1;
 	
+	private double position = Math.random()*360;
+	
 	@Override
 	public void renderObject( GL gl ) {
 		if ( displayListId == -1 ) {
 			displayListId = gl.glGenLists( 1 );
 			preRenderObject( gl );
 		}
+		// add name
+		
+		// set color
 		gl.glColor3d( 1, 0, 1 );
+		// now rotate it
+		gl.glRotated(position, getPosition().getX(), getPosition().getY(), getPosition().getZ());
+		position += Math.random()*10+4;
+		// now draw it
 		gl.glCallList( displayListId );
 	}
 	
