@@ -67,6 +67,17 @@ public class Link extends ASimObject {
 	@Override
 	public void render(GL gl) {
 		try {
+			
+			Tuple3d posA = (Tuple3d) getVariableById( SimLink.POINT_A ).getData();
+			Tuple3d posB = (Tuple3d) getVariableById( SimLink.POINT_B ).getData();
+			
+			if ( ! knownPointA.equals( posA ) && ! knownPointB.equals( posB ) ) {
+				knownPointA = new Point3d( posA );
+				knownPointB = new Point3d( posB );
+				calculateControlPoints( knownPointA, knownPointB );
+				preRenderObject( gl );
+			}
+			
 			renderObject(gl);
 		}
 		catch ( Exception e ) {
@@ -106,6 +117,8 @@ public class Link extends ASimObject {
 	
 	@Override
 	public void renderObject(GL gl) {
+		
+		// XXX possible performance issue
 		synchronized (packets) {
 			Set<Packet> todel = Collections.synchronizedSet(new HashSet<Packet>());
 			for ( Packet p : packets ) {
@@ -116,20 +129,16 @@ public class Link extends ASimObject {
 			packets.removeAll( todel );
 		}
 		
+//		packets = (List<Packet>)getVariableById( "virtual.packetlist" ); 
+		
 		for ( int i=0; i<packets.size(); i++ ) {
 			if ( i > 9 ) break;
 			linkProgram.getVariableByName( "packet" + i ).setValue( ((Packet)packets.toArray()[i]).getPosition(), gl );
 		}
 		
-		Tuple3d posA = (Tuple3d) getVariableById( SimLink.POINT_A ).getData();
-		Tuple3d posB = (Tuple3d) getVariableById( SimLink.POINT_B ).getData();
 		
-		if ( ! knownPointA.equals( posA ) && ! knownPointB.equals( posB ) ) {
-			knownPointA = new Point3d( posA );
-			knownPointB = new Point3d( posB );
-			calculateControlPoints( knownPointA, knownPointB );
-			preRenderObject( gl );
-		}
+		
+		
 		gl.glEnable( GL.GL_BLEND );
 		gl.glBlendFunc( GL.GL_ONE, GL.GL_DST_ALPHA );
 		gl.glColor4d( 0, 0, 1, 0.7 );
@@ -215,7 +224,7 @@ public class Link extends ASimObject {
 		// calc axis
 			Vector3d AB = new Vector3d( pointB );
 			AB.sub( pointA );
-			segments = (int) Math.round( 50 * AB.length() );
+			segments = (int) Math.round( 20 * AB.length() );
 			AB.normalize();
 			
 			right = VecUtil.cross( AB, up );
@@ -252,7 +261,7 @@ public class Link extends ASimObject {
 			Vector3d vecAdown = new Vector3d( pointAdown );
 			vecAdown.sub( pointA );
 			Vector3d vecAup = new Vector3d( vecAdown );
-			vecAup.negate();
+			vecAup.negate();			
 			
 			Point3d pointAup = new Point3d( pointA );
 			pointAup.add( vecAup );
