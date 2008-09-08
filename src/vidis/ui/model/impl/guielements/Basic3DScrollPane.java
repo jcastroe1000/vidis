@@ -27,23 +27,7 @@ public class Basic3DScrollPane extends AGuiContainer {
 	// scrollpane dingsl, 0:strichele, 1:kugele
 	private int scrollpane_dingsl = 0;
 	
-	
-	// debug stuff
-	private double test = 0;
-	private double test2 = 1;
-	
 	public void renderContainer(GL gl) {
-		if(test2 >= 0) {
-			setPosition(test2);
-			test2 -= 0.007;
-		} else if(test <= 1) {
-			setPosition(test);
-			test += 0.007;
-		} else {
-			// reset
-			test = 0;
-			test2 = 1;
-		}
 		gl.glPushMatrix();
 			if (true) {
 				gl.glColor4d(marker_color.getRed()/255d, marker_color.getGreen()/255d, marker_color.getBlue()/255d, marker_opaque);
