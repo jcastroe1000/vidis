@@ -211,22 +211,26 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 			this.posx+=step;
 		}
 		if ( zoomIn ) {
-			this.zoom-=step/10;
+			if(zoom > 0.4)
+				this.zoom-=step/3;
 		}
 		if ( zoomOut ) {
-			this.zoom+=step/10;
+			if(zoom < 5)
+				this.zoom+=step/3;
 		}
 		if ( skewUp ) {
-			anglex += step;
+			if(anglex < 21)
+				anglex += step*6;
 		}
 		if ( skewDown ) {
-			anglex -= step;
+			if(anglex > -21)
+				anglex -= step*6;
 		}
 		if ( rotateLeft ) {
-			angley += step;
+			angley += step*6;
 		}
 		if ( rotateRight ) {
-			angley -= step;
+			angley -= step*6;
 		}
 	}
 	
