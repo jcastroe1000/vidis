@@ -39,8 +39,12 @@ public class SceneController extends AController implements GLEventListener {
 	private static Logger glLogger = Logger.getLogger( "vis.opengl" );
 	
 	private List<ICamera> cameras = new LinkedList<ICamera>();
+	
+	
 	private List<IVisObject> objects = Collections.synchronizedList( new LinkedList<IVisObject>() );
-	private List<IVisObject> toDel = Collections.synchronizedList( new ArrayList<IVisObject>() );
+	private List<IVisObject> objectsToDel = Collections.synchronizedList( new ArrayList<IVisObject>() );
+	private List<IVisObject> objectsToAdd = Collections.synchronizedList( new ArrayList<IVisObject>() );
+	
 	
 	private GLCanvas canvas;
 	
@@ -115,15 +119,35 @@ public class SceneController extends AController implements GLEventListener {
 		registerObject( new Axis() );
 	}
 	
+	
+	private void updateObjects() {
+			synchronized ( objectsToAdd ) {
+				if ( objectsToAdd.size() > 0 ) {
+					objects.addAll( objectsToAdd );
+					objectsToAdd.clear();
+				}
+			}
+			synchronized ( objectsToDel ) {
+				if ( objectsToDel.size() > 0 ) {
+					objects.removeAll( objectsToDel );
+					objectsToDel.clear();
+				}
+			}
+	}
+	
+	
+	
 	/**
 	 * display event
 	 * draws the whole scene
 	 */
 	public void display(GLAutoDrawable drawable) {
 		
-		// do the del thing
-		objects.removeAll( toDel );
-		toDel.clear();
+		// do thedateObjects(); update thing
+		updateObjects();
+		
+		
+		
 		
 		final GL gl = drawable.getGL();
 		
@@ -180,11 +204,9 @@ public class SceneController extends AController implements GLEventListener {
 	private void drawModel( GL gl, ICamera c ) {
 		if ( c instanceof GuiCamera) {
 			gl.glPushMatrix();
-			synchronized ( objects ) {
-				for ( IVisObject o : objects ) {
-					if ( o instanceof IGuiContainer ) {
-						o.render(gl);
-					}
+			for ( IVisObject o : objects ) {
+				if ( o instanceof IGuiContainer ) {
+					o.render(gl);
 				}
 			}
 			gl.glPopMatrix();
@@ -198,7 +220,6 @@ public class SceneController extends AController implements GLEventListener {
 				// then the packets
 				// and finally the front sides of the links
 				gl.glPushMatrix();
-				synchronized ( objects ) {
 					gl.glEnable( GL.GL_LIGHTING );
 					// nodes
 					gl.glDisable( GL.GL_LIGHT0 );
@@ -209,20 +230,6 @@ public class SceneController extends AController implements GLEventListener {
 							o.render(gl);
 						}
 					}
-					// back side of links
-//					gl.glEnable( GL.GL_LIGHT0 );
-//					gl.glDisable( GL.GL_LIGHT1 );
-//					gl.glDisable( GL.GL_LIGHT2 );
-//					gl.glEnable( GL.GL_CULL_FACE );
-//					gl.glCullFace( GL.GL_BACK );
-//					Link.useShaderProgram(gl);
-//					for ( IVisObject o : objects ) {
-//						if ( (o instanceof Link) ) {
-//							o.render(gl);
-//						}
-//					}
-//					ShaderFactory.removeAllPrograms(gl);
-//					gl.glDisable( GL.GL_CULL_FACE );
 					// packets
 					gl.glDisable( GL.GL_LIGHT0 );
 					gl.glDisable( GL.GL_LIGHT1 );
@@ -235,6 +242,11 @@ public class SceneController extends AController implements GLEventListener {
 					// links
 					gl.glEnable( GL.GL_LIGHT0 );
 					gl.glEnable( GL.GL_LIGHT1 );
+					gl.glEnable( GL.GL_BLEND );
+					gl.glEnable( GL.GL_CULL_FACE );
+					gl.glCullFace( GL.GL_BACK );
+					gl.glBlendFunc( GL.GL_ONE, GL.GL_DST_ALPHA );
+					gl.glColor4d( 0, 0, 1, 0.7 );
 					Link.useShaderProgram(gl);
 					for ( IVisObject o : objects ) {
 						if ( (o instanceof Link) ) {
@@ -242,13 +254,14 @@ public class SceneController extends AController implements GLEventListener {
 						}
 					}
 					ShaderFactory.removeAllPrograms(gl);
+					gl.glDisable( GL.GL_BLEND );
+					gl.glDisable( GL.GL_CULL_FACE );
 					// rest
 					gl.glDisable( GL.GL_LIGHTING );
 					for ( IVisObject o : objects ) {
 						if ( !(o instanceof Node) && !(o instanceof Link) && !(o instanceof Packet) && !(o instanceof IGuiContainer) ) {
 							o.render(gl);
 						}
-					}
 				}
 				gl.glPopMatrix();
 //			}
@@ -283,6 +296,7 @@ public class SceneController extends AController implements GLEventListener {
 		Link.setupShaderProgram(gl);
 		
 		animator = new Animator(drawable);
+		
 		animator.start();
 	}
 
@@ -304,9 +318,14 @@ public class SceneController extends AController implements GLEventListener {
 	}
 
 	private void registerObject( IVisObject o ) {
-		objects.add(o);
+		synchronized ( objectsToAdd ) {
+			objectsToAdd.add( o );
+		}
 	}
+	
 	private void unregisterObject( IVisObject o ) {
-		toDel.add(o);
+		synchronized ( objectsToAdd ) {
+			objectsToDel.add( o );
+		}
 	}
 }

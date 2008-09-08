@@ -40,7 +40,7 @@ public class Packet extends ASimObject {
 	
 	public void preRenderObject( GL gl ) {
 		gl.glNewList( displayListId, GL.GL_COMPILE );
-			glut.glutSolidCube( 0.2f );
+			glut.glutSolidSphere(.15f, 6, 6);
 		gl.glEndList();
 	}
 

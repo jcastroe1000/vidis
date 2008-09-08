@@ -16,6 +16,8 @@ attribute vec3 packet9;
 
 // varying qualified variables communicate from the vertex shader to
 // the framgment shader
+varying vec3 normal;
+varying vec3 incom;
 
 float functioner(float distance) {
 	return (distance + (1/distance)*0.01);
@@ -35,7 +37,10 @@ vec3 calculateAddVec( vec3 dir ) {
 	}
 }
 
+
+
 void main() {
+	
 	vec3 newVertex;
 	vec3 oldVertex = vec3(gl_Vertex);
 	float l = length(oldVertex - packet1);
@@ -51,6 +56,9 @@ void main() {
 	newVertex += calculateAddVec( oldVertex - packet7 );
 	newVertex += calculateAddVec( oldVertex - packet8 );
 	newVertex += calculateAddVec( oldVertex - packet9 );
+	
+	incom = newVertex - vec3(0, 10, 0);
+	normal = gl_NormalMatrix * gl_Normal;
 	
 	
 	gl_Position = gl_ModelViewProjectionMatrix * vec4(newVertex, gl_Vertex.w);

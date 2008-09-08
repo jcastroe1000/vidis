@@ -31,14 +31,13 @@ public class Basic3DScrollPane extends AGuiContainer {
 		gl.glPushMatrix();
 			if (true) {
 				gl.glColor4d(marker_color.getRed()/255d, marker_color.getGreen()/255d, marker_color.getBlue()/255d, marker_opaque);
+				
+				gl.glBegin(GL.GL_TRIANGLES);
 				// upper arrow
-				gl.glBegin(GL.GL_TRIANGLE_STRIP);
 					gl.glVertex2d(getWidth()/2, 0 - 0.9);
 					gl.glVertex2d(getWidth()/2 + 0.5, 0.8 - 0.9);
 					gl.glVertex2d(getWidth()/2-0.5, 0.8 -0.9);
-				gl.glEnd();
 				// lower arrow
-				gl.glBegin(GL.GL_TRIANGLE_STRIP);
 					gl.glVertex2d(getWidth()/2, getHeight()+0.9);
 					gl.glVertex2d(getWidth()/2 + 0.5, getHeight()-0.8+0.9);
 					gl.glVertex2d(getWidth()/2-0.5, getHeight()-0.8+0.9);

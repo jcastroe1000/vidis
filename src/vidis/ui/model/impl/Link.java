@@ -2,10 +2,7 @@ package vidis.ui.model.impl;
 
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.media.opengl.GL;
 import javax.vecmath.Point3d;
@@ -18,6 +15,7 @@ import vidis.data.sim.SimLink;
 import vidis.data.var.IVariableContainer;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.model.structure.ASimObject;
+import vidis.ui.model.structure.IVisObject;
 import vidis.ui.vis.VecUtil;
 import vidis.ui.vis.shader.IProgram;
 import vidis.ui.vis.shader.IShader;
@@ -36,8 +34,6 @@ public class Link extends ASimObject {
 	DoubleBuffer surfaceControlPointsLeftUp = DoubleBuffer.allocate( 3 * 4 * 3 );
 	
 //	DoubleBuffer linesControlPoints = DoubleBuffer.allocate( 3 * 3 * 5 ); // 3 doubles per point, 3 points per line, 5 lines
-//	
-//	
 //	DoubleBuffer lineControlPoints = DoubleBuffer.allocate( 3 * 3 ); // 3 doubles per point, 3 points
 //	
 //	DoubleBuffer lineDownControlPoints = DoubleBuffer.allocate( 3 * 3 ); // 3 doubles per point, 3 points
@@ -99,11 +95,17 @@ public class Link extends ASimObject {
 			vs.loadSource("bin/vidis/ui/vis/shader/src/link.vertex.glsl", gl);
 			vs.compile(gl);
 			
+			IShader fs = ShaderFactory.getNewFragmentShader();
+			fs.create(gl);
+			fs.loadSource("bin/vidis/ui/vis/shader/src/link.fragment.glsl", gl);
+			fs.compile(gl);
+			
+			
 			linkProgram = ShaderFactory.getNewProgram();
 			linkProgram.create(gl);
 			linkProgram.addShader( vs );
+			linkProgram.addShader( fs );
 			linkProgram.link(gl);
-			
 			linkProgram.use(gl);
 		
 		}
@@ -120,17 +122,6 @@ public class Link extends ASimObject {
 	@Override
 	public void renderObject(GL gl) {
 		
-		// XXX possible performance issue
-		synchronized (packets) {
-			Set<Packet> todel = Collections.synchronizedSet(new HashSet<Packet>());
-			for ( Packet p : packets ) {
-				if ( p.getPosition() == null ) {
-					todel.add( p );
-				}
-			}
-			packets.removeAll( todel );
-		}
-		
 		int j=0;
 		for ( int i=0; i<packets.size(); i++ ) {
 			if ( j > 9 ) break;
@@ -142,9 +133,6 @@ public class Link extends ASimObject {
 			}
 			//linkProgram.getVariableByName( "packet" + i ).setValue( ((Packet)packets.toArray()[i]).getPosition(), gl );
 		}
-		
-		
-		
 
 		gl.glCallList( displayListId );
 		
@@ -459,7 +447,7 @@ public class Link extends ASimObject {
 		buf.put( offset + 8, c.z );
 	}
 	
-	private void fillSegment( int segment, DoubleBuffer buf, Point3d a, Point3d b, Point3d c, Point3d d ) {
+	private void fillSegment( int segment, DoubleBuffer buf, Point3d d, Point3d c, Point3d b, Point3d a ) {
 		buf.put( 12 * segment + 0, a.x );
 		buf.put( 12 * segment + 1, a.y );
 		buf.put( 12 * segment + 2, a.z );
@@ -484,6 +472,11 @@ public class Link extends ASimObject {
 
 	public void addPacket( Packet p ) {
 		packets.add( p );
+	}
+
+	public void delPacket(IVisObject p) {
+		packets.remove( p );
+		
 	}
 	
 }

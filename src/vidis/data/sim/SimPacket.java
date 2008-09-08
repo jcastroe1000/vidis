@@ -202,6 +202,7 @@ public class SimPacket extends AComponent implements ISimPacketCon {
     
     @Override
     public void kill() {
+    	getThrough().getVisObject().delPacket( this.visObject );
     	logger.debug( "kill()" );
     	super.kill();
     	logger.info("");
