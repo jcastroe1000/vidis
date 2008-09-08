@@ -28,7 +28,9 @@ public class CameraController extends AController{
 						IVidisEvent.SkewDown,
 						IVidisEvent.SkewUp,
 						IVidisEvent.RotateLeft,
-						IVidisEvent.RotateRight);
+						IVidisEvent.RotateRight,
+						IVidisEvent.ZoomIn,
+						IVidisEvent.ZoomOut);
 		
 		registerEvent(	IVidisEvent.MouseClickedEvent );
 	}
