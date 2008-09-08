@@ -4,7 +4,9 @@ import org.apache.log4j.Logger;
 
 public aspect LoggerAspect issingleton() {
 	
-	pointcut anyMethod( Object o ) : execution( * vidis..*(..) ) && this( o );
+	
+	// FIXME not active because of the d in dvidis
+	pointcut anyMethod( Object o ) : execution( * dvidis..*(..) ) && this( o );
 	  
 	@SuppressWarnings( "unchecked" )
 	before( Object o ) : anyMethod( o ) {
