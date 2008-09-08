@@ -13,13 +13,13 @@ import vidis.ui.model.structure.IVisObject;
  */
 public class Grid implements IVisObject {
 
-	private double x=-10;
-	private double z=-10;
-	private double deltax=0.5;
-	private double deltaz=0.5;
+	private double x=-100;
+	private double z=-100;
+	private double deltax=2.0;
+	private double deltaz=2.0;
 	private double yoff = 0.02;
-	private int anzx=40;
-	private int anzz=40;
+	private int anzx=100;
+	private int anzz=100;
 	public Grid(){
 		
 	}
