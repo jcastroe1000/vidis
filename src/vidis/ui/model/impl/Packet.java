@@ -1,8 +1,13 @@
 package vidis.ui.model.impl;
 
+import java.awt.Font;
+import java.awt.geom.Rectangle2D;
+
 import javax.media.opengl.GL;
 import javax.vecmath.Tuple3d;
 import javax.vecmath.Vector3d;
+
+import com.sun.opengl.util.j2d.TextRenderer;
 
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
@@ -19,6 +24,8 @@ public class Packet extends ASimObject {
 
 	private static int displayListId = -1;
 	
+	private static TextRenderer textRenderer = new TextRenderer( new Font("Times New Roman", Font.PLAIN, 130 ), true, true );
+	
 	private double position = Math.random()*360;
 	
 	@Override
@@ -28,7 +35,20 @@ public class Packet extends ASimObject {
 			preRenderObject( gl );
 		}
 		// add name
-		
+		if(getVariableIds().contains(AVariable.COMMON_IDENTIFIERS.NAME)) {
+			textRenderer.begin3DRendering();
+			textRenderer.draw3D( getVariableById(AVariable.COMMON_IDENTIFIERS.NAME).getData().toString(), 0f, 0f, 0f, 1f );
+			textRenderer.end3DRendering();
+		} else {
+			gl.glColor3d(1, 0, 1);
+			String text = "test inspector very long, inspector even longer";
+			gl.glPushMatrix();
+				gl.glScaled(0.001, 0.001, 0.001);
+				textRenderer.begin3DRendering();
+				textRenderer.draw3D( text, 0f, 0f, 0f, 1f );
+				textRenderer.end3DRendering();
+			gl.glPopMatrix();
+		}
 		// set color
 		gl.glColor3d( 1, 0, 1 );
 		// now rotate it

@@ -39,42 +39,42 @@ public abstract class AComponent implements IComponent, IAComponentCon,
     }
 
     private void init() {
-	if (this.vars == null)
-	    this.vars = new ConcurrentHashMap<String, AVariable>();
-	if (this.variableChangeListeners == null)
-	    this.variableChangeListeners = new ArrayList<IVariableChangeListener>();
+		if (this.vars == null)
+		    this.vars = new ConcurrentHashMap<String, AVariable>();
+		if (this.variableChangeListeners == null)
+		    this.variableChangeListeners = new ArrayList<IVariableChangeListener>();
     }
 
     public void kill() {
-	this.vars.clear();
-	this.variableChangeListeners.clear();
+		this.vars.clear();
+		this.variableChangeListeners.clear();
     }
 
     private void initVarsMethods() {
-	for (Method m : getUserLogic().getClass().getMethods()) {
-	    initVarsMethods(m);
-	}
+		for (Method m : getUserLogic().getClass().getMethods()) {
+		    initVarsMethods(m);
+		}
     }
 
     protected abstract IUserComponent getUserLogic();
 
     private void initVarsMethods(Method m) {
-	for (Annotation a : m.getAnnotations()) {
-	    if (a.annotationType().equals(Display.class)) {
-		// add variable for this method
-		Display t = (Display) a;
-		String id = COMMON_SCOPES.USER + "." + t.name();
-		if (hasVariable(id)) {
-		    // only update
-		    ((MethodVariable)getVariableById(id)).update(getUserLogic(), m);
-		} else {
-		    registerVariable(new MethodVariable(id, getUserLogic(), m));
+		for (Annotation a : m.getAnnotations()) {
+		    if (a.annotationType().equals(Display.class)) {
+			// add variable for this method
+			Display t = (Display) a;
+			String id = COMMON_SCOPES.USER + "." + t.name();
+			if (hasVariable(id)) {
+			    // only update
+			    ((MethodVariable)getVariableById(id)).update(getUserLogic(), m);
+			} else {
+			    registerVariable(new MethodVariable(id, getUserLogic(), m));
+			}
+		    } else {
+			Logger.output(LogLevel.WARN, this, "unknown method-annotation "
+				+ a + " encountered!");
+		    }
 		}
-	    } else {
-		Logger.output(LogLevel.WARN, this, "unknown method-annotation "
-			+ a + " encountered!");
-	    }
-	}
     }
 
     private void initVarsClass() {
@@ -106,75 +106,75 @@ public abstract class AComponent implements IComponent, IAComponentCon,
     }
 
     private void initVarsFields() {
-	for (Field f : getUserLogic().getClass().getDeclaredFields()) {
-	    for (Annotation a : f.getAnnotations()) {
-		if (a.annotationType().equals(Display.class)) {
-		    Display d = (Display) a;
-		    String ns = "";
-		    if (Modifier.isPublic(f.getModifiers())) {
-			ns = COMMON_SCOPES.USER + ".";
-		    } else {
-			ns = COMMON_SCOPES.SYSTEM + ".";
+		for (Field f : getUserLogic().getClass().getDeclaredFields()) {
+		    for (Annotation a : f.getAnnotations()) {
+				if (a.annotationType().equals(Display.class)) {
+				    Display d = (Display) a;
+				    String ns = "";
+				    if (Modifier.isPublic(f.getModifiers())) {
+				    	ns = COMMON_SCOPES.USER + ".";
+				    } else {
+				    	ns = COMMON_SCOPES.SYSTEM + ".";
+				    }
+				    String id = ns + d.name();
+				    if (hasVariable(id)) {
+						// only update
+						((FieldVariable)getVariableById(id)).update(getUserLogic(), f);
+				    } else {
+				    	registerVariable(new FieldVariable(id, d.type(), getUserLogic(), f));
+				    }
+				} else {
+				    Logger.output(LogLevel.WARN, this,
+						  "unknown field-annotation " + a
+							  + " encountered!");
+				}
 		    }
-		    String id = ns + d.name();
-		    if (hasVariable(id)) {
-			// only update
-			((FieldVariable)getVariableById(id)).update(getUserLogic(), f);
-		    } else {
-			registerVariable(new FieldVariable(id, d.type(), getUserLogic(), f));
-		    }
-		} else {
-		    Logger.output(LogLevel.WARN, this,
-				  "unknown field-annotation " + a
-					  + " encountered!");
 		}
-	    }
-	}
     }
 
     protected void initVars() {
-	this.init();
-	// vars initialisieren
-	initVarsMethods();
-	initVarsClass();
-	initVarsFields();
+		this.init();
+		// vars initialisieren
+		initVarsMethods();
+		initVarsClass();
+		initVarsFields();
     }
 
     public final void registerVariable(AVariable var) {
-	String id = var.getIdentifier();
-	AVariable old = vars.put(id, var);
-	if (old == null) {
-	    // new variable
-	    var.addVariableChangeListener(this);
-	    variableAdded(id);
-	} else {
-	    old.removeVariableChangeListener(this);
-	    variableChanged(id);
-	}
-
-	// if (hasVariable(var.getIdentifier())) {
-	// getVariableById(Object.class, var.getIdentifier()).update(var.getData());
-	// } else {
-	// Variable<?> old = vars.put(var.getIdentifier(), var);
-	// if (old != null) {
-	// if (!old.equals(var)) {
-	// Logger.output(LogLevel.WARN, this, "setVar() ==> obj changed ref-id");
-	// // changed ref!
-	// synchronized (this.variableChangeListeners) {
-	// for (IVariableChangeListener l : this.variableChangeListeners) {
-	// l.variableChanged(var.getIdentifier());
-	// }
-	// }
-	// }
-	// } else {
-	// // added
-	// synchronized (this.variableChangeListeners) {
-	// for (IVariableChangeListener l : this.variableChangeListeners) {
-	// l.variableAdded(var.getIdentifier());
-	// }
-	// }
-	// }
-	// }
+		String id = var.getIdentifier();
+		AVariable old = vars.put(id, var);
+		if (old == null) {
+		    // new variable
+		    var.addVariableChangeListener(this);
+		    variableAdded(id);
+		} else {
+		    old.removeVariableChangeListener(this);
+		    variableChanged(id);
+		}
+	
+		// if (hasVariable(var.getIdentifier())) {
+		// getVariableById(Object.class, var.getIdentifier()).update(var.getData());
+		// } else {
+		// Variable<?> old = vars.put(var.getIdentifier(), var);
+		// if (old != null) {
+		// if (!old.equals(var)) {
+		// Logger.output(LogLevel.WARN, this, "setVar() ==> obj changed ref-id");
+		// // changed ref!
+		// synchronized (this.variableChangeListeners) {
+		// for (IVariableChangeListener l : this.variableChangeListeners) {
+		// l.variableChanged(var.getIdentifier());
+		// }
+		// }
+		// }
+		// } else {
+		// // added
+		// synchronized (this.variableChangeListeners) {
+		// for (IVariableChangeListener l : this.variableChangeListeners) {
+		// l.variableAdded(var.getIdentifier());
+		// }
+		// }
+		// }
+		// }
     }
 
     public final boolean hasVariable(String identifier) {

@@ -41,6 +41,7 @@ public class SimLink extends AComponent implements ISimLinkCon {
 
 	public SimLink(IUserLink link, long delay) {
 		super();
+		linkcount++;
 		init();
 		init(link);
 		// set fields
@@ -49,8 +50,6 @@ public class SimLink extends AComponent implements ISimLinkCon {
 		if ( visObject == null ) {
 			visObject = new Link( this );
 		}
-		ObjectEvent oe = new ObjectEvent( IVidisEvent.ObjectRegister, visObject );
-		Dispatcher.forwardEvent( oe );
     }
 
     private void init() {
@@ -61,7 +60,7 @@ public class SimLink extends AComponent implements ISimLinkCon {
     public void kill() {
 		synchronized (queue) {
 		    for (PacketQueueHolder pqh : queue) {
-			pqh.packet.kill();
+		    	pqh.packet.kill();
 		    }
 		    queue.clear();
 		}
@@ -82,10 +81,11 @@ public class SimLink extends AComponent implements ISimLinkCon {
     private void setDelay(long delay) {
     	this.delay = delay;
     }
-
     public void connect(SimNode a, SimNode b) {
 		this.a = a;
 		this.b = b;
+		ObjectEvent oe = new ObjectEvent( IVidisEvent.ObjectRegister, visObject );
+		Dispatcher.forwardEvent( oe );
     }
 
     public void execute() {
@@ -357,18 +357,24 @@ public class SimLink extends AComponent implements ISimLinkCon {
     	ret.add( POINT_B );
     	return ret;
     }
-    
+    static int linkcount = 0;
     @Override
     public AVariable getVariableById(String id) throws ClassCastException {
     	if ( id.equals( POINT_A ) ) {
-    		return getNodeASim().getVariableById( AVariable.COMMON_IDENTIFIERS.POSITION );
+    		SimNode simnode = getNodeASim();
+    		if ( simnode == null) {
+    			System.out.println(this + " LINKCOUNT = " + linkcount);
+    			
+    		}
+    		AVariable v = simnode.getVariableById( AVariable.COMMON_IDENTIFIERS.POSITION );
+    		return v;
     	}
     	else if ( id.equals( POINT_B ) ) {
-    		return getNodeBSim().getVariableById( AVariable.COMMON_IDENTIFIERS.POSITION );
+    		SimNode simnode = getNodeBSim();
+    		return simnode.getVariableById( AVariable.COMMON_IDENTIFIERS.POSITION );
     	}
     	else {
     		return super.getVariableById(id);
     	}
     }
-    
 }
