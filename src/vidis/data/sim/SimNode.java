@@ -137,12 +137,11 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 
     public void send(IUserPacket packet, IUserLink link, long wait) {
 		if (isConnectedThrough(link)) {
-		    SimPacket simPacket = new SimPacket(packet, getConnectedLink(link),
-			    this, getConnectedLink(link).getOtherNode(this));
+		    SimPacket simPacket = new SimPacket(packet, getConnectedLink(link), this, getConnectedLink(link).getOtherNode(this));
 		    if (wait <= 0) {
-			doSendOperation(simPacket, getConnectedLink(link));
+		    	doSendOperation(simPacket, getConnectedLink(link));
 		    } else {
-			addToPacketQueue(simPacket, getConnectedLink(link), wait);
+		    	addToPacketQueue(simPacket, getConnectedLink(link), wait);
 		    }
 		} else {
 		    // cannot send
