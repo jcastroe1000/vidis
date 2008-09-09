@@ -15,6 +15,7 @@
 	</target>
 	
 	<target name="set-vidis-properties" description="Set Vidis properties.">
+		<echo message="${jogl.library.path}"/>
 		<!-- compiler settings -->
 		<property name="vidis.target" value="1.5 "/>
 		<property name="vidis.source" value="1.5"/>
@@ -33,7 +34,7 @@
 		
 		<!-- libraries -->
 		<path id="vidis.libraries">
-	       	<pathelement location="${vidis.lib}${path-spacer}jogl-1.1.1${path-spacer}native${path-spacer}windows${path-spacer}x86"/>
+	       	<pathelement location="${vidis.lib}${path-spacer}${jogl.library.path}"/>
 			<pathelement location="${java.library.path}"/>
 		</path>
 		<property name="vidis.libraries_str" refid="vidis.libraries" />
@@ -280,11 +281,13 @@
 					<equals arg1="${isX86}" arg2="true" />
 					<then>
 						<!-- arch: x86 -->
+						<property name="jogl.library.path" value="jogl-1.1.1${path-spacer}native${path-spacer}windows${path-spacer}x86" />
 					</then>
 					<elseif>
 						<equals arg1="${isAMD64}" arg2="true" />
 						<then>
 							<!-- arch: amd64 -->
+							<property name="jogl.library.path" value="jogl-1.1.1${path-spacer}native${path-spacer}windows${path-spacer}x86-64" />
 						</then>
 					</elseif>
 					<else>
@@ -300,11 +303,13 @@
 						<equals arg1="${isUNIVERSAL}" arg2="true" />
 						<then>
 							<!-- arch: x86 -->
+							<property name="jogl.library.path" value="jogl-1.1.1${path-spacer}native${path-spacer}macosc${path-spacer}universal" />
 						</then>
 						<elseif>
 							<equals arg1="${isPPC}" arg2="true" />
 							<then>
 								<!-- arch: amd64 -->
+								<property name="jogl.library.path" value="jogl-1.1.1${path-spacer}native${path-spacer}macosx${path-spacer}ppc" />
 							</then>
 						</elseif>
 						<else>
@@ -321,11 +326,13 @@
 						<equals arg1="${isX86}" arg2="true" />
 						<then>
 							<!-- arch: x86 -->
+							<property name="jogl.library.path" value="jogl-1.1.1${path-spacer}native${path-spacer}linux${path-spacer}x86" />
 						</then>
 						<elseif>
 							<equals arg1="${isAMD64}" arg2="true" />
 							<then>
 								<!-- arch: amd64 -->
+								<property name="jogl.library.path" value="jogl-1.1.1${path-spacer}native${path-spacer}linux${path-spacer}x86-64" />
 							</then>
 						</elseif>
 						<else>
@@ -342,23 +349,27 @@
 						<equals arg1="${isX86}" arg2="true" />
 						<then>
 							<!-- arch: x86 -->
+							<property name="jogl.library.path" value="jogl-1.1.1${path-spacer}native${path-spacer}solaris${path-spacer}x86" />
 						</then>
 						<elseif>
 							<equals arg1="${isAMD64}" arg2="true" />
 							<then>
 								<!-- arch: amd64 -->
+								<property name="jogl.library.path" value="jogl-1.1.1${path-spacer}native${path-spacer}solaris${path-spacer}x86-64" />
 							</then>
 						</elseif>
 						<elseif>
 							<equals arg1="${isSPARC}" arg2="true" />
 							<then>
 								<!-- arch: sparc -->
+								<property name="jogl.library.path" value="jogl-1.1.1${path-spacer}native${path-spacer}solaris${path-spacer}sparc" />
 							</then>
 						</elseif>
 						<elseif>
 							<equals arg1="${isSPARCV9}" arg2="true" />
 							<then>
 								<!-- arch: sparc -->
+								<property name="jogl.library.path" value="jogl-1.1.1${path-spacer}native${path-spacer}solaris${path-spacer}sparcv9" />
 							</then>
 						</elseif>
 						<else>
