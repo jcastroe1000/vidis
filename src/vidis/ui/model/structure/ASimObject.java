@@ -33,7 +33,7 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 		return obj.getVariableIds();
 	}
 	
-	protected Point3d calculateMiddle(Point3d a, Point3d b, double heightFactor) {
+	protected static Point3d calculateMiddle(Point3d a, Point3d b, double heightFactor) {
 		double distance = a.distance( b );
 		Vector3d h = new Vector3d( 0.0, heightFactor, 0.0 );
 		h.scale( distance/2.0 );
