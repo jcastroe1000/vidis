@@ -22,7 +22,6 @@ public class Dispatcher {
 	 * forwards an event to all Controllers
 	 * @param event
 	 */
-	@SuppressWarnings("unchecked")
 	public static void forwardEvent( IVidisEvent event ) {
 		logger.debug( "forwardEvent( "+ event + " )" );
 		if ( eventHandler.containsKey( event.getID() )) {
