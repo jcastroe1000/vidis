@@ -21,7 +21,7 @@
 		
 		<!-- main entry point of the app -->
 		<!--<property name="vidis.main" value="vis.StartUp" />-->
-		<property name="vidis.main" value="ui.startup.Startup" />
+		<property name="vidis.main" value="vidis.ui.StartUp" />
 		<!--<property name="vidis.main" value="main.test.TestSim" />-->
 		
 		<!-- directory configurations -->
@@ -31,19 +31,21 @@
 		<property name="vidis.lib" value="${basedir}${path-spacer}lib" />
 		<property name="vidis.builds" value="${basedir}${path-spacer}builds" />
 		
-		<!-- java3d version -->
-		<property name="vidis.java3d.version" value="java3d-151" />
-		
 		<!-- libraries -->
 		<path id="vidis.libraries">
-	       	<pathelement location="${vidis.lib}${path-spacer}${vidis.java3d.version}${path-spacer}vecmath.jar"/>
+	       	<pathelement location="${vidis.lib}${path-spacer}jogl-1.1.1${path-spacer}native${path-spacer}windows${path-spacer}x86"/>
+			<pathelement location="${java.library.path}"/>
 		</path>
 		<property name="vidis.libraries_str" refid="vidis.libraries" />
 		
 		<!-- classpath -->
 	    <path id="vidis.classpath">
 	        <pathelement path="${vidis.bin}" />
-	    	<pathelement path="${vidis.libraries_str}" />
+	    	<pathelement location="${vidis.lib}${path-spacer}java3d-151${path-spacer}vecmath.jar"/>
+	    	<pathelement location="${vidis.lib}${path-spacer}jogl-1.1.1${path-spacer}gluegen-rt.jar"/>
+	    	<pathelement location="${vidis.lib}${path-spacer}jogl-1.1.1${path-spacer}jogl.jar"/>
+	    	<pathelement location="${vidis.lib}${path-spacer}ant${path-spacer}ant-contrib-1.0b3.jar"/>
+	    	<pathelement location="${vidis.lib}${path-spacer}log4j${path-spacer}log4j-1.2.15.jar"/>
 	    	<pathelement path="${java.class.path}"/>
 	    </path>
 		<property name="classpath" refid="vidis.classpath" />
@@ -130,18 +132,19 @@
         <nbprofiledirect>
             <classpath> <pathelement location="${vidis.classpath}"/> </classpath>
         </nbprofiledirect>
-        <java classname="${vidis.main}" fork="true" classpathref="vidis.classpath" dir="${basedir}${path-spacer}data">
+        <java classname="${vidis.main}" fork="true" classpathref="vidis.classpath">
             <jvmarg value="${profiler.info.jvmargs.agent}"/>
             <jvmarg value="-Xmx128M" />
         </java>
     </target>
 	
 	<!-- target launch-vis -->
-	<target description="Startet VM und Vidis (J3D)" name="launch-vis" depends="get-os-properties, set-vidis-properties, set-system-properties">
+	<target description="Startet VM und Vidis (JOGL)" name="launch-vis" depends="get-os-properties, set-vidis-properties, set-system-properties">
 		<echo message="Starting ${vidis.main}" />
+		<echo message="Library path ${vidis.libraries_str}" />
 		<java classname="${vidis.main}" fork="true" classpathref="vidis.classpath">
 			<!--  dir="${basedir}${path-spacer}data" -->
-			<jvmarg line='-server -Xms128M -Xmx512M -Djava.library.path="${java.library.path};./"'/>
+			<jvmarg line='-Xms128M -Xmx512M -Djava.library.path="${vidis.libraries_str}"'/>
 			<arg line="-splash:vidis-logo.png"/>
 		</java>
 		<echo message="OK" />

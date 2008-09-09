@@ -7,11 +7,9 @@ import javax.vecmath.Tuple3d;
 
 import org.apache.log4j.Logger;
 
-import vidis.ui.events.AEventHandler;
-import vidis.ui.mvc.SceneController;
-
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
+import vidis.ui.events.AEventHandler;
 
 public abstract class ASimObject extends AEventHandler implements ISimObject {
 
