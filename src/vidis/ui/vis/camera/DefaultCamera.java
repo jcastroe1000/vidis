@@ -76,7 +76,6 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 	}
 	public void applyViewMatrix(GL gl) {
 		double realX, realZ;
-		// FIXME calculate the real camera position by the distance "zoom" 
 		realX = posx;
 		//realY = zoom;
 		realZ = -posz;
