@@ -128,10 +128,9 @@ public class Link extends ASimObject {
 			Packet p = packets.get(i);
 			Vector3d pos = p.getPosition();
 			if(pos != null) {
-				linkProgram.getVariableByName("packet" + j).setValue(pos, gl);
-				j++;
+				linkProgram.getVariableByName("packet" + j++).setValue(pos, gl);
 			}
-			//linkProgram.getVariableByName( "packet" + i ).setValue( ((Packet)packets.toArray()[i]).getPosition(), gl );
+			//linkProgram.getVariableByName( "packet" + j++ ).setValue( ((Packet)packets.toArray()[i]).getPosition(), gl );
 		}
 
 		gl.glCallList( displayListId );

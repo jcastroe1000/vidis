@@ -3,6 +3,11 @@ package vidis.data.sim;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
+import vidis.data.mod.IUserLink;
+import vidis.data.mod.IUserNode;
+import vidis.data.mod.IUserPacket;
+import vidis.data.var.AVariable;
+import vidis.data.var.vars.DefaultVariable;
 import vidis.sim.exceptions.ObstructInitCallException;
 import vidis.sim.exceptions.ObstructInitRuntimeCallException;
 import vidis.ui.events.IVidisEvent;
@@ -12,11 +17,6 @@ import vidis.ui.model.structure.IVisObject;
 import vidis.ui.mvc.api.Dispatcher;
 import vidis.util.Logger;
 import vidis.util.Logger.LogLevel;
-import vidis.data.mod.IUserLink;
-import vidis.data.mod.IUserNode;
-import vidis.data.mod.IUserPacket;
-import vidis.data.var.AVariable;
-import vidis.data.var.vars.DefaultVariable;
 
 public class SimPacket extends AComponent implements ISimPacketCon {
 
@@ -70,8 +70,9 @@ public class SimPacket extends AComponent implements ISimPacketCon {
 		super.execute();
 		if (!isSleeping()) {
 		    this.logic.execute();
-		} else
+		} else {
 		    Logger.output(LogLevel.DEBUG, this, "skip logic.execute()");
+		}
 		super.checkVariablesChanged();
     }
 

@@ -16,7 +16,6 @@ public class FloodNode extends AUserNode {
 	public void execute() {
 		if (!floodSent) {
 			for (IUserLink link : this.getConnectedLinks()) {
-				System.out.println("send floodpacket");
 				send(new FloodPacket(this, 0), link, 1 + (long) (Math.random() * 2));
 			}
 			floodSent = true;
@@ -27,11 +26,9 @@ public class FloodNode extends AUserNode {
 
 	private void receive(FloodPacket packet) {
 		// check if the sender was me
-		System.out.print("rcv floodpacket");
 		if (packet.getCreator().equals(this)) {
 			// Logger.output(LogLevel.DEBUG, this, "rcv(OWN) => SINK");
 		} else {
-			System.out.print(" ==> forward");
 			// send on all links but from who the flood packet came a answer
 			for (IUserLink link : this.getConnectedLinks()) {
 				if (!packet.getLinkToSource().equals(link)) {
@@ -44,7 +41,6 @@ public class FloodNode extends AUserNode {
 				}
 			}
 		}
-		System.out.println();
 	}
 
 	public void receive(IUserPacket packet) {
