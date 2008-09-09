@@ -1,5 +1,6 @@
 package vidis.ui.model.impl;
 
+import java.awt.Font;
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,10 @@ import javax.vecmath.Vector3d;
 
 import org.apache.log4j.Logger;
 
+import com.sun.opengl.util.j2d.TextRenderer;
+
 import vidis.data.sim.SimLink;
+import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.model.structure.ASimObject;
@@ -118,10 +122,44 @@ public class Link extends ASimObject {
 		linkProgram.use(gl);
 	}
 	
+	private static TextRenderer textRenderer = new TextRenderer( new Font("Times New Roman", Font.PLAIN, 130 ), true, true );
+	
+	private void drawText(GL gl, String text, double angle, double x, double y, double z) {
+		gl.glPushMatrix();
+			// put into middle
+			double distance = knownPointA.distance( knownPointB );
+			Vector3d h = new Vector3d( 0.0, 0.3, 0.0 );
+			h.scale( distance/2.0 );
+			Point3d pointM = new Point3d( knownPointA ); 
+			pointM.interpolate( knownPointB, .5 );
+			pointM.add( h );
+			gl.glTranslated(pointM.x, pointM.y, pointM.z);
+			// scale it down
+			gl.glScaled(0.001, 0.001, 0.001);
+			gl.glRotated(angle, x, y, z);
+			textRenderer.begin3DRendering();
+			textRenderer.setUseVertexArrays(false);
+			textRenderer.draw3D( text, 0f, 0f, 0f, 1f );
+			textRenderer.end3DRendering();
+			gl.glCullFace(GL.GL_FRONT);
+			gl.glFrontFace(GL.GL_CW);
+		gl.glPopMatrix();
+	}
 	
 	@Override
 	public void renderObject(GL gl) {
-		
+		String text = "test";
+		try {
+			// add text
+			text = getVariableById(AVariable.COMMON_IDENTIFIERS.NAME).getData().toString();
+		} catch (NullPointerException e) {
+			// may happen, but if, don't care
+			text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
+		} finally {
+			drawText(gl, text, 0, 0, 1, 0);
+			drawText(gl, text, 120, 0, 1, 0);
+			drawText(gl, text, 240, 0, 1, 0);
+		}
 		int j=0;
 		for ( int i=0; i<packets.size(); i++ ) {
 			if ( j > 9 ) break;
@@ -432,7 +470,7 @@ public class Link extends ASimObject {
 			
 	}
 	
-	private void fillLineBuffer( Point3d a, Point3d b, Point3d c, DoubleBuffer buf, int offset ) {
+/*	private void fillLineBuffer( Point3d a, Point3d b, Point3d c, DoubleBuffer buf, int offset ) {
 		buf.put( offset + 0, a.x );
 		buf.put( offset + 1, a.y );
 		buf.put( offset + 2, a.z );
@@ -444,7 +482,7 @@ public class Link extends ASimObject {
 		buf.put( offset + 6, c.x );
 		buf.put( offset + 7, c.y );
 		buf.put( offset + 8, c.z );
-	}
+	}*/
 	
 	private void fillSegment( int segment, DoubleBuffer buf, Point3d d, Point3d c, Point3d b, Point3d a ) {
 		buf.put( 12 * segment + 0, a.x );

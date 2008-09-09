@@ -1,6 +1,5 @@
 package vidis.ui.model.impl;
 
-import java.awt.Color;
 import java.awt.Font;
 
 import javax.media.opengl.GL;
@@ -28,6 +27,20 @@ public class Packet extends ASimObject {
 	
 	private double position = Math.random()*360;
 	
+	private void drawText(GL gl, String text, double angle, double x, double y, double z) {
+		gl.glPushMatrix();
+			gl.glTranslated(0.0, 0.8, 0.0);
+			gl.glScaled(0.001, 0.001, 0.001);
+			gl.glRotated(angle, x, y, z);
+			textRenderer.begin3DRendering();
+			textRenderer.setUseVertexArrays(false);
+			textRenderer.draw3D( text, 1f, 0f, 0f, 1f );
+			textRenderer.end3DRendering();
+			gl.glCullFace(GL.GL_FRONT);
+			gl.glFrontFace(GL.GL_CW);
+		gl.glPopMatrix();
+	}
+	
 	@Override
 	public void renderObject( GL gl ) {
 		if ( displayListId == -1 ) {
@@ -49,6 +62,18 @@ public class Packet extends ASimObject {
 				textRenderer.end3DRendering();
 			gl.glPopMatrix();
 		}*/
+		String text = "test";
+		try {
+			// add text
+			text = getVariableById(AVariable.COMMON_IDENTIFIERS.NAME).getData().toString();
+		} catch (NullPointerException e) {
+			// may happen, but if, don't care
+			text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
+		} finally {
+			drawText(gl, text, 0, 0, 1, 0);
+			drawText(gl, text, 120, 0, 1, 0);
+			drawText(gl, text, 240, 0, 1, 0);
+		}
 		// set color
 		gl.glColor4d( 1, 0, 1, 0 );
 		// now rotate it

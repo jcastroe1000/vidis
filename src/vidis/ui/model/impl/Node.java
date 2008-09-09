@@ -50,9 +50,8 @@ public class Node extends ASimObject {
 			text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
 		} finally {
 			drawText(gl, text, 0, 0, 1, 0);
-			drawText(gl, text, 90, 0, 1, 0);
-			drawText(gl, text, 180, 0, 1, 0);
-			drawText(gl, text, 270, 0, 1, 0);
+			drawText(gl, text, 120, 0, 1, 0);
+			drawText(gl, text, 240, 0, 1, 0);
 		}
 		// draw node
 		gl.glColor3d( 1, 0, 0 );
