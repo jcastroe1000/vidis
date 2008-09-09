@@ -10,6 +10,12 @@ import java.io.PrintStream;
 import java.util.Date;
 import java.util.Scanner;
 
+/**
+ * This class is Deprecated, use log4j logger instead!
+ * @author dpsenner
+ *
+ */
+@Deprecated
 public class Logger {
     /**
      * defines how many lines are stored into a log file before it is rotated
