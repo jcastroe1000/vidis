@@ -3,7 +3,9 @@ package vidis.ui.model.structure;
 import java.util.Set;
 
 import javax.media.opengl.GL;
+import javax.vecmath.Point3d;
 import javax.vecmath.Tuple3d;
+import javax.vecmath.Vector3d;
 
 import org.apache.log4j.Logger;
 
@@ -29,6 +31,16 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	
 	protected Set<String> getVariableIds() {
 		return obj.getVariableIds();
+	}
+	
+	protected Point3d calculateMiddle(Point3d a, Point3d b, double heightFactor) {
+		double distance = a.distance( b );
+		Vector3d h = new Vector3d( 0.0, heightFactor, 0.0 );
+		h.scale( distance/2.0 );
+		Point3d pointM = new Point3d( a ); 
+		pointM.interpolate( b, .5 );
+		pointM.add( h );
+		return pointM;
 	}
 	
 	public void render( GL gl ) {

@@ -127,12 +127,7 @@ public class Link extends ASimObject {
 	private void drawText(GL gl, String text, double angle, double x, double y, double z) {
 		gl.glPushMatrix();
 			// put into middle
-			double distance = knownPointA.distance( knownPointB );
-			Vector3d h = new Vector3d( 0.0, 0.3, 0.0 );
-			h.scale( distance/2.0 );
-			Point3d pointM = new Point3d( knownPointA ); 
-			pointM.interpolate( knownPointB, .5 );
-			pointM.add( h );
+			Point3d pointM = calculateMiddle(knownPointA, knownPointB, 0.7);
 			gl.glTranslated(pointM.x, pointM.y, pointM.z);
 			// scale it down
 			gl.glScaled(0.001, 0.001, 0.001);
@@ -248,7 +243,7 @@ public class Link extends ASimObject {
 		gl.glPopMatrix();
 	}
 	
-	private void calculateControlPoints( Point3d pointA, Point3d pointB ) {
+	private void calculateControlPoints( Point3d pointA, Point3d pointB) {
 		// calc axis
 			Vector3d AB = new Vector3d( pointB );
 			AB.sub( pointA );
@@ -262,12 +257,7 @@ public class Link extends ASimObject {
 			left.normalize();
 			
 		// calc middle point
-			double distance = pointA.distance( pointB );
-			Vector3d h = new Vector3d( 0.0, 1.0, 0.0 );
-			h.scale( distance/2.0 );
-			Point3d pointM = new Point3d( pointA ); 
-			pointM.interpolate( pointB, .5 );
-			pointM.add( h );
+			Point3d pointM = calculateMiddle(pointA, pointB, 1.0);
 		// line
 			
 //			fillLineBuffer(pointA, pointM, pointB, linesControlPoints, 0 );
