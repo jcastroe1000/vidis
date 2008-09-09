@@ -99,7 +99,7 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 		if (!isSleeping()) {
 		    this.logic.execute();
 		} else {
-		    logger.debug("skip logic.execute()");
+			logger.info("skip logic.execute()");
 		}
     }
 
@@ -137,6 +137,7 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 
     public void send(IUserPacket packet, IUserLink link, long wait) {
 		if (isConnectedThrough(link)) {
+			logger.debug(this + ".send("+packet+", "+link+", "+wait+");");
 		    SimPacket simPacket = new SimPacket(packet, getConnectedLink(link), this, getConnectedLink(link).getOtherNode(this));
 		    if (wait <= 0) {
 		    	doSendOperation(simPacket, getConnectedLink(link));
@@ -167,6 +168,7 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
      *          the packet to receive
      */
     public final void receive(SimPacket packet) {
+    	logger.debug(this + ".receive("+packet+");");
 		if (hasVariable(AVariable.COMMON_IDENTIFIERS.PACKETSRECEIVED)) {
 			Long oldValue = (Long) ((DefaultVariable)getVariableById(AVariable.COMMON_IDENTIFIERS.PACKETSSENT)
 		    ).getData();

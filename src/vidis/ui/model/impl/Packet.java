@@ -49,10 +49,8 @@ public class Packet extends ASimObject {
 				textRenderer.end3DRendering();
 			gl.glPopMatrix();
 		}*/
-		gl.glColor3f(Color.RED.getRed(), Color.RED.getGreen(), Color.RED.getBlue());
-		glut.glutSolidCube(100);
 		// set color
-		gl.glColor3d( 1, 0, 1 );
+		gl.glColor4d( 1, 0, 1, 0 );
 		// now rotate it
 		gl.glRotated(position, getPosition().getX(), getPosition().getY(), getPosition().getZ());
 		position += Math.random()*10+4;
