@@ -118,6 +118,23 @@ public class ResourceManager {
 	}
 	
 	// --------------------- fonts
+	public static String FONT_ARIAL = "ARIAL.TTF";
+	public static String FONT_ARIAL_BOLD = "ARIALBD.TTF";
+	public static String FONT_ARIAL_BOLD_ITALIC = "ARIALBI.TTF";
+	public static String FONT_ARIAL_ITALIC = "ARIALI.TTF";
+	public static String FONT_COURIER = "COUR.TTF";
+	public static String FONT_COURIER_BOLD = "COURBD.TTF";
+	public static String FONT_COURIER_BOLD_ITALIC = "COURBI.TTF";
+	public static String FONT_COURIER_ITALIC = "COURI.TTF";
+	public static String FONT_TIMESNEWROMAN = "TIMES.TTF";
+	public static String FONT_TIMESNEWROMAN_BOLD = "TIMESBD.TTF";
+	public static String FONT_TIMESNEWROMAN_BOLD_ITALIC = "TIMESBI.TTF";
+	public static String FONT_TIMESNEWROMAN_ITALIC = "TIMESI.TTF";
+	public static String FONT_VERDANA = "verdana.TTF";
+	public static String FONT_VERDANA_BOLD = "verdanab.TTF";
+	public static String FONT_VERDANA_BOLD_ITALIC = "verdanaz.TTF";
+	public static String FONT_VERDANA_ITALIC = "verdanai.TTF";
+	
 	
 	public Font getFont(String filename) throws FontFormatException, IOException {
 		Font font = Font.createFont(Font.TRUETYPE_FONT, new File(dataPath + pathSeperator + "resources" + pathSeperator + "fonts" + pathSeperator + filename));
