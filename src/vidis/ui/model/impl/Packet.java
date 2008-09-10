@@ -68,10 +68,14 @@ public class Packet extends ASimObject {
 			text = getVariableById(AVariable.COMMON_IDENTIFIERS.NAME).getData().toString();
 		} catch (NullPointerException e) {
 			// may happen, but if, don't care
-			text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
+			try {
+				text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
+			} catch (NullPointerException e2) {
+				text = getVariableIds().toString();
+			}
 		} finally {
 			gl.glPushMatrix();
-				// rotate the whole thingy by 180
+				// rotate the whole thingy by 180 (future rotate by 180 AND camera angle)
 				gl.glRotated(180, 0, 1, 0);
 				drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
 	//			// front

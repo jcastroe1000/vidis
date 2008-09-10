@@ -36,35 +36,37 @@ public abstract class AUserPacket extends AUserComponent implements IUserPacket 
     }
 
     public final IUserNode getSource() {
-	return simulatorComponent.getFrom();
+    	return simulatorComponent.getFrom();
     }
 
     public IUserLink getLinkToSource() {
-	return simulatorComponent.getLink();
+    	return simulatorComponent.getLink();
     }
 
     public final void execute() {
-	// no action at packets :-)
+    	// no action at packets :-)
     }
 
     public String toString() {
-	return simulatorComponent.toString();
+    	if(simulatorComponent != null)
+    		return simulatorComponent.toString();
+    	return super.toString();
     }
 
     public final void interrupt() {
-	try {
-	    simulatorComponent.interrupt();
-	} catch (NullPointerException e) {
-	    // nothing
-	}
+		try {
+		    simulatorComponent.interrupt();
+		} catch (NullPointerException e) {
+		    // nothing
+		}
     }
 
     public final void sleep(int steps) {
-	try {
-	    simulatorComponent.sleep(steps);
-	} catch (NullPointerException e) {
-	    // nothing
-	}
+		try {
+		    simulatorComponent.sleep(steps);
+		} catch (NullPointerException e) {
+		    // nothing
+		}
     }
 
     public final AVariable getVariable(String identifier) {

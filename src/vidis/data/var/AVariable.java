@@ -16,7 +16,7 @@ public abstract class AVariable implements IVariableChangeProducer {
 		public static final String POSITION = COMMON_SCOPES.SYSTEM + ".position";
 		public static final String PACKETSSENT = COMMON_SCOPES.SYSTEM + ".packetsSent";
 		public static final String PACKETSRECEIVED = COMMON_SCOPES.SYSTEM + ".packetsReceived";
-		public static final String NAME = COMMON_SCOPES.SYSTEM + ".name";
+		public static final String NAME = COMMON_SCOPES.USER + ".name";
 	}
 	private String identifier;
 	private DisplayType displayType;
