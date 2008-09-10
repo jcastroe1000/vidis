@@ -7,10 +7,10 @@ public class ElectionWinPacket extends AUserPacket {
     private double id;
 
     public ElectionWinPacket(double id) {
-	this.id = id;
+    	this.id = id;
     }
 
-    public double getId() {
-	return id;
+    public double getBullyId() {
+    	return id;
     }
 }
