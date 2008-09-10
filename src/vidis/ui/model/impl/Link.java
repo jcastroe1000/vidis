@@ -79,8 +79,19 @@ public class Link extends ASimObject {
 				calculateControlPoints( knownPointA, knownPointB );
 				preRenderObject( gl );
 			}
-			
+			String text = "test";
+			try {
+				// add text
+				text = getVariableById(AVariable.COMMON_IDENTIFIERS.NAME).getData().toString();
+			} catch (NullPointerException e) {
+				// may happen, but if, don't care
+				text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
+			} finally {
+				drawText(gl, text, 180, 0, 1, 0);
+			}
+			Link.useShaderProgram(gl);
 			renderObject(gl);
+			ShaderFactory.removeAllPrograms(gl);
 		}
 		catch ( Exception e ) {
 			logger.warn( e.getMessage(), e );
@@ -126,35 +137,25 @@ public class Link extends ASimObject {
 	
 	private void drawText(GL gl, String text, double angle, double x, double y, double z) {
 		gl.glPushMatrix();
+			//gl.glCullFace(GL.GL_FRONT);
+			gl.glEnable(GL.GL_AUTO_NORMAL);
+			gl.glDisable(GL.GL_CULL_FACE);
 			// put into middle
 			Point3d pointM = calculateMiddle(knownPointA, knownPointB, 0.7);
 			gl.glTranslated(pointM.x, pointM.y, pointM.z);
+			gl.glRotated(angle, x, y, z);
 			// scale it down
 			gl.glScaled(0.001, 0.001, 0.001);
-			gl.glRotated(angle, x, y, z);
 			textRenderer.begin3DRendering();
 			textRenderer.setUseVertexArrays(false);
 			textRenderer.draw3D( text, 0f, 0f, 0f, 1f );
 			textRenderer.end3DRendering();
-			gl.glCullFace(GL.GL_FRONT);
-			gl.glFrontFace(GL.GL_CW);
+			//gl.glFrontFace(GL.GL_CCW);
 		gl.glPopMatrix();
 	}
 	
 	@Override
 	public void renderObject(GL gl) {
-		String text = "test";
-		try {
-			// add text
-			text = getVariableById(AVariable.COMMON_IDENTIFIERS.NAME).getData().toString();
-		} catch (NullPointerException e) {
-			// may happen, but if, don't care
-			text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
-		} finally {
-			drawText(gl, text, 0, 0, 1, 0);
-			drawText(gl, text, 120, 0, 1, 0);
-			drawText(gl, text, 240, 0, 1, 0);
-		}
 		int j=0;
 		for ( int i=0; i<packets.size(); i++ ) {
 			if ( j > 9 ) break;

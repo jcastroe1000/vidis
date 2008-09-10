@@ -248,13 +248,11 @@ public class SceneController extends AController implements GLEventListener {
 					
 					gl.glBlendFunc( GL.GL_ONE, GL.GL_DST_ALPHA );
 					gl.glColor4d( 0, 0, 1, 0.7 );
-					Link.useShaderProgram(gl);
 					for ( IVisObject o : objects ) {
 						if ( (o instanceof Link) ) {
 							o.render(gl);
 						}
 					}
-					ShaderFactory.removeAllPrograms(gl);
 					gl.glDisable( GL.GL_BLEND );
 					gl.glDisable( GL.GL_CULL_FACE );
 					
