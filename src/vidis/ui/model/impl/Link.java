@@ -3,6 +3,7 @@ package vidis.ui.model.impl;
 import java.awt.Font;
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.media.opengl.GL;
@@ -156,15 +157,17 @@ public class Link extends ASimObject {
 	
 	@Override
 	public void renderObject(GL gl) {
-		int j=0;
-		for ( int i=0; i<packets.size(); i++ ) {
-			if ( j > 9 ) break;
-			Packet p = packets.get(i);
-			Vector3d pos = p.getPosition();
-			if(pos != null) {
-				linkProgram.getVariableByName("packet" + j++).setValue(pos, gl);
+		for( int i=0; i<9; i++) {
+			if(packets.size() > i) {
+				Packet p = packets.get(i);
+				Vector3d pos = p.getPosition();
+				if(pos != null) {
+					linkProgram.getVariableByName("packet" + i).setValue(pos, gl);
+				}
+				//linkProgram.getVariableByName( "packet" + j++ ).setValue( ((Packet)packets.toArray()[i]).getPosition(), gl );
+			} else {
+				linkProgram.getVariableByName("packet"+i).setValue(new Vector3d(0,0,0), gl);
 			}
-			//linkProgram.getVariableByName( "packet" + j++ ).setValue( ((Packet)packets.toArray()[i]).getPosition(), gl );
 		}
 
 		gl.glCallList( displayListId );
