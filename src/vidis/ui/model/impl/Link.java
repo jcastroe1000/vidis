@@ -123,7 +123,6 @@ public class Link extends ASimObject {
 			linkProgram.addShader( fs );
 			linkProgram.link(gl);
 			linkProgram.use(gl);
-		
 		}
 		catch ( ShaderException se ) {
 			logger.error( "setupShaderProgram", se );
@@ -134,9 +133,12 @@ public class Link extends ASimObject {
 		linkProgram.use(gl);
 	}
 	
-	private static TextRenderer textRenderer = new TextRenderer( new Font("Times New Roman", Font.PLAIN, 130 ), true, true );
+	private static TextRenderer textRenderer;
 	
 	private void drawText(GL gl, String text, double angle, double x, double y, double z) {
+		if ( textRenderer == null ) {
+			textRenderer = new TextRenderer( new Font("Times New Roman", Font.PLAIN, 130 ), true, true );
+		}
 		gl.glPushMatrix();
 			//gl.glCullFace(GL.GL_FRONT);
 			gl.glEnable(GL.GL_AUTO_NORMAL);
