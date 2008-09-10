@@ -165,15 +165,11 @@ public class ResourceManager {
 	 * the font is created and cached by the resource manager, then the size is applied
 	 * the size is not cached
 	 * @param filename
+	 * @param size
 	 * @return
 	 */
 	public Font getFont(String filename, float size) throws FontFormatException, IOException {
-		Font font = fontCache.get( filename );
-		if ( font == null ) {
-			font = createFont( filename );
-			fontCache.put( filename, font ); 
-		}
-		return font.deriveFont( size );
+		return getFont( filename ).deriveFont( size );
 	}	
 
 	// public static final long getMemoryInit() {
