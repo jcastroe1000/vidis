@@ -1,12 +1,11 @@
 package vidis.ui.mvc;
 
-import java.io.File;
-
 import org.apache.log4j.Logger;
 
 import vidis.sim.Simulator;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.mvc.api.AController;
+import vidis.util.ResourceManager;
 
 public class SimulatorController extends AController {
 	private static Logger logger = Logger.getLogger( SimulatorController.class );
@@ -35,16 +34,16 @@ public class SimulatorController extends AController {
 	}
 	
 	private void initialize() {
-		Simulator.createInstance();
+		//Simulator.createInstance();
 		sim = Simulator.getInstance();
-		//sim.importSimFile( new File( "./data/modules/bullyElectionAlgorithm/demo.msim" ) );
-		//sim.importSimFile( new File( "./data/modules/demo/demo.msim" ) );
-		//sim.importSimFile( new File( "./data/modules/demo/simpledemo.msim" ) );
-		//sim.importSimFile( new File( "./data/modules/flooding/flood1.msim" ) );
-		//sim.importSimFile( new File( "./data/modules/flooding/v1.msim" ) );
-		//sim.importSimFile( new File( "./data/modules/vartest/onenode.msim" ) );,
-		//sim.importSimFile( new File( "./data/modules/vectorClockAlgorithm/simple.msim" ) );
-		sim.importSimFile( new File( "./data/modules/vectorClockAlgorithm/complex.msim" ) );
+//		sim.importSimFile( ResourceManager.getModuleFile("bullyElectionAlgorithm", "demo.msim") );
+//		sim.importSimFile( ResourceManager.getModuleFile("demo", "demo.msim") );
+//		sim.importSimFile( ResourceManager.getModuleFile("demo", "simpledemo.msim") );
+//		sim.importSimFile( ResourceManager.getModuleFile("flooding", "flood1.msim") );
+//		sim.importSimFile( ResourceManager.getModuleFile("flooding", "v1.msim") );
+//		sim.importSimFile( ResourceManager.getModuleFile("vartest", "onenode.msim") );
+//		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "simple.msim") );
+		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "complex.msim") );
 	}
 
 }

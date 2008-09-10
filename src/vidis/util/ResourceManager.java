@@ -1,6 +1,10 @@
 package vidis.util;
 
 import java.io.File;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import javax.swing.ImageIcon;
 
@@ -23,6 +27,8 @@ public class ResourceManager {
 	private static String pathSeperator;
 	private static String rootPath;
 	private static String shaderPath;
+	private static String dataPath;
+	private static String modulesPath;
 	/**
 	 * static constructor getting the path seperator TODO: Warning this needs to
 	 * be testet for other platforms works on Windows 2000,
@@ -37,6 +43,8 @@ public class ResourceManager {
 		pathSeperator = File.separator;
 		rootPath = "." + pathSeperator;
 		shaderPath = rootPath + "shaders" + pathSeperator;
+		dataPath = rootPath + "data";
+		modulesPath = dataPath + pathSeperator + "modules";
 	}
 
 	/**
@@ -71,7 +79,41 @@ public class ResourceManager {
 	}
 
 	public static ImageIcon getImageIcon(String icon) {
-		return new ImageIcon("resources/" + icon);
+		return new ImageIcon(dataPath + pathSeperator + "resources" + pathSeperator + icon);
+	}
+	
+	public static List<String> getModules() {
+		List<String> modules = new ArrayList<String>();
+		File moduleFolder = new File(modulesPath);
+		if(moduleFolder.exists()) {
+			if(moduleFolder.isDirectory()) {
+				for(File module : moduleFolder.listFiles()) {
+					if(module.isDirectory()) {
+						modules.add(module.getName());
+					}
+				}
+			}
+		}
+		return modules;
+	}
+	
+	public static List<File> getModuleFiles(String module) {
+		List<File> moduleFiles = new ArrayList<File>();
+		File moduleFolder = new File(modulesPath + pathSeperator + module);
+		if(moduleFolder.exists()) {
+			if(moduleFolder.isDirectory()) {
+				for(File moduleFile : moduleFolder.listFiles()) {
+					if(moduleFile.isFile() && moduleFile.canRead()) {
+						moduleFiles.add(moduleFile);
+					}
+				}
+			}
+		}
+		return moduleFiles;
+	}
+
+	public static File getModuleFile(String module, String moduleFile) {
+		return new File(modulesPath + pathSeperator + module + pathSeperator + moduleFile);
 	}
 
 	// public static final long getMemoryInit() {
