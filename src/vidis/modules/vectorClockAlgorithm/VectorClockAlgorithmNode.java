@@ -1,21 +1,18 @@
 package vidis.modules.vectorClockAlgorithm;
 
 import vidis.data.AUserNode;
-import vidis.data.annotation.ComponentInfo;
 import vidis.data.annotation.Display;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserPacket;
 
-@ComponentInfo(name = "FloodNode")
 public class VectorClockAlgorithmNode extends AUserNode {
     private VectorTime localTimeVector = new VectorTime(this, 0);
 
-    @Display(name = "tVector")
+    @Display(name = "name")
     public VectorTime getTimeVector() {
     	return localTimeVector;
     }
     
-    @Display(name = "lTime")
     public int getLocalTime() {
     	return localTimeVector.getNodeTime(this);
     }

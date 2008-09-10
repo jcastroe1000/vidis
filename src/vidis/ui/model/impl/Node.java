@@ -49,6 +49,7 @@ public class Node extends ASimObject {
 		} catch (NullPointerException e) {
 			// may happen, but if, don't care
 			text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
+			text = getVariableIds().toString();
 		} finally {
 			//Rectangle2D bounds = textRenderer.getBounds(text);
 			//double width = bounds.getWidth();

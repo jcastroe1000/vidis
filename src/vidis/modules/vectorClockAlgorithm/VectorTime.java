@@ -38,8 +38,12 @@ public class VectorTime {
     public String toString() {
 		StringBuffer buff = new StringBuffer();
 		buff.append("(");
+		int i=0;
 		for (VectorClockAlgorithmNode node : getNodes()) {
-		    buff.append(timeVector.get(node) + ",");
+			if(i > 0)
+		    	buff.append(",");
+		    buff.append(timeVector.get(node));
+		    i++;
 		}
 		buff.append(")");
 		return buff.toString();

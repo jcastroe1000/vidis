@@ -7,16 +7,10 @@
 		<node>
 			<id>node01</id>
 			<class>VectorClockAlgorithmNode</class>
-			<variables>
-				<name>Node 1</name>
-			</variables>
 		</node>
 		<node>
 			<id>node02</id>
 			<class>VectorClockAlgorithmNode</class>
-			<variables>
-				<name>Node 2</name>
-			</variables>
 		</node>
 
 		<link>

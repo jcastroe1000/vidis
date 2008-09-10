@@ -132,8 +132,8 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 
     protected void initVars() {
 		// vars initialisieren
+    	initVarsClass();
 		initVarsMethods();
-		initVarsClass();
 		initVarsFields();
     }
 
