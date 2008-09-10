@@ -71,7 +71,7 @@ public class Packet extends ASimObject {
 			try {
 				text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
 			} catch (NullPointerException e2) {
-				text = getVariableIds().toString();
+				text = getVariableContainer().toString();
 			}
 		} finally {
 			gl.glPushMatrix();

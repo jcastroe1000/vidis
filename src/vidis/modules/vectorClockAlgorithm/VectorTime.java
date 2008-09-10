@@ -11,7 +11,11 @@ public class VectorTime {
     	update(vectorClockAlgorithmNode, i);
     }
 
-    public void update(VectorClockAlgorithmNode node, int time) {
+    public VectorTime() {
+		// nothing
+	}
+
+	public void update(VectorClockAlgorithmNode node, int time) {
 		if (timeVector.containsKey(node)) {
 		    if (timeVector.get(node).compareTo(time) < 0) {
 		    	timeVector.put(node, time);
@@ -42,6 +46,6 @@ public class VectorTime {
     }
 
 	public int getNodeTime(VectorClockAlgorithmNode node) {
-		return timeVector.get(node);
+		return timeVector.get(node).intValue();
 	}
 }

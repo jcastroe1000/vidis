@@ -189,7 +189,7 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 				return ((MethodVariable)varA).getData().toString();
 			}
 		}
-		return super.toString();
+		return getUserLogic().toString();
     }
 
     public AVariable getVariableById(String id) throws ClassCastException {

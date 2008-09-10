@@ -62,5 +62,9 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	}
 	
 	public abstract void renderObject( GL gl );
+	
+	protected IVariableContainer getVariableContainer() {
+		return obj;
+	}
 
 }

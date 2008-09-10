@@ -1,7 +1,5 @@
 package vidis.data;
 
-import java.util.Set;
-
 import vidis.data.mod.AUserComponent;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
@@ -76,11 +74,5 @@ public abstract class AUserPacket extends AUserComponent implements IUserPacket 
     	if(simulatorComponent != null)
     		return simulatorComponent.hasScopedVariable(COMMON_SCOPES.USER, identifier);
     	return false;
-    }
-    
-    public final Set<String> getVariableIdentifiers() {
-    	if(simulatorComponent != null)
-    		return simulatorComponent.getScopedVariableIdentifiers(COMMON_SCOPES.USER);
-    	return null;
     }
 }

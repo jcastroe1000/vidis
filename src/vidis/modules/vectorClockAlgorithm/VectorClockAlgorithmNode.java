@@ -1,7 +1,5 @@
 package vidis.modules.vectorClockAlgorithm;
 
-import vidis.util.Logger;
-import vidis.util.Logger.LogLevel;
 import vidis.data.AUserNode;
 import vidis.data.annotation.ComponentInfo;
 import vidis.data.annotation.Display;
@@ -57,7 +55,7 @@ public class VectorClockAlgorithmNode extends AUserNode {
 		if (packet instanceof VectorClockAlgorithmPacket) {
 		    receive((VectorClockAlgorithmPacket) packet);
 		} else {
-		    Logger.output(LogLevel.ERROR, this, "receive 'unknown' packet from " + packet.getSource());
+		    //Logger.output(LogLevel.ERROR, this, "receive 'unknown' packet from " + packet.getSource());
 		}
     }
 }
