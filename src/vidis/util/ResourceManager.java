@@ -136,8 +136,9 @@ public class ResourceManager {
 	public static String FONT_VERDANA_ITALIC = "verdanai.TTF";
 	
 	
-	public Font getFont(String filename) throws FontFormatException, IOException {
+	public Font getFont(String filename, float size) throws FontFormatException, IOException {
 		Font font = Font.createFont(Font.TRUETYPE_FONT, new File(dataPath + pathSeperator + "resources" + pathSeperator + "fonts" + pathSeperator + filename));
+		font = font.deriveFont(size);
 		return font;
 	}
 
