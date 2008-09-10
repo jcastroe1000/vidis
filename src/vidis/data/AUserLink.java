@@ -20,9 +20,9 @@ public abstract class AUserLink extends AUserComponent implements IUserLink {
     protected ISimLinkCon simulatorComponent;
 
     public final void init(ISimLinkCon c) throws ObstructInitCallException {
-	if (simulatorComponent != null)
-	    throw new ObstructInitCallException();
-	this.simulatorComponent = c;
+		if (simulatorComponent != null)
+		    throw new ObstructInitCallException();
+		this.simulatorComponent = c;
     }
 
     /**
@@ -31,11 +31,11 @@ public abstract class AUserLink extends AUserComponent implements IUserLink {
      * @return the other node
      */
     public final IUserNode getOtherNode(IUserNode me) {
-	if (getNodeA().equals(me)) {
-	    return getNodeB();
-	} else {
-	    return getNodeA();
-	}
+		if (getNodeA().equals(me)) {
+		    return getNodeB();
+		} else {
+		    return getNodeA();
+		}
     }
 
     /**
@@ -43,7 +43,7 @@ public abstract class AUserLink extends AUserComponent implements IUserLink {
      * @return the node connected 
      */
     private final IUserNode getNodeA() {
-	return simulatorComponent.getNodeA();
+    	return simulatorComponent.getNodeA();
     }
 
     /**
@@ -51,39 +51,38 @@ public abstract class AUserLink extends AUserComponent implements IUserLink {
      * @return the node connected
      */
     private final IUserNode getNodeB() {
-	return simulatorComponent.getNodeB();
+    	return simulatorComponent.getNodeB();
     }
 
     public final long getDelay() {
-	return simulatorComponent.getDelay();
+    	return simulatorComponent.getDelay();
     }
 
-    public String toString() {
-	return simulatorComponent.toString();
-    }
+//    public String toString() {
+//    	return simulatorComponent.toString();
+//    }
 
     public final void interrupt() {
-	try {
-	    simulatorComponent.interrupt();
-	} catch (NullPointerException e) {
-	    // nothing
-	}
+		try {
+		    simulatorComponent.interrupt();
+		} catch (NullPointerException e) {
+		    // nothing
+		}
     }
 
     public final void sleep(int steps) {
-	try {
-	    simulatorComponent.sleep(steps);
-	} catch (NullPointerException e) {
-	    // nothing
-	}
+		try {
+		    simulatorComponent.sleep(steps);
+		} catch (NullPointerException e) {
+		    // nothing
+		}
     }
 
     public final AVariable getVariable(String identifier) {
-	return simulatorComponent.getScopedVariable(COMMON_SCOPES.USER, identifier);
+    	return simulatorComponent.getScopedVariable(COMMON_SCOPES.USER, identifier);
     }
 
     public final boolean hasVariable(String identifier) {
-	return simulatorComponent.hasScopedVariable(COMMON_SCOPES.USER,
-						    identifier);
+    	return simulatorComponent.hasScopedVariable(COMMON_SCOPES.USER, identifier);
     }
 }

@@ -1,5 +1,7 @@
 package vidis.data.sim;
 
+import java.util.Set;
+
 import vidis.data.var.AVariable;
 
 /**
@@ -23,6 +25,8 @@ public interface IAComponentCon {
      * @return boolean true or false
      */
     public boolean hasScopedVariable(String scope, String identifier);
+    
+    public Set<String> getScopedVariableIdentifiers(String scope);
 
     /**
      * causes the simulator component to wake up from sleep

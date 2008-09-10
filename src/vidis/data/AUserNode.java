@@ -57,9 +57,9 @@ public abstract class AUserNode extends AUserComponent implements IUserNode {
     	simulatorComponent.send(p, l, wait);
     }
 
-    public String toString() {
-    	return simulatorComponent.toString();
-    }
+//    public String toString() {
+//    	return simulatorComponent.toString();
+//    }
 
     public final void interrupt() {
 		try {

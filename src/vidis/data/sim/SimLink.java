@@ -70,8 +70,8 @@ public class SimLink extends AComponent implements ISimLinkCon {
     private void init(IUserLink link) {
 		this.logic = link;
 		try {
+			initVars();
 		    link.init(this);
-		    initVars();
 		} catch (ObstructInitCallException e) {
 		    // never happens, if anyway throw a real severe exception
 		    throw new ObstructInitRuntimeCallException(e.getCause());

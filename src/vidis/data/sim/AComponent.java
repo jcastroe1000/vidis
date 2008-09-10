@@ -5,13 +5,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import vidis.util.Logger;
-import vidis.util.Logger.LogLevel;
 import vidis.data.annotation.ComponentColor;
 import vidis.data.annotation.ComponentInfo;
 import vidis.data.annotation.Display;
@@ -24,8 +23,7 @@ import vidis.data.var.vars.DefaultVariable;
 import vidis.data.var.vars.FieldVariable;
 import vidis.data.var.vars.MethodVariable;
 
-public abstract class AComponent implements IComponent, IAComponentCon,
-	IVariableChangeListener {
+public abstract class AComponent implements IComponent, IAComponentCon, IVariableChangeListener {
 
     // -- IVariableContainer fields -- //
     private List<IVariableChangeListener> variableChangeListeners;
@@ -34,8 +32,8 @@ public abstract class AComponent implements IComponent, IAComponentCon,
     private int sleep = -1;
 
     public AComponent() {
-	// vars instanzieren
-	init();
+		// vars instanzieren
+		init();
     }
 
     private void init() {
@@ -61,48 +59,48 @@ public abstract class AComponent implements IComponent, IAComponentCon,
     private void initVarsMethods(Method m) {
 		for (Annotation a : m.getAnnotations()) {
 		    if (a.annotationType().equals(Display.class)) {
-			// add variable for this method
-			Display t = (Display) a;
-			String id = COMMON_SCOPES.USER + "." + t.name();
-			if (hasVariable(id)) {
-			    // only update
-			    ((MethodVariable)getVariableById(id)).update(getUserLogic(), m);
-			} else {
-			    registerVariable(new MethodVariable(id, getUserLogic(), m));
-			}
+				// add variable for this method
+				Display t = (Display) a;
+				String id = COMMON_SCOPES.USER + "." + t.name();
+				if (hasVariable(id)) {
+				    // only update
+				    ((MethodVariable)getVariableById(id)).update(getUserLogic(), m);
+				} else {
+				    registerVariable(new MethodVariable(id, getUserLogic(), m));
+				}
 		    } else {
-			Logger.output(LogLevel.WARN, this, "unknown method-annotation "
-				+ a + " encountered!");
+		    	//Logger.output(LogLevel.WARN, this, "unknown method-annotation "
+				//+ a + " encountered!");
 		    }
 		}
     }
 
     private void initVarsClass() {
-	if (getUserLogic().getClass().getAnnotations().length > 0) {
-	    for (Annotation a : getUserLogic().getClass().getAnnotations()) {
-		if (a.annotationType().equals(ComponentColor.class)) {
-		    ComponentColor aa = (ComponentColor) a;
-		    String id = AVariable.COMMON_IDENTIFIERS.COLOR;
-		    if (hasVariable(id)) {
-		    	((DefaultVariable)getVariableById(id)).update(aa.color());
-		    } else {
-		    	registerVariable(new DefaultVariable(id, DisplayType.SHOW_SWING, aa.color()));
+		if (getUserLogic().getClass().getAnnotations().length > 0) {
+		    for (Annotation a : getUserLogic().getClass().getAnnotations()) {
+				if (a.annotationType().equals(ComponentColor.class)) {
+				    ComponentColor aa = (ComponentColor) a;
+				    String id = AVariable.COMMON_IDENTIFIERS.COLOR;
+				    if (hasVariable(id)) {
+				    	((DefaultVariable)getVariableById(id)).update(aa.color());
+				    } else {
+				    	registerVariable(new DefaultVariable(id, DisplayType.SHOW_SWING, aa.color()));
+				    }
+				} else if (a.annotationType().equals(ComponentInfo.class)) {
+				    ComponentInfo aa = (ComponentInfo) a;
+				    String id = COMMON_SCOPES.USER + ".name";
+				    if (hasVariable(id)) {
+				    	((DefaultVariable)getVariableById(id)).update(aa.name());
+				    } else {
+				    	registerVariable(new DefaultVariable(id, DisplayType.SHOW_SWING, aa.name()));
+				    }
+				} else {
+				    //Logger.output(LogLevel.WARN, this,
+					//	  "unknown class-annotation " + a
+					//		  + " encountered!");
+				}
 		    }
-		} else if (a.annotationType().equals(ComponentInfo.class)) {
-		    ComponentInfo aa = (ComponentInfo) a;
-		    String id = COMMON_SCOPES.USER + ".name";
-		    if (hasVariable(id)) {
-		    	((DefaultVariable)getVariableById(id)).update(aa.name());
-		    } else {
-		    	registerVariable(new DefaultVariable(id, DisplayType.SHOW_SWING, aa.name()));
-		    }
-		} else {
-		    Logger.output(LogLevel.WARN, this,
-				  "unknown class-annotation " + a
-					  + " encountered!");
 		}
-	    }
-	}
     }
 
     private void initVarsFields() {
@@ -124,16 +122,15 @@ public abstract class AComponent implements IComponent, IAComponentCon,
 				    	registerVariable(new FieldVariable(id, d.type(), getUserLogic(), f));
 				    }
 				} else {
-				    Logger.output(LogLevel.WARN, this,
-						  "unknown field-annotation " + a
-							  + " encountered!");
+//				    Logger.output(LogLevel.WARN, this,
+//						  "unknown field-annotation " + a
+//							  + " encountered!");
 				}
 		    }
 		}
     }
 
     protected void initVars() {
-		this.init();
 		// vars initialisieren
 		initVarsMethods();
 		initVarsClass();
@@ -178,7 +175,7 @@ public abstract class AComponent implements IComponent, IAComponentCon,
     }
 
     public final boolean hasVariable(String identifier) {
-	return this.vars.containsKey(identifier);
+    	return this.vars.containsKey(identifier);
     }
 
     public String toString() {
@@ -199,52 +196,62 @@ public abstract class AComponent implements IComponent, IAComponentCon,
     	return this.vars.get(id);
     }
 
-    public final AVariable getScopedVariable(String scope, String identifier) throws ClassCastException {
-    	return this.vars.get(scope + "." + identifier);
+    public final AVariable getScopedVariable(String scope, String identifier) {
+    	return getVariableById(scope + "." + identifier);
     }
 
     public final boolean hasScopedVariable(String scope, String identifier) {
-	return this.vars.containsKey(scope + "." + identifier);
+    	return hasVariable(scope + "." + identifier);
+    }
+    
+    public Set<String> getScopedVariableIdentifiers(String scope) {
+    	Set<String> ids = getVariableIds();
+    	Set<String> ssids = new HashSet<String>();
+    	for(String id : ids) {
+    		if(id.startsWith(scope))
+    			ssids.add(id);
+    	}
+    	return ssids;
     }
 
     public Set<String> getVariableIds() {
-	return this.vars.keySet();
+    	return this.vars.keySet();
     }
 
     public void addVariableChangeListener(IVariableChangeListener l) {
-	synchronized (variableChangeListeners) {
-	    if (!variableChangeListeners.contains(l)) {
-		variableChangeListeners.add(l);
-	    }
-	}
+		synchronized (variableChangeListeners) {
+		    if (!variableChangeListeners.contains(l)) {
+		    	variableChangeListeners.add(l);
+		    }
+		}
     }
 
     public void removeVariableChangeListener(IVariableChangeListener l) {
-	variableChangeListeners.remove(l);
+		variableChangeListeners.remove(l);
     }
 
     public void variableAdded(String id) {
-	// System.out.println("AComponent.variableAdded()");
-	synchronized (variableChangeListeners) {
-	    for (IVariableChangeListener l : variableChangeListeners)
-		l.variableAdded(id);
-	}
+		// System.out.println("AComponent.variableAdded()");
+		synchronized (variableChangeListeners) {
+		    for (IVariableChangeListener l : variableChangeListeners)
+			l.variableAdded(id);
+		}
     }
 
     public void variableChanged(String id) {
-	// System.out.println("AComponent.variableChanged()");
-	synchronized (variableChangeListeners) {
-	    for (IVariableChangeListener l : variableChangeListeners)
-		l.variableChanged(id);
-	}
+		// System.out.println("AComponent.variableChanged()");
+		synchronized (variableChangeListeners) {
+		    for (IVariableChangeListener l : variableChangeListeners)
+			l.variableChanged(id);
+		}
     }
 
     public void variableRemoved(String id) {
-	// System.out.println("AComponent.variableRemoved()");
-	synchronized (variableChangeListeners) {
-	    for (IVariableChangeListener l : variableChangeListeners)
-		l.variableRemoved(id);
-	}
+		// System.out.println("AComponent.variableRemoved()");
+		synchronized (variableChangeListeners) {
+		    for (IVariableChangeListener l : variableChangeListeners)
+			l.variableRemoved(id);
+		}
     }
     
     public List<IVariableChangeListener> getVariableChangeListeners() {
@@ -252,33 +259,33 @@ public abstract class AComponent implements IComponent, IAComponentCon,
     }
 
     public void execute() {
-	// variableChanged call for every variable that changed since last step
-	// at the moment it is called for every variable, since it would cost more
-	// time and memory to evaluate which variables state changed
-	synchronized (vars) {
-	    for (String varId : vars.keySet()) {
-		variableChanged(varId);
-	    }
-	}
-	// Logger.output(LogLevel.DEBUG, this, "vars[" + vars.size() + "],
-	// varsListener["+variableChangeListeners.size()+"]");
-	if (isSleeping())
-	    sleep--;
+		// variableChanged call for every variable that changed since last step
+		// at the moment it is called for every variable, since it would cost more
+		// time and memory to evaluate which variables state changed
+		synchronized (vars) {
+			for (String varId : vars.keySet()) {
+				variableChanged(varId);
+			}
+		}
+		// Logger.output(LogLevel.DEBUG, this, "vars[" + vars.size() + "],
+		// varsListener["+variableChangeListeners.size()+"]");
+		if (isSleeping())
+		    sleep--;
     }
 
     public void checkVariablesChanged() {
-	initVarsFields();
+    	initVarsFields();
     }
 
     public void sleep(int steps) {
-	sleep = steps;
+    	sleep = steps;
     }
 
     public void interrupt() {
-	sleep = -1;
+    	sleep = -1;
     }
 
     public boolean isSleeping() {
-	return sleep >= 0;
+    	return sleep >= 0;
     }
 }

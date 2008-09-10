@@ -15,8 +15,6 @@ import vidis.ui.events.ObjectEvent;
 import vidis.ui.model.impl.Packet;
 import vidis.ui.model.structure.IVisObject;
 import vidis.ui.mvc.api.Dispatcher;
-import vidis.util.Logger;
-import vidis.util.Logger.LogLevel;
 
 public class SimPacket extends AComponent implements ISimPacketCon {
 
@@ -31,8 +29,7 @@ public class SimPacket extends AComponent implements ISimPacketCon {
 
     private IVisObject visObject;
     
-    public SimPacket(IUserPacket packet, SimLink link, SimNode source,
-	    SimNode target) {
+    public SimPacket(IUserPacket packet, SimLink link, SimNode source, SimNode target) {
 		super();
 		init();
 		init(packet);
@@ -40,6 +37,8 @@ public class SimPacket extends AComponent implements ISimPacketCon {
 		setThrough(link);
 		setFrom(source);
 		setTo(target);
+		
+		//System.err.println(getVariableIds());
 		// set 3d object; this (SimPacket) class should be fully initialized at this
 		// call!
 		// setObject3D(new Packet3D(this));
@@ -58,8 +57,8 @@ public class SimPacket extends AComponent implements ISimPacketCon {
     private void init(IUserPacket packet) {
 		setLogic(packet);
 		try {
+			initVars();
 		    packet.init(this);
-		    initVars();
 		} catch (ObstructInitCallException e) {
 		    // never happens, if anyway throw a real severe exception
 		    throw new ObstructInitRuntimeCallException(e.getCause());
@@ -71,7 +70,7 @@ public class SimPacket extends AComponent implements ISimPacketCon {
 		if (!isSleeping()) {
 		    this.logic.execute();
 		} else {
-		    Logger.output(LogLevel.DEBUG, this, "skip logic.execute()");
+//		    Logger.output(LogLevel.DEBUG, this, "skip logic.execute()");
 		}
 		super.checkVariablesChanged();
     }

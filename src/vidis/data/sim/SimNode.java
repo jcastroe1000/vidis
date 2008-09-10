@@ -85,8 +85,8 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
     private void init(IUserNode node) {
 		logic = node;
 		try {
+			initVars();
 		    node.init(this);
-		    initVars();
 		} catch (ObstructInitCallException e) {
 		    // never happens, if anyway throw a real severe exception
 		    throw new ObstructInitRuntimeCallException(e.getCause());
@@ -137,8 +137,8 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 
     public void send(IUserPacket packet, IUserLink link, long wait) {
 		if (isConnectedThrough(link)) {
-			logger.debug(this + ".send("+packet+", "+link+", "+wait+");");
 		    SimPacket simPacket = new SimPacket(packet, getConnectedLink(link), this, getConnectedLink(link).getOtherNode(this));
+		    logger.debug(this + ".send("+packet+", "+link+", "+wait+");");
 		    if (wait <= 0) {
 		    	doSendOperation(simPacket, getConnectedLink(link));
 		    } else {
@@ -168,13 +168,13 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
      *          the packet to receive
      */
     public final void receive(SimPacket packet) {
-    	logger.debug(this + ".receive("+packet.getUserLogic()+");");
 		if (hasVariable(AVariable.COMMON_IDENTIFIERS.PACKETSRECEIVED)) {
 			Long oldValue = (Long) ((DefaultVariable)getVariableById(AVariable.COMMON_IDENTIFIERS.PACKETSSENT)
 		    ).getData();
 	    ((DefaultVariable)getVariableById(AVariable.COMMON_IDENTIFIERS.PACKETSSENT)).update(Long.valueOf(oldValue + 1));
 		} else
 		    registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.PACKETSRECEIVED, 1l));
+		logger.debug(this + ".receive("+packet.getUserLogic()+");");
 		logic.receive(packet.getUserLogic());
 		// kill 3d instance
 		packet.kill();

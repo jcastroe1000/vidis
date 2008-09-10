@@ -3,8 +3,6 @@ package vidis.modules.demo;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import vidis.util.Logger;
-import vidis.util.Logger.LogLevel;
 import vidis.data.AUserNode;
 import vidis.data.annotation.ColorType;
 import vidis.data.annotation.ComponentColor;
@@ -29,7 +27,7 @@ public class DemoNode extends AUserNode {
 				// Logger.output(this, "send Ping over " + link + " to " +
 				// link.getOtherNode(this));
 				// send ping on all links, 1 to 3 steps processing time
-				send(new DemoPingPacket(), link, 1 + (long) (Math.random() * 2));
+				send(new DemoPingPacket(), link);
 			}
 		}
 	}
@@ -64,7 +62,7 @@ public class DemoNode extends AUserNode {
 		} else if (packet instanceof DemoPongPacket) {
 			receive((DemoPongPacket) packet);
 		} else {
-			Logger.output(LogLevel.ERROR, this, "receive 'unknown' packet from " + packet.getSource());
+			//Logger.output(LogLevel.ERROR, this, "receive 'unknown' packet from " + packet.getSource());
 		}
 
 	}

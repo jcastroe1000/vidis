@@ -1,8 +1,7 @@
 package vidis.data;
 
-import vidis.sim.exceptions.ObstructInitCallException;
-import vidis.util.Logger;
-import vidis.util.Logger.LogLevel;
+import java.util.Set;
+
 import vidis.data.mod.AUserComponent;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
@@ -10,6 +9,7 @@ import vidis.data.mod.IUserPacket;
 import vidis.data.sim.ISimPacketCon;
 import vidis.data.var.AVariable;
 import vidis.data.var.AVariable.COMMON_SCOPES;
+import vidis.sim.exceptions.ObstructInitCallException;
 
 /**
  * abstract user packet represents a packet by a user;
@@ -23,16 +23,15 @@ public abstract class AUserPacket extends AUserComponent implements IUserPacket 
 
     protected ISimPacketCon simulatorComponent;
 
-    public void init(ISimPacketCon simulatorComponent)
-	    throws ObstructInitCallException {
-	if (this.simulatorComponent != null) {
-	    Logger
-		    .output(LogLevel.ERROR, this, "init(" + simulatorComponent
-			    + "), but already registered at "
-			    + this.simulatorComponent);
-	    throw new ObstructInitCallException();
-	}
-	this.simulatorComponent = simulatorComponent;
+    public void init(ISimPacketCon simulatorComponent) throws ObstructInitCallException {
+		if (this.simulatorComponent != null) {
+	//	    Logger
+	//		    .output(LogLevel.ERROR, this, "init(" + simulatorComponent
+	//			    + "), but already registered at "
+	//			    + this.simulatorComponent);
+		    throw new ObstructInitCallException();
+		}
+		this.simulatorComponent = simulatorComponent;
     }
 
     public final IUserNode getSource() {
@@ -47,11 +46,11 @@ public abstract class AUserPacket extends AUserComponent implements IUserPacket 
     	// no action at packets :-)
     }
 
-    public String toString() {
-    	if(simulatorComponent != null)
-    		return simulatorComponent.toString();
-    	return super.toString();
-    }
+//    public String toString() {
+//    	if(simulatorComponent != null)
+//    		return simulatorComponent.toString();
+//    	return super.toString();
+//    }
 
     public final void interrupt() {
 		try {
@@ -70,12 +69,20 @@ public abstract class AUserPacket extends AUserComponent implements IUserPacket 
     }
 
     public final AVariable getVariable(String identifier) {
-	return simulatorComponent.getScopedVariable(COMMON_SCOPES.USER,
-						    identifier);
+    	if(simulatorComponent != null)
+    		return simulatorComponent.getScopedVariable(COMMON_SCOPES.USER, identifier);
+    	return null;
     }
 
     public final boolean hasVariable(String identifier) {
-	return simulatorComponent.hasScopedVariable(COMMON_SCOPES.USER,
-						    identifier);
+    	if(simulatorComponent != null)
+    		return simulatorComponent.hasScopedVariable(COMMON_SCOPES.USER, identifier);
+    	return false;
+    }
+    
+    public final Set<String> getVariableIdentifiers() {
+    	if(simulatorComponent != null)
+    		return simulatorComponent.getScopedVariableIdentifiers(COMMON_SCOPES.USER);
+    	return null;
     }
 }
