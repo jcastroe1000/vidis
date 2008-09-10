@@ -16,6 +16,7 @@ import vidis.sim.exceptions.ObstructInitRuntimeCallException;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.ObjectEvent;
 import vidis.ui.model.impl.Link;
+import vidis.ui.model.impl.Packet;
 import vidis.ui.mvc.api.Dispatcher;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
@@ -145,11 +146,14 @@ public class SimLink extends AComponent implements ISimLinkCon {
 
     public void send(SimPacket packet, SimNode to) {
 		if (a.equals(to) || b.equals(to)) {
+			// create new vis object
+			packet.createVisObject();
+			// and now do send operation
 		    if (getDelay() <= 0) {
-			// deliver immediatly
-			deliver(packet, to);
+		    	// deliver immediatly
+		    	deliver(packet, to);
 		    } else {
-			queue(packet, to);
+		    	queue(packet, to);
 		    }
 		}
     }

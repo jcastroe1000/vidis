@@ -42,10 +42,6 @@ public class SimPacket extends AComponent implements ISimPacketCon {
 		// set 3d object; this (SimPacket) class should be fully initialized at this
 		// call!
 		// setObject3D(new Packet3D(this));
-		
-		visObject = new Packet( this, getThrough().getVisObject() );
-		ObjectEvent nextEvent = new ObjectEvent( IVidisEvent.ObjectRegister, visObject );
-		Dispatcher.forwardEvent( nextEvent );
 
     }
 
@@ -210,4 +206,10 @@ public class SimPacket extends AComponent implements ISimPacketCon {
     	Dispatcher.forwardEvent( oe );
     	this.visObject = null;
     }
+
+	public void createVisObject() {
+		visObject = new Packet(this, this.getThrough().getVisObject() );
+		ObjectEvent nextEvent = new ObjectEvent( IVidisEvent.ObjectRegister, visObject );
+		Dispatcher.forwardEvent( nextEvent );
+	}
 }

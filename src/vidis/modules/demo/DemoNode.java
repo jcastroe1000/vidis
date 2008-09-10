@@ -27,7 +27,7 @@ public class DemoNode extends AUserNode {
 				// Logger.output(this, "send Ping over " + link + " to " +
 				// link.getOtherNode(this));
 				// send ping on all links, 1 to 3 steps processing time
-				send(new DemoPingPacket(), link);
+				send(new DemoPingPacket(), link, 1 + (long) (Math.random() * 2));
 			}
 		}
 	}

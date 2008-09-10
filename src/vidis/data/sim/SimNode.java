@@ -12,6 +12,7 @@ import vidis.sim.exceptions.ObstructInitRuntimeCallException;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.ObjectEvent;
 import vidis.ui.model.impl.Node;
+import vidis.ui.model.impl.Packet;
 import vidis.ui.model.structure.IVisObject;
 import vidis.ui.mvc.api.Dispatcher;
 import vidis.data.mod.IUserLink;
