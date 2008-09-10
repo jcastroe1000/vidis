@@ -46,11 +46,9 @@ public abstract class AUserPacket extends AUserComponent implements IUserPacket 
     	// no action at packets :-)
     }
 
-//    public String toString() {
-//    	if(simulatorComponent != null)
-//    		return simulatorComponent.toString();
-//    	return super.toString();
-//    }
+    public String toString() {
+    	return "Packet#" + hashCode();
+    }
 
     public final void interrupt() {
 		try {

@@ -58,9 +58,9 @@ public abstract class AUserLink extends AUserComponent implements IUserLink {
     	return simulatorComponent.getDelay();
     }
 
-//    public String toString() {
-//    	return simulatorComponent.toString();
-//    }
+    public String toString() {
+    	return "Link#" + hashCode();
+    }
 
     public final void interrupt() {
 		try {

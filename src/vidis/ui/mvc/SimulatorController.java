@@ -37,7 +37,13 @@ public class SimulatorController extends AController {
 	private void initialize() {
 		Simulator.createInstance();
 		sim = Simulator.getInstance();
-		sim.importSimFile( new File( "./data/modules/demo/demo.msim" ) );
+		//sim.importSimFile( new File( "./data/modules/bullyElectionAlgorithm/demo.msim" ) );
+		//sim.importSimFile( new File( "./data/modules/demo/demo.msim" ) );
+		//sim.importSimFile( new File( "./data/modules/demo/simpledemo.msim" ) );
+		sim.importSimFile( new File( "./data/modules/flooding/flood1.msim" ) );
+		//sim.importSimFile( new File( "./data/modules/flooding/v1.msim" ) );
+		//sim.importSimFile( new File( "./data/modules/vartest/onenode.msim" ) );,
+		//sim.importSimFile( new File( "./data/modules/vectorClockAlgorithm/simple.msim" ) );
 	}
 
 }

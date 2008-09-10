@@ -24,7 +24,7 @@ public class FloodPacket extends AUserPacket {
 
 	@Display(name = "name", type = DisplayType.SHOW_3D_AND_SWING)
 	public String getName() {
-		return "flood_" + getCreator();
+		return "flood(" + getCreator().getVariable("name").getData().toString() + ")";
 	}
 
 	public String toString() {
