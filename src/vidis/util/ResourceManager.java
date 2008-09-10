@@ -5,7 +5,9 @@ import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 
@@ -135,12 +137,44 @@ public class ResourceManager {
 	public static String FONT_VERDANA_BOLD_ITALIC = "verdanaz.TTF";
 	public static String FONT_VERDANA_ITALIC = "verdanai.TTF";
 	
+	private Map<String, Font> fontCache = new HashMap<String, Font>();
 	
-	public Font getFont(String filename, float size) throws FontFormatException, IOException {
+	private Font createFont(String filename) throws FontFormatException, IOException {
 		Font font = Font.createFont(Font.TRUETYPE_FONT, new File(dataPath + pathSeperator + "resources" + pathSeperator + "fonts" + pathSeperator + filename));
-		font = font.deriveFont(size);
 		return font;
 	}
+	
+	
+	/**
+	 * retrieves a font
+	 * the font is created and cached by the resource manager
+	 * @param filename
+	 * @return
+	 */
+	public Font getFont(String filename) throws FontFormatException, IOException {
+		Font font = fontCache.get( filename );
+		if ( font == null ) {
+			font = createFont( filename );
+			fontCache.put( filename, font ); 
+		}
+		return font;
+	}
+	
+	/**
+	 * retrieves a font
+	 * the font is created and cached by the resource manager, then the size is applied
+	 * the size is not cached
+	 * @param filename
+	 * @return
+	 */
+	public Font getFont(String filename, float size) throws FontFormatException, IOException {
+		Font font = fontCache.get( filename );
+		if ( font == null ) {
+			font = createFont( filename );
+			fontCache.put( filename, font ); 
+		}
+		return font.deriveFont( size );
+	}	
 
 	// public static final long getMemoryInit() {
 	// return initialMemory;
