@@ -120,7 +120,8 @@ public class ResourceManager {
 	// --------------------- fonts
 	
 	public Font getFont(String filename) throws FontFormatException, IOException {
-		return Font.createFont(Font.TRUETYPE_FONT, new File(dataPath + pathSeperator + "resources" + pathSeperator + "fonts" + pathSeperator + filename));
+		Font font = Font.createFont(Font.TRUETYPE_FONT, new File(dataPath + pathSeperator + "resources" + pathSeperator + "fonts" + pathSeperator + filename));
+		return font;
 	}
 
 	// public static final long getMemoryInit() {
