@@ -1,10 +1,11 @@
 package vidis.util;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.io.File;
-import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.ImageIcon;
 
@@ -114,6 +115,12 @@ public class ResourceManager {
 
 	public static File getModuleFile(String module, String moduleFile) {
 		return new File(modulesPath + pathSeperator + module + pathSeperator + moduleFile);
+	}
+	
+	// --------------------- fonts
+	
+	public Font getFont(String filename) throws FontFormatException, IOException {
+		return Font.createFont(Font.TRUETYPE_FONT, new File(dataPath + pathSeperator + "resources" + pathSeperator + "fonts" + pathSeperator + filename));
 	}
 
 	// public static final long getMemoryInit() {
