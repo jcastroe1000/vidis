@@ -34,4 +34,10 @@ public interface ISimNodeCon extends IAComponentCon {
 	 * @param wait the amount of time to wait
 	 */
 	public void send(IUserPacket p, IUserLink link, long wait);
+
+	/**
+	 * retrieve unique identifier for this node
+	 * @return string
+	 */
+	public String getId();
 }

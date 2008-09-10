@@ -9,6 +9,10 @@ public class VectorClockAlgorithmNode extends AUserNode {
     private VectorTime localTimeVector = new VectorTime(this, 0);
 
     @Display(name = "name")
+    public String toString()  {
+    	return getId() + "["+getTimeVector()+"]";
+    }
+    
     public VectorTime getTimeVector() {
     	return localTimeVector;
     }

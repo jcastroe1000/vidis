@@ -7,19 +7,18 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
 
-import vidis.sim.exceptions.ObstructInitCallException;
-import vidis.sim.exceptions.ObstructInitRuntimeCallException;
-import vidis.ui.events.IVidisEvent;
-import vidis.ui.events.ObjectEvent;
-import vidis.ui.model.impl.Node;
-import vidis.ui.model.impl.Packet;
-import vidis.ui.model.structure.IVisObject;
-import vidis.ui.mvc.api.Dispatcher;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
 import vidis.data.mod.IUserPacket;
 import vidis.data.var.AVariable;
 import vidis.data.var.vars.DefaultVariable;
+import vidis.sim.exceptions.ObstructInitCallException;
+import vidis.sim.exceptions.ObstructInitRuntimeCallException;
+import vidis.ui.events.IVidisEvent;
+import vidis.ui.events.ObjectEvent;
+import vidis.ui.model.impl.Node;
+import vidis.ui.model.structure.IVisObject;
+import vidis.ui.mvc.api.Dispatcher;
 
 /**
  * simulator node
@@ -249,6 +248,10 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 				    )).getData());
 		else
 		    return -1;
+    }
+    
+    public String getId() {
+    	return getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
     }
     
 }

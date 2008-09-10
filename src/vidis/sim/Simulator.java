@@ -288,7 +288,7 @@ public class Simulator {
 						sim.registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.ID, DisplayType.SHOW_3D_AND_SWING, id));
 						// set variables
 						for (String identifier : document.getLinkById(id).getVariables().keySet()) {
-							sim.registerVariable(new DefaultVariable(AVariable.COMMON_SCOPES.USER + "." + identifier, document.getNodeById(id).getVariables().get(identifier)));
+							sim.registerVariable(new DefaultVariable(AVariable.COMMON_SCOPES.USER + "." + identifier, document.getLinkById(id).getVariables().get(identifier)));
 						}
 						// register instance to simulator
 						links.put(documentLink.getId(), sim);

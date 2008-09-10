@@ -9,6 +9,7 @@ import vidis.data.mod.IUserNode;
 import vidis.data.mod.IUserPacket;
 import vidis.data.sim.ISimNodeCon;
 import vidis.data.var.AVariable;
+import vidis.data.var.AVariable.COMMON_IDENTIFIERS;
 import vidis.data.var.AVariable.COMMON_SCOPES;
 
 /**
@@ -75,6 +76,10 @@ public abstract class AUserNode extends AUserComponent implements IUserNode {
 		} catch (NullPointerException e) {
 		    // nothing
 		}
+    }
+    
+    public String getId() {
+    	return simulatorComponent.getId();
     }
 
     public final AVariable getVariable(String identifier) {

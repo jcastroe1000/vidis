@@ -43,7 +43,8 @@ public class SimulatorController extends AController {
 		//sim.importSimFile( new File( "./data/modules/flooding/flood1.msim" ) );
 		//sim.importSimFile( new File( "./data/modules/flooding/v1.msim" ) );
 		//sim.importSimFile( new File( "./data/modules/vartest/onenode.msim" ) );,
-		sim.importSimFile( new File( "./data/modules/vectorClockAlgorithm/simple.msim" ) );
+		//sim.importSimFile( new File( "./data/modules/vectorClockAlgorithm/simple.msim" ) );
+		sim.importSimFile( new File( "./data/modules/vectorClockAlgorithm/complex.msim" ) );
 	}
 
 }
