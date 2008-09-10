@@ -74,8 +74,8 @@ public class BullyElectionAlgorithmNode extends AUserNode {
 		    // we got smaller id, we're not bully
 		    // broadcast election packet
 		    for (IUserLink link : getConnectedLinks())
-			if (!link.equals(packet.getLinkToSource()))
-			    send(new ElectionPacket(packet.getBullyId()), link);
+				if (!link.equals(packet.getLinkToSource()))
+				    send(new ElectionPacket(packet.getBullyId()), link);
 		    // now wait for some time and accept him as bully
 		    pendingBully = packet.getBullyId();
 		    sleep(200);
