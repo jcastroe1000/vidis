@@ -4,14 +4,10 @@ import java.awt.Color;
 
 import javax.media.opengl.GL;
 
-import org.apache.log4j.Logger;
-
-import com.sun.opengl.util.GLUT;
-
 import vidis.ui.model.structure.AGuiContainer;
 
 public class Basic3DScrollPane extends AGuiContainer {
-	private static Logger logger = Logger.getLogger(Basic3DScrollPane.class);
+	//private static Logger logger = Logger.getLogger(Basic3DScrollPane.class);
 	// color setup
 	private Color color = Color.ORANGE;
 	private Color marker_color = Color.ORANGE;
