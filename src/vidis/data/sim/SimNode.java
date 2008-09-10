@@ -168,7 +168,7 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
      *          the packet to receive
      */
     public final void receive(SimPacket packet) {
-    	logger.debug(this + ".receive("+packet+");");
+    	logger.debug(this + ".receive("+packet.getUserLogic()+");");
 		if (hasVariable(AVariable.COMMON_IDENTIFIERS.PACKETSRECEIVED)) {
 			Long oldValue = (Long) ((DefaultVariable)getVariableById(AVariable.COMMON_IDENTIFIERS.PACKETSSENT)
 		    ).getData();
