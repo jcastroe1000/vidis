@@ -165,7 +165,7 @@ public class SceneController extends AController implements GLEventListener {
 			// PROJECTION
 			gl.glMatrixMode( GL.GL_PROJECTION );
 			gl.glLoadIdentity();
-			c.applyProjectionMatrix(gl);
+			c.applyProjectionMatrix(gl);ShaderFactory.removeAllPrograms(gl);
 			
 			// VIEW
 			gl.glMatrixMode( GL.GL_MODELVIEW );
@@ -203,6 +203,7 @@ public class SceneController extends AController implements GLEventListener {
 
 	private void drawModel( GL gl, ICamera c ) {
 		if ( c instanceof GuiCamera) {
+			ShaderFactory.removeAllPrograms(gl);
 			gl.glPushMatrix();
 			for ( IVisObject o : objects ) {
 				if ( o instanceof IGuiContainer ) {
@@ -293,7 +294,9 @@ public class SceneController extends AController implements GLEventListener {
 		Light.initLinkLight(gl);
 		Light.initPacketLight(gl);
 		
+		glLogger.info("init shader prog");
 		Link.setupShaderProgram(gl);
+		glLogger.info("done with shader init");
 		
 		animator = new Animator(drawable);
 		
