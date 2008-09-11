@@ -6,6 +6,7 @@ import javax.vecmath.Vector3d;
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.ui.events.IVidisEvent;
+import vidis.ui.model.impl.guielements.Label;
 import vidis.ui.model.structure.ASimObject;
 
 public class Node extends ASimObject {
