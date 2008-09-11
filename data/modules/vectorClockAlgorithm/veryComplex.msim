@@ -102,12 +102,20 @@
 		</node>
 
 		<link>
+			<id>link0</id>
+			<class>DefaultLink</class>
+			<variables>
+				<name>link0</name>
+			</variables>
+			<delay>3</delay>
+		</link>
+		<link>
 			<id>link01</id>
 			<class>DefaultLink</class>
 			<variables>
 				<name>link01</name>
 			</variables>
-			<delay>10</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link02</id>
@@ -115,7 +123,7 @@
 			<variables>
 				<name>link02</name>
 			</variables>
-			<delay>30</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link03</id>
@@ -123,7 +131,7 @@
 			<variables>
 				<name>link03</name>
 			</variables>
-			<delay>10</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link04</id>
@@ -131,7 +139,7 @@
 			<variables>
 				<name>link04</name>
 			</variables>
-			<delay>30</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link05</id>
@@ -139,7 +147,7 @@
 			<variables>
 				<name>link05</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link06</id>
@@ -147,7 +155,7 @@
 			<variables>
 				<name>link06</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link07</id>
@@ -155,7 +163,7 @@
 			<variables>
 				<name>link07</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link08</id>
@@ -163,7 +171,7 @@
 			<variables>
 				<name>link08</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link09</id>
@@ -171,7 +179,7 @@
 			<variables>
 				<name>link09</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link10</id>
@@ -179,7 +187,7 @@
 			<variables>
 				<name>link10</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link11</id>
@@ -187,7 +195,7 @@
 			<variables>
 				<name>link11</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link12</id>
@@ -195,7 +203,7 @@
 			<variables>
 				<name>link12</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link13</id>
@@ -203,7 +211,7 @@
 			<variables>
 				<name>link13</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link14</id>
@@ -211,7 +219,7 @@
 			<variables>
 				<name>link14</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link15</id>
@@ -219,7 +227,7 @@
 			<variables>
 				<name>link15</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link16</id>
@@ -227,7 +235,7 @@
 			<variables>
 				<name>link16</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link17</id>
@@ -235,7 +243,7 @@
 			<variables>
 				<name>link17</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link18</id>
@@ -243,7 +251,7 @@
 			<variables>
 				<name>link18</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link19</id>
@@ -251,7 +259,7 @@
 			<variables>
 				<name>link19</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link20</id>
@@ -259,7 +267,7 @@
 			<variables>
 				<name>link20</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link21</id>
@@ -267,7 +275,7 @@
 			<variables>
 				<name>link21</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link22</id>
@@ -275,7 +283,7 @@
 			<variables>
 				<name>link22</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link23</id>
@@ -283,7 +291,7 @@
 			<variables>
 				<name>link23</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link24</id>
@@ -291,7 +299,7 @@
 			<variables>
 				<name>link24</name>
 			</variables>
-			<delay>60</delay>
+			<delay>3</delay>
 		</link>
 		<link>
 			<id>link25</id>
@@ -378,7 +386,7 @@
 		<connection>
 			<nodeA>node10</nodeA>
 			<nodeB>node11</nodeB>
-			<link>link11</link>
+			<link>link0</link>
 		</connection>
 		<connection>
 			<nodeA>node11</nodeA>
