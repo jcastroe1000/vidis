@@ -19,7 +19,7 @@ public class TextGuiContainer extends AGuiContainer {
 	private Color color = Color.black;
 	private Color textColor = Color.red;
 	
-	private static TextRenderer textRenderer = new TextRenderer( new Font("Times New Roman", Font.PLAIN, 130 ), true, true );
+	//private static TextRenderer textRenderer = new TextRenderer( new Font("Times New Roman", Font.PLAIN, 130 ), true, true );
 	
 	private void renderStrokeString(GL gl, int font, String string, double contwith) {
         gl.glEnable(GL.GL_LINE_SMOOTH);
@@ -41,6 +41,7 @@ public class TextGuiContainer extends AGuiContainer {
 	
 	@Override
 	public void renderContainer(GL gl) {
+		requireTextRenderer();
 //		renderStrokeString(gl, GLUT.STROKE_ROMAN, text, getWidth());
 		Rectangle2D bounds = textRenderer.getBounds(text);
 		gl.glPushMatrix();
@@ -48,7 +49,8 @@ public class TextGuiContainer extends AGuiContainer {
 		gl.glTranslated(0, 2, 0);
 		gl.glScaled( scale, -scale, 1 );
 		textRenderer.begin3DRendering();
-		textRenderer.draw3D( text, 0f, 0f, 0f, 1f );
+		textRenderer.setUseVertexArrays(false);
+		textRenderer.draw3D( text, 0f, 0f, 0f, 0.001f );
 		textRenderer.end3DRendering();
 		gl.glPopMatrix();
 	}

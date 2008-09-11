@@ -32,10 +32,11 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	protected void requireTextRenderer() {
 		if ( textRenderer == null ) {
 			try {
-				textRenderer = new TextRenderer( ResourceManager.getFont( ResourceManager.FONT_VERDANA, 130 ) );
+				textRenderer = new TextRenderer( ResourceManager.getFont( ResourceManager.FONT_ARIAL, 130 ) );
 			}
 			catch ( Exception e ) {
 				logger.error( "error initializing TextRenderer", e );
+				System.err.println(e);
 			}
 		}
 	}

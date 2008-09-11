@@ -84,9 +84,13 @@ public class SimLink extends AComponent implements ISimLinkCon {
     public void connect(SimNode a, SimNode b) {
     	if(this.isConnected()) {
     		logger.warn("tried to reconnect connected link " + this + " to {"+a+","+b+"}; error detected and prohibited!");
+    	} else if(a.isConnectedTo(b)) {
+    		logger.warn("tried to reconnect two nodes that are already connected with the link " + this + " to {"+a+","+b+"}; error detected and prohibited!");
     	} else {
 			this.a = a;
 			this.b = b;
+			a.addConnection(this);
+			b.addConnection(this);
 			ObjectEvent oe = new ObjectEvent( IVidisEvent.ObjectRegister, visObject );
 			Dispatcher.forwardEvent( oe );
     	}

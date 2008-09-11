@@ -257,8 +257,6 @@ public class Simulator {
 					System.err.println("TRYING TO MULTIPLE CONNECT THIS LINK: " + link + " TO ("+nodeA+","+nodeB+") IS ALREADY CONNECTED! PLEASE WATCH YOUR CONFIGURATION!");
 				} else {
 					link.connect(nodeA, nodeB);
-					nodeA.addConnection(link);
-					nodeB.addConnection(link);
 					// register a connected link only
 					registerComponent(link);
 				}

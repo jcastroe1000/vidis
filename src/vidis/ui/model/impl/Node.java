@@ -19,8 +19,6 @@ public class Node extends ASimObject {
 
 	private void drawText(GL gl, String text, double angle, double x, double y, double z, Vector3d move) {
 		gl.glPushMatrix();
-			gl.glCullFace(GL.GL_FRONT);
-			gl.glFrontFace(GL.GL_CW);
 			gl.glTranslated(0.0 + move.getX(), 0.8 + move.getY(), 0.0 + move.getZ());
 			gl.glScaled(0.001, 0.001, 0.001);
 			gl.glRotated(angle, x, y, z);

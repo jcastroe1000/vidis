@@ -80,15 +80,16 @@ public class Link extends ASimObject {
 				calculateControlPoints( knownPointA, knownPointB );
 				preRenderObject( gl );
 			}
-			String text = "test";
+			String text = "";
 			try {
 				// add text
 				text = getVariableById(AVariable.COMMON_IDENTIFIERS.NAME).getData().toString();
 			} catch (NullPointerException e) {
 				// may happen, but if, don't care
-				text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
+				//text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
 			} finally {
-				drawText(gl, text, 180, 0, 1, 0);
+				if(text != "")
+					drawText(gl, text, 180, 0, 1, 0);
 			}
 			Link.useShaderProgram(gl);
 			renderObject(gl);

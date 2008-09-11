@@ -258,5 +258,15 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 	public List<SimLink> getConnectedLinksSim() {
 		return new ArrayList<SimLink>(links.values());
 	}
+
+	public boolean isConnectedTo(SimNode b) {
+		List<SimLink> links = getConnectedLinksSim();
+		for(int i=0; i<links.size(); i++) {
+			if(links.get(i).getOtherNode(this).equals(b)) {
+				return true;
+			}
+		}
+		return false;
+	}
     
 }
