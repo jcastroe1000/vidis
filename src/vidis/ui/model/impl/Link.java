@@ -86,7 +86,7 @@ public class Link extends ASimObject {
 				text = getVariableById(AVariable.COMMON_IDENTIFIERS.NAME).getData().toString();
 			} catch (NullPointerException e) {
 				// may happen, but if, don't care
-				//text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
+				text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
 			} finally {
 				if(text != "")
 					drawText(gl, text, 180, 0, 1, 0);
