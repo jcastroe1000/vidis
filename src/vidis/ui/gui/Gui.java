@@ -13,8 +13,10 @@ import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.PercentMarginLayout;
 import vidis.ui.model.impl.TextGuiContainer;
 import vidis.ui.model.impl.guielements.Basic3DScrollPane;
+import vidis.ui.model.impl.guielements.Label;
 import vidis.ui.model.structure.IVisObject;
 import vidis.ui.mvc.api.Dispatcher;
+import vidis.ui.vis.objects.Axis;
 
 
 public class Gui extends AEventHandler {
@@ -39,6 +41,9 @@ public class Gui extends AEventHandler {
 		rightPanel.setColor( Color.black );
 		rightPanel.setLayout(new PercentMarginLayout(-0.7,1,1,1,-1,-0.30));
 		rightPanel.addChild(new Basic3DScrollPane());
+		// draw a label
+		Label label = new Label("tut");
+		rightPanel.addChild(label);
 		mainContainer.addChild(rightPanel);
 	}
 	private void initializeControls(){
