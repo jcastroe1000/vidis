@@ -1,18 +1,14 @@
 package vidis.util;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import javax.vecmath.Point3d;
-import javax.vecmath.Vector3d;
 
 import vidis.data.sim.SimLink;
 import vidis.data.sim.SimNode;
-import vidis.data.var.AVariable;
-import vidis.data.var.vars.DefaultVariable;
 import vidis.util.graphs.graph.Vertex;
 import vidis.util.graphs.graph.WeightedGraph;
 import vidis.util.graphs.graph.WeightedGraphImpl;
@@ -137,9 +133,11 @@ public class SafeGenerator {
 			for(int j=0; j<nodes.size(); j++) {
 				SimNode b = nodes.get(j);
 				if(i != j) {
-					List path = spa.getShortestPath(vertices.get(a), vertices.get(b));
+					List<Vertex> path = spa.getShortestPath(vertices.get(a), vertices.get(b));
 					if(path != null) {
 						// FIXME find fine and nice positions for the variables
+						double shortest = spa.getDistance(vertices.get(a), vertices.get(b));
+//						System.err.println(shortest +" ("+a+","+b+") -> " + path);
 					}
 				}
 			}

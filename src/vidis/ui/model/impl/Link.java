@@ -133,12 +133,7 @@ public class Link extends ASimObject {
 		linkProgram.use(gl);
 	}
 	
-	private static TextRenderer textRenderer;
-	
 	private void drawText(GL gl, String text, double angle, double x, double y, double z) {
-		if ( textRenderer == null ) {
-			textRenderer = new TextRenderer( new Font("Times New Roman", Font.PLAIN, 130 ), true, true );
-		}
 		gl.glPushMatrix();
 			//gl.glCullFace(GL.GL_FRONT);
 			gl.glEnable(GL.GL_AUTO_NORMAL);
@@ -220,6 +215,7 @@ public class Link extends ASimObject {
 	}
 	
 	private void preRenderObject( GL gl ) {
+		requireTextRenderer();
 		if ( displayListId == -1 ) {
 			displayListId = gl.glGenLists(1);
 		}

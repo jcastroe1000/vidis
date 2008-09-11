@@ -32,6 +32,11 @@ import vidis.util.graphs.graph.WeightedGraph;
 public abstract class ShortestPathAlgorithm implements Serializable {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2013586716116971828L;
+
+/**
    * The WeightedGraph object that the algorithm uses to determine
    * the shortest path spanning tree. Concrete subclasses must implement wgraph
    * as a directed (!) WeightedGraph.
@@ -85,12 +90,12 @@ public abstract class ShortestPathAlgorithm implements Serializable {
    * @param v2 The target vertex of the path
    * @return The List object containing the vertices of the path.
    */
-  public List getShortestPath( Vertex v1, Vertex v2 ) {
+  public List<Vertex> getShortestPath( Vertex v1, Vertex v2 ) {
     if ( shortestpathtree==null || v1!=startVertex )
         shortestpathtree = shortestPath( v1 );
-    List vlist = new ArrayList( shortestpathtree.getVerticesCount() );
-    Map predecessor = new HashMap();
-    Iterator it = shortestpathtree.getAllEdges().iterator();
+    List<Vertex> vlist = new ArrayList<Vertex>( shortestpathtree.getVerticesCount() );
+    Map<Vertex,Vertex> predecessor = new HashMap<Vertex,Vertex>();
+    Iterator<Edge> it = shortestpathtree.getAllEdges().iterator();
     // Generate the predecessor list by stepping through the edges
     while ( it.hasNext() ) {
         Edge e = (Edge)it.next();
@@ -139,7 +144,7 @@ public abstract class ShortestPathAlgorithm implements Serializable {
     if ( v1 == v2 )
         return 0.0;
     // recursive depth-first search for v2
-    Iterator it = shortestpathtree.getEdges( v1 ).iterator();
+    Iterator<Edge> it = shortestpathtree.getEdges( v1 ).iterator();
     while ( it.hasNext() ) {
         DirectedWeightedEdge e = (DirectedWeightedEdge)it.next();
         if ( e.getVertexB() == v1 ) // skip incoming edges
@@ -176,7 +181,7 @@ public abstract class ShortestPathAlgorithm implements Serializable {
   public double getLongestDistanceInTree( Vertex v1 ) {
     double max = 0.0;
     // recursive depth-first search
-    Iterator it = shortestpathtree.getEdges( v1 ).iterator();
+    Iterator<Edge> it = shortestpathtree.getEdges( v1 ).iterator();
     while ( it.hasNext() ) {
         DirectedWeightedEdge e = (DirectedWeightedEdge)it.next();
         if ( e.getVertexB() == v1 ) // skip incoming edges

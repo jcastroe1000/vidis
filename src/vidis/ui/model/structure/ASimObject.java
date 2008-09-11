@@ -12,10 +12,15 @@ import org.apache.log4j.Logger;
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.ui.events.AEventHandler;
+import vidis.util.ResourceManager;
+
+import com.sun.opengl.util.j2d.TextRenderer;
 
 public abstract class ASimObject extends AEventHandler implements ISimObject {
 
 	private static Logger logger = Logger.getLogger( ASimObject.class );
+	
+	protected static TextRenderer textRenderer;
 	
 	
 	private IVariableContainer obj; // FIXME
@@ -31,6 +36,17 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	
 	protected Set<String> getVariableIds() {
 		return obj.getVariableIds();
+	}
+	
+	protected void requireTextRenderer() {
+		if ( textRenderer == null ) {
+			try {
+				textRenderer = new TextRenderer( ResourceManager.getFont( ResourceManager.FONT_ARIAL, 130 ) );
+			}
+			catch ( Exception e ) {
+				logger.error( "error initializing TextRenderer", e );
+			}
+		}
 	}
 	
 	protected static Point3d calculateMiddle(Point3d a, Point3d b, double heightFactor) {

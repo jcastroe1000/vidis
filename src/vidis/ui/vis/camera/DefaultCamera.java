@@ -6,6 +6,7 @@ import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GLContext;
 import javax.media.opengl.glu.GLU;
 import javax.vecmath.Vector4d;
 
@@ -13,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import vidis.ui.events.AEventHandler;
 import vidis.ui.events.IVidisEvent;
+import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.events.StartEvent;
 import vidis.ui.events.StopEvent;
 
@@ -88,6 +90,12 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 		gl.glGetDoublev(GL.GL_MODELVIEW_MATRIX, model);
 		gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, proj);
 		gl.glGetIntegerv(GL.GL_VIEWPORT, view);
+		
+		gl.glColor3d( 1, 0, 0);
+		gl.glBegin( GL.GL_LINES );
+			gl.glVertex3d( P1.x, P1.y, P1.z );
+			gl.glVertex3d( P2.x, P2.y, P2.z );
+		gl.glEnd();
 	}
 	public String toString() {
 		return "DefaultCamera at ("+posx+", "+posz+") Zoom: "+zoom;
@@ -187,11 +195,11 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 			}
 			break;
 		case IVidisEvent.MouseClickedEvent:
-//			logger.info( event );
-//			logger.info( ((MouseClickedEvent)event).mouseEvent );
-//			logger.info( ((MouseClickedEvent)event).mouseEvent.getPoint() );
-//			Vector4d point = calc3DMousePoint( ((MouseClickedEvent)event).mouseEvent.getPoint() );
-//			logger.info( "picking: " + point);
+			logger.info( event );
+			logger.info( null == ((MouseClickedEvent)event).mouseEvent );
+			logger.info( ((MouseClickedEvent)event).mouseEvent.getPoint() );
+			Vector4d point = calc3DMousePoint( ((MouseClickedEvent)event).mouseEvent.getPoint() );
+			logger.info( "picking: " + point);
 			break;
 		}
 	}
@@ -244,6 +252,14 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 		
 	}
 
+	// raypicking
+	
+//	public Vector4d calcPickRay( int mouseX, int mouseY ) {
+//		
+//	}
+	Vector4d P1 = new Vector4d( 0,0,0,0 );
+	Vector4d P2 = new Vector4d( 1,1,1,0 );
+	
 	public Vector4d calc3DMousePoint(Point p) {
 		DoubleBuffer point1 = DoubleBuffer.allocate(3);
 		DoubleBuffer point2 = DoubleBuffer
@@ -256,8 +272,9 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 				proj, view, point2);
 		if (!p1 & !p2)
 			return null;
-		Vector4d P1 = new Vector4d( point1.array() );
-		Vector4d P2 = new Vector4d( point2.array() );
+		P1 = new Vector4d( point1.array() );
+		P2 = new Vector4d( point2.array() );
+		
 		
 		// Click Ray
 		Vector4d P1P2 = new Vector4d();

@@ -23,8 +23,6 @@ public class Packet extends ASimObject {
 
 	private static int displayListId = -1;
 	
-	private static TextRenderer textRenderer = new TextRenderer( new Font("Times New Roman", Font.PLAIN, 130 ), true, true );
-	
 	private double position = Math.random()*360;
 	
 	private void drawText(GL gl, String text, double angle, double x, double y, double z, Vector3d move) {
@@ -100,6 +98,7 @@ public class Packet extends ASimObject {
 	}
 	
 	public void preRenderObject( GL gl ) {
+		requireTextRenderer();
 		displayListId = gl.glGenLists( 1 );
 		gl.glNewList( displayListId, GL.GL_COMPILE );
 			glut.glutSolidSphere(.15f, 6, 6);

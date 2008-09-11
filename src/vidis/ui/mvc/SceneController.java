@@ -49,6 +49,7 @@ public class SceneController extends AController implements GLEventListener {
 	
 	private GLCanvas canvas;
 	
+	private boolean wireframe = false;
 	
 	/**
 	 * Used to animate the scene
@@ -216,8 +217,9 @@ public class SceneController extends AController implements GLEventListener {
 			gl.glPopMatrix();
 		}
 		else {
-			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
-			
+			if ( wireframe ) {
+				gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
+			}
 //			for ( RenderPass p : RenderPass.values()) {
 //				p.setup(gl);
 				// MODEL  with draw order:

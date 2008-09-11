@@ -45,14 +45,14 @@ public interface Graph extends Serializable {
    *
    * @return  An iterator of List vertices.
    */
-  public Iterator getVerticesIterator();
+  public Iterator<Vertex> getVerticesIterator();
 
   /**
    * Returns a clone of the List of vertices.
    *
    * @return  A clone of the List of vertices.
    */
-  public List cloneVertices();
+  public List<Vertex> cloneVertices();
 
   /**
    * Returns <code>true</code> if there is an edge from v1 to v2.
@@ -144,7 +144,7 @@ public interface Graph extends Serializable {
    *
    * @return  A collection containing all vertices.
    */
-  public List getVertices();
+  public List<Vertex> getVertices();
 
   /**
    * Returns all vertices with the specified degree.
@@ -152,7 +152,7 @@ public interface Graph extends Serializable {
    * @param   degree    The degree of the vertex to be returned.
    * @return  A collection of vertices with the above specified degree.
    */
-  public Set getVertices( int degree );
+  public Set<Vertex> getVertices( int degree );
 
   // ---------------------- Adjacency methods
   /**
@@ -161,14 +161,14 @@ public interface Graph extends Serializable {
    * @param   v   The vertex whose edges we want returned
    * @return  A List of Edges that are incident edges of the specified vertex.
    */
-  public List getEdges( Vertex v );
+  public List<Edge> getEdges( Vertex v );
 
   /**
    * Returns a List of all edges in the graph.
    *
    * @return  A List of all Edges in the Graph.
    */
-  public Set getAllEdges();
+  public Set<Edge> getAllEdges();
 
   /**
     * Returns the vertices adjacent to the specified vertex.
@@ -176,7 +176,7 @@ public interface Graph extends Serializable {
     * @param		v	The Vertex you want to determine its adjacent vertices.
     * @return	  List of vertices adjacent to the specified vertex v.
     */
-  public List getAdjacentVertices( Vertex v );
+  public List<Vertex> getAdjacentVertices( Vertex v );
 
   /**
     * Returns the vertices adjacent to the specified vertex where the connecting
@@ -186,7 +186,7 @@ public interface Graph extends Serializable {
     * @param  v	  The Vertex you want to determine its adjacent vertices.
     * @return	  List of vertices adjacent to the specified vertex v.
     */
-  public List getIncomingAdjacentVertices( Vertex v );
+  public List<Vertex> getIncomingAdjacentVertices( Vertex v );
 
   /**
     * Returns the vertices adjacent to the specified vertex where the connecting
@@ -196,7 +196,7 @@ public interface Graph extends Serializable {
     * @param  v   The Vertex you want to determine its adjacent vertices.
     * @return	  List of vertices adjacent to the specified vertex v.
     */
-  public List getOutgoingAdjacentVertices( Vertex v );
+  public List<Vertex> getOutgoingAdjacentVertices( Vertex v );
 
   /**
     * Returns the vertices adjacent to all the vertices in the given collection.
@@ -205,7 +205,7 @@ public interface Graph extends Serializable {
     *                               must be adjacent to.
     * @return	  Set of vertices adjacent to all the vertices in the supplied List.
     */
-  public Set getAdjacentVertices( List vertices );
+  public Set<Vertex> getAdjacentVertices( List<Vertex> vertices );
 
   /**
    * Determines if there is a path from Vertex fromVertex to Vertex toVertex.

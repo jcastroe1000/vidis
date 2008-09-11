@@ -1,7 +1,5 @@
 package vidis.ui.model.impl;
 
-import java.awt.Font;
-
 import javax.media.opengl.GL;
 import javax.vecmath.Vector3d;
 
@@ -10,8 +8,6 @@ import vidis.data.var.IVariableContainer;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.model.structure.ASimObject;
 
-import com.sun.opengl.util.j2d.TextRenderer;
-
 public class Node extends ASimObject {
 	
 	public Node(IVariableContainer c) {
@@ -19,8 +15,6 @@ public class Node extends ASimObject {
 	}
 	
 	private static int displayListId = -1;
-	
-	private static TextRenderer textRenderer = new TextRenderer( new Font("Times New Roman", Font.PLAIN, 130 ), true, true );
 
 	private void drawText(GL gl, String text, double angle, double x, double y, double z, Vector3d move) {
 		gl.glPushMatrix();
@@ -75,6 +69,7 @@ public class Node extends ASimObject {
 	}
 	
 	public void preRenderObject(GL gl) {
+		requireTextRenderer();
 		gl.glNewList( displayListId, GL.GL_COMPILE );
 			glut.glutSolidSphere(0.5, 20, 20);
 		gl.glEndList();
