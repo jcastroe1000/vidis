@@ -208,6 +208,10 @@ public class SceneController extends AController implements GLEventListener {
 			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_FILL );
 			
 			ShaderFactory.removeAllPrograms(gl);
+			
+			// FIXME just for debug, remove later
+			new Axis().render(gl);
+			
 			gl.glPushMatrix();
 			for ( IVisObject o : objects ) {
 				if ( o instanceof IGuiContainer ) {
