@@ -8,9 +8,12 @@ import javax.vecmath.Point2d;
 
 import org.apache.log4j.Logger;
 
+import com.sun.opengl.util.j2d.TextRenderer;
+
 import vidis.ui.events.AEventHandler;
 import vidis.ui.events.GuiMouseEvent;
 import vidis.ui.events.IVidisEvent;
+import vidis.util.ResourceManager;
 
 
 public abstract class AGuiContainer extends AEventHandler implements IGuiContainer {
@@ -18,12 +21,24 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	private static Logger logger = Logger.getLogger( AGuiContainer.class );	
 	
 	
+	protected TextRenderer textRenderer;
+	
 	protected ILayout layout = null;
 	private double height;
 	private double width;
 	private double x;
 	private double y;
 	
+	protected void requireTextRenderer() {
+		if ( textRenderer == null ) {
+			try {
+				textRenderer = new TextRenderer( ResourceManager.getFont( ResourceManager.FONT_VERDANA, 130 ) );
+			}
+			catch ( Exception e ) {
+				logger.error( "error initializing TextRenderer", e );
+			}
+		}
+	}
 	
 	public void setLayout( ILayout layout ) {
 		this.layout = layout;
