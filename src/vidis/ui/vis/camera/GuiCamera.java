@@ -59,7 +59,7 @@ public class GuiCamera extends AEventHandler implements ICamera {
 	public void applyProjectionMatrix(GL gl) {
 		GLU glu = new GLU();
 	
-		glu.gluOrtho2D( left, right, bottom, top );
+		glu.gluOrtho2D( left, right, top, bottom );
 //		System.out.println("aspect="+aspect+", gluOrtho2d( "+left+", "+right+", "+bottom+", "+top+" )");
 	}
 	public void applyViewMatrix(GL gl) {
