@@ -1,15 +1,18 @@
 package vidis.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import javax.vecmath.Point3d;
+import javax.vecmath.Vector3d;
 
 import vidis.data.sim.SimLink;
 import vidis.data.sim.SimNode;
 import vidis.data.var.AVariable;
+import vidis.data.var.vars.DefaultVariable;
 import vidis.util.graphs.graph.Vertex;
 import vidis.util.graphs.graph.WeightedGraph;
 import vidis.util.graphs.graph.WeightedGraphImpl;
@@ -92,57 +95,17 @@ public class SafeGenerator {
 		d = density * (dMax - aMin) + dMin;
 	}
 
-	public static boolean detectCollision(SimLink link1, SimLink link2) {
-		// TODO .. quite buggy, don't know why not working!
-		Point3d l1_start, l1_end, l2_start, l2_end;
-		l1_start = (Point3d) (link1.getNodeASim().getVariableById(AVariable.COMMON_IDENTIFIERS.POSITION).getData());
-		l1_end = (Point3d) (link1.getNodeBSim().getVariableById(AVariable.COMMON_IDENTIFIERS.POSITION).getData());
-		l2_start = (Point3d) (link2.getNodeASim().getVariableById(AVariable.COMMON_IDENTIFIERS.POSITION).getData());
-		l2_end = (Point3d) (link2.getNodeBSim().getVariableById(AVariable.COMMON_IDENTIFIERS.POSITION).getData());
-
-		double l1_b = (l1_start.x - l1_end.x) / (l1_start.z - l1_end.z);
-		double l1_c = l1_start.z / (l1_b * l1_start.x);
-
-		double l2_b = (l2_start.x - l2_end.x) / (l2_start.z - l2_end.z);
-		double l2_c = l2_start.z / (l2_b * l2_start.x);
-
-		double tmp = l1_b - l2_b;
-		if (tmp != 0) {
-			double s_x = (l2_c - l1_c) / (tmp);
-			double s_z = (l1_b * l2_c - l2_b * l1_c) / (tmp);
-			double l1_x_min = Math.min(l1_start.x, l1_end.x);
-			double l1_x_max = Math.max(l1_start.x, l1_end.x);
-			double l2_x_min = Math.min(l2_start.x, l2_end.x);
-			double l2_x_max = Math.max(l2_start.x, l2_end.x);
-			double l1_z_min = Math.min(l1_start.z, l1_end.z);
-			double l1_z_max = Math.max(l1_start.z, l1_end.z);
-			double l2_z_min = Math.min(l2_start.z, l2_end.z);
-			double l2_z_max = Math.max(l2_start.z, l2_end.z);
-			if (s_x > l1_x_min && s_x < l1_x_max) {
-				if (s_x > l2_x_min && s_x < l2_x_max) {
-					if (s_z > l1_z_min && s_z < l1_z_max) {
-						if (s_z > l2_z_min && s_z < l2_z_max) {
-							return true;
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
-	
 	/**
 	 * generate positions using the nodes, checking their connections and
 	 * then applying some fancy algorithm over a adjacence matrix
 	 * @param nodes a list of nodes (THAT MUST BE CONNECTED)
 	 * @return mapping for node to a unique point in the universe
 	 */
-	public static Map<SimNode, Point3d> generateByDistance(List<SimNode> nodes) throws Exception {
-		Map<SimNode, Point3d> mapping = new HashMap<SimNode, Point3d>();
-		
+	public static void generateByDistance(List<SimNode> nodes) throws Exception {
 		// init graph
 		WeightedGraph graph = new WeightedGraphImpl( false );
 		
+		// init vertices
 		Map<SimNode, Vertex> vertices = new HashMap<SimNode, Vertex>();
 		for(int i=0; i<nodes.size(); i++) {
 			SimNode node_a = nodes.get(i);
@@ -165,26 +128,22 @@ public class SafeGenerator {
 				}
 			}
 		}
-
-		System.out.println("************ Ungerichteter Graph ******************");
-		System.out.println("Graph:\n" + graph);
+		
+		// execute dijkstra on it
 		ShortestPathAlgorithm spa = new ShortestPathAlgorithmDijkstra( graph, new HeapNodeComparator(-1) );
+		
 		for(int i=0; i<nodes.size(); i++) {
 			SimNode a = nodes.get(i);
 			for(int j=0; j<nodes.size(); j++) {
 				SimNode b = nodes.get(j);
-				System.err.println("distance{"+a+","+b+"}="+spa.getDistance(vertices.get(a), vertices.get(b)));
+				if(i != j) {
+					List path = spa.getShortestPath(vertices.get(a), vertices.get(b));
+					if(path != null) {
+						// FIXME find fine and nice positions for the variables
+					}
+				}
 			}
 		}
-		/*
-		System.out.println("************ Dijkstra ******************");
-		ShortestPathAlgorithm spa = new ShortestPathAlgorithmDijkstra( graph, new HeapNodeComparator(-1) );
-		WeightedGraph shortestPathTree = spa.shortestPath( vertices.get(0) );
-		System.out.println("Shortest Path Tree:\n" + shortestPathTree);
-		System.out.println("Distance between vertex "+vertices.get(0)+" and "+vertices.get(2)+": " + spa.getDistance( vertices.get(0), vertices.get(2) ));
-		System.out.println("Longest distance in shortest path tree: " + spa.getLongestDistance( vertices.get(0) ));
-		*/
-		return mapping;
 	}
 
 	private static SimLink generateByDistance_getConnectedLink(SimNode node_a, SimNode node_b) {
