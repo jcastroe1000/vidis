@@ -62,31 +62,33 @@ public class Packet extends ASimObject {
 				textRenderer.end3DRendering();
 			gl.glPopMatrix();
 		}*/
-		String text = "test";
+		String text = "";
 		try {
 			// add text
 			text = getVariableById(AVariable.COMMON_IDENTIFIERS.NAME).getData().toString();
 		} catch (NullPointerException e) {
 			// may happen, but if, don't care
-			try {
-				text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
-			} catch (NullPointerException e2) {
-				text = getVariableContainer().toString();
-			}
+//			try {
+//				text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
+//			} catch (NullPointerException e2) {
+//				text = getVariableContainer().toString();
+//			}
 		} finally {
-			gl.glPushMatrix();
-				// rotate the whole thingy by 180 (future rotate by 180 AND camera angle)
-				gl.glRotated(180, 0, 1, 0);
-				drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
-	//			// front
-	//			drawText(gl, text, 0, 0, 1, 0, new Vector3d(scale,0,scale*1));
-	//			// right
-	//			drawText(gl, text, 90, 0, 1, 0, new Vector3d(scale*-1,0,-scale));
-	//			// back
-	//			drawText(gl, text, 180, 0, 1, 0, new Vector3d(-scale,0,scale*-1));
-	//			// left
-	//			drawText(gl, text, 270, 0, 1, 0, new Vector3d(scale*1,0,scale));
-			gl.glPopMatrix();
+			if(text.length() > 0) {
+				gl.glPushMatrix();
+					// rotate the whole thingy by 180 (future rotate by 180 AND camera angle)
+					gl.glRotated(180, 0, 1, 0);
+					drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
+		//			// front
+		//			drawText(gl, text, 0, 0, 1, 0, new Vector3d(scale,0,scale*1));
+		//			// right
+		//			drawText(gl, text, 90, 0, 1, 0, new Vector3d(scale*-1,0,-scale));
+		//			// back
+		//			drawText(gl, text, 180, 0, 1, 0, new Vector3d(-scale,0,scale*-1));
+		//			// left
+		//			drawText(gl, text, 270, 0, 1, 0, new Vector3d(scale*1,0,scale));
+				gl.glPopMatrix();
+			}
 		}
 		// set color
 		gl.glColor4d( 1, 0, 1, 0 );
