@@ -243,9 +243,9 @@ public class Link extends ASimObject {
 				0,	1,	
 				12,	3, 
 				buf);
-		gl.glMapGrid2f( 4, 0.0f, 1.0f, segments, 0.0f, 1.0f);
+		gl.glMapGrid2f( 3, 0.0f, 1.0f, segments, 0.0f, 1.0f);
 		gl.glPushMatrix();
-			gl.glEvalMesh2( GL.GL_FILL, 0, 4, 0, segments);
+			gl.glEvalMesh2( GL.GL_FILL, 0, 3, 0, segments);
 		gl.glPopMatrix();
 	}
 	
@@ -253,7 +253,7 @@ public class Link extends ASimObject {
 		// calc axis
 			Vector3d AB = new Vector3d( pointB );
 			AB.sub( pointA );
-			segments = (int) Math.round( 20 * AB.length() );
+			segments = (int) Math.round( 5 * AB.length() );
 			AB.normalize();
 			
 			right = VecUtil.cross( AB, up );

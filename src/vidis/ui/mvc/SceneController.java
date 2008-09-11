@@ -8,6 +8,7 @@ import java.util.List;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
+import javax.media.opengl.GLContext;
 import javax.media.opengl.GLEventListener;
 
 import org.apache.log4j.Logger;
@@ -203,6 +204,8 @@ public class SceneController extends AController implements GLEventListener {
 
 	private void drawModel( GL gl, ICamera c ) {
 		if ( c instanceof GuiCamera) {
+			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_FILL );
+			
 			ShaderFactory.removeAllPrograms(gl);
 			gl.glPushMatrix();
 			for ( IVisObject o : objects ) {
@@ -213,6 +216,8 @@ public class SceneController extends AController implements GLEventListener {
 			gl.glPopMatrix();
 		}
 		else {
+			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
+			
 //			for ( RenderPass p : RenderPass.values()) {
 //				p.setup(gl);
 				// MODEL  with draw order:
@@ -286,6 +291,7 @@ public class SceneController extends AController implements GLEventListener {
 	public void init(GLAutoDrawable drawable) {
 		glLogger.debug( "init()" );
 		final GL gl = drawable.getGL();
+		
 		
 		// enable / disable some global stuff
 		ShaderFactory.init(gl);
