@@ -41,11 +41,11 @@ public class SimulatorController extends AController {
 //		sim.importSimFile( ResourceManager.getModuleFile("demo", "simpledemo.msim") );
 //		sim.importSimFile( ResourceManager.getModuleFile("flooding", "flood1.msim") );
 //		sim.importSimFile( ResourceManager.getModuleFile("flooding", "v1.msim") );
-//		sim.importSimFile( ResourceManager.getModuleFile("vartest", "onenode.msim") );
+		sim.importSimFile( ResourceManager.getModuleFile("vartest", "onenode.msim") );
 //		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "simple.msim") );
 //		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "complex.msim") );
 //		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "veryComplex.msim") );
-		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "veryComplexLoose.msim") );
+//		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "veryComplexLoose.msim") );
 	}
 
 }

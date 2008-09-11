@@ -148,6 +148,9 @@ public class GuiCamera extends AEventHandler implements ICamera {
 	public void handleEvent(IVidisEvent event) {
 		switch (event.getID()) {
 		case IVidisEvent.MouseClickedEvent:
+			logger.info( ((MouseClickedEvent)event).mouseEvent );
+			logger.info( null == ((MouseClickedEvent)event).mouseEvent );
+			logger.info( ((MouseClickedEvent)event).mouseEvent.getPoint() );
 			handleMouseClickedEvent( (MouseClickedEvent) event);
 			break;
 		}

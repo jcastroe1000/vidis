@@ -6,8 +6,9 @@ import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 
 import javax.media.opengl.GL;
-import javax.media.opengl.GLContext;
 import javax.media.opengl.glu.GLU;
+import javax.vecmath.Point4d;
+import javax.vecmath.Vector3d;
 import javax.vecmath.Vector4d;
 
 import org.apache.log4j.Logger;
@@ -17,6 +18,7 @@ import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.events.StartEvent;
 import vidis.ui.events.StopEvent;
+import vidis.ui.mvc.api.Dispatcher;
 
 public class DefaultCamera extends AEventHandler implements ICamera {
 	private static Logger logger = Logger.getLogger( DefaultCamera.class );
@@ -74,9 +76,10 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 	public void applyProjectionMatrix(GL gl) {
 		GLU glu = new GLU();
 		glu.gluPerspective( 30, (double) target.getWidth() / (double) target.getHeight(), 1.0, 90.0);
-		glu.gluLookAt( 0, 5*zoom, -10*zoom, 0, 0, 0, 0, 1*zoom, 0);
+		glu.gluLookAt( 0, 5*zoom, -10*zoom, 0, 0, 0, 0, 1, 0);
 	}
 	public void applyViewMatrix(GL gl) {
+		gl.glScaled(-1, 1, 1);
 		double realX, realZ;
 		realX = posx;
 		//realY = zoom;
@@ -195,11 +198,15 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 			}
 			break;
 		case IVidisEvent.MouseClickedEvent:
-			logger.info( event );
-			logger.info( null == ((MouseClickedEvent)event).mouseEvent );
-			logger.info( ((MouseClickedEvent)event).mouseEvent.getPoint() );
-			Vector4d point = calc3DMousePoint( ((MouseClickedEvent)event).mouseEvent.getPoint() );
-			logger.info( "picking: " + point);
+			try {
+			if ( ((MouseClickedEvent)event).ray == null ) {
+				calc3DMousePoint( ((MouseClickedEvent)event) );
+				Dispatcher.forwardEvent( event );
+			}
+			}
+			catch ( Exception e ) {
+				logger.error( "exception", e );
+			}
 			break;
 		}
 	}
@@ -212,10 +219,10 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 			this.posz-=step;
 		}
 		if ( scrollLeft ) {
-			this.posx-=step;
+			this.posx+=step;
 		}
 		if ( scrollRight ) {
-			this.posx+=step;
+			this.posx-=step;
 		}
 		if ( zoomIn ) {
 			if(zoom > 0.4)
@@ -257,28 +264,30 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 //	public Vector4d calcPickRay( int mouseX, int mouseY ) {
 //		
 //	}
-	Vector4d P1 = new Vector4d( 0,0,0,0 );
-	Vector4d P2 = new Vector4d( 1,1,1,0 );
+	Vector3d P1 = new Vector3d( 0,0,0 );
+	Vector3d P2 = new Vector3d( 1,1,1 );
 	
-	public Vector4d calc3DMousePoint(Point p) {
+	public Vector4d calc3DMousePoint( MouseClickedEvent e ) {
+		Point p = e.mouseEvent.getPoint();
 		DoubleBuffer point1 = DoubleBuffer.allocate(3);
 		DoubleBuffer point2 = DoubleBuffer
 				.allocate(3);
 		boolean p1, p2;
-		GLU glu = new GLU();
+		GLU glu = new GLU(); 
 		p1 = glu.gluUnProject(p.getX(), view.get(3) - p.getY() - 1, 0.0, model,
 				proj, view, point1);
 		p2 = glu.gluUnProject(p.getX(), view.get(3) - p.getY() - 1, 1.0, model,
 				proj, view, point2);
 		if (!p1 & !p2)
 			return null;
-		P1 = new Vector4d( point1.array() );
-		P2 = new Vector4d( point2.array() );
+		P1 = new Vector3d( point1.array() );
+		P2 = new Vector3d( point2.array() );
 		
-		
+		Vector4d Px1 = new Vector4d( P1.x, P1.y, P1.z, 0 );
+		Vector4d Px2 = new Vector4d( P2.x, P2.y, P2.z, 0 );
 		// Click Ray
 		Vector4d P1P2 = new Vector4d();
-		P1P2.sub( P2, P1 );
+		P1P2.sub( Px2, Px1 );
 
 		Vector4d E0 = new Vector4d(0, 0, 0, 1);
 		Vector4d EX = new Vector4d(1, 0, 0, 1);
@@ -315,7 +324,9 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 		Vector4d mul = new Vector4d();
 		mul.scale(y, P1P2);
 		Vector4d ret = new Vector4d();
-		ret.add( P1, mul);
+		ret.add( Px1, mul);
+		e.ray = ret;
+		e.rayOrigin = new Point4d( Px1 );
 		return ret;
 	}
 	

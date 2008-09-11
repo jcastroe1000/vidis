@@ -1,6 +1,7 @@
 package vidis.ui.model.structure;
 
 import javax.media.opengl.GL;
+import javax.vecmath.Point3d;
 
 import com.sun.opengl.util.GLUT;
 

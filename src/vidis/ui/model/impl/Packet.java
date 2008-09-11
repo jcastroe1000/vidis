@@ -1,8 +1,7 @@
 package vidis.ui.model.impl;
 
-import java.awt.Font;
-
 import javax.media.opengl.GL;
+import javax.vecmath.Point3d;
 import javax.vecmath.Tuple3d;
 import javax.vecmath.Vector3d;
 
@@ -10,8 +9,6 @@ import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.model.structure.ASimObject;
-
-import com.sun.opengl.util.j2d.TextRenderer;
 
 
 public class Packet extends ASimObject {
@@ -110,10 +107,10 @@ public class Packet extends ASimObject {
 		
 	}
 
-	public Vector3d getPosition() {
+	public Point3d getPosition() {
 		try {
 			Tuple3d pos = (Tuple3d) getVariableById( AVariable.COMMON_IDENTIFIERS.POSITION ).getData();
-			return new Vector3d( pos );
+			return new Point3d( pos );
 		}
 		catch ( Exception e ) {
 			return null;

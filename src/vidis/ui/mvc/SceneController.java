@@ -8,19 +8,24 @@ import java.util.List;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
-import javax.media.opengl.GLContext;
 import javax.media.opengl.GLEventListener;
+import javax.vecmath.Point3d;
+import javax.vecmath.Point4d;
+import javax.vecmath.Vector3d;
+import javax.vecmath.Vector4d;
 
 import org.apache.log4j.Logger;
 
 import vidis.ui.events.CameraEvent;
 import vidis.ui.events.IVidisEvent;
+import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.events.ObjectEvent;
 import vidis.ui.events.VidisEvent;
 import vidis.ui.input.InputListener;
 import vidis.ui.model.impl.Link;
 import vidis.ui.model.impl.Node;
 import vidis.ui.model.impl.Packet;
+import vidis.ui.model.structure.ASimObject;
 import vidis.ui.model.structure.IGuiContainer;
 import vidis.ui.model.structure.IVisObject;
 import vidis.ui.mvc.api.AController;
@@ -76,6 +81,8 @@ public class SceneController extends AController implements GLEventListener {
 		registerEvent( IVidisEvent.ObjectRegister, 
 					   IVidisEvent.ObjectUnregister );
 		
+		registerEvent( IVidisEvent.MouseClickedEvent );
+		
 	}
 	
 	@Override
@@ -100,6 +107,12 @@ public class SceneController extends AController implements GLEventListener {
 			break;
 		case IVidisEvent.ObjectUnregister:
 			unregisterObject( ((ObjectEvent)event).getObject() );
+			break;
+		case IVidisEvent.MouseClickedEvent:
+			if ( ((MouseClickedEvent)event).ray != null ) {
+				logger.info("handling Mouse event");
+				handleMouseEvent( (MouseClickedEvent)event );
+			}
 			break;
 		}	
 		forwardEventToChilds( event );
@@ -224,6 +237,12 @@ public class SceneController extends AController implements GLEventListener {
 			if ( wireframe ) {
 				gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
 			}
+			if ( P != null && A != null ) {
+				gl.glBegin( GL.GL_LINES );
+					gl.glVertex3d( A.x, A.y, A.z );
+					gl.glVertex3d( P.x, P.y, P.z );
+				gl.glEnd();
+			}
 //			for ( RenderPass p : RenderPass.values()) {
 //				p.setup(gl);
 				// MODEL  with draw order:
@@ -342,5 +361,47 @@ public class SceneController extends AController implements GLEventListener {
 		synchronized ( objectsToAdd ) {
 			objectsToDel.add( o );
 		}
+	}
+	
+	public synchronized List<IVisObject> getRegisteredObjects() {
+		return new ArrayList<IVisObject>( objects );
+	}
+	
+	Point3d P;
+	Point3d A;
+	private void handleMouseEvent( MouseClickedEvent e ) {
+		A = new Point3d( e.rayOrigin.x, e.rayOrigin.y, e.rayOrigin.z );
+		Vector3d g = new Vector3d ( e.ray.x, e.ray.y, e.ray.z ) ;
+		//g.normalize();
+
+		List<IVisObject> obj = getRegisteredObjects();
+		Vector3d AP = new Vector3d();
+		Vector3d dist = new Vector3d();
+		for ( IVisObject o : obj ) {
+			if ( o instanceof ASimObject ) {
+				try { 
+					P = ((ASimObject)o).getPosition();
+					
+					AP.sub( P, A );
+					double l1 = AP.length();
+					dist.set( 
+							g.y*AP.z - g.z*AP.y,
+							g.z*AP.x - g.x*AP.z,
+							g.x*AP.y - g.y*AP.x);
+					double l = dist.length();
+					logger.info( o + " was "+ l + " away " + l1);
+					if ( l < 1) {
+						((ASimObject)o).hit();
+					}
+				}
+				catch ( Exception ex ) {
+					logger.debug( "0815 error", ex );
+				}
+			}
+			else {
+				logger.info( o + " was wrong" );
+			}
+		}
+		
 	}
 }

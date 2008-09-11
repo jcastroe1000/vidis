@@ -3,8 +3,8 @@ package vidis.ui.events;
 import java.awt.event.MouseEvent;
 
 import javax.vecmath.Point2d;
-import javax.vecmath.Point3d;
-import javax.vecmath.Vector3d;
+import javax.vecmath.Point4d;
+import javax.vecmath.Vector4d;
 
 public class MouseClickedEvent extends AMouseEvent {
 
@@ -12,10 +12,8 @@ public class MouseClickedEvent extends AMouseEvent {
 		super(m);
 	}
 
-	public MouseEvent mouseEvent;
-	
-	public Point3d rayOrigin; // ?
-	public Vector3d ray; // ?
+	public Point4d rayOrigin; // ?
+	public Vector4d ray; // ?
 	public Point2d guiCoords; 
 	
 	public int getID() {

@@ -59,6 +59,10 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 		return pointM;
 	}
 	
+	public Point3d getPosition() {
+		return new Point3d( (Tuple3d)getVariableById( AVariable.COMMON_IDENTIFIERS.POSITION ).getData() );
+	}
+	
 	public void render( GL gl ) {
 		gl.glPushMatrix();
 		try {
@@ -81,6 +85,13 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	
 	protected IVariableContainer getVariableContainer() {
 		return obj;
+	}
+
+	/**
+	 * TEMP FUNCTION <DELME>
+	 */
+	public void hit() {
+		logger.info( "I GOT HIT" );
 	}
 
 }

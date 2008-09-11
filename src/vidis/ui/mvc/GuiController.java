@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import vidis.ui.events.CameraEvent;
 import vidis.ui.events.IVidisEvent;
+import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.events.ObjectEvent;
 import vidis.ui.events.VidisEvent;
 import vidis.ui.gui.Gui;
@@ -39,7 +40,9 @@ public class GuiController extends AController {
 			initialize();
 			break;
 		case IVidisEvent.MouseClickedEvent:
-			guiCamera.fireEvent( event );
+			if ( ((MouseClickedEvent)event).ray == null ) {
+				guiCamera.fireEvent( event );
+			}
 			break;
 		case IVidisEvent.FPS:
 			String fps = ((VidisEvent)event).getData().toString();
