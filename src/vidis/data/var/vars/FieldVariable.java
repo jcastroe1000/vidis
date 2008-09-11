@@ -2,8 +2,6 @@ package vidis.data.var.vars;
 
 import java.lang.reflect.Field;
 
-import vidis.util.Logger;
-import vidis.util.Logger.LogLevel;
 import vidis.data.annotation.DisplayType;
 import vidis.data.var.AVariable;
 
@@ -34,7 +32,7 @@ public class FieldVariable extends AVariable {
 			// tmp = field.invoke(object, arguments);
 			return invoke().toString();
 		} catch (IllegalArgumentException e) {
-			Logger.output(LogLevel.ERROR, this, e);
+			//Logger.output(LogLevel.ERROR, this, e);
 			return e.getMessage();
 		} catch (IllegalAccessException e) {
 			return "field is not public!";
