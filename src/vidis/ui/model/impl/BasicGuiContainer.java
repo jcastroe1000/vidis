@@ -7,8 +7,6 @@ import javax.media.opengl.GL;
 import vidis.ui.model.structure.AGuiContainer;
 import vidis.util.ColorGenerator;
 
-import com.sun.opengl.util.GLUT;
-
 public class BasicGuiContainer extends AGuiContainer {
 
 	private boolean opaque = true;
