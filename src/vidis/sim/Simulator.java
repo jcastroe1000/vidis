@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -219,6 +220,13 @@ public class Simulator {
 
 		// connect nodes via links
 		generateSimNode_SimLink_connections(nodes, links, reader.getDocument());
+		
+		// calculate nice positions
+		try {
+			SafeGenerator.generateByDistance(new ArrayList<SimNode>(nodes.values()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		// for (String id_1 : links.keySet()) {
 		// SimLink l_1 = links.get(id_1);
@@ -245,11 +253,15 @@ public class Simulator {
 			if (link != null) {
 				SimNode nodeA = nodes.get(documentConnection.getNodeA().getId());
 				SimNode nodeB = nodes.get(documentConnection.getNodeB().getId());
-				link.connect(nodeA, nodeB);
-				nodeA.addConnection(link);
-				nodeB.addConnection(link);
-				// register a connected link only
-				registerComponent(link);
+				if(link.isConnected()) {
+					System.err.println("TRYING TO MULTIPLE CONNECT THIS LINK: " + link + " TO ("+nodeA+","+nodeB+") IS ALREADY CONNECTED! PLEASE WATCH YOUR CONFIGURATION!");
+				} else {
+					link.connect(nodeA, nodeB);
+					nodeA.addConnection(link);
+					nodeB.addConnection(link);
+					// register a connected link only
+					registerComponent(link);
+				}
 			}
 		}
 	}

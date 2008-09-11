@@ -1,5 +1,6 @@
 package vidis.data.sim;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -253,5 +254,9 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
     public String getId() {
     	return getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
     }
+
+	public List<SimLink> getConnectedLinksSim() {
+		return new ArrayList<SimLink>(links.values());
+	}
     
 }

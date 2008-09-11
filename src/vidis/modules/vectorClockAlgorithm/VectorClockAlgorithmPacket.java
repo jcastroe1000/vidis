@@ -3,7 +3,6 @@ package vidis.modules.vectorClockAlgorithm;
 import vidis.data.AUserPacket;
 import vidis.data.annotation.ColorType;
 import vidis.data.annotation.ComponentColor;
-import vidis.data.annotation.Display;
 
 @ComponentColor(color = ColorType.LIGHT_GREY)
 public class VectorClockAlgorithmPacket extends AUserPacket {
@@ -15,7 +14,7 @@ public class VectorClockAlgorithmPacket extends AUserPacket {
     	return time;
     }
     
-    @Display(name="name")
+//    @Display(name="name")
     public String getName() {
     	return getTime().toString();
     }

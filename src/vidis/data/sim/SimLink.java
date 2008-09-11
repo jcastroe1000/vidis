@@ -10,17 +10,16 @@ import javax.vecmath.Vector3d;
 
 import org.apache.log4j.Logger;
 
+import vidis.data.mod.IUserLink;
+import vidis.data.mod.IUserNode;
+import vidis.data.var.AVariable;
 import vidis.sim.Simulator;
 import vidis.sim.exceptions.ObstructInitCallException;
 import vidis.sim.exceptions.ObstructInitRuntimeCallException;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.ObjectEvent;
 import vidis.ui.model.impl.Link;
-import vidis.ui.model.impl.Packet;
 import vidis.ui.mvc.api.Dispatcher;
-import vidis.data.mod.IUserLink;
-import vidis.data.mod.IUserNode;
-import vidis.data.var.AVariable;
 
 public class SimLink extends AComponent implements ISimLinkCon {
 	
@@ -83,10 +82,14 @@ public class SimLink extends AComponent implements ISimLinkCon {
     	this.delay = delay;
     }
     public void connect(SimNode a, SimNode b) {
-		this.a = a;
-		this.b = b;
-		ObjectEvent oe = new ObjectEvent( IVidisEvent.ObjectRegister, visObject );
-		Dispatcher.forwardEvent( oe );
+    	if(this.isConnected()) {
+    		logger.warn("tried to reconnect connected link " + this + " to {"+a+","+b+"}; error detected and prohibited!");
+    	} else {
+			this.a = a;
+			this.b = b;
+			ObjectEvent oe = new ObjectEvent( IVidisEvent.ObjectRegister, visObject );
+			Dispatcher.forwardEvent( oe );
+    	}
     }
 
     public void execute() {
@@ -381,4 +384,8 @@ public class SimLink extends AComponent implements ISimLinkCon {
     		return super.getVariableById(id);
     	}
     }
+
+	public boolean isConnected() {
+		return a != null || b != null;
+	}
 }

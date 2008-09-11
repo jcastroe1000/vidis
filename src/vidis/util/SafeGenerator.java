@@ -1,12 +1,21 @@
 package vidis.util;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.vecmath.Point3d;
 
 import vidis.data.sim.SimLink;
+import vidis.data.sim.SimNode;
 import vidis.data.var.AVariable;
+import vidis.util.graphs.graph.Vertex;
+import vidis.util.graphs.graph.WeightedGraph;
+import vidis.util.graphs.graph.WeightedGraphImpl;
+import vidis.util.graphs.graph.algorithm.ShortestPathAlgorithm;
+import vidis.util.graphs.graph.algorithm.ShortestPathAlgorithmDijkstra;
+import vidis.util.graphs.util.HeapNodeComparator;
 
 /**
  * very safe generator even safer for unsafe operations made safe xD
@@ -120,5 +129,73 @@ public class SafeGenerator {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * generate positions using the nodes, checking their connections and
+	 * then applying some fancy algorithm over a adjacence matrix
+	 * @param nodes a list of nodes (THAT MUST BE CONNECTED)
+	 * @return mapping for node to a unique point in the universe
+	 */
+	public static Map<SimNode, Point3d> generateByDistance(List<SimNode> nodes) throws Exception {
+		Map<SimNode, Point3d> mapping = new HashMap<SimNode, Point3d>();
+		
+		// init graph
+		WeightedGraph graph = new WeightedGraphImpl( false );
+		
+		Map<SimNode, Vertex> vertices = new HashMap<SimNode, Vertex>();
+		for(int i=0; i<nodes.size(); i++) {
+			SimNode node_a = nodes.get(i);
+			if(!vertices.containsKey(node_a)) {
+				Vertex vertex_a = new Vertex(node_a);
+				vertices.put(node_a, vertex_a);
+				graph.add(vertex_a);
+			}
+			for(int j=0; j<nodes.size(); j++) {
+				SimNode node_b = nodes.get(j);
+				if(!vertices.containsKey(node_b)) {
+					Vertex vertex_b = new Vertex(node_b);
+					vertices.put(node_b, vertex_b);
+					graph.add(vertex_b);
+				}
+				SimLink link = generateByDistance_getConnectedLink(node_a, node_b);
+				if(link != null) {
+					// fine, they are directly connected; set distance = link.getDelay()
+					graph.addEdge(vertices.get(node_a), vertices.get(node_b), link.getDelay());
+				}
+			}
+		}
+
+		System.out.println("************ Ungerichteter Graph ******************");
+		System.out.println("Graph:\n" + graph);
+		ShortestPathAlgorithm spa = new ShortestPathAlgorithmDijkstra( graph, new HeapNodeComparator(-1) );
+		for(int i=0; i<nodes.size(); i++) {
+			SimNode a = nodes.get(i);
+			for(int j=0; j<nodes.size(); j++) {
+				SimNode b = nodes.get(j);
+				System.err.println("distance{"+a+","+b+"}="+spa.getDistance(vertices.get(a), vertices.get(b)));
+			}
+		}
+		/*
+		System.out.println("************ Dijkstra ******************");
+		ShortestPathAlgorithm spa = new ShortestPathAlgorithmDijkstra( graph, new HeapNodeComparator(-1) );
+		WeightedGraph shortestPathTree = spa.shortestPath( vertices.get(0) );
+		System.out.println("Shortest Path Tree:\n" + shortestPathTree);
+		System.out.println("Distance between vertex "+vertices.get(0)+" and "+vertices.get(2)+": " + spa.getDistance( vertices.get(0), vertices.get(2) ));
+		System.out.println("Longest distance in shortest path tree: " + spa.getLongestDistance( vertices.get(0) ));
+		*/
+		return mapping;
+	}
+
+	private static SimLink generateByDistance_getConnectedLink(SimNode node_a, SimNode node_b) {
+		List<SimLink> node_a_links = node_a.getConnectedLinksSim();
+		for(int i=0; i<node_a_links.size(); i++) {
+			SimLink link = node_a_links.get(i);
+			SimNode tmp = link.getOtherNode(node_a);
+			if(tmp.equals(node_b)) {
+				return link;
+			}
+		}
+		return null;
 	}
 }
