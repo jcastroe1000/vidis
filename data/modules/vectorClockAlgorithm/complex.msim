@@ -105,6 +105,22 @@
 			</variables>
 			<delay>60</delay>
 		</link>
+		<link>
+			<id>link09</id>
+			<class>DefaultLink</class>
+			<variables>
+				<name>link09</name>
+			</variables>
+			<delay>60</delay>
+		</link>
+		<link>
+			<id>link10</id>
+			<class>DefaultLink</class>
+			<variables>
+				<name>link10</name>
+			</variables>
+			<delay>60</delay>
+		</link>
 
 	</objects>
 	<connections>
@@ -147,6 +163,16 @@
 			<nodeA>node04</nodeA>
 			<nodeB>node05</nodeB>
 			<link>link08</link>
+		</connection>
+		<connection>
+			<nodeA>node01</nodeA>
+			<nodeB>node08</nodeB>
+			<link>link09</link>
+		</connection>
+		<connection>
+			<nodeA>node02</nodeA>
+			<nodeB>node09</nodeB>
+			<link>link10</link>
 		</connection>
 	</connections>
 </module>
