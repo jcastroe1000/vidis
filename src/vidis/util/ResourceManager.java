@@ -137,9 +137,9 @@ public class ResourceManager {
 	public static String FONT_VERDANA_BOLD_ITALIC = "verdanaz.TTF";
 	public static String FONT_VERDANA_ITALIC = "verdanai.TTF";
 	
-	private Map<String, Font> fontCache = new HashMap<String, Font>();
+	private static Map<String, Font> fontCache = new HashMap<String, Font>();
 	
-	private Font createFont(String filename) throws FontFormatException, IOException {
+	private static Font createFont(String filename) throws FontFormatException, IOException {
 		Font font = Font.createFont(Font.TRUETYPE_FONT, new File(dataPath + pathSeperator + "resources" + pathSeperator + "fonts" + pathSeperator + filename));
 		return font;
 	}
@@ -151,7 +151,7 @@ public class ResourceManager {
 	 * @param filename
 	 * @return
 	 */
-	public Font getFont(String filename) throws FontFormatException, IOException {
+	public static Font getFont(String filename) throws FontFormatException, IOException {
 		Font font = fontCache.get( filename );
 		if ( font == null ) {
 			font = createFont( filename );
@@ -168,7 +168,7 @@ public class ResourceManager {
 	 * @param size
 	 * @return
 	 */
-	public Font getFont(String filename, float size) throws FontFormatException, IOException {
+	public static Font getFont(String filename, float size) throws FontFormatException, IOException {
 		return getFont( filename ).deriveFont( size );
 	}	
 
