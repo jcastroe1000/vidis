@@ -11,7 +11,7 @@ import vidis.data.var.vars.DefaultVariable;
  * @author Dominik
  *
  */
-public abstract class AGraphLayout {
+public abstract class AGraphLayout implements GraphLayout {
 	/**
 	 * set the position for a node
 	 * @param node the node to set the position

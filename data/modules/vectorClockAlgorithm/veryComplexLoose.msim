@@ -107,7 +107,7 @@
 			<variables>
 				<name>link0</name>
 			</variables>
-			<delay>3</delay>
+			<delay>1</delay>
 		</link>
 		<link>
 			<id>link01</id>
