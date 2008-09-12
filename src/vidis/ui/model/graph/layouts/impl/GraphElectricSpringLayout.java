@@ -1,7 +1,6 @@
-package vidis.util;
+package vidis.ui.model.graph.layouts.impl;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +10,7 @@ import javax.vecmath.Vector3d;
 import vidis.data.sim.SimLink;
 import vidis.data.sim.SimNode;
 import vidis.data.var.AVariable;
-import vidis.data.var.vars.DefaultVariable;
-import vidis.ui.model.graph.layouts.GraphLayout;
+import vidis.ui.model.graph.layouts.AGraphLayout;
 import vidis.util.graphs.graph.Vertex;
 import vidis.util.graphs.graph.WeightedGraph;
 import vidis.util.graphs.graph.WeightedGraphImpl;
@@ -21,90 +19,38 @@ import vidis.util.graphs.graph.algorithm.ShortestPathAlgorithmDijkstra;
 import vidis.util.graphs.util.HeapNodeComparator;
 
 /**
- * very safe generator even safer for unsafe operations made safe xD
+ * a very cool layout that uses a slightly modified electric spring
+ * algorithm to find nice positions for the nodes
  * 
- * @deprecated this class is deprecated, use a GraphLayout instead!
- * @see GraphLayout
- * @author dominik
- * 
+ * @author Dominik
+ *
  */
-@Deprecated
-public class SafeGenerator {
-	private static final double aMin = 0.15;
-	private static final double aMax = 1.0;
-	private static final double dMin = 1.0;
-	private static final double dMax = 6;
-	private static double a;
-	private static double d;
-	static {
-		setNodeDensity(.2);
+public class GraphElectricSpringLayout extends AGraphLayout {
+	private final double stiffnessMin = 0.1;
+	private final double stiffnessMax = 1.4;
+	private final double electricalRepulsionMin = 0.1;
+	private final double electricalRepulsionMax = 1.4;
+	private final double pingFactorMin = 0.3;
+	private final double pingFactorMax = 2;
+	// constants to be configured nicely
+	private double stiffness = 0.2;
+	private double electricalRepulsion = 0.2;
+	private double increment = 0.5; // just small increments
+	private double pingFactor = 0.4;
+	
+	public GraphElectricSpringLayout() {
+		setNodeDensity(0.1);
 	}
-	private static List<Point3d> points = new LinkedList<Point3d>();
-
-	private static double spirale_rt(double t) {
-		return a * t;
-	}
-
-	private static double spirale_st(double t) {
-		return a / 2 * (Math.log(Math.sqrt(t + 1) + 1) + t * Math.sqrt(t * t + 1));
-	}
-
-	private static double spirale_xt(double t) {
-		return spirale_rt(t) * Math.cos(t);
-	}
-
-	private static double spirale_yt(double t) {
-		return 0;
-	}
-
-	private static double spirale_zt(double t) {
-		return spirale_rt(t) * Math.sin(t);
-	}
-
-	/**
-	 * retrieve the next point for a node
-	 * 
-	 * @return a point3d
-	 */
-	public static Point3d nextNodePoint3d() {
-		Point3d tmp = new Point3d();
-		double pi64 = (Math.PI / 64);
-		// distance
-		double t = 0.0;
-		while (spirale_st(t) <= (points.size() + 1) * d) {
-			t += pi64;
-		}
-		tmp.x = spirale_xt(t);
-		tmp.y = spirale_yt(t);
-		tmp.z = spirale_zt(t);
-		points.add(tmp);
-		return tmp;
-	}
-
-	public static void reset() {
-		points.clear();
-	}
-
-	/**
-	 * the smaller the value, the more "dense" all points will be
-	 * 
-	 * @param density
-	 *          the density to set (double [0..1])
-	 */
-	public static void setNodeDensity(double density) {
+	
+	public void setNodeDensity(double density) {
 		density = Math.max(0.0, density);
 		density = Math.min(1.0, density);
-		a = density * (aMax - aMin) + aMin;
-		d = density * (dMax - aMin) + dMin;
+		stiffness = density * (stiffnessMax - stiffnessMin) + stiffnessMin;
+		electricalRepulsion = density * (electricalRepulsionMax - electricalRepulsionMin) + electricalRepulsionMin;
+		pingFactor = density *(pingFactorMax - pingFactorMin) + pingFactorMin;
 	}
-
-	/**
-	 * generate positions using the nodes, checking their connections and
-	 * then applying some fancy algorithm over a adjacence matrix
-	 * @param nodes a list of nodes (THAT MUST BE CONNECTED)
-	 * @return mapping for node to a unique point in the universe
-	 */
-	public static void generateByDistance(List<SimNode> nodes) throws Exception {
+	
+	public void apply(List<SimNode> nodes) throws Exception {
 		// init graph
 		WeightedGraph graph = new WeightedGraphImpl( false );
 		
@@ -153,13 +99,7 @@ public class SafeGenerator {
 		}
 	}
 	
-	private static double apply_electricSpringAlgorithm(ShortestPathAlgorithm spa, List<SimNode> nodes, Map<SimNode, Vertex> vertices, SimNode node) {
-		// constants to be configured nicely
-		double stiffness = 0.2;
-		double electricalRepulsion = 0.2;
-		double increment = 0.5; // just small increments
-		double pingFactor = 0.4;
-		
+	private double apply_electricSpringAlgorithm(ShortestPathAlgorithm spa, List<SimNode> nodes, Map<SimNode, Vertex> vertices, SimNode node) {
 		// temporary variables (are here so that they are not initialized too often)
 		double distance;
 		double spring;
@@ -234,12 +174,13 @@ public class SafeGenerator {
 		thisPos.add(forceVector);
 		
 		// store it into our variable system
-		((DefaultVariable)(node.getVariableById(AVariable.COMMON_IDENTIFIERS.POSITION))).update(thisPos);
+		//((DefaultVariable)(node.getVariableById(AVariable.COMMON_IDENTIFIERS.POSITION))).update(thisPos);
+		setPosition(node, thisPos);
 		
 		return forceVector.length();
 	}
-
-	private static SimLink generateByDistance_getConnectedLink(SimNode node_a, SimNode node_b) {
+	
+	private SimLink generateByDistance_getConnectedLink(SimNode node_a, SimNode node_b) {
 		List<SimLink> node_a_links = node_a.getConnectedLinksSim();
 		for(int i=0; i<node_a_links.size(); i++) {
 			SimLink link = node_a_links.get(i);
@@ -250,4 +191,5 @@ public class SafeGenerator {
 		}
 		return null;
 	}
+
 }

@@ -33,7 +33,7 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 	private double zoom;
 	/* the angle which we look down */
 	private double anglex = 0;
-	private double angley = 0;
+	private double angley = 180;
 	
 	/* Actions */
 	private boolean scrollLeft = false;
