@@ -11,6 +11,7 @@ import vidis.data.sim.SimLink;
 import vidis.data.sim.SimNode;
 import vidis.data.var.AVariable;
 import vidis.ui.model.graph.layouts.AGraphLayout;
+import vidis.ui.model.graph.layouts.GraphLayout;
 import vidis.util.graphs.graph.Vertex;
 import vidis.util.graphs.graph.WeightedGraph;
 import vidis.util.graphs.graph.WeightedGraphImpl;
@@ -38,8 +39,16 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 	private double increment = 0.5; // just small increments
 	private double pingFactor = 0.4;
 	
-	public GraphElectricSpringLayout() {
+	private GraphElectricSpringLayout() {
 		setNodeDensity(0.1);
+	}
+	
+	private static GraphLayout instance = null;
+	
+	public static GraphLayout getInstance() {
+		if(instance == null)
+			instance = new GraphElectricSpringLayout();
+		return instance;
 	}
 	
 	public void setNodeDensity(double density) {
@@ -51,6 +60,9 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 	}
 	
 	public void apply(List<SimNode> nodes) throws Exception {
+		// init position vars if not available
+		GraphSpiralLayout.getInstance().apply(nodes);
+		
 		// init graph
 		WeightedGraph graph = new WeightedGraphImpl( false );
 		
@@ -77,7 +89,10 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 				}
 			}
 		}
-		
+		apply_electricSpringAlgorithm(graph, nodes, vertices);
+	}
+	
+	private void apply_electricSpringAlgorithm(WeightedGraph graph, List<SimNode> nodes, Map<SimNode, Vertex> vertices) {
 		// execute dijkstra on it
 		ShortestPathAlgorithm spa = new ShortestPathAlgorithmDijkstra( graph, new HeapNodeComparator(-1) );
 		
@@ -130,7 +145,7 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 			Vertex v2 = vertices.get(adjNode);
 			List<Vertex> shortestPath = spa.getShortestPath(v1, v2);
 			if(shortestPath != null) {
-				// if it is so, then get the distance
+				// if it is so, then get the distance (they are directly connected)
 				// set it as spring length and calculate the spring force
 				double springLength = spa.getDistance(thisVertex, adjVertex);
 				springLength *= pingFactor;

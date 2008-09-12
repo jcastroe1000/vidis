@@ -5,8 +5,11 @@ import java.util.List;
 
 import javax.vecmath.Point3d;
 
+import org.apache.log4j.Logger;
+
 import vidis.data.sim.SimNode;
 import vidis.ui.model.graph.layouts.AGraphLayout;
+import vidis.ui.model.graph.layouts.GraphLayout;
 
 /**
  * spiral layout for nodes
@@ -16,6 +19,8 @@ import vidis.ui.model.graph.layouts.AGraphLayout;
  *
  */
 public class GraphSpiralLayout extends AGraphLayout {
+	private static Logger logger = Logger.getLogger( GraphSpiralLayout.class );
+	private static GraphLayout instance = null;
 	private final double aMin = 0.15;
 	private final double aMax = 1.0;
 	private final double dMin = 1.0;
@@ -23,7 +28,18 @@ public class GraphSpiralLayout extends AGraphLayout {
 	private double a;
 	private double d;
 	
-	private List<Point3d> points = new LinkedList<Point3d>();
+	private List<Point3d> points;
+	
+	private GraphSpiralLayout() {
+		points = new LinkedList<Point3d>();
+		setNodeDensity(0.3);
+	}
+	
+	public static GraphLayout getInstance() {
+		if(instance == null)
+			instance = new GraphSpiralLayout();
+		return instance;
+	}
 
 	public void setNodeDensity(double density) {
 		density = Math.max(0.0, density);
@@ -57,7 +73,7 @@ public class GraphSpiralLayout extends AGraphLayout {
 	 * 
 	 * @return a point3d
 	 */
-	private Point3d nextNodePoint3d() {
+	public Point3d nextNodePoint3d() {
 		Point3d tmp = new Point3d();
 		double pi64 = (Math.PI / 64);
 		// distance
@@ -69,6 +85,7 @@ public class GraphSpiralLayout extends AGraphLayout {
 		tmp.y = spirale_yt(t);
 		tmp.z = spirale_zt(t);
 		points.add(tmp);
+		logger.debug(tmp);
 		return tmp;
 	}
 	

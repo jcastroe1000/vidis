@@ -4,21 +4,15 @@ import java.io.File;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.vecmath.Point3d;
 
-import vidis.sim.exceptions.SimulatorConfigRuntimeException;
-import vidis.sim.xml.modules.XMLModuleReader;
-import vidis.sim.xml.modules.dataStructure.DocumentData;
-import vidis.sim.xml.modules.dataStructure.DocumentDataConnection;
-import vidis.sim.xml.modules.dataStructure.DocumentDataLink;
-import vidis.util.SafeGenerator;
 import vidis.data.annotation.DisplayType;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
@@ -28,6 +22,15 @@ import vidis.data.sim.SimLink;
 import vidis.data.sim.SimNode;
 import vidis.data.var.AVariable;
 import vidis.data.var.vars.DefaultVariable;
+import vidis.sim.exceptions.SimulatorConfigRuntimeException;
+import vidis.sim.xml.modules.XMLModuleReader;
+import vidis.sim.xml.modules.dataStructure.DocumentData;
+import vidis.sim.xml.modules.dataStructure.DocumentDataConnection;
+import vidis.sim.xml.modules.dataStructure.DocumentDataLink;
+import vidis.ui.model.graph.layouts.GraphLayout;
+import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
+import vidis.ui.model.graph.layouts.impl.GraphRandomLayout;
+import vidis.ui.model.graph.layouts.impl.GraphSpiralLayout;
 
 public class Simulator {
 	private static class SimulatorData implements Serializable {
@@ -94,7 +97,7 @@ public class Simulator {
 	private static Simulator instance;
 
 	private SimulatorData data;
-
+	
 	private static boolean RUN_WITH_3D = true;
 
 	private Simulator() {
@@ -201,17 +204,20 @@ public class Simulator {
 
 		if (data.components.size() > 0) {
 			data.killComponents();
-			SafeGenerator.reset();
 			reset();
 			data = new SimulatorData();
 		}
 
 		if (reader.getDocument().getNodeDensity() != null) {
-			SafeGenerator.setNodeDensity(reader.getDocument().getNodeDensity());
+			double density = reader.getDocument().getNodeDensity();
+			GraphElectricSpringLayout.getInstance().setNodeDensity(density);
+			GraphRandomLayout.getInstance().setNodeDensity(density);
+			GraphSpiralLayout.getInstance().setNodeDensity(density);
+			
 		}
 
 		// get nodes
-		Map<String, SimNode> nodes = new HashMap<String, SimNode>();
+		Map<String, SimNode> nodes = new TreeMap<String, SimNode>();
 		generateSimNodes(nodes, reader.getDocument());
 
 		// get links
@@ -221,13 +227,6 @@ public class Simulator {
 		// connect nodes via links
 		generateSimNode_SimLink_connections(nodes, links, reader.getDocument());
 		
-		// calculate nice positions
-		try {
-			SafeGenerator.generateByDistance(new ArrayList<SimNode>(nodes.values()));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		// for (String id_1 : links.keySet()) {
 		// SimLink l_1 = links.get(id_1);
 		// if (l_1.getNodeA() != null && l_1.getNodeB() != null) {
@@ -339,7 +338,7 @@ public class Simulator {
 						node.registerVariable(new DefaultVariable(AVariable.COMMON_SCOPES.USER + "." + identifier, document.getNodeById(nodeId).getVariables().get(identifier)));
 					}
 					if (!node.hasVariable(AVariable.COMMON_IDENTIFIERS.POSITION)) {
-						Point3d point = SafeGenerator.nextNodePoint3d();
+						Point3d point = ((GraphSpiralLayout)GraphSpiralLayout.getInstance()).nextNodePoint3d();
 						// Logger.output(this, nodeId + " => " + point);
 						// Logger.output(LogLevel.WARN, this, nodeId + " => " + point);
 						node.registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.POSITION, point));

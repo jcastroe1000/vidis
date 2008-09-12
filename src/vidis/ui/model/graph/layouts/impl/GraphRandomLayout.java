@@ -6,6 +6,7 @@ import javax.vecmath.Point3d;
 
 import vidis.data.sim.SimNode;
 import vidis.ui.model.graph.layouts.AGraphLayout;
+import vidis.ui.model.graph.layouts.GraphLayout;
 
 /**
  * very fast and easy to calculate layout
@@ -16,23 +17,33 @@ import vidis.ui.model.graph.layouts.AGraphLayout;
  *
  */
 public class GraphRandomLayout extends AGraphLayout {
-	private final double xMin_min = -40;
-	private final double xMin_max = -40;
-	private final double yMin_min = -40;
-	private final double yMin_max = -40;
-	private final double zMin_min = -40;
-	private final double zMin_max = -40;
-	private final double xMax_min = 40;
-	private final double xMax_max = 40;
-	private final double yMax_min = 40;
-	private final double yMax_max = 40;
-	private final double zMax_min = 40;
-	private final double zMax_max = 40;
+	private final double helper = 20;
+	
+	private final double xMin_min = -helper;
+	private final double xMin_max = -helper;
+	private final double yMin_min = 0;
+	private final double yMin_max = 0;
+	private final double zMin_min = -helper;
+	private final double zMin_max = -helper;
+	private final double xMax_min = helper;
+	private final double xMax_max = helper;
+	private final double yMax_min = 0;
+	private final double yMax_max = 0;
+	private final double zMax_min = helper;
+	private final double zMax_max = helper;
 	
 	private double xMax, xMin, yMax, yMin, zMax, zMin;
 	
-	public GraphRandomLayout() {
+	private GraphRandomLayout() {
 		setNodeDensity(0.4);
+	}
+
+	private static GraphLayout instance = null;
+	
+	public static GraphLayout getInstance() {
+		if(instance == null)
+			instance = new GraphRandomLayout();
+		return instance;
 	}
 	
 	public void apply(List<SimNode> nodes) throws Exception {

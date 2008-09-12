@@ -66,8 +66,10 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	public void render( GL gl ) {
 		gl.glPushMatrix();
 		try {
-			Tuple3d pos = (Tuple3d) obj.getVariableById( AVariable.COMMON_IDENTIFIERS.POSITION ).getData();
-			gl.glTranslated(pos.x, pos.y, pos.z);
+			if(obj.hasVariable(AVariable.COMMON_IDENTIFIERS.POSITION)) {
+				Tuple3d pos = (Tuple3d) obj.getVariableById( AVariable.COMMON_IDENTIFIERS.POSITION ).getData();
+				gl.glTranslated(pos.x, pos.y, pos.z);
+			}
 		}
 		catch ( Exception e ) {
 			logger.error("error getting pos variable of "+obj +"  ", e);
