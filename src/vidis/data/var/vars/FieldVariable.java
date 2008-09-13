@@ -5,7 +5,26 @@ import java.lang.reflect.Field;
 import vidis.data.annotation.DisplayType;
 import vidis.data.var.AVariable;
 
+/**
+ * a field variable; this class uses reflection to get the
+ * contents of a field variable in a certain object.
+ * 
+ * @author Dominik
+ *
+ */
 public class FieldVariable extends AVariable {
+	public FieldVariable(String id, Object obj, Field field) {
+		super(id);
+		this.object = obj;
+		this.field = field;
+	}
+	/**
+	 * the constructor of a field variable
+	 * @param id the id of this variable
+	 * @param type the display type of this variable
+	 * @param obj the object who has the field
+	 * @param field the field to check for
+	 */
 	public FieldVariable(String id, DisplayType type, Object obj, Field field) {
 		super(id, type);
 		this.object = obj;
@@ -62,6 +81,10 @@ public class FieldVariable extends AVariable {
 
 	public Class<? extends AVariable> getVariableType() {
 		return this.getClass();
+	}
+	
+	public void update(Object data) {
+		this.object = data;
 	}
 	
 	public void update(Object obj, Field field) {

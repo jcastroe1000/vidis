@@ -6,6 +6,13 @@ import javax.vecmath.Color3f;
 
 import vidis.util.ColorGenerator;
 
+/**
+ * these color types are used by the ComponentColor annotation
+ * 
+ * @author Dominik
+ * 
+ * @see ComponentColor
+ */
 public enum ColorType implements Comparable<ColorType> {
     // color1 color2
     RED(Color.red, ColorGenerator.nearByColor(Color.red, ColorType.shift,

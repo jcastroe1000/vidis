@@ -1,9 +1,19 @@
 package vidis.data.mod;
 
 import vidis.sim.exceptions.ObstructInitCallException;
+import vidis.data.AUserNode;
 import vidis.data.sim.ISimNodeCon;
 
-
+/**
+ * the interface for a module node; please keep in mind that
+ * you should use the abstract class AUserNode to implement
+ * new modules. there we implemented basic functionality in order
+ * to let the simulator work flawlessly together with the module.
+ * 
+ * @author Dominik
+ * @see AUserNode
+ *
+ */
 public interface IUserNode extends IUserComponent {
 
 	/**

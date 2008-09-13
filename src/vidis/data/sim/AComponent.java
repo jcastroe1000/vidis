@@ -23,6 +23,16 @@ import vidis.data.var.vars.DefaultVariable;
 import vidis.data.var.vars.FieldVariable;
 import vidis.data.var.vars.MethodVariable;
 
+/**
+ * this is the abstract component superclass that implements
+ * all basic functionality for a simulator component like node,
+ * packet and link. the concrete implementations can be found
+ * at referenced locations
+ * @author Dominik
+ * @see SimLink
+ * @see SimNode
+ * @see SimPacket
+ */
 public abstract class AComponent implements IComponent, IAComponentCon, IVariableChangeListener {
 
     // -- IVariableContainer fields -- //
@@ -31,11 +41,18 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 
     private int sleep = -1;
 
+    /**
+     * public constructor; all subclasses should call super() at
+     * the beginning of their constructor!
+     */
     public AComponent() {
 		// vars instanzieren
 		init();
     }
 
+    /**
+     * initializes the internal variables and containers
+     */
     private void init() {
 		if (this.vars == null)
 		    this.vars = new ConcurrentHashMap<String, AVariable>();
@@ -43,19 +60,34 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 		    this.variableChangeListeners = new ArrayList<IVariableChangeListener>();
     }
 
+    /**
+     * causes this object to clean all its references to other
+     * objects in order that it may be collected by GC
+     */
     public void kill() {
 		this.vars.clear();
 		this.variableChangeListeners.clear();
     }
 
+    /**
+     * abstract function that should return the user logic
+     * @return a concrete implementation of IUserComponent
+     */
+    protected abstract IUserComponent getUserLogic();
+
+    /**
+     * initialize all method variables
+     */
     private void initVarsMethods() {
 		for (Method m : getUserLogic().getClass().getMethods()) {
 		    initVarsMethods(m);
 		}
     }
-
-    protected abstract IUserComponent getUserLogic();
-
+    
+    /**
+     * initialize a concrete method variable for a given method
+     * @param m the method to check for
+     */
     private void initVarsMethods(Method m) {
 		for (Annotation a : m.getAnnotations()) {
 		    if (a.annotationType().equals(Display.class)) {
@@ -75,6 +107,9 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 		}
     }
 
+    /**
+     * initialize all class variables
+     */
     private void initVarsClass() {
 		if (getUserLogic().getClass().getAnnotations().length > 0) {
 		    for (Annotation a : getUserLogic().getClass().getAnnotations()) {
@@ -103,6 +138,9 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 		}
     }
 
+    /**
+     * initialize all field variables
+     */
     private void initVarsFields() {
 		for (Field f : getUserLogic().getClass().getDeclaredFields()) {
 		    for (Annotation a : f.getAnnotations()) {
@@ -130,6 +168,11 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 		}
     }
 
+    /**
+     * initialize all variables
+     * 
+     * this initializes method-, fields- and class-variables
+     */
     protected void initVars() {
 		// vars initialisieren
     	initVarsClass();
@@ -273,7 +316,11 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 		    sleep--;
     }
 
-    public void checkVariablesChanged() {
+    /**
+     * this function checks all variables of this component
+     * and informs everybody about changes of the variables
+     */
+    protected void checkVariablesChanged() {
     	initVarsFields();
     }
 
@@ -285,7 +332,11 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
     	sleep = -1;
     }
 
-    public boolean isSleeping() {
+    /**
+     * retrieve if this component is sleeping
+     * @return true or false
+     */
+    protected boolean isSleeping() {
     	return sleep >= 0;
     }
 }

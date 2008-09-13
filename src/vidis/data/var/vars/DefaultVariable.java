@@ -4,14 +4,39 @@ import vidis.data.annotation.DisplayType;
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableChangeListener;
 
+/**
+ * a default variable implementation
+ * 
+ * @author Dominik
+ *
+ */
 public class DefaultVariable extends AVariable {
 	
+	/**
+	 * the data of this variable
+	 */
 	private Object data;
 
+	/**
+	 * the public constructor of this variable
+	 * @param id the id of this variable
+	 * @param value the value associated with this variable
+	 */
 	public DefaultVariable(String id, Object value) {
-		this(id, DisplayType.SHOW_SWING, value);
+		super(id);
+		setData(value);
 	}
 
+	/**
+	 * the public constructor of this variable
+	 * 
+	 * PLEASE NOTE: THIS CONSTRUCTOR IS DEPRECATED AND SHOULD NO LONGER
+	 * 				BE USED AT IT WILL BE REMOVED SOON!
+	 * @param id the id of this variable
+	 * @param type the display type of this variable (DEPRECATED)
+	 * @param value the value of this variable
+	 */
+	@Deprecated
 	public DefaultVariable(String id, DisplayType type, Object value) {
 		super(id, type);
 		this.setData(value);
@@ -49,8 +74,7 @@ public class DefaultVariable extends AVariable {
 	 * update variable data; SHOULD BE DONE ALWAYS IN FAVOR OF CREATING NEW
 	 * VARIABLE!
 	 * 
-	 * @param data
-	 *          the new value
+	 * @param data the new value
 	 */
 	public void update(Object data) {
 		if (data != null && !data.equals(getData())) {

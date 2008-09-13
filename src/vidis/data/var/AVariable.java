@@ -19,23 +19,30 @@ public abstract class AVariable implements IVariableChangeProducer {
 		public static final String NAME = COMMON_SCOPES.USER + ".name";
 	}
 	private String identifier;
-	private DisplayType displayType;
+	private DisplayType displayType = DisplayType.SHOW_SWING;
 	private List<IVariableChangeListener> variableChangeListeners;
 	private AVariable() {
 		this.variableChangeListeners = new ArrayList<IVariableChangeListener>();
 	}
-	public AVariable(String id, DisplayType type) {
+	public AVariable(String id) {
 		this();
 		setIdentifier(id);
+	}
+	
+	@Deprecated
+	public AVariable(String id, DisplayType type) {
+		this(id);
 		setDisplayType(type);
 	}
 	
 	public abstract Object getData();
 	
+	@Deprecated
 	private void setDisplayType(DisplayType type) {
 		this.displayType = type;
 	}
 	
+	@Deprecated
 	public DisplayType getDisplayType() {
 		return displayType;
 	}
@@ -84,4 +91,10 @@ public abstract class AVariable implements IVariableChangeProducer {
 		}
 		return ns;
 	}
+	
+	/**
+	 * updates the variable content
+	 * @param data the new object
+	 */
+	public abstract void update(Object data);
 }

@@ -1,8 +1,20 @@
 package vidis.data.mod;
 
 import vidis.sim.exceptions.ObstructInitCallException;
+import vidis.data.AUserLink;
 import vidis.data.sim.ISimLinkCon;
 
+/**
+ * this interface defines a basic functionality for all user
+ * module links; anyway for implementation of a new link in a
+ * ne module, the class AUserLink should be used instead.
+ * 
+ * we implemented there the basic functionality so that simulator
+ * and module can flawlessly work together
+ * 
+ * @author Dominik
+ * @see AUserLink
+ */
 public interface IUserLink extends IUserComponent {
 
 	/**

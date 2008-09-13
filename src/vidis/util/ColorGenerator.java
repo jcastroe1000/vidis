@@ -3,6 +3,12 @@ package vidis.util;
 import java.awt.Color;
 import java.util.Random;
 
+/**
+ * a static function that may be used to generate nice pairs of color
+ * 
+ * @author Dominik
+ *
+ */
 public class ColorGenerator {
 	/**
 	 * generates a nice color in the neighborhood of the provided color by
@@ -10,12 +16,9 @@ public class ColorGenerator {
 	 * the amount of degrees that the color is adjusted by and the second
 	 * parameter defines the relative brightness to the original color
 	 * 
-	 * @param color
-	 *          original color
-	 * @param rotationFactor
-	 *          [-360..360]
-	 * @param relativeBrightness
-	 *          [-100..100]
+	 * @param color original color
+	 * @param rotationFactor [-360..360]
+	 * @param relativeBrightness [-100..100]
 	 * @return a new color
 	 */
 	public static Color nearByColor(Color color, int rotationFactor, int relativeSaturation, int relativeBrightness) {

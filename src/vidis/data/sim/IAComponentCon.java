@@ -6,7 +6,7 @@ import vidis.data.var.AVariable;
 
 /**
  * interface for all abstract user components
- * @author dpsenner
+ * @author Dominik
  *
  */
 public interface IAComponentCon {
@@ -26,6 +26,11 @@ public interface IAComponentCon {
      */
     public boolean hasScopedVariable(String scope, String identifier);
     
+    /**
+     * retrieve all variable identifiers within a scope
+     * @param scope the scope to check in
+     * @return a set of unique variable identifiers
+     */
     public Set<String> getScopedVariableIdentifiers(String scope);
 
     /**

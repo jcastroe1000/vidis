@@ -17,5 +17,9 @@ public interface IComponent extends IVariableContainer {
 	 */
 	public void execute();
 
+	/**
+	 * cause this component to destroy itself and all of its
+	 * component/child classes
+	 */
 	public void kill();
 }

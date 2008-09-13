@@ -6,13 +6,35 @@ import java.lang.reflect.Method;
 import vidis.data.annotation.DisplayType;
 import vidis.data.var.AVariable;
 
+/**
+ * a method variable; this variable uses reflection to retrieve the
+ * value, just like its little brother FieldVariable does.
+ * 
+ * @author Dominik
+ *
+ */
 public class MethodVariable extends AVariable {
+	/**
+	 * the constructor you should use
+	 * @param id the identifier of this variable
+	 * @param object the object to check onto
+	 * @param method the method to check for
+	 */
 	public MethodVariable(String id, Object object, Method method) {
-		super(id, DisplayType.SHOW_SWING);
+		super(id);
 		this.object = object;
 		this.method = method;
 	}
 	
+	/**
+	 * one of the constructors, but a deprecated one, use another
+	 * if possible. :-)
+	 * @param id the identifier of this variable
+	 * @param type the display type of this variable
+	 * @param object the object to check onto
+	 * @param method the method to check for
+	 */
+	@Deprecated
 	public MethodVariable(String id, DisplayType type, Object object, Method method) {
 		super(id, type);
 		this.object = object;
@@ -67,7 +89,7 @@ public class MethodVariable extends AVariable {
      * @return true or false
      */
     public boolean getMethodExpectsParameters() {
-	return getExpectedMethodParameterTypes().length > 0;
+    	return getExpectedMethodParameterTypes().length > 0;
     }
 
     /**
@@ -75,13 +97,16 @@ public class MethodVariable extends AVariable {
      * @return a array of class types
      */
     public Class<?>[] getExpectedMethodParameterTypes() {
-	return method.getParameterTypes();
+    	return method.getParameterTypes();
     }
 
 	public Class<? extends AVariable> getVariableType() {
 		return this.getClass();
 	}
-	
+
+	public void update(Object data) {
+		this.object = data;
+	}
 	public void update(Object obj, Method m) {
 		this.method = m;
 		this.object = obj;
