@@ -2,15 +2,14 @@ package vidis.data;
 
 import java.util.List;
 
-import vidis.sim.exceptions.ObstructInitCallException;
 import vidis.data.mod.AUserComponent;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
 import vidis.data.mod.IUserPacket;
 import vidis.data.sim.ISimNodeCon;
 import vidis.data.var.AVariable;
-import vidis.data.var.AVariable.COMMON_IDENTIFIERS;
 import vidis.data.var.AVariable.COMMON_SCOPES;
+import vidis.sim.exceptions.ObstructInitCallException;
 
 /**
  * abstract user node represents a node by a user;
@@ -33,7 +32,7 @@ public abstract class AUserNode extends AUserComponent implements IUserNode {
      * retrieve all the connected links to this node
      * @return list of links
      */
-    public final List<IUserLink> getConnectedLinks() {
+    protected final List<IUserLink> getConnectedLinks() {
     	return simulatorComponent.getConnectedLinks();
     }
 
@@ -42,7 +41,7 @@ public abstract class AUserNode extends AUserComponent implements IUserNode {
      * @param p packet to send
      * @param l link to use for sending
      */
-    public final void send(IUserPacket p, IUserLink l) {
+    protected final void send(IUserPacket p, IUserLink l) {
     	simulatorComponent.send(p, l, 0);
     }
 
@@ -54,7 +53,7 @@ public abstract class AUserNode extends AUserComponent implements IUserNode {
      * @param l the link to use for send
      * @param wait the amount of time to wait / process
      */
-    public final void send(IUserPacket p, IUserLink l, long wait) {
+    protected final void send(IUserPacket p, IUserLink l, long wait) {
     	simulatorComponent.send(p, l, wait);
     }
 
@@ -78,7 +77,7 @@ public abstract class AUserNode extends AUserComponent implements IUserNode {
 		}
     }
     
-    public String getId() {
+    protected String getId() {
     	return simulatorComponent.getId();
     }
 

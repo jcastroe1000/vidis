@@ -25,16 +25,13 @@ public abstract class AUserLink extends AUserComponent implements IUserLink {
 		this.simulatorComponent = c;
     }
 
-    /**
-     * retrieve the other node connected to this link
-     * @param me this is me
-     * @return the other node
-     */
     public final IUserNode getOtherNode(IUserNode me) {
 		if (getNodeA().equals(me)) {
 		    return getNodeB();
-		} else {
+		} else if(getNodeB().equals(me)) {
 		    return getNodeA();
+		} else {
+			return null;
 		}
     }
 
