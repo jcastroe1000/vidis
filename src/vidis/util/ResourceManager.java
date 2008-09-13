@@ -82,7 +82,7 @@ public class ResourceManager {
 	}
 
 	public static ImageIcon getImageIcon(String icon) {
-		return new ImageIcon(dataPath + pathSeperator + "resources" + pathSeperator + icon);
+		return new ImageIcon(dataPath + pathSeperator + "resources" + pathSeperator + "images" + pathSeperator + icon);
 	}
 	
 	public static List<String> getModules() {
