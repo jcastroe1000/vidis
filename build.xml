@@ -88,11 +88,24 @@
 	
 	<!-- target javadoc BUGGY -->
 	<target name="javadoc" depends="clean-javadoc,init-compile, init-javadoc">
-	        <javadoc access="package" author="true" classpathref="vidis.classpath" destdir="doc/javadoc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="vidis.ui.vis,vidis.ui.vis.objects,vidis.ui.model.graph.layouts.impl,vidis.util.graphs.util,vidis.data,vidis.data.mod,vidis.util.graphs.graph.algorithm,vidis.modules.vartest,vidis.ui.mvc,vidis.ui.gui,vidis.sim.xml.modules,vidis.modules.vectorClockAlgorithm,vidis.ui.model.graph.layouts,vidis.aspects,vidis.modules.bullyElectionAlgorithm,vidis.glutils,vidis.ui.mvc.api,vidis.data.sim,vidis.ui.vis.shader.variable,vidis.ui.vis.multipass,vidis.ui.vis.shader.impl,vidis.ui.model.impl.guielements,vidis.ui.vis.camera,vidis.ui.config,vidis.util,vidis.ui.input,vidis.sim.xml,vidis.ui,vidis.data.annotation,vidis.modules.demo,vidis.util.graphs.graph,vidis.util.graphs,vidis.sim.xml.modules.dataStructure,vidis.modules.flooding,vidis.ui.model.structure,vidis.ui.model.impl,vidis.data.var.vars,vidis.data.var,vidis.sim,vidis.ui.vis.shader,vidis.ui.events,vidis.sim.exceptions" source="1.5" sourcepath="src" splitindex="true" use="true" version="true">
-	            <link href="${vidis.doc.javadoc}"/>
-	            <link href="http://java.sun.com/javase/6/docs/api/"/>
-	        </javadoc>
-	    </target>
+		<javadoc access="public" author="true"
+			classpathref="vidis.classpath"
+			destdir="doc/javadoc"
+			nodeprecated="false"
+			nodeprecatedlist="false"
+			noindex="false"
+			nonavbar="false"
+			notree="false"
+			packagenames="vidis.*"
+			source="1.5"
+			sourcepath="src"
+			splitindex="true"
+			use="true"
+			version="true">
+			<link href="${vidis.doc.javadoc}"/>
+			<link href="http://java.sun.com/javase/6/docs/api/"/>
+		</javadoc>
+	</target>
 	
 	<!-- target jar -->
 	<target name="jar" description="This task creates a jar executable of the current build." depends="compile">
