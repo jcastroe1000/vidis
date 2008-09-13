@@ -3,13 +3,18 @@ package vidis.ui.model.graph.layouts;
 import java.util.List;
 
 import vidis.data.sim.SimNode;
+import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
+import vidis.ui.model.graph.layouts.impl.GraphRandomLayout;
+import vidis.ui.model.graph.layouts.impl.GraphSpiralLayout;
 
 /**
  * this interface is implemented by all layouts for nodes
  * 
  * layouts are used to manipulate the position of the nodes
  * @author Dominik
- *
+ * @see GraphElectricSpringLayout
+ * @see GraphRandomLayout
+ * @see GraphSpiralLayout
  */
 public interface GraphLayout {
 	/**
