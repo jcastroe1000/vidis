@@ -131,12 +131,12 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 		Point3d adjPos;
 		
 		Vertex thisVertex = vertices.get(node);
-		Point3d thisPos = (Point3d) node.getVariableById(AVariable.COMMON_IDENTIFIERS.POSITION).getData();
+		Point3d thisPos = getPosition(node);
 		
 		for(int i=0; i<nodes.size(); i++) {
 			SimNode adjNode = nodes.get(i);
 			adjVertex = vertices.get(adjNode);
-			adjPos = (Point3d) adjNode.getVariableById(AVariable.COMMON_IDENTIFIERS.POSITION).getData();
+			adjPos = getPosition(adjNode);
 			// calculate distance between our node and this adjacent node
 			distance = thisPos.distance(adjPos);
 			

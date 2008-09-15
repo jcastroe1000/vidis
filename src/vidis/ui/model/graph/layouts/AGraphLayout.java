@@ -29,4 +29,13 @@ public abstract class AGraphLayout implements GraphLayout {
 			node.registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.POSITION, pos));
 		}
 	}
+	
+	protected Point3d getPosition(SimNode node) {
+		if(node.hasVariable(AVariable.COMMON_IDENTIFIERS.POSITION)) {
+			AVariable posVar = node.getVariableById(AVariable.COMMON_IDENTIFIERS.POSITION);
+			return (Point3d) posVar.getData();
+		} else {
+			return new Point3d(0, 0, 0);
+		}
+	}
 }
