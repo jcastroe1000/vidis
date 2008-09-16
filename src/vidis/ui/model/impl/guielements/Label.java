@@ -1,6 +1,7 @@
 package vidis.ui.model.impl.guielements;
 
 import javax.media.opengl.GL;
+import javax.vecmath.Vector3d;
 
 import org.apache.log4j.Logger;
 
