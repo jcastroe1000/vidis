@@ -79,7 +79,6 @@ public class SimLink extends AComponent implements ISimLinkCon {
     }
 
     private void setDelay(long delay) {
-    	delay = Math.min(10, Math.max(1, delay));
     	this.delay = delay;
     }
     public void connect(SimNode a, SimNode b) {

@@ -55,6 +55,11 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 		return instance;
 	}
 	
+	private double springFunction(double spring){
+		//return 1 + Math.log1p(spring) * 2;
+		return spring;
+	}
+	
 	public void setNodeDensity(double density) {
 		density = Math.max(0.0, density);
 		density = Math.min(1.0, density);
@@ -70,10 +75,11 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 	 * @param nodes the list of all nodes
 	 */
 	public void apply(Collection<SimNode> nodes) throws Exception {
+		Thread.sleep(2000);
 		List<SimNode> nodesList = new ArrayList<SimNode>(nodes);
 		
 		// init position vars if not available
-		GraphSpiralLayout.getInstance().apply(nodes);
+		GraphRandomLayout.getInstance().apply(nodes);
 		
 		// init graph
 		WeightedGraph graph = new WeightedGraphImpl( false );
@@ -101,6 +107,7 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 				}
 			}
 		}
+		Thread.sleep(2000);
 		apply_electricSpringAlgorithm(graph, nodesList, vertices);
 	}
 	
@@ -170,7 +177,8 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 				// if it is so, then get the distance (they are directly connected)
 				// set it as spring length and calculate the spring force
 				double springLength = spa.getDistance(thisVertex, adjVertex);
-				springLength *= pingFactor;
+				//springLength *= pingFactor;
+				springLength = springFunction(springLength);
 				// if zero, modify it to be a very small value
 				if(distance == 0)
 					distance = 0.0001;
@@ -209,13 +217,6 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 		
 		// finally apply the force
 		thisPos.add(forceVector);
-		
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		// store it into our variable system
 		//((DefaultVariable)(node.getVariableById(AVariable.COMMON_IDENTIFIERS.POSITION))).update(thisPos);
