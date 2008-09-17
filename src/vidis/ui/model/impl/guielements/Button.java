@@ -12,7 +12,7 @@ public class Button extends Label {
 	@Override
 	public void renderContainer(GL gl) {
 		gl.glPushMatrix();
-			// render box (außen ummer)
+			// render box (aussen ummer)
 			// render internal label
 			super.renderContainer(gl);
 		gl.glPopMatrix();

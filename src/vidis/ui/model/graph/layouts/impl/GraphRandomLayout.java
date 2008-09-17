@@ -1,5 +1,7 @@
 package vidis.ui.model.graph.layouts.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.vecmath.Point3d;
@@ -46,13 +48,14 @@ public class GraphRandomLayout extends AGraphLayout {
 		return instance;
 	}
 	
-	public void apply(List<SimNode> nodes) throws Exception {
-		for(int i=0; i<nodes.size(); i++) {
+	public void apply(Collection<SimNode> nodes) throws Exception {
+		List<SimNode> nodesList = new ArrayList<SimNode>(nodes);
+		for(int i=0; i<nodesList.size(); i++) {
 			Point3d random = new Point3d();
 			random.x = Math.random()*xMax + xMin;
 			random.y = Math.random()*yMax + yMin;
 			random.z = Math.random()*zMax + zMin;
-			SimNode node = nodes.get(i);
+			SimNode node = nodesList.get(i);
 			setPosition(node, random);
 		}
 	}

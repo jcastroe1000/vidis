@@ -1,15 +1,19 @@
 package vidis.ui.model.graph.layouts.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.media.j3d.Link;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
 import vidis.data.sim.SimLink;
 import vidis.data.sim.SimNode;
-import vidis.data.var.AVariable;
 import vidis.ui.model.graph.layouts.AGraphLayout;
 import vidis.ui.model.graph.layouts.GraphLayout;
 import vidis.util.graphs.graph.Vertex;
@@ -28,15 +32,15 @@ import vidis.util.graphs.util.HeapNodeComparator;
  */
 public class GraphElectricSpringLayout extends AGraphLayout {
 	private final double stiffnessMin = 0.1;
-	private final double stiffnessMax = 1.4;
+	private final double stiffnessMax = 1.1;
 	private final double electricalRepulsionMin = 0.1;
-	private final double electricalRepulsionMax = 1.4;
+	private final double electricalRepulsionMax = 1.1;
 	private final double pingFactorMin = 0.3;
-	private final double pingFactorMax = 2;
+	private final double pingFactorMax = 1;
 	// constants to be configured nicely
 	private double stiffness = 0.2;
 	private double electricalRepulsion = 0.2;
-	private double increment = 0.5; // just small increments
+	private double increment = 0.2; // just small increments
 	private double pingFactor = 0.4;
 	
 	private GraphElectricSpringLayout() {
@@ -59,7 +63,15 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 		pingFactor = density *(pingFactorMax - pingFactorMin) + pingFactorMin;
 	}
 	
-	public void apply(List<SimNode> nodes) throws Exception {
+	/**
+	 * apply the graph layout to the nodes;
+	 * 
+	 * IMPORTANT: FOR THIS ALGORITHM TO WORK CORRECTLY THE CONNECTIONS (LINKS) MUST BE ESTABLISHED PRIOR!
+	 * @param nodes the list of all nodes
+	 */
+	public void apply(Collection<SimNode> nodes) throws Exception {
+		List<SimNode> nodesList = new ArrayList<SimNode>(nodes);
+		
 		// init position vars if not available
 		GraphSpiralLayout.getInstance().apply(nodes);
 		
@@ -69,14 +81,14 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 		// init vertices
 		Map<SimNode, Vertex> vertices = new HashMap<SimNode, Vertex>();
 		for(int i=0; i<nodes.size(); i++) {
-			SimNode node_a = nodes.get(i);
+			SimNode node_a = nodesList.get(i);
 			if(!vertices.containsKey(node_a)) {
 				Vertex vertex_a = new Vertex(node_a);
 				vertices.put(node_a, vertex_a);
 				graph.add(vertex_a);
 			}
 			for(int j=0; j<nodes.size(); j++) {
-				SimNode node_b = nodes.get(j);
+				SimNode node_b = nodesList.get(j);
 				if(!vertices.containsKey(node_b)) {
 					Vertex vertex_b = new Vertex(node_b);
 					vertices.put(node_b, vertex_b);
@@ -89,7 +101,7 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 				}
 			}
 		}
-		apply_electricSpringAlgorithm(graph, nodes, vertices);
+		apply_electricSpringAlgorithm(graph, nodesList, vertices);
 	}
 	
 	private void apply_electricSpringAlgorithm(WeightedGraph graph, List<SimNode> nodes, Map<SimNode, Vertex> vertices) {
@@ -103,13 +115,23 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 		// this ensures that this algorithm terminates
 		int maximum_relaxations = 1000;
 		
+		List<Double> delta_history = new LinkedList<Double>();
 		double delta = 0;
-		while(maximum_relaxations > 0 || delta > 0.01) {
+		while(true) {
 			delta = 0;
 			// for each vertex call our function
 			for(int i=0; i<nodes.size(); i++) {
 				delta += apply_electricSpringAlgorithm(spa, nodes, vertices, nodes.get(i));
 			}
+			delta_history.add(delta);
+			if(delta_history.size() > 2)
+				delta_history.remove(0);
+			double diff = Collections.max(delta_history) - Collections.min(delta_history);
+			System.err.println("steps left: "+maximum_relaxations+", delta: " + delta + ", diff: " + diff);
+			if(maximum_relaxations <= 0)
+				break;
+			if(delta_history.size() > 1 && diff < 0.1 && delta < 1)
+				break;
 			maximum_relaxations--;
 		}
 	}
@@ -187,6 +209,13 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 		
 		// finally apply the force
 		thisPos.add(forceVector);
+		
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		// store it into our variable system
 		//((DefaultVariable)(node.getVariableById(AVariable.COMMON_IDENTIFIERS.POSITION))).update(thisPos);

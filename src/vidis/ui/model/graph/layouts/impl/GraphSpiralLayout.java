@@ -1,5 +1,7 @@
 package vidis.ui.model.graph.layouts.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -89,10 +91,11 @@ public class GraphSpiralLayout extends AGraphLayout {
 		return tmp;
 	}
 	
-	public void apply(List<SimNode> nodes) throws Exception {
+	public void apply(Collection<SimNode> nodes) throws Exception {
 		points.clear();
-		for(int i=0; i<nodes.size(); i++) {
-			setPosition(nodes.get(i), nextNodePoint3d());
+		List<SimNode> nodesList = new ArrayList<SimNode>(nodes);
+		for(int i=0; i<nodesList.size(); i++) {
+			setPosition(nodesList.get(i), nextNodePoint3d());
 		}
 	}
 }

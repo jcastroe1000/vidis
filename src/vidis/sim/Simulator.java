@@ -13,7 +13,6 @@ import java.util.TreeMap;
 
 import javax.vecmath.Point3d;
 
-import vidis.data.annotation.DisplayType;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
 import vidis.data.sim.AComponent;
@@ -218,13 +217,22 @@ public class Simulator {
 		// get nodes
 		Map<String, SimNode> nodes = new TreeMap<String, SimNode>();
 		generateSimNodes(nodes, reader.getDocument());
-
+		
 		// get links
 		Map<String, SimLink> links = new HashMap<String, SimLink>();
 		generateSimLinks(links, reader.getDocument());
 
 		// connect nodes via links
 		generateSimNode_SimLink_connections(nodes, links, reader.getDocument());
+		
+		
+		// FIXME here we could apply very easily a graph layout, for dummy usage I apply the graphelectricspringlayout
+		try {
+			GraphElectricSpringLayout.getInstance().apply(nodes.values());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		// for (String id_1 : links.keySet()) {
 		// SimLink l_1 = links.get(id_1);
@@ -293,7 +301,7 @@ public class Simulator {
 					if (obj instanceof IUserLink) {
 						IUserLink link = (IUserLink) obj;
 						SimLink sim = new SimLink(link, documentLink.getDelay());
-						sim.registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.ID, DisplayType.SHOW_3D_AND_SWING, id));
+						sim.registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.ID, id));
 						// set variables
 						for (String identifier : document.getLinkById(id).getVariables().keySet()) {
 							sim.registerVariable(new DefaultVariable(AVariable.COMMON_SCOPES.USER + "." + identifier, document.getLinkById(id).getVariables().get(identifier)));
@@ -332,7 +340,7 @@ public class Simulator {
 				Object o = k.newInstance();
 				if (o instanceof IUserNode) {
 					SimNode node = new SimNode((IUserNode) o);
-					node.registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.ID, DisplayType.SHOW_3D_AND_SWING, nodeId));
+					node.registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.ID, nodeId));
 					for (String identifier : document.getNodeById(nodeId).getVariables().keySet()) {
 						node.registerVariable(new DefaultVariable(AVariable.COMMON_SCOPES.USER + "." + identifier, document.getNodeById(nodeId).getVariables().get(identifier)));
 					}
