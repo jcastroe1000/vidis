@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.vecmath.Point3d;
 
+import org.apache.log4j.Logger;
+
 import vidis.data.sim.SimNode;
 import vidis.ui.model.graph.layouts.AGraphLayout;
 import vidis.ui.model.graph.layouts.GraphLayout;
@@ -35,6 +37,8 @@ public class GraphRandomLayout extends AGraphLayout {
 	private final double zMax_max = helper;
 	
 	private double xMax, xMin, yMax, yMin, zMax, zMin;
+
+	private static Logger logger = Logger.getLogger(GraphRandomLayout.class);
 	
 	private GraphRandomLayout() {
 		setNodeDensity(0.4);
@@ -49,7 +53,7 @@ public class GraphRandomLayout extends AGraphLayout {
 	}
 	
 	public void apply(Collection<SimNode> nodes) throws Exception {
-		System.err.println("generate positions in {["+xMin+".."+xMax+"],["+yMin+".."+yMax+"],["+zMin+".."+zMax+"]}");
+		logger.debug("generate positions in {["+xMin+".."+xMax+"],["+yMin+".."+yMax+"],["+zMin+".."+zMax+"]}");
 		List<SimNode> nodesList = new ArrayList<SimNode>(nodes);
 		for(int i=0; i<nodesList.size(); i++) {
 			Point3d random = new Point3d();

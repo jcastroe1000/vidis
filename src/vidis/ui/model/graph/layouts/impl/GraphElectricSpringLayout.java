@@ -11,6 +11,8 @@ import java.util.Map;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
+import org.apache.log4j.Logger;
+
 import vidis.data.sim.SimLink;
 import vidis.data.sim.SimNode;
 import vidis.ui.model.graph.layouts.AGraphLayout;
@@ -30,6 +32,7 @@ import vidis.util.graphs.util.HeapNodeComparator;
  *
  */
 public class GraphElectricSpringLayout extends AGraphLayout {
+	private static Logger logger = Logger.getLogger(GraphElectricSpringLayout.class);
 	private final double stiffnessMin = 0.1;
 	private final double stiffnessMax = 1.1;
 	private final double electricalRepulsionMin = 0.1;
@@ -133,6 +136,7 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 			if(delta_history.size() > 2)
 				delta_history.remove(0);
 			double diff = Collections.max(delta_history) - Collections.min(delta_history);
+			logger.debug("iterations left: "+maximum_relaxations+", diff<?eps: " + diff + "<?"+0.1);
 			if(maximum_relaxations <= 0)
 				break;
 			if(delta_history.size() > 1 && diff < 0.1 && delta < 1)
