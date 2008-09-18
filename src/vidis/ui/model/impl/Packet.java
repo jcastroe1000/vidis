@@ -26,7 +26,7 @@ public class Packet extends ASimObject {
 		gl.glPushMatrix();
 			gl.glCullFace(GL.GL_FRONT);
 			gl.glFrontFace(GL.GL_CW);
-			gl.glTranslated(0.0 + move.getX(), 0.8 + move.getY(), 0.0 + move.getZ());
+			gl.glTranslated(0.0 + move.x, 0.8 + move.y, 0.0 + move.z);
 			gl.glScaled(0.001, 0.001, 0.001);
 			gl.glRotated(angle, x, y, z);
 			textRenderer.begin3DRendering();
@@ -88,7 +88,7 @@ public class Packet extends ASimObject {
 		// set color
 		gl.glColor4d( 1, 0, 1, 0 );
 		// now rotate it
-		gl.glRotated(position, getPosition().getX(), getPosition().getY(), getPosition().getZ());
+		gl.glRotated(position, getPosition().x, getPosition().y, getPosition().z);
 		position += Math.random()*10+4;
 		// now draw it
 		gl.glCallList( displayListId );
@@ -117,5 +117,9 @@ public class Packet extends ASimObject {
 		}
 	}
 
+	@Override
+	public double getHitRadius() {
+		return 0.15;
+	}
 
 }

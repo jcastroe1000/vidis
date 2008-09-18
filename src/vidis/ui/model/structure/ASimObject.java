@@ -93,7 +93,9 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	 * TEMP FUNCTION <DELME>
 	 */
 	public void hit() {
-		logger.info( "I GOT HIT" );
+		logger.info( this + " GOT HIT" );
 	}
+
+	public abstract double getHitRadius();
 
 }

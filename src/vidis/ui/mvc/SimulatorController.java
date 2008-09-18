@@ -34,7 +34,7 @@ public class SimulatorController extends AController {
 	}
 	
 	private void initialize() {
-		//Simulator.createInstance();
+		Simulator.createInstance();
 		sim = Simulator.getInstance();
 //		sim.importSimFile( ResourceManager.getModuleFile("bullyElectionAlgorithm", "demo.msim") );
 //		sim.importSimFile( ResourceManager.getModuleFile("demo", "demo.msim") );

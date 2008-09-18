@@ -6,7 +6,6 @@ import javax.vecmath.Vector3d;
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.ui.events.IVidisEvent;
-import vidis.ui.model.impl.guielements.Label;
 import vidis.ui.model.structure.ASimObject;
 
 public class Node extends ASimObject {
@@ -19,7 +18,7 @@ public class Node extends ASimObject {
 
 	private void drawText(GL gl, String text, double angle, double x, double y, double z, Vector3d move) {
 		gl.glPushMatrix();
-			gl.glTranslated(0.0 + move.getX(), 0.8 + move.getY(), 0.0 + move.getZ());
+			gl.glTranslated(0.0 + move.x, 0.8 + move.y, 0.0 + move.z);
 			gl.glScaled(0.001, 0.001, 0.001);
 			gl.glRotated(angle, x, y, z);
 			textRenderer.begin3DRendering();
@@ -70,13 +69,18 @@ public class Node extends ASimObject {
 	public void preRenderObject(GL gl) {
 		requireTextRenderer();
 		gl.glNewList( displayListId, GL.GL_COMPILE );
-			glut.glutSolidSphere(0.5, 20, 20);
+			glut.glutSolidSphere( 0.5, 20, 20 );
 		gl.glEndList();
 	}
 
 	@Override
 	protected void handleEvent(IVidisEvent e) {
 		System.err.println(e);
+	}
+	
+	@Override
+	public double getHitRadius() {
+		return 0.5;
 	}
 
 }

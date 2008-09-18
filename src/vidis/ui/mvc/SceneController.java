@@ -1,5 +1,8 @@
 package vidis.ui.mvc;
 
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -8,6 +11,9 @@ import java.util.List;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
+import javax.media.opengl.GLCapabilities;
+import javax.media.opengl.GLCapabilitiesChooser;
+import javax.media.opengl.GLContext;
 import javax.media.opengl.GLEventListener;
 import javax.vecmath.Point3d;
 import javax.vecmath.Point4d;
@@ -119,6 +125,27 @@ public class SceneController extends AController implements GLEventListener {
 	}
 
 	private void initialize() {
+		GraphicsDevice sd[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+		logger.info( "Graphics Devices: " );
+		for ( GraphicsDevice d : sd ) {
+			logger.info( " -<> "+ d );
+			
+		}
+		GraphicsDevice graphicsDevice = sd[0];
+		GraphicsConfiguration graphicsConfiguration = graphicsDevice.getDefaultConfiguration();
+		GLCapabilities glCapabilities = new GLCapabilities();
+		glCapabilities.setDoubleBuffered( true );
+		glCapabilities.setHardwareAccelerated( true );
+		
+		GLCapabilitiesChooser chooser = new GLCapabilitiesChooser() {
+			public int chooseCapabilities(GLCapabilities desired,
+					GLCapabilities[] available,
+					int windowSystemRecommendedChoice) {
+				return 1;
+			}
+		};
+		GLContext glContext = GLContext.getCurrent();
+		
 		canvas = new GLCanvas();
 		canvas.addGLEventListener( this );
 		
@@ -237,12 +264,12 @@ public class SceneController extends AController implements GLEventListener {
 			if ( wireframe ) {
 				gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
 			}
-			if ( P != null && A != null ) {
-				gl.glBegin( GL.GL_LINES );
-					gl.glVertex3d( A.x, A.y, A.z );
-					gl.glVertex3d( P.x, P.y, P.z );
-				gl.glEnd();
-			}
+//			if ( P != null && A != null ) {
+//				gl.glBegin( GL.GL_LINES );
+//					gl.glVertex3d( A.x, A.y, A.z );
+//					gl.glVertex3d( P.x, P.y, P.z );
+//				gl.glEnd();
+//			}
 //			for ( RenderPass p : RenderPass.values()) {
 //				p.setup(gl);
 				// MODEL  with draw order:
@@ -372,26 +399,32 @@ public class SceneController extends AController implements GLEventListener {
 	private void handleMouseEvent( MouseClickedEvent e ) {
 		A = new Point3d( e.rayOrigin.x, e.rayOrigin.y, e.rayOrigin.z );
 		Vector3d g = new Vector3d ( e.ray.x, e.ray.y, e.ray.z ) ;
-		//g.normalize();
-
+		g.normalize();
+		
 		List<IVisObject> obj = getRegisteredObjects();
 		Vector3d AP = new Vector3d();
 		Vector3d dist = new Vector3d();
+		double nearestDistance = Double.MAX_VALUE;
+		ASimObject nearestObject = null;
+		
 		for ( IVisObject o : obj ) {
 			if ( o instanceof ASimObject ) {
 				try { 
 					P = ((ASimObject)o).getPosition();
 					
 					AP.sub( P, A );
-					double l1 = AP.length();
+					
 					dist.set( 
 							g.y*AP.z - g.z*AP.y,
 							g.z*AP.x - g.x*AP.z,
 							g.x*AP.y - g.y*AP.x);
 					double l = dist.length();
-					logger.info( o + " was "+ l + " away " + l1);
-					if ( l < 1) {
-						((ASimObject)o).hit();
+					if ( l < ((ASimObject)o).getHitRadius() ) {
+						double way = AP.length();
+						if ( way < nearestDistance ) {
+							nearestDistance = way;
+							nearestObject = (ASimObject) o;
+						}
 					}
 				}
 				catch ( Exception ex ) {
@@ -399,8 +432,11 @@ public class SceneController extends AController implements GLEventListener {
 				}
 			}
 			else {
-				logger.info( o + " was wrong" );
+				logger.debug( o + " was wrong" );
 			}
+		}
+		if ( nearestObject != null ) {
+			nearestObject.hit();
 		}
 		
 	}

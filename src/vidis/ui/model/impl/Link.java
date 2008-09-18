@@ -508,5 +508,10 @@ public class Link extends ASimObject {
 		packets.remove( p );
 		
 	}
+
+	@Override
+	public double getHitRadius() {
+		return 0;
+	}
 	
 }

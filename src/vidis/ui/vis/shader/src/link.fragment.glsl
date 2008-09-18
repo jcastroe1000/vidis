@@ -35,7 +35,7 @@ void main() {
 	reflection_ray = (gl_ModelViewMatrix * vec4(reflection_ray,0.0)).xyz;
 
 
-	vec4 reflect_color = vec4( (gl_Color * 0.3).xyz, 0.3);
+	vec4 reflect_color = vec4( (gl_Color * 0.5).xyz, 0.3);
 	vec4 refract_color = vec4( gl_Color.xyz, 0.3 );
 	
 	fresnel_T = fresnel_T * 0.5;	

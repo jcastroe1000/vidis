@@ -95,10 +95,10 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 		gl.glGetIntegerv(GL.GL_VIEWPORT, view);
 		
 		gl.glColor3d( 1, 0, 0);
-		gl.glBegin( GL.GL_LINES );
-			gl.glVertex3d( P1.x, P1.y, P1.z );
-			gl.glVertex3d( P2.x, P2.y, P2.z );
-		gl.glEnd();
+//		gl.glBegin( GL.GL_LINES );
+//			gl.glVertex3d( P1.x, P1.y, P1.z );
+//			gl.glVertex3d( P2.x, P2.y, P2.z );
+//		gl.glEnd();
 	}
 	public String toString() {
 		return "DefaultCamera at ("+posx+", "+posz+") Zoom: "+zoom;
@@ -325,7 +325,7 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 		mul.scale(y, P1P2);
 		Vector4d ret = new Vector4d();
 		ret.add( Px1, mul);
-		e.ray = ret;
+		e.ray = new Vector4d( P1P2 );
 		e.rayOrigin = new Point4d( Px1 );
 		return ret;
 	}

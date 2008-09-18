@@ -184,9 +184,6 @@
 			<!-- TODO: don't know if this is working! -->
 			<and>
 				<os family="mac"/>
-				<not>
-					<os family="unix"/>
-				</not>
 			</and>
 		</condition>
 		<condition property="isUnix" else="false">
@@ -230,7 +227,8 @@
 		</condition>
 		<condition property="isUNIVERSAL" else="false">
 			<and>
-				<os arch="universal" />
+				<os arch="i386" />
+                <os family="mac" />
 			</and>
 		</condition>
 		<condition property="isMacOsXUNIVERSAL" else="false">
@@ -312,7 +310,7 @@
 						<equals arg1="${isUNIVERSAL}" arg2="true" />
 						<then>
 							<!-- arch: x86 -->
-							<property name="jogl.library.path" value="jogl-1.1.1${path-spacer}native${path-spacer}macosc${path-spacer}universal" />
+							<property name="jogl.library.path" value="jogl-1.1.1${path-spacer}native${path-spacer}macosx${path-spacer}universal" />
 						</then>
 						<elseif>
 							<equals arg1="${isPPC}" arg2="true" />
