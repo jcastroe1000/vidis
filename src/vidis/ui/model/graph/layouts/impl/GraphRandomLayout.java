@@ -19,7 +19,7 @@ import vidis.ui.model.graph.layouts.GraphLayout;
  *
  */
 public class GraphRandomLayout extends AGraphLayout {
-	private final double helper = 20;
+	private final double helper = 10;
 	
 	private final double xMin_min = -helper;
 	private final double xMin_max = -helper;
@@ -49,6 +49,7 @@ public class GraphRandomLayout extends AGraphLayout {
 	}
 	
 	public void apply(Collection<SimNode> nodes) throws Exception {
+		System.err.println("generate positions in {["+xMin+".."+xMax+"],["+yMin+".."+yMax+"],["+zMin+".."+zMax+"]}");
 		List<SimNode> nodesList = new ArrayList<SimNode>(nodes);
 		for(int i=0; i<nodesList.size(); i++) {
 			Point3d random = new Point3d();
