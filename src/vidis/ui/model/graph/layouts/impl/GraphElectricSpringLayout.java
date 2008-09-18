@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.media.j3d.Link;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
@@ -40,8 +39,9 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 	// constants to be configured nicely
 	private double stiffness = 0.2;
 	private double electricalRepulsion = 0.2;
-	private double increment = 0.2; // just small increments
+	private double increment = 0.5; // just small increments
 	private double pingFactor = 0.4;
+	private long slowMotion = 3;
 	
 	private GraphElectricSpringLayout() {
 		setNodeDensity(0.1);
@@ -57,7 +57,7 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 	
 	private double springFunction(double spring){
 		//return 1 + Math.log1p(spring) * 2;
-		return spring;
+		return spring * pingFactor;
 	}
 	
 	public void setNodeDensity(double density) {
@@ -107,7 +107,6 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 				}
 			}
 		}
-		Thread.sleep(2000);
 		apply_electricSpringAlgorithm(graph, nodesList, vertices);
 	}
 	
@@ -134,7 +133,6 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 			if(delta_history.size() > 2)
 				delta_history.remove(0);
 			double diff = Collections.max(delta_history) - Collections.min(delta_history);
-			System.err.println("steps left: "+maximum_relaxations+", delta: " + delta + ", diff: " + diff);
 			if(maximum_relaxations <= 0)
 				break;
 			if(delta_history.size() > 1 && diff < 0.1 && delta < 1)
@@ -217,6 +215,15 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 		
 		// finally apply the force
 		thisPos.add(forceVector);
+		
+		if(slowMotion > 0) {
+			try {
+				Thread.sleep(slowMotion);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		// store it into our variable system
 		//((DefaultVariable)(node.getVariableById(AVariable.COMMON_IDENTIFIERS.POSITION))).update(thisPos);
