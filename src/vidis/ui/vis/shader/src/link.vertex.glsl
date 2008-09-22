@@ -20,7 +20,7 @@ varying vec3 normal;
 varying vec3 incom;
 
 float functioner(float distance) {
-	return (distance + (1/distance)*0.01);
+	return (distance + (1.0/distance)*0.01);
 }
 
 vec3 recalculateVertex(vec3 packet, vec3 vertex, float distance) {

@@ -131,7 +131,12 @@ public class Link extends ASimObject {
 	}
 	
 	public static void useShaderProgram(GL gl) {
-		linkProgram.use(gl);
+		if ( linkProgram == null ) {
+			setupShaderProgram(gl);
+		}
+		else {
+			linkProgram.use(gl);
+		}
 	}
 	
 	private void drawText(GL gl, String text, double angle, double x, double y, double z) {
