@@ -9,7 +9,7 @@ import vidis.ui.model.impl.BasicGuiContainer;
  * @author Dominik
  *
  */
-public class CustomButton extends BasicGuiContainer {
+public abstract class CustomButton extends BasicGuiContainer {
 	private static Logger logger = Logger.getLogger(CustomButton.class);
-
+	
 }
