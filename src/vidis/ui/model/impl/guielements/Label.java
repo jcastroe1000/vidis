@@ -7,6 +7,12 @@ import org.apache.log4j.Logger;
 
 import vidis.ui.model.impl.BasicGuiContainer;
 
+/**
+ * this class draws a label
+ * 
+ * @author Dominik
+ *
+ */
 public class Label extends BasicGuiContainer {
 	private static Logger logger = Logger.getLogger(Label.class);
 	

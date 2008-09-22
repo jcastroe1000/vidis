@@ -4,6 +4,12 @@ import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
+/**
+ * this class represents a clickable button, basically it is
+ * a special label
+ * @author Dominik
+ *
+ */
 public class Button extends Label {
 	private static Logger logger = Logger.getLogger(Button.class);
 	public Button(String label) {
