@@ -22,6 +22,7 @@ import javax.vecmath.Vector4d;
 
 import org.apache.log4j.Logger;
 
+import vidis.ui.config.Configuration;
 import vidis.ui.events.CameraEvent;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.MouseClickedEvent;
@@ -59,8 +60,6 @@ public class SceneController extends AController implements GLEventListener {
 	
 	
 	private GLCanvas canvas;
-	
-	private boolean wireframe = false;
 	
 	/**
 	 * Used to animate the scene
@@ -261,7 +260,7 @@ public class SceneController extends AController implements GLEventListener {
 			gl.glPopMatrix();
 		}
 		else {
-			if ( wireframe ) {
+			if ( Configuration.DISPLAY_WIREFRAME ) {
 				gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
 			}
 //			if ( P != null && A != null ) {

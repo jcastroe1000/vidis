@@ -20,7 +20,7 @@ varying vec3 normal;
 varying vec3 incom;
 
 float functioner(float distance) {
-	return (distance + (1.0/distance)*0.01);
+	return (distance + (1.0/distance)*0.014);
 }
 
 vec3 recalculateVertex(vec3 packet, vec3 vertex, float distance) {
@@ -29,10 +29,9 @@ vec3 recalculateVertex(vec3 packet, vec3 vertex, float distance) {
 
 vec3 calculateAddVec( vec3 dir ) {
 	float l = length( dir );
-	if ( l <= 0.5 ) {
+	if ( l <= 1.0 ) {
 		return functioner( l ) * normalize( dir ) - dir;
-	}
-	else {
+	}else {
 		return vec3( 0, 0, 0 );
 	}
 }
