@@ -13,6 +13,7 @@ import javax.vecmath.Vector4d;
 
 import org.apache.log4j.Logger;
 
+import vidis.ui.config.Configuration;
 import vidis.ui.events.AEventHandler;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.MouseClickedEvent;
@@ -31,9 +32,6 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 	private double step = 0.1; // Scrollspeed
 	/* Zoom */
 	private double zoom;
-	/* the angle which we look down */
-	private double anglex = 0;
-	private double angley = 0;
 	
 	/* Actions */
 	private boolean scrollLeft = false;
@@ -87,9 +85,9 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 		//gl.glOrtho(4*zoom, 4*zoom, 4*zoom, 4*zoom, realX, realZ);
 		gl.glTranslated(realX, 1.0, realZ);
 		// rotieren
-		gl.glRotated(anglex, 1, 0, 0);
-		gl.glRotated(angley, 0, 1, 0);
-		// matrizen auslesen f�r click berechnung
+		gl.glRotated(Configuration.LOOK_ANGLE_X, 1, 0, 0);
+		gl.glRotated(Configuration.LOOK_ANGLE_Y, 0, 1, 0);
+		// matrizen auslesen fuer click berechnung
 		gl.glGetDoublev(GL.GL_MODELVIEW_MATRIX, model);
 		gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, proj);
 		gl.glGetIntegerv(GL.GL_VIEWPORT, view);
@@ -233,18 +231,18 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 				this.zoom+=step/3;
 		}
 		if ( skewUp ) {
-			if(anglex < 21)
-				anglex += step*6;
+			if(Configuration.LOOK_ANGLE_X < 21)
+				Configuration.LOOK_ANGLE_X += step*6;
 		}
 		if ( skewDown ) {
-			if(anglex > -21)
-				anglex -= step*6;
+			if(Configuration.LOOK_ANGLE_X > -21)
+				Configuration.LOOK_ANGLE_X -= step*6;
 		}
 		if ( rotateLeft ) {
-			angley += step*6;
+			Configuration.LOOK_ANGLE_Y += step*6;
 		}
 		if ( rotateRight ) {
-			angley -= step*6;
+			Configuration.LOOK_ANGLE_Y -= step*6;
 		}
 	}
 	
@@ -329,6 +327,4 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 		e.rayOrigin = new Point4d( Px1 );
 		return ret;
 	}
-	
-	
 }

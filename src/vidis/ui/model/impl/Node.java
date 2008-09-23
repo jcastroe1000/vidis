@@ -24,6 +24,8 @@ public class Node extends ASimObject {
 			gl.glTranslated(0.0 + move.x, 0.8 + move.y, 0.0 + move.z);
 			gl.glScaled(0.001, 0.001, 0.001);
 			gl.glRotated(angle, x, y, z);
+			gl.glRotated(Configuration.LOOK_ANGLE_X, -1, 0, 0);
+			gl.glRotated(Configuration.LOOK_ANGLE_Y, 0, -1, 0);
 			textRenderer.begin3DRendering();
 			textRenderer.setUseVertexArrays(false);
 			textRenderer.draw3D( text, 0f, 0f, 0f, 1f );

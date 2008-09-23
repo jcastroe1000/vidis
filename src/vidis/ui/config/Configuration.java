@@ -59,4 +59,14 @@ public class Configuration {
 	 * NOTE: 1 may give best display, 0 best performance (a HEAVY load of performance), 0.5 is a good half-way
 	 */
 	public static double DETAIL_LEVEL = 0.5;
+
+	/**
+	 * the angle we look down (x axis)
+	 */
+	public static double LOOK_ANGLE_X = 0;
+	
+	/**
+	 * the angle we look down (y axis)
+	 */
+	public static double LOOK_ANGLE_Y = 0;
 }

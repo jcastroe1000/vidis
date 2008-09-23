@@ -152,6 +152,8 @@ public class Link extends ASimObject {
 			Point3d pointM = calculateMiddle(knownPointA, knownPointB, 0.7);
 			gl.glTranslated(pointM.x, pointM.y, pointM.z);
 			gl.glRotated(angle, x, y, z);
+			gl.glRotated(Configuration.LOOK_ANGLE_X, -1, 0, 0);
+			gl.glRotated(Configuration.LOOK_ANGLE_Y, 0, -1, 0);
 			// scale it down
 			gl.glScaled(0.001, 0.001, 0.001);
 			textRenderer.begin3DRendering();
