@@ -57,6 +57,12 @@ public class Configuration {
 	 * adjustable detail level within [0 .. 1] (where 0 is poor, 1 is best)
 	 * 
 	 * NOTE: 1 may give best display, 0 best performance (a HEAVY load of performance), 0.5 is a good half-way
+	 * 
+	 * FURTHER NOTE: a value <0 is not supported and may cause software crash!
+	 * 
+	 * LAST NOTE: value >1 possible, but only on high-end personal computers that are REALLY fast;
+	 * 			  the value of 1.0 was adapted for a Core2 Duo 2.6GHz with nVidia Quadro FX 370, this
+	 *            means that your system should be equal or faster than that to use a detail level>>1
 	 */
 	public static double DETAIL_LEVEL = 0.5;
 
