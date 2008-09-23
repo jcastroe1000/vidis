@@ -49,7 +49,7 @@ public class Gui extends AEventHandler {
 	private void initializeControls(){
 		logger.debug("initializeControls()");
 		BasicGuiContainer container1 = new BasicGuiContainer();
-		container1.setLayout(new PercentMarginLayout(1,-0.9,-0.9,1,-0.1,-0.1));
+		container1.setLayout(new PercentMarginLayout(1,0.9,-0.9,1,-0.1,-0.1));
 		
 		TextGuiContainer playButton = new TextGuiContainer() {
 			@Override
@@ -57,11 +57,11 @@ public class Gui extends AEventHandler {
 				Dispatcher.forwardEvent( IVidisEvent.SimulatorPlay );
 			}
 		};
-		playButton.setLayout(new PercentMarginLayout(-0.1,-0.1,-0.1,-0.1,-0.8,-0.8));
+		playButton.setLayout(new PercentMarginLayout(-0.1,0.9,-0.1,-0.1,-0.8,-0.8));
 		playButton.setText("Play");
 
 		BasicGuiContainer container2 = new BasicGuiContainer();
-		container2.setLayout(new PercentMarginLayout(-0.2,-0.9,-0.8,1,-0.1,-0.1));
+		container2.setLayout(new PercentMarginLayout(-0.2,0.9,-0.8,1,-0.1,-0.1));
 		
 		TextGuiContainer loadButton = new TextGuiContainer();
 		loadButton.setLayout(new PercentMarginLayout(-0.1,-0.1,-0.1,-0.1,-0.8,-0.8));
@@ -73,7 +73,7 @@ public class Gui extends AEventHandler {
 		mainContainer.addChild(container2);
 		container2.addChild(loadButton);
 		fps = new TextGuiContainer();
-		fps.setLayout(new PercentMarginLayout(1,1,-0.9,-0.9,-0.1,-0.1));
+		fps.setLayout(new PercentMarginLayout(1,-0.8,-0.9,-0.9,-0.1,-0.1));
 		fps.setText("0fps");
 		mainContainer.addChild(fps);
 	}
