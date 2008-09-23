@@ -163,8 +163,9 @@ public class Link extends ASimObject {
 		for( int i=0; i<9; i++) {
 			if(packets.size() > i) {
 				Packet p = packets.get(i);
-				Vector3d pos = new Vector3d(p.getPosition());
-				if(pos != null) {
+				Point3d point = p.getPosition();
+				if(point != null) {
+					Vector3d pos = new Vector3d(point);
 					linkProgram.getVariableByName("packet" + i).setValue(pos, gl);
 				}
 				//linkProgram.getVariableByName( "packet" + j++ ).setValue( ((Packet)packets.toArray()[i]).getPosition(), gl );
