@@ -51,5 +51,5 @@ public class Configuration {
 	/**
 	 * just display wireframe
 	 */
-	public static final boolean DISPLAY_WIREFRAME = true;
+	public static boolean DISPLAY_WIREFRAME = true;
 }
