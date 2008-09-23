@@ -51,10 +51,12 @@ public class Configuration {
 	/**
 	 * just display wireframe
 	 */
-	public static boolean DISPLAY_WIREFRAME = true;
+	public static boolean DISPLAY_WIREFRAME = false;
 	
 	/**
 	 * adjustable detail level within [0 .. 1] (where 0 is poor, 1 is best)
+	 * 
+	 * NOTE: 1 may give best display, 0 best performance (a HEAVY load of performance), 0.5 is a good half-way
 	 */
 	public static double DETAIL_LEVEL = 0.5;
 }

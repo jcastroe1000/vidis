@@ -29,7 +29,7 @@ vec3 recalculateVertex(vec3 packet, vec3 vertex, float distance) {
 
 vec3 calculateAddVec( vec3 dir ) {
 	float l = length( dir );
-	if ( l <= 1.0 ) {
+	if ( l <= 0.8 ) {
 		return functioner( l ) * normalize( dir ) - dir;
 	}else {
 		return vec3( 0, 0, 0 );

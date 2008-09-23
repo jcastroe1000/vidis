@@ -18,6 +18,7 @@ import com.sun.opengl.util.j2d.TextRenderer;
 import vidis.data.sim.SimLink;
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
+import vidis.ui.config.Configuration;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.model.structure.ASimObject;
 import vidis.ui.model.structure.IVisObject;
@@ -253,10 +254,12 @@ public class Link extends ASimObject {
 	}
 	
 	private void calculateControlPoints( Point3d pointA, Point3d pointB) {
+		int segments_min = 3;
+		int segments_max = 45;
 		// calc axis
 			Vector3d AB = new Vector3d( pointB );
 			AB.sub( pointA );
-			segments = (int) Math.round( 5 * AB.length() );
+			segments = (int) Math.round( ( Configuration.DETAIL_LEVEL * segments_max + segments_min) * AB.length() );
 			AB.normalize();
 			
 			right = VecUtil.cross( AB, up );
