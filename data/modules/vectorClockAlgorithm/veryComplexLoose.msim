@@ -325,9 +325,22 @@
 			</variables>
 			<delay>3</delay>
 		</link>
+		<link>
+			<id>cross</id>
+			<class>DefaultLink</class>
+			<variables>
+				<name>THIS LINK SHOWS THAT 9 PACKETS HAVE SHADER, NOT MORE!</name>
+			</variables>
+			<delay>240</delay>
+		</link>
 
 	</objects>
 	<connections>
+		<connection>
+			<nodeA>node23</nodeA>
+			<nodeB>node17</nodeB>
+			<link>cross</link>
+		</connection>
 		<connection>
 			<nodeA>node01</nodeA>
 			<nodeB>node02</nodeB>

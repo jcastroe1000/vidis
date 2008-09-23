@@ -16,7 +16,6 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target( { ElementType.METHOD, ElementType.FIELD })
-@Deprecated
 public @interface Display {
 	DisplayType type() default DisplayType.SHOW_SWING;
 
