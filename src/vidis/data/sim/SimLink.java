@@ -83,11 +83,11 @@ public class SimLink extends AComponent implements ISimLinkCon {
     private void setDelay(long delay) {
     	this.delay = delay;
     }
-    public void connect(SimNode a, SimNode b) {
+    public synchronized void connect(SimNode a, SimNode b) {
     	if(this.isConnected()) {
     		logger.warn("tried to reconnect connected link " + this + " to {"+a+","+b+"}; error detected and prohibited!");
-    	} else if(a.isConnectedTo(b)) {
-    		logger.warn("tried to reconnect two nodes that are already connected with the link " + this + " to {"+a+","+b+"}; error detected and prohibited!");
+    	} else if(a.isConnectedTo(b) || b.isConnectedTo(a)) {
+    		logger.warn("tried to reconnect the nodes {"+a+","+b+"} that are already connected; error detected and prohibited!");
     	} else {
 			this.a = a;
 			this.b = b;
@@ -392,7 +392,7 @@ public class SimLink extends AComponent implements ISimLinkCon {
     }
 
 	public boolean isConnected() {
-		return a != null || b != null;
+		return a != null && b != null;
 	}
 
 	public void dropPacketOnLink(IUserPacket packet) {

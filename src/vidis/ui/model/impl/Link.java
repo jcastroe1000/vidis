@@ -179,7 +179,7 @@ public class Link extends ASimObject {
 				}
 				//linkProgram.getVariableByName( "packet" + j++ ).setValue( ((Packet)packets.toArray()[i]).getPosition(), gl );
 			} else {
-				linkProgram.getVariableByName("packet"+i).setValue(new Vector3d(0,0,0), gl);
+				linkProgram.getVariableByName("packet"+i).setValue(new Vector3d(100,100,100), gl);
 			}
 		}
 

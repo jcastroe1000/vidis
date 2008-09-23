@@ -1,16 +1,14 @@
 package vidis.ui.model.impl;
 
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 
 import javax.media.opengl.GL;
 import javax.swing.JOptionPane;
 
 import vidis.ui.events.GuiMouseEvent;
-import vidis.ui.model.structure.AGuiContainer;
 
 
-public class TextGuiContainer extends AGuiContainer {
+public class TextGuiContainer extends BasicGuiContainer {
 
 	private String text;
 	private Color color = Color.black;
@@ -21,13 +19,14 @@ public class TextGuiContainer extends AGuiContainer {
 	@Override
 	public void renderContainer(GL gl) {
 		requireTextRenderer();
-			gl.glPushMatrix();
+		gl.glPushMatrix();
 			//gl.glTranslated(0, 0, textRenderer.getBounds(label).getHeight());
 			gl.glScaled(0.01, 0.01, 0.01);
 			textRenderer.begin3DRendering();
 			textRenderer.draw3D(text, 0, 0, 0, 1f);
 			textRenderer.end3DRendering();
 		gl.glPopMatrix();
+		super.renderContainer(gl);
 //		renderStrokeString(gl, GLUT.STROKE_ROMAN, text, getWidth());
 //		Rectangle2D bounds = textRenderer.getBounds(text);
 //		gl.glPushMatrix();
