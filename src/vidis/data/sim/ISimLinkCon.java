@@ -1,6 +1,9 @@
 package vidis.data.sim;
 
+import java.util.List;
+
 import vidis.data.mod.IUserNode;
+import vidis.data.mod.IUserPacket;
 
 /**
  * this class provides all necessary functions for the user
@@ -27,4 +30,27 @@ public interface ISimLinkCon extends IAComponentCon {
 	 * @return long
 	 */
 	public long getDelay();
+
+	/**
+	 * retrieve all packets on this link
+	 * @return a list of packets
+	 */
+	public List<IUserPacket> getPacketsOnLink();
+
+	/**
+	 * drops a packet the link
+	 * @param packet a packet specified
+	 */
+	public void dropPacketOnLink(IUserPacket packet);
+	
+	/**
+	 * drops all packets on the link
+	 */
+	public void dropPacketsOnLink();
+
+	/**
+	 * retrieve the id of this thingy
+	 * @return the string unique identifier
+	 */
+	public String getId();
 }

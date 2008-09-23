@@ -1,12 +1,15 @@
 package vidis.data;
 
-import vidis.sim.exceptions.ObstructInitCallException;
+import java.util.List;
+
 import vidis.data.mod.AUserComponent;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
+import vidis.data.mod.IUserPacket;
 import vidis.data.sim.ISimLinkCon;
 import vidis.data.var.AVariable;
 import vidis.data.var.AVariable.COMMON_SCOPES;
+import vidis.sim.exceptions.ObstructInitCallException;
 
 /**
  * abstract user link represents a link by a user;
@@ -56,7 +59,11 @@ public abstract class AUserLink extends AUserComponent implements IUserLink {
     }
 
     public String toString() {
-    	return "Link#" + hashCode();
+    	return "Link#" + getId();
+    }
+    
+    protected String getId() {
+    	return simulatorComponent.getId();
     }
 
     public final void interrupt() {
@@ -73,6 +80,18 @@ public abstract class AUserLink extends AUserComponent implements IUserLink {
 		} catch (NullPointerException e) {
 		    // nothing
 		}
+    }
+    
+    public final List<IUserPacket> getPacketsOnLink() {
+    	return simulatorComponent.getPacketsOnLink();
+    }
+    
+    public final void dropPacketOnLink(IUserPacket packet) {
+    	simulatorComponent.dropPacketOnLink(packet);
+    }
+    
+    public final void dropPacketsOnLink() {
+    	simulatorComponent.dropPacketsOnLink();
     }
 
     public final AVariable getVariable(String identifier) {

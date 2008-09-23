@@ -58,7 +58,7 @@ public abstract class AUserNode extends AUserComponent implements IUserNode {
     }
 
     public String toString() {
-    	return "Node#" + hashCode();
+    	return "Node#" + getId();
     }
 
     public final void interrupt() {

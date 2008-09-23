@@ -1,5 +1,6 @@
 package vidis.data.sim;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.apache.log4j.Logger;
 
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
+import vidis.data.mod.IUserPacket;
 import vidis.data.var.AVariable;
 import vidis.sim.Simulator;
 import vidis.sim.exceptions.ObstructInitCallException;
@@ -392,4 +394,35 @@ public class SimLink extends AComponent implements ISimLinkCon {
 	public boolean isConnected() {
 		return a != null || b != null;
 	}
+
+	public void dropPacketOnLink(IUserPacket packet) {
+		for(int i=0; i<queue.size(); i++) {
+			PacketQueueHolder pHolder = queue.get(i);
+			if(pHolder.packet.getUserLogic().equals(packet)) {
+				pHolder.packet.kill();
+				queue.remove(i);
+				i--;
+			}
+		}
+	}
+
+	public void dropPacketsOnLink() {
+		for(PacketQueueHolder pHolder : queue) {
+			pHolder.packet.kill();
+		}
+		queue.clear();
+	}
+
+	public List<IUserPacket> getPacketsOnLink() {
+		List<IUserPacket> list = new ArrayList<IUserPacket>();
+		for(int i=0; i<queue.size(); i++) {
+			PacketQueueHolder pHolder = queue.get(i);
+			list.add(pHolder.packet.getUserLogic());
+		}
+		return list;
+	}
+	
+	public String getId() {
+    	return getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
+    }
 }
