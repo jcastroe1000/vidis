@@ -201,7 +201,7 @@ public class SimPacket extends AComponent implements ISimPacketCon {
     	getThrough().getVisObject().delPacket( this.visObject );
     	logger.debug( "kill()" );
     	super.kill();
-    	logger.info("");
+    	//logger.info("");
     	ObjectEvent oe = new ObjectEvent( IVidisEvent.ObjectUnregister, this.visObject );
     	Dispatcher.forwardEvent( oe );
     	this.visObject = null;
