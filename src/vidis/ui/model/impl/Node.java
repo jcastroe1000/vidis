@@ -5,6 +5,7 @@ import javax.vecmath.Vector3d;
 
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
+import vidis.ui.config.Configuration;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.model.structure.ASimObject;
 
@@ -17,6 +18,8 @@ public class Node extends ASimObject {
 	private static int displayListId = -1;
 
 	private void drawText(GL gl, String text, double angle, double x, double y, double z, Vector3d move) {
+		if(Configuration.DISPLAY_WIREFRAME)
+			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_FILL );
 		gl.glPushMatrix();
 			gl.glTranslated(0.0 + move.x, 0.8 + move.y, 0.0 + move.z);
 			gl.glScaled(0.001, 0.001, 0.001);
@@ -26,6 +29,9 @@ public class Node extends ASimObject {
 			textRenderer.draw3D( text, 0f, 0f, 0f, 1f );
 			textRenderer.end3DRendering();
 		gl.glPopMatrix();
+		// disable wireframe for text
+		if(Configuration.DISPLAY_WIREFRAME)
+			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
 	}
 	
 	@Override
@@ -49,7 +55,7 @@ public class Node extends ASimObject {
 			// front
 			gl.glPushMatrix();
 				// rotate the whole thingy by 180
-				gl.glRotated(180, 0, 1, 0);
+//				gl.glRotated(180, 0, 1, 0);
 				drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
 //				// front
 //				drawText(gl, text, 0, 0, 1, 0, new Vector3d(scale,0,scale*1));
@@ -67,9 +73,15 @@ public class Node extends ASimObject {
 	}
 	
 	public void preRenderObject(GL gl) {
+		int slices_min = 6;
+		int slices_max = 40;
+		int stacks_min = 6;
+		int stacks_max = 40;
+		int slices = (int)Math.round(Configuration.DETAIL_LEVEL * slices_max + slices_min);
+		int stacks = (int)Math.round(Configuration.DETAIL_LEVEL * stacks_max + stacks_min);
 		requireTextRenderer();
 		gl.glNewList( displayListId, GL.GL_COMPILE );
-			glut.glutSolidSphere( 0.5, 20, 20 );
+			glut.glutSolidSphere( 0.5, slices, stacks );
 		gl.glEndList();
 	}
 

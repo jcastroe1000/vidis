@@ -7,6 +7,7 @@ import javax.vecmath.Vector3d;
 
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
+import vidis.ui.config.Configuration;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.model.structure.ASimObject;
 
@@ -23,6 +24,9 @@ public class Packet extends ASimObject {
 	private double position = Math.random()*360;
 	
 	private void drawText(GL gl, String text, double angle, double x, double y, double z, Vector3d move) {
+		// disable wireframe for text
+		if(Configuration.DISPLAY_WIREFRAME)
+			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_FILL );
 		gl.glPushMatrix();
 			gl.glCullFace(GL.GL_FRONT);
 			gl.glFrontFace(GL.GL_CW);
@@ -34,6 +38,9 @@ public class Packet extends ASimObject {
 			textRenderer.draw3D( text, 0f, 0f, 0f, 1f );
 			textRenderer.end3DRendering();
 		gl.glPopMatrix();
+		// disable wireframe for text
+		if(Configuration.DISPLAY_WIREFRAME)
+			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
 	}
 	
 	@Override
@@ -72,7 +79,7 @@ public class Packet extends ASimObject {
 			if(text.length() > 0) {
 				gl.glPushMatrix();
 					// rotate the whole thingy by 180 (future rotate by 180 AND camera angle)
-					gl.glRotated(180, 0, 1, 0);
+					//gl.glRotated(180, 0, 1, 0);
 					drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
 		//			// front
 		//			drawText(gl, text, 0, 0, 1, 0, new Vector3d(scale,0,scale*1));

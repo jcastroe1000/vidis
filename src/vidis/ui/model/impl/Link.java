@@ -90,7 +90,7 @@ public class Link extends ASimObject {
 				text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
 			} finally {
 				if(text != "")
-					drawText(gl, text, 180, 0, 1, 0);
+					drawText(gl, text, 0, 0, 1, 0);
 			}
 			Link.useShaderProgram(gl);
 			renderObject(gl);
@@ -141,6 +141,9 @@ public class Link extends ASimObject {
 	}
 	
 	private void drawText(GL gl, String text, double angle, double x, double y, double z) {
+		// disable wireframe for text
+		if(Configuration.DISPLAY_WIREFRAME)
+			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_FILL );
 		gl.glPushMatrix();
 			//gl.glCullFace(GL.GL_FRONT);
 			gl.glEnable(GL.GL_AUTO_NORMAL);
@@ -157,6 +160,9 @@ public class Link extends ASimObject {
 			textRenderer.end3DRendering();
 			//gl.glFrontFace(GL.GL_CCW);
 		gl.glPopMatrix();
+		// enable wireframe
+		if(Configuration.DISPLAY_WIREFRAME)
+			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
 	}
 	
 	@Override
