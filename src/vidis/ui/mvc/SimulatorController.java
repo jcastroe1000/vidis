@@ -1,9 +1,15 @@
 package vidis.ui.mvc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
+import vidis.data.sim.AComponent;
+import vidis.data.sim.SimNode;
 import vidis.sim.Simulator;
 import vidis.ui.events.IVidisEvent;
+import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
 import vidis.ui.mvc.api.AController;
 import vidis.util.ResourceManager;
 
@@ -46,6 +52,27 @@ public class SimulatorController extends AController {
 //		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "complex.msim") );
 //		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "veryComplex.msim") );
 		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "veryComplexLoose.msim") );
+		// apply default layout
+		layout();
+		// start playing
+		sim.getPlayer().play();
+		
+	}
+	
+	private void layout() {
+		try {
+			List<AComponent> components = sim.getSimulatorComponents();
+			List<SimNode> nodes = new ArrayList<SimNode>();
+			for(AComponent component : components) {
+				if(component instanceof SimNode) {
+					nodes.add((SimNode) component);
+				}
+			}
+			GraphElectricSpringLayout.getInstance().apply(nodes);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

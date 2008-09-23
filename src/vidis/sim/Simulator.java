@@ -226,14 +226,6 @@ public class Simulator {
 		generateSimNode_SimLink_connections(nodes, links, reader.getDocument());
 		
 		
-		// FIXME here we could apply very easily a graph layout, for dummy usage I apply the graphelectricspringlayout
-		try {
-			GraphElectricSpringLayout.getInstance().apply(nodes.values());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		// for (String id_1 : links.keySet()) {
 		// SimLink l_1 = links.get(id_1);
 		// if (l_1.getNodeA() != null && l_1.getNodeB() != null) {
