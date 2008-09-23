@@ -4,6 +4,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * vector time class .. coolest of all
+ * 
+ * stores time vectors for nodes
+ * @author Dominik
+ *
+ */
 public class VectorTime {
     private Map<VectorClockAlgorithmNode, Integer> timeVector = new ConcurrentHashMap<VectorClockAlgorithmNode, Integer>();
 

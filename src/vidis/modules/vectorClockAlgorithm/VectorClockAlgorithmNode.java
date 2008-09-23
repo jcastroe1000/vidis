@@ -5,6 +5,11 @@ import vidis.data.annotation.Display;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserPacket;
 
+/**
+ * vector clock algorithm node, even cooler :-)
+ * @author Dominik
+ *
+ */
 public class VectorClockAlgorithmNode extends AUserNode {
     private VectorTime localTimeVector = new VectorTime(this, 0);
 

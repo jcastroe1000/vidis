@@ -5,6 +5,11 @@ import vidis.data.annotation.ColorType;
 import vidis.data.annotation.ComponentColor;
 import vidis.data.annotation.Display;
 
+/**
+ * vector clock algorithm packet .. really cool :-)
+ * @author Dominik
+ *
+ */
 @ComponentColor(color = ColorType.LIGHT_GREY)
 public class VectorClockAlgorithmPacket extends AUserPacket {
     private VectorTime time = new VectorTime();
