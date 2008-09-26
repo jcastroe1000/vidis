@@ -14,7 +14,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import vidis.data.annotation.ComponentColor;
 import vidis.data.annotation.ComponentInfo;
 import vidis.data.annotation.Display;
-import vidis.data.annotation.DisplayType;
 import vidis.data.mod.IUserComponent;
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableChangeListener;
@@ -119,7 +118,7 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 				    if (hasVariable(id)) {
 				    	((DefaultVariable)getVariableById(id)).update(aa.color());
 				    } else {
-				    	registerVariable(new DefaultVariable(id, DisplayType.SHOW_SWING, aa.color()));
+				    	registerVariable(new DefaultVariable(id, aa.color()));
 				    }
 				} else if (a.annotationType().equals(ComponentInfo.class)) {
 				    ComponentInfo aa = (ComponentInfo) a;
@@ -127,7 +126,7 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 				    if (hasVariable(id)) {
 				    	((DefaultVariable)getVariableById(id)).update(aa.name());
 				    } else {
-				    	registerVariable(new DefaultVariable(id, DisplayType.SHOW_SWING, aa.name()));
+				    	registerVariable(new DefaultVariable(id, aa.name()));
 				    }
 				} else {
 				    //Logger.output(LogLevel.WARN, this,
@@ -157,7 +156,7 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 						// only update
 						((FieldVariable)getVariableById(id)).update(getUserLogic(), f);
 				    } else {
-				    	registerVariable(new FieldVariable(id, d.type(), getUserLogic(), f));
+				    	registerVariable(new FieldVariable(id, getUserLogic(), f));
 				    }
 				} else {
 //				    Logger.output(LogLevel.WARN, this,

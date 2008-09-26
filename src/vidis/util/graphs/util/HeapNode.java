@@ -9,6 +9,11 @@ import java.io.*;
 
 public class HeapNode implements Serializable {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8448344229851058917L;
+
+/**
    * The actual object encapsulated by the <tt>HeapNode</tt>.
    */
   Object    node;

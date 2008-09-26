@@ -2,7 +2,6 @@ package vidis.data.var.vars;
 
 import java.lang.reflect.Field;
 
-import vidis.data.annotation.DisplayType;
 import vidis.data.var.AVariable;
 
 /**
@@ -18,18 +17,18 @@ public class FieldVariable extends AVariable {
 		this.object = obj;
 		this.field = field;
 	}
-	/**
-	 * the constructor of a field variable
-	 * @param id the id of this variable
-	 * @param type the display type of this variable
-	 * @param obj the object who has the field
-	 * @param field the field to check for
-	 */
-	public FieldVariable(String id, DisplayType type, Object obj, Field field) {
-		super(id, type);
-		this.object = obj;
-		this.field = field;
-	}
+//	/**
+//	 * the constructor of a field variable
+//	 * @param id the id of this variable
+//	 * @param type the display type of this variable
+//	 * @param obj the object who has the field
+//	 * @param field the field to check for
+//	 */
+//	public FieldVariable(String id, DisplayType type, Object obj, Field field) {
+//		super(id, type);
+//		this.object = obj;
+//		this.field = field;
+//	}
 
 	private Object object;
 	private Field field;

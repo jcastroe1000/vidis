@@ -12,13 +12,17 @@ import java.io.*;
  */
 
 public class Queue implements Serializable {
-  List  delegate;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1408917970948901855L;
+List<Object>  delegate;
 
   /**
    * Creates an empty queue
    */
   public Queue() {
-    this.delegate = new LinkedList();
+    this.delegate = new LinkedList<Object>();
   }
 
   /**

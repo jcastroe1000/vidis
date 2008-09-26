@@ -22,8 +22,8 @@ public class NodeGuiElement extends AGuiContainer {
 	public void renderContainer(GL gl) {
 		// draw heading
 		// FIXME
-		// draw content
-		// FIXME
+		// draw content, need to get variables
+		getNode();
 	}
 
 }

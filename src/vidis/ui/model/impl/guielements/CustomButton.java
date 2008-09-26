@@ -1,7 +1,5 @@
 package vidis.ui.model.impl.guielements;
 
-import org.apache.log4j.Logger;
-
 import vidis.ui.model.impl.BasicGuiContainer;
 
 /**
@@ -10,6 +8,6 @@ import vidis.ui.model.impl.BasicGuiContainer;
  *
  */
 public abstract class CustomButton extends BasicGuiContainer {
-	private static Logger logger = Logger.getLogger(CustomButton.class);
+//	private static Logger logger = Logger.getLogger(CustomButton.class);
 	
 }

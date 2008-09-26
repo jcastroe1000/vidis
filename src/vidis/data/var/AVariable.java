@@ -3,8 +3,6 @@ package vidis.data.var;
 import java.util.ArrayList;
 import java.util.List;
 
-import vidis.data.annotation.DisplayType;
-
 public abstract class AVariable implements IVariableChangeProducer {
 	public static final class COMMON_SCOPES {
 		public static final String USER = "user";
@@ -19,7 +17,7 @@ public abstract class AVariable implements IVariableChangeProducer {
 		public static final String NAME = COMMON_SCOPES.USER + ".name";
 	}
 	private String identifier;
-	private DisplayType displayType = DisplayType.SHOW_SWING;
+//	private DisplayType displayType = DisplayType.SHOW_SWING;
 	private List<IVariableChangeListener> variableChangeListeners;
 	private AVariable() {
 		this.variableChangeListeners = new ArrayList<IVariableChangeListener>();
@@ -29,23 +27,23 @@ public abstract class AVariable implements IVariableChangeProducer {
 		setIdentifier(id);
 	}
 	
-	@Deprecated
-	public AVariable(String id, DisplayType type) {
-		this(id);
-		setDisplayType(type);
-	}
+//	@Deprecated
+//	public AVariable(String id, DisplayType type) {
+//		this(id);
+////		setDisplayType(type);
+//	}
 	
 	public abstract Object getData();
 	
-	@Deprecated
-	private void setDisplayType(DisplayType type) {
-		this.displayType = type;
-	}
-	
-	@Deprecated
-	public DisplayType getDisplayType() {
-		return displayType;
-	}
+//	@Deprecated
+//	private void setDisplayType(DisplayType type) {
+//		this.displayType = type;
+//	}
+//	
+//	@Deprecated
+//	public DisplayType getDisplayType() {
+//		return displayType;
+//	}
 	
 	/**
 	 * retrieve the identifier of this variable

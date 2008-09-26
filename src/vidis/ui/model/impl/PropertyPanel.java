@@ -2,12 +2,10 @@ package vidis.ui.model.impl;
 
 import javax.media.opengl.GL;
 
-import org.apache.log4j.Logger;
-
 import vidis.ui.model.structure.ASimObject;
 
 public class PropertyPanel extends BasicGuiContainer {
-	private static Logger logger = Logger.getLogger(PropertyPanel.class);
+//	private static Logger logger = Logger.getLogger(PropertyPanel.class);
 
 	private ASimObject propertySource;
 	

@@ -8,8 +8,12 @@ import java.io.*;
  * Two <tt>HeapNode</tt>s are the same if they have the same priority,
  * regardless of the object encaspulated by the <tt>HeapNode</tt>s.
  */
-public class HeapNodeComparator implements Comparator, Serializable {
+public class HeapNodeComparator implements Comparator<Object>, Serializable {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7222551125064782794L;
+/**
    * Control how compare() return its value. If order is < 0,
    * then compare() will return -1 if the priority of the first heap node
    * argument is numerically less than the priority of the second heap node argument.

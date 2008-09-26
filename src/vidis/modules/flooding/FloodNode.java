@@ -3,14 +3,13 @@ package vidis.modules.flooding;
 import vidis.data.AUserNode;
 import vidis.data.annotation.ComponentInfo;
 import vidis.data.annotation.Display;
-import vidis.data.annotation.DisplayType;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserPacket;
 
 @ComponentInfo(name = "FloodNode")
 public class FloodNode extends AUserNode {
 
-	@Display(name = "flood sent", type = DisplayType.SHOW_SWING)
+	@Display(name = "flood sent")
 	public boolean floodSent = false;
 	
 	public void execute() {

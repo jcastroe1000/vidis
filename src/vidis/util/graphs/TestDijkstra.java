@@ -11,7 +11,7 @@ public class TestDijkstra {
 
   public TestDijkstra() throws Exception {
     WeightedGraph graph = new WeightedGraphImpl( false ); // ungerichtet
-    Vertex  u0, u1, u2, u3, u4, u5, u6;
+    Vertex  u1, u2, u3, u4, u5, u6;
 
     // Beispielgraph fur Dijkstra-Algorithmus aus der Vorlesung
     

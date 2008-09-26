@@ -3,7 +3,6 @@ package vidis.data.var.vars;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import vidis.data.annotation.DisplayType;
 import vidis.data.var.AVariable;
 
 /**
@@ -26,20 +25,20 @@ public class MethodVariable extends AVariable {
 		this.method = method;
 	}
 	
-	/**
-	 * one of the constructors, but a deprecated one, use another
-	 * if possible. :-)
-	 * @param id the identifier of this variable
-	 * @param type the display type of this variable
-	 * @param object the object to check onto
-	 * @param method the method to check for
-	 */
-	@Deprecated
-	public MethodVariable(String id, DisplayType type, Object object, Method method) {
-		super(id, type);
-		this.object = object;
-		this.method = method;
-	}
+//	/**
+//	 * one of the constructors, but a deprecated one, use another
+//	 * if possible. :-)
+//	 * @param id the identifier of this variable
+//	 * @param type the display type of this variable
+//	 * @param object the object to check onto
+//	 * @param method the method to check for
+//	 */
+//	@Deprecated
+//	public MethodVariable(String id, DisplayType type, Object object, Method method) {
+//		super(id, type);
+//		this.object = object;
+//		this.method = method;
+//	}
     /*public MethodVariable(Object object, Method method) {
     	this.object = object;
     	this.method = method;

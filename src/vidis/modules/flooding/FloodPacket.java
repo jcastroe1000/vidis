@@ -4,7 +4,6 @@ import vidis.data.AUserPacket;
 import vidis.data.annotation.ColorType;
 import vidis.data.annotation.ComponentColor;
 import vidis.data.annotation.Display;
-import vidis.data.annotation.DisplayType;
 
 @ComponentColor(color = ColorType.LIGHT_GREY)
 public class FloodPacket extends AUserPacket {
@@ -22,7 +21,7 @@ public class FloodPacket extends AUserPacket {
 		this(packet.whoSentThis, packet.hopCount + 1);
 	}
 
-	@Display(name = "name", type = DisplayType.SHOW_3D_AND_SWING)
+	@Display(name = "name")
 	public String getName() {
 		return "flood(" + getCreator().getVariable("name").getData().toString() + ")";
 	}

@@ -16,7 +16,6 @@ import vidis.ui.model.impl.guielements.Basic3DScrollPane;
 import vidis.ui.model.impl.guielements.Label;
 import vidis.ui.model.structure.IVisObject;
 import vidis.ui.mvc.api.Dispatcher;
-import vidis.ui.vis.objects.Axis;
 
 
 public class Gui extends AEventHandler {

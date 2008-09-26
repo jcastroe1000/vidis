@@ -1,9 +1,7 @@
 package vidis.ui.model.impl;
 
-import java.awt.Font;
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.media.opengl.GL;
@@ -12,8 +10,6 @@ import javax.vecmath.Tuple3d;
 import javax.vecmath.Vector3d;
 
 import org.apache.log4j.Logger;
-
-import com.sun.opengl.util.j2d.TextRenderer;
 
 import vidis.data.sim.SimLink;
 import vidis.data.var.AVariable;

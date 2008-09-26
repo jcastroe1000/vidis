@@ -1,6 +1,5 @@
 package vidis.data.var.vars;
 
-import vidis.data.annotation.DisplayType;
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableChangeListener;
 
@@ -27,20 +26,20 @@ public class DefaultVariable extends AVariable {
 		setData(value);
 	}
 
-	/**
-	 * the public constructor of this variable
-	 * 
-	 * PLEASE NOTE: THIS CONSTRUCTOR IS DEPRECATED AND SHOULD NO LONGER
-	 * 				BE USED AT IT WILL BE REMOVED SOON!
-	 * @param id the id of this variable
-	 * @param type the display type of this variable (DEPRECATED)
-	 * @param value the value of this variable
-	 */
-	@Deprecated
-	public DefaultVariable(String id, DisplayType type, Object value) {
-		super(id, type);
-		this.setData(value);
-	}
+//	/**
+//	 * the public constructor of this variable
+//	 * 
+//	 * PLEASE NOTE: THIS CONSTRUCTOR IS DEPRECATED AND SHOULD NO LONGER
+//	 * 				BE USED AT IT WILL BE REMOVED SOON!
+//	 * @param id the id of this variable
+//	 * @param type the display type of this variable (DEPRECATED)
+//	 * @param value the value of this variable
+//	 */
+//	@Deprecated
+//	public DefaultVariable(String id, DisplayType type, Object value) {
+//		super(id, type);
+//		this.setData(value);
+//	}
 
 	/**
 	 * retrieve the class type of the data stored in this variable

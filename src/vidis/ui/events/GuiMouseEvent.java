@@ -2,10 +2,8 @@ package vidis.ui.events;
 
 import javax.vecmath.Point2d;
 
-import org.apache.log4j.Logger;
-
 public class GuiMouseEvent implements IVidisEvent {
-	private static Logger logger = Logger.getLogger(GuiMouseEvent.class);
+//	private static Logger logger = Logger.getLogger(GuiMouseEvent.class);
 
 	public Point2d where;
 	

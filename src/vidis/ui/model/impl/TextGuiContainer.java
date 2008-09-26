@@ -1,7 +1,5 @@
 package vidis.ui.model.impl;
 
-import java.awt.Color;
-
 import javax.media.opengl.GL;
 import javax.swing.JOptionPane;
 
@@ -11,8 +9,8 @@ import vidis.ui.events.GuiMouseEvent;
 public class TextGuiContainer extends BasicGuiContainer {
 
 	private String text;
-	private Color color = Color.black;
-	private Color textColor = Color.red;
+//	private Color color = Color.black;
+//	private Color textColor = Color.red;
 	
 	//private static TextRenderer textRenderer = new TextRenderer( new Font("Times New Roman", Font.PLAIN, 130 ), true, true );
 	

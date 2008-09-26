@@ -12,9 +12,14 @@ import java.util.List;
 public class Heap implements Serializable {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3355517560792895145L;
+
+/**
    * To hold the actual storage of the Heap class.
    */
-  List  binarytree;
+  List<HeapNode>  binarytree;
 
   /**
    * HeapNodeComparator to compare two heap nodes in the heap.
@@ -29,7 +34,7 @@ public class Heap implements Serializable {
    *
    */
   public Heap(  ) {
-    this.binarytree = new ArrayList( 10 );
+    this.binarytree = new ArrayList<HeapNode>( 10 );
     this.comparator = new HeapNodeComparator( -1 );
   }
 
@@ -45,7 +50,7 @@ public class Heap implements Serializable {
    * the priorities of the nodes of the heap.
    */
   public Heap( HeapNodeComparator comparator ) {
-    this.binarytree = new ArrayList( 10 );
+    this.binarytree = new ArrayList<HeapNode>( 10 );
     this.comparator = comparator;
   }
 
@@ -129,7 +134,7 @@ public class Heap implements Serializable {
    * in the heap. If it is, then the HeapNode encapsulating the object
    * is returned.
    */
-  public HeapNode contains( Object object, Comparator heapnodeobjectcomparator ) {
+  public HeapNode contains( Object object, Comparator<HeapNode> heapnodeobjectcomparator ) {
     return (HeapNode) Collections.contains( this.binarytree, object,
                                                  heapnodeobjectcomparator );
   }

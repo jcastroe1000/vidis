@@ -2,8 +2,6 @@ package vidis.ui.model.impl.guielements;
 
 import javax.media.opengl.GL;
 
-import org.apache.log4j.Logger;
-
 /**
  * this class represents a clickable button, basically it is
  * a special label
@@ -11,7 +9,7 @@ import org.apache.log4j.Logger;
  *
  */
 public class Button extends Label {
-	private static Logger logger = Logger.getLogger(Button.class);
+//	private static Logger logger = Logger.getLogger(Button.class);
 	public Button(String label) {
 		super(label);
 	}

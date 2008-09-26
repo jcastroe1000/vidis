@@ -235,7 +235,7 @@ public class SimLink extends AComponent implements ISimLinkCon {
     	logger.debug("getStepsOnLinkForPacket("+packet+");");
 		PacketQueueHolder tmp = getPacketQueueHolderForPacket(packet);
 		if (tmp != null) {
-		    int dir = packet.getDirection();
+//		    int dir = packet.getDirection();
 		    // long durationLastStep = Simulator.getInstance().getLastStepDuration();
 		    // long timeStart = tmp.startMillis;
 		    long stepsToTarget = tmp.timeout;
