@@ -1,6 +1,8 @@
 package vidis.ui.model.impl;
 
 import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 
 import javax.media.opengl.GL;
 
@@ -12,12 +14,21 @@ import vidis.ui.events.MouseReleasedEvent;
 public class Button extends BasicGuiContainer {
 	private static Logger logger = Logger.getLogger(Button.class);
 
+	private boolean pressed = false;
+	
 	float borderPercent = 0.05f;
 	
 	private String text = "BUTTON";
 	
 	private Color colorLight = Color.LIGHT_GRAY;
 	private Color colorDark = Color.DARK_GRAY;
+	
+	private Color textColor = Color.white;
+	
+	public Button() {
+		setColor1( Color.gray );
+		setColor2( Color.gray.darker() );
+	}
 	
 	@Override
 	public void renderContainer(GL gl) {
@@ -28,16 +39,13 @@ public class Button extends BasicGuiContainer {
 		
 		requireTextRenderer();
 		
-		gl.glPushMatrix();
-			
-			gl.glTranslated(0, h / 2d, 0);
-			gl.glScaled(0.01, 0.01, 0.01);
-			textRenderer.begin3DRendering();
-			textRenderer.draw3D(text, 0, 0, 1, 1f);
-			textRenderer.end3DRendering();
-		gl.glPopMatrix();
+		useColor( gl, getColor() );
+		
+		Rectangle2D r = textRenderer.getBounds( text );
+		float scale = 0.01f;
 		
 		
+		useColor( gl, getColor() );
 		// center
 		gl.glBegin(GL.GL_QUADS); 
 			gl.glVertex2d( border, border);
@@ -45,9 +53,14 @@ public class Button extends BasicGuiContainer {
 			gl.glVertex2d( getWidth() - border, getHeight() - border );
 			gl.glVertex2d( getWidth() - border, border);	
 		gl.glEnd();
-		
+	
 		// rand
-		useColor(gl, colorLight);
+		if ( !pressed ) {
+			useColor( gl, colorLight );
+		}
+		else {
+			useColor( gl, colorDark );
+		}
 
 		//  bottom
 		gl.glBegin(GL.GL_QUADS); 
@@ -64,7 +77,12 @@ public class Button extends BasicGuiContainer {
 			gl.glVertex2d( 0, h );	
 		gl.glEnd();
 		
-		useColor(gl, colorDark);
+		if ( !pressed ) {
+			useColor( gl, colorDark );
+		}
+		else {
+			useColor( gl, colorLight );
+		}
 		//  top
 		gl.glBegin(GL.GL_QUADS); 
 			gl.glVertex2d( 0, 0);
@@ -79,6 +97,22 @@ public class Button extends BasicGuiContainer {
 			gl.glVertex2d( w - border, h - border );
 			gl.glVertex2d( w - border, border );	
 		gl.glEnd();
+		
+		// text
+		
+		gl.glPushMatrix();
+			if ( pressed ) {
+				gl.glTranslated( border/2d, -border/2d, 0 );
+			}
+			textRenderer.setColor( textColor );
+			textRenderer.begin3DRendering();
+			textRenderer.draw3D( text, 
+					(float) w / 2f - (float) r.getWidth() * scale / 2f, 
+					(float) h / 2f - (float) r.getHeight() * scale / 2f,
+					0.5f,
+					scale );
+			textRenderer.end3DRendering();
+		gl.glPopMatrix();
 	}
 	
 	private void useColor( GL gl, Color c ) {
@@ -87,14 +121,14 @@ public class Button extends BasicGuiContainer {
 	
 	@Override
 	protected void onMousePressed(MousePressedEvent e) {
-		Color m = colorLight;
-		colorLight = colorDark;
-		colorDark = m;
+		pressed = true;
 	}
 	@Override
 	protected void onMouseReleased(MouseReleasedEvent e) {
-		Color m = colorLight;
-		colorLight = colorDark;
-		colorDark = m;
+		pressed = false;
+	}
+	
+	public void setText( String text ) {
+		this.text = text;
 	}
 }

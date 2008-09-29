@@ -22,20 +22,23 @@ public class BasicGuiContainer extends AGuiContainer {
 		this.opaque = value;
 	}
 	
-	private synchronized Color getColor() {
+	protected synchronized Color getColor() {
 		if ( color == null ) {
 			color = color1;
 		}
 		return color;
 	}
 	private Color color;
-	private Color color1;
-	private Color color2 = Color.red;
+	protected Color color1;
+	protected Color color2 = Color.red;
 	public BasicGuiContainer() {
 		color1 = ColorGenerator.generateRandomColor();
 	}
-	public void setColor( Color c ) {
+	public void setColor1( Color c ) {
 		this.color1 = c;
+	}
+	public void setColor2( Color c ) {
+		this.color2 = c;
 	}
 	
 	void renderStrokeString(GL gl, int font, String string, double contwith) {
