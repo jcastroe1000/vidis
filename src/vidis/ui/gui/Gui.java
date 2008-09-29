@@ -64,7 +64,7 @@ public class Gui extends AEventHandler {
 		playButton.setName("PLAY BUTTON");
 		playButton.setLayout(new PercentMarginLayout(1,0.9,-0.9,1,-0.1,-0.1));
 		//playButton.setLayout(new PercentMarginLayout(-0.1,0.9,-0.1,-0.1,-0.8,-0.8));
-		playButton.setText("Play");
+		playButton.setText("Play / Pause");
 
 		BasicGuiContainer container2 = new BasicGuiContainer();
 		container2.setLayout(new PercentMarginLayout(-0.2,0.9,-0.8,1,-0.1,-0.1));

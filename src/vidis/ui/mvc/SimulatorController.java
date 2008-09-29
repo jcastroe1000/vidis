@@ -34,7 +34,7 @@ public class SimulatorController extends AController {
 			initialize();
 			break;
 		case IVidisEvent.SimulatorPlay:
-			sim.getPlayer().play();
+			sim.getPlayer().playPause();
 			break;
 		}
 	}
@@ -55,7 +55,7 @@ public class SimulatorController extends AController {
 		// apply default layout
 		layout();
 		// start playing
-		sim.getPlayer().play();
+		//sim.getPlayer().play();
 		
 	}
 	

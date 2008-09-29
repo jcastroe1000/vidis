@@ -8,6 +8,7 @@ import vidis.data.mod.IUserNode;
 import vidis.data.mod.IUserPacket;
 import vidis.data.var.AVariable;
 import vidis.data.var.vars.DefaultVariable;
+import vidis.sim.Simulator;
 import vidis.sim.exceptions.ObstructInitCallException;
 import vidis.sim.exceptions.ObstructInitRuntimeCallException;
 import vidis.ui.events.IVidisEvent;
@@ -118,6 +119,11 @@ public class SimPacket extends AComponent implements ISimPacketCon {
     private DefaultVariable noPos = new DefaultVariable( AVariable.COMMON_IDENTIFIERS.POSITION, new Vector3d( 100,100,100 ) );
     
     private AVariable positionOverride() {
+    	// ugly workaround
+    	if ( Simulator.getInstance().getPlayer().isPaused() ) {
+    		return super.getVariableById( AVariable.COMMON_IDENTIFIERS.POSITION );
+    	}
+    	
     	
     	double alpha = getThrough().getAlphaForPacket( this );
     	if ( alpha == -1 ) {

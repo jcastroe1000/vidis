@@ -67,6 +67,18 @@ public class Player {
 		paused = false;
 		stopped = false;
 	}
+	
+	public void playPause() {
+		if ( stopped ) {
+			stopped = false;
+		}
+		if ( paused ) {
+			paused = false;
+		}
+		else {
+			paused = true;
+		}
+	}
 
 	public void pause() {
 		if (paused)

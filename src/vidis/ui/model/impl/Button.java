@@ -41,8 +41,6 @@ public class Button extends BasicGuiContainer {
 		
 		useColor( gl, getColor() );
 		
-		Rectangle2D r = textRenderer.getBounds( text );
-		float scale = 0.01f;
 		
 		
 		useColor( gl, getColor() );
@@ -99,18 +97,27 @@ public class Button extends BasicGuiContainer {
 		gl.glEnd();
 		
 		// text
+		Rectangle2D r = textRenderer.getBounds( text );
+		float scale = 0.01f;
+		
+		double factor = 0.7;
+		double fontScaleWidth = (w * factor) / (r.getWidth() * scale);
+		double fontScaleHeight = (h * factor) / (r.getHeight() * scale);
+		double fontScale = fontScaleWidth;
 		
 		gl.glPushMatrix();
-			if ( pressed ) {
+			
+		//gl.glScaled( fontScale, fontScale, 1);
+		if ( pressed ) {
 				gl.glTranslated( border/2d, -border/2d, 0 );
 			}
 			textRenderer.setColor( textColor );
 			textRenderer.begin3DRendering();
 			textRenderer.draw3D( text, 
-					(float) w / 2f - (float) r.getWidth() * scale / 2f, 
-					(float) h / 2f - (float) r.getHeight() * scale / 2f,
+					(float) (w / 2f - r.getWidth() * scale * fontScale / 2f), 
+					(float) (h / 2f - r.getHeight() * scale * fontScale / 2f),
 					0.5f,
-					scale );
+					(float) (scale * fontScale) );
 			textRenderer.end3DRendering();
 		gl.glPopMatrix();
 	}
