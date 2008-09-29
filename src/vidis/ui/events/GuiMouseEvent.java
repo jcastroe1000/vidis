@@ -2,6 +2,7 @@ package vidis.ui.events;
 
 import javax.vecmath.Point2d;
 
+@Deprecated
 public class GuiMouseEvent implements IVidisEvent {
 //	private static Logger logger = Logger.getLogger(GuiMouseEvent.class);
 

@@ -4,22 +4,38 @@ import java.awt.Color;
 
 import javax.media.opengl.GL;
 
+import org.apache.log4j.Logger;
+
+import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.MousePressedEvent;
+import vidis.ui.events.MouseReleasedEvent;
 import vidis.ui.model.structure.AGuiContainer;
 import vidis.util.ColorGenerator;
 
 public class BasicGuiContainer extends AGuiContainer {
 
+	private static Logger logger = Logger.getLogger( BasicGuiContainer.class );	
+	
 	private boolean opaque = true;
 	
 	public void setOpaque( boolean value ) {
 		this.opaque = value;
 	}
+	
+	private synchronized Color getColor() {
+		if ( color == null ) {
+			color = color1;
+		}
+		return color;
+	}
 	private Color color;
+	private Color color1;
+	private Color color2 = Color.red;
 	public BasicGuiContainer() {
-		color = ColorGenerator.generateRandomColor();
+		color1 = ColorGenerator.generateRandomColor();
 	}
 	public void setColor( Color c ) {
-		this.color = c;
+		this.color1 = c;
 	}
 	
 	void renderStrokeString(GL gl, int font, String string, double contwith) {
@@ -42,7 +58,13 @@ public class BasicGuiContainer extends AGuiContainer {
 //		renderStrokeString(gl, GLUT.STROKE_MONO_ROMAN, "BasicGuiContainer", getWidth());
 //		gl.glPopMatrix();
 		gl.glPushMatrix();
-		gl.glColor4d(color.getRed()/255d, color.getGreen()/255d, color.getBlue()/255d, 0.5);
+		try {
+			gl.glColor4d(getColor().getRed()/255d, getColor().getGreen()/255d, getColor().getBlue()/255d, 0.5);
+		}
+		catch ( Exception e ) {
+			gl.glColor4d(0d, 1d, 0d, 0.5);
+			logger.error( "error setting color", e );
+		}
 			if (opaque) {
 				gl.glBegin(GL.GL_QUADS); 
 					gl.glVertex2d(0, 0);
@@ -71,9 +93,44 @@ public class BasicGuiContainer extends AGuiContainer {
 //			gl.glPopMatrix();
 		gl.glPopMatrix();
 	}
+	@Override
+	protected void onMouseEnter() {
+		logger.info( "onMouseEnter() on " + this );
+		color = color2;
+	}
+	@Override
+	protected void onMouseExit() {
+		logger.info( "onMouseExit() on " + this );
+		color = color1;
+	}
 	
 	
+	private String name;
+	public void setName( String name ) {
+		this.name = name;
+	}
 	
-	
+	@Override
+	public String toString() {
+		return this.name;
+	}
+
+	@Override
+	protected void onMouseClicked(MouseClickedEvent e) {
+		// TODO Auto-generated method stub
+		logger.info( "onMouseClicked() on " + this );
+	}
+
+	@Override
+	protected void onMousePressed(MousePressedEvent e) {
+		// TODO Auto-generated method stub
+		logger.info( "onMousePressed() on " + this );
+	}
+
+	@Override
+	protected void onMouseReleased(MouseReleasedEvent e) {
+		// TODO Auto-generated method stub
+		logger.info( "onMouseReleased() on " + this );
+	}
 
 }

@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import vidis.ui.events.KeyPressedEvent;
 import vidis.ui.events.KeyReleasedEvent;
 import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.MouseMovedEvent;
 import vidis.ui.events.MousePressedEvent;
 import vidis.ui.events.MouseReleasedEvent;
 import vidis.ui.mvc.api.Dispatcher;
@@ -69,9 +70,11 @@ public class InputListener implements KeyListener, MouseWheelListener, MouseList
 	}
 	
 	public void mouseDragged(MouseEvent e) {
+		Dispatcher.forwardEvent( new MouseMovedEvent( e ) );
 	}
 
 	public void mouseMoved(MouseEvent e) {
+		Dispatcher.forwardEvent( new MouseMovedEvent( e ) ); 
 	}
 
 	

@@ -4,9 +4,10 @@ import java.awt.Color;
 
 import javax.media.opengl.GL;
 
+import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.structure.AGuiContainer;
 
-public class Basic3DScrollPane extends AGuiContainer {
+public class Basic3DScrollPane extends BasicGuiContainer {
 	//private static Logger logger = Logger.getLogger(Basic3DScrollPane.class);
 	// color setup
 	private Color color = Color.ORANGE;

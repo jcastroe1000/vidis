@@ -3,6 +3,7 @@ package vidis.ui.model.structure;
 import java.util.Set;
 
 import javax.media.opengl.GL;
+import javax.vecmath.Point2d;
 
 import vidis.ui.events.IEventHandler;
 
@@ -35,5 +36,7 @@ public interface IGuiContainer extends IVisObject, IEventHandler {
 	public void removeChild( IGuiContainer c );
 	public void setParent( IGuiContainer container );
 	// ----
+	
+	public boolean isPointInContainer( Point2d p );
 	
 }

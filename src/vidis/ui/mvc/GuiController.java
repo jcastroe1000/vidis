@@ -25,7 +25,8 @@ public class GuiController extends AController {
 		
 		registerEvent( IVidisEvent.MouseClickedEvent,
 				   IVidisEvent.MousePressedEvent,
-				   IVidisEvent.MouseReleasedEvent );
+				   IVidisEvent.MouseReleasedEvent,
+				   IVidisEvent.MouseMovedEvent );
 		
 		registerEvent( IVidisEvent.FPS );
 		
@@ -43,6 +44,11 @@ public class GuiController extends AController {
 			if ( ((MouseClickedEvent)event).ray == null ) {
 				guiCamera.fireEvent( event );
 			}
+			break;
+		case IVidisEvent.MousePressedEvent:
+		case IVidisEvent.MouseReleasedEvent:
+		case IVidisEvent.MouseMovedEvent:
+			guiCamera.fireEvent( event );
 			break;
 		case IVidisEvent.FPS:
 			String fps = ((VidisEvent)event).getData().toString();

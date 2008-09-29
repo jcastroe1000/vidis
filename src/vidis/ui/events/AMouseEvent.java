@@ -16,6 +16,7 @@ public abstract class AMouseEvent implements IVidisEvent {
 	public Point3d rayOrigin; // ?
 	public Vector3d ray; // ?
 	public Point2d guiCoords; 
+	public Point2d guiCoordsRelative;
 	
 	public AMouseEvent( MouseEvent m ) {
 		if ( m == null ) {

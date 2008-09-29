@@ -15,7 +15,7 @@ import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.DummyEvent;
 import vidis.ui.events.GuiMouseEvent;
 import vidis.ui.events.IVidisEvent;
-import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.MouseMovedEvent;
 import vidis.ui.gui.Gui;
 
 public class GuiCamera extends AEventHandler implements ICamera {
@@ -123,6 +123,8 @@ public class GuiCamera extends AEventHandler implements ICamera {
 		gui.fireEvent( new DummyEvent( IVidisEvent.GuiResizeEvent ) );
 		
 	}
+	
+	@Deprecated
 	public void handleMouseClickedEvent( AMouseEvent e ) {
 		logger.debug("handleMouseClickedEvent() id="+e.getID());
 		GuiMouseEvent m = new GuiMouseEvent();
@@ -147,13 +149,28 @@ public class GuiCamera extends AEventHandler implements ICamera {
 	
 	public void handleEvent(IVidisEvent event) {
 		switch (event.getID()) {
+//		case IVidisEvent.MouseClickedEvent:
+//			handleMouseClickedEvent( (MouseClickedEvent) event);
+//			break;
+		case IVidisEvent.MouseMovedEvent:
+			handleMouseMovedEvent( (MouseMovedEvent) event );
+			break;
 		case IVidisEvent.MouseClickedEvent:
-			logger.info( ((MouseClickedEvent)event).mouseEvent );
-			logger.info( null == ((MouseClickedEvent)event).mouseEvent );
-			logger.info( ((MouseClickedEvent)event).mouseEvent.getPoint() );
-			handleMouseClickedEvent( (MouseClickedEvent) event);
+		case IVidisEvent.MousePressedEvent:
+		case IVidisEvent.MouseReleasedEvent:
+			handleMouseEvent( (AMouseEvent) event );
 			break;
 		}
+	}
+	
+	private void handleMouseMovedEvent(MouseMovedEvent event) {
+		event.guiCoords = convert2Dto3D( event.mouseEvent.getX(), event.mouseEvent.getY() );
+		gui.fireEvent( event );
+	}
+	
+	private void handleMouseEvent( AMouseEvent event ) {
+		event.guiCoords = convert2Dto3D( event.mouseEvent.getX(), event.mouseEvent.getY() );
+		gui.fireEvent( event );
 	}
 	
 /*

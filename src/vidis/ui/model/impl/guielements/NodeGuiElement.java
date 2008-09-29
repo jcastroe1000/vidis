@@ -2,10 +2,11 @@ package vidis.ui.model.impl.guielements;
 
 import javax.media.opengl.GL;
 
+import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.Node;
 import vidis.ui.model.structure.AGuiContainer;
 
-public class NodeGuiElement extends AGuiContainer {
+public class NodeGuiElement extends BasicGuiContainer {
 	//private static Logger logger = Logger.getLogger(NodeGuiElement.class);
 	
 	private Node node;

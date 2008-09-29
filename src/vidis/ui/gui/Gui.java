@@ -7,9 +7,13 @@ import javax.media.opengl.GL;
 import org.apache.log4j.Logger;
 
 import vidis.ui.events.AEventHandler;
+import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.GuiMouseEvent;
 import vidis.ui.events.IVidisEvent;
+import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.MouseMovedEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
+import vidis.ui.model.impl.Button;
 import vidis.ui.model.impl.PercentMarginLayout;
 import vidis.ui.model.impl.TextGuiContainer;
 import vidis.ui.model.impl.guielements.Basic3DScrollPane;
@@ -37,6 +41,7 @@ public class Gui extends AEventHandler {
 	private void initializeRightPanel() {
 		logger.debug("initializeRightPanel");
 		BasicGuiContainer rightPanel = new BasicGuiContainer();
+		rightPanel.setName("right Panel");
 		rightPanel.setColor( Color.black );
 		rightPanel.setLayout(new PercentMarginLayout(-0.7,1,1,1,-1,-0.30));
 		rightPanel.addChild(new Basic3DScrollPane());
@@ -50,14 +55,15 @@ public class Gui extends AEventHandler {
 		BasicGuiContainer container1 = new BasicGuiContainer();
 		container1.setLayout(new PercentMarginLayout(1,0.9,-0.9,1,-0.1,-0.1));
 		
-		TextGuiContainer playButton = new TextGuiContainer() {
+		Button playButton = new Button() {
 			@Override
-			protected void onClick(GuiMouseEvent e) {
+			protected void onMouseClicked( MouseClickedEvent e ) {
 				Dispatcher.forwardEvent( IVidisEvent.SimulatorPlay );
 			}
 		};
+		playButton.setName("PLAY BUTTON");
 		playButton.setLayout(new PercentMarginLayout(-0.1,0.9,-0.1,-0.1,-0.8,-0.8));
-		playButton.setText("Play");
+		//playButton.setText("Play");
 
 		BasicGuiContainer container2 = new BasicGuiContainer();
 		container2.setLayout(new PercentMarginLayout(-0.2,0.9,-0.8,1,-0.1,-0.1));
@@ -72,6 +78,7 @@ public class Gui extends AEventHandler {
 		mainContainer.addChild(container2);
 		container2.addChild(loadButton);
 		fps = new TextGuiContainer();
+		fps.setName("FPS");
 		fps.setLayout(new PercentMarginLayout(1,-0.8,-0.9,-0.9,-0.1,-0.1));
 		fps.setText("0fps");
 		mainContainer.addChild(fps);
@@ -80,6 +87,19 @@ public class Gui extends AEventHandler {
 	
 	@Override
 	protected void handleEvent(IVidisEvent e) {
+		if ( e instanceof AMouseEvent ) {
+			// invert
+			AMouseEvent me = (AMouseEvent) e;
+			if ( me.guiCoords != null ) {
+				me.guiCoords.y = mainContainer.getHeight() - me.guiCoords.y;
+			}
+			
+		}
+		// workaround for clicking ( FIXME: gui should use normal mouseEvent with guiCoords set! )
+		if ( e instanceof GuiMouseEvent ) {
+			GuiMouseEvent ge = (GuiMouseEvent) e;
+			ge.where.y = mainContainer.getHeight() - ge.where.y;
+		}
 		mainContainer.fireEvent(e);
 	}
 	

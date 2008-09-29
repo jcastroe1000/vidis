@@ -8,12 +8,17 @@ import javax.vecmath.Point2d;
 
 import org.apache.log4j.Logger;
 
-import com.sun.opengl.util.j2d.TextRenderer;
-
 import vidis.ui.events.AEventHandler;
+import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.GuiMouseEvent;
 import vidis.ui.events.IVidisEvent;
+import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.MouseMovedEvent;
+import vidis.ui.events.MousePressedEvent;
+import vidis.ui.events.MouseReleasedEvent;
 import vidis.util.ResourceManager;
+
+import com.sun.opengl.util.j2d.TextRenderer;
 
 
 public abstract class AGuiContainer extends AEventHandler implements IGuiContainer {
@@ -118,38 +123,99 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	}
 	protected void handleEvent( IVidisEvent e ) {
 		boolean forward = false;
-		if ( e.getID() == IVidisEvent.GuiResizeEvent ) {
+		switch ( e.getID() ) {
+		case IVidisEvent.GuiResizeEvent:
 			handleResize();
 			forward = true;
+			break;
+//		case IVidisEvent.GuiMouseEvent:
+//			handleMouseEvent( (GuiMouseEvent) e );
+//			break;
+		case IVidisEvent.MouseMovedEvent:
+			handleMouseMovedEvent( (MouseMovedEvent) e );
+			forward = true;
+			break;
+		case IVidisEvent.MouseClickedEvent:
+		case IVidisEvent.MousePressedEvent:
+		case IVidisEvent.MouseReleasedEvent:
+			handleMouseEvent( (AMouseEvent) e );
+			break;
 		}
-		else if ( e.getID() == IVidisEvent.GuiMouseEvent ) {
-			handleMouseEvent( (GuiMouseEvent) e );
-		}
+		
 		
 		if (forward)
 		for (IGuiContainer c : childs) {
 			c.fireEvent( e );
 		}
 	}
-	private Point2d drawme = new Point2d(0,0);
-	protected void handleMouseEvent( GuiMouseEvent e ){
-		logger.debug("handleMouseClickedEvent() "+ e);
-		onClick(e);
-		drawme = e.where;
-		for ( IGuiContainer c : childs) {
-			if ( c.getX() < e.where.x &&
-					c.getY() < e.where.y &&
-					c.getX() + c.getWidth() > e.where.x &&
-					c.getY() + c.getHeight() > e.where.y ) {
-				logger.debug("  found one..");
-				GuiMouseEvent next = new GuiMouseEvent();
-				next.where = new Point2d(e.where.x - c.getX(), e.where.y - c.getY());
-				c.fireEvent(next);
-			}
+	
+	private boolean mouseInContainerOld = false;
+	private boolean mouseInContainerNew = false;
+	private void handleMouseMovedEvent(MouseMovedEvent e) {
+		Point2d where = e.guiCoords;
+		// copy old value
+		mouseInContainerOld = mouseInContainerNew;
+		if ( isPointInContainer( where ) ) {
+			mouseInContainerNew = true;
+		}
+		else {
+			mouseInContainerNew = false;
+		}
+		if ( mouseInContainerNew && !mouseInContainerOld ) {
+			// ON MOUSE ENTER
+			onMouseEnter();
+		}
+		else if ( !mouseInContainerNew && mouseInContainerOld ) {
+			// ON MOUSE EXIT
+			onMouseExit();
+		}
+		
+	}
+	
+	protected abstract void onMouseEnter();
+	protected abstract void onMouseExit();
+	
+	protected abstract void onMousePressed( MousePressedEvent e );
+	protected abstract void onMouseReleased( MouseReleasedEvent e );
+	protected abstract void onMouseClicked( MouseClickedEvent e );
+	
+	public boolean isPointInContainer( Point2d p ) {
+		if ( 	this.getX() < p.x &&
+				this.getY() < p.y &&
+				this.getX() + this.getWidth() > p.x &&
+				this.getY() + this.getHeight() > p.y ) {
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
-	protected void onClick( GuiMouseEvent e ) {
-		
+
+	private Point2d drawme = new Point2d(0,0);
+	protected void handleMouseEvent( AMouseEvent e ){
+		logger.debug("handleMouseClickedEvent() "+ e);
+		switch ( e.getID() ) {
+		case IVidisEvent.MouseClickedEvent:
+			onMouseClicked( (MouseClickedEvent) e );
+			break;
+		case IVidisEvent.MousePressedEvent:
+			onMousePressed( (MousePressedEvent) e );
+			break;
+		case IVidisEvent.MouseReleasedEvent:
+			onMouseReleased( (MouseReleasedEvent) e );
+			break;
+		}
+		drawme = e.guiCoords;
+		for ( IGuiContainer c : childs) {
+			if ( c.getX() < e.guiCoords.x &&
+					c.getY() < e.guiCoords.y &&
+					c.getX() + c.getWidth() > e.guiCoords.x &&
+					c.getY() + c.getHeight() > e.guiCoords.y ) {
+				logger.debug("  found one..");
+				e.guiCoordsRelative = new Point2d(e.guiCoords.x - c.getX(), e.guiCoords.y - c.getY());
+				c.fireEvent( e );
+			}
+		}
 	}
 	
 	// -----

@@ -11,6 +11,7 @@ public interface IVidisEvent {
 	public final int MousePressedEvent = 3;
 	public final int MouseReleasedEvent = 4;
 	public final int MouseClickedEvent = 5;
+	public final int MouseMovedEvent = 13;
 	
 	public final int Init = 6;
 	public final int InitScene = 7;
