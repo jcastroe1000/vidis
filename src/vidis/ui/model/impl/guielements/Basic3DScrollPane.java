@@ -5,7 +5,6 @@ import java.awt.Color;
 import javax.media.opengl.GL;
 
 import vidis.ui.model.impl.BasicGuiContainer;
-import vidis.ui.model.structure.AGuiContainer;
 
 public class Basic3DScrollPane extends BasicGuiContainer {
 	//private static Logger logger = Logger.getLogger(Basic3DScrollPane.class);
@@ -24,10 +23,29 @@ public class Basic3DScrollPane extends BasicGuiContainer {
 	// scrollpane dingsl, 0:strichele, 1:kugele
 	private int scrollpane_dingsl = 0;
 	
+	private boolean mouseOver = false;
+	
+	@Override
+	protected void onMouseEnter() {
+		super.onMouseEnter();
+		System.err.println("mouse enter");
+		mouseOver = true;
+	}
+	
+	@Override
+	protected void onMouseExit() {
+		super.onMouseExit();
+		System.err.println("mouse leave");
+		mouseOver = false;
+	}
+	
 	public void renderContainer(GL gl) {
 		gl.glPushMatrix();
 			if (true) {
-				gl.glColor4d(marker_color.getRed()/255d, marker_color.getGreen()/255d, marker_color.getBlue()/255d, marker_opaque);
+				if(mouseOver)
+					gl.glColor4d(marker_color.brighter().getRed()/255d, marker_color.brighter().getGreen()/255d, marker_color.brighter().getBlue()/255d, marker_opaque);
+				else
+					gl.glColor4d(marker_color.getRed()/255d, marker_color.getGreen()/255d, marker_color.getBlue()/255d, marker_opaque);
 				
 				gl.glBegin(GL.GL_TRIANGLES);
 				// upper arrow
@@ -54,7 +72,10 @@ public class Basic3DScrollPane extends BasicGuiContainer {
 					gl.glPopMatrix();
 				}
 				// line
-				gl.glColor4d(color.getRed()/255d, color.getGreen()/255d, color.getBlue()/255d, opaque);
+				if(mouseOver)
+					gl.glColor4d(color.brighter().getRed()/255d, color.brighter().getGreen()/255d, color.brighter().getBlue()/255d, opaque);
+				else
+					gl.glColor4d(color.getRed()/255d, color.getGreen()/255d, color.getBlue()/255d, opaque);
 				gl.glBegin(GL.GL_QUADS);
 					gl.glVertex2d(0, 0);
 					gl.glVertex2d(0, getHeight());
