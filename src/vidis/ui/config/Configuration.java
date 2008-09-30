@@ -64,7 +64,7 @@ public class Configuration {
 	 * 			  the value of 1.0 was adapted for a Core2 Duo 2.6GHz with nVidia Quadro FX 370, this
 	 *            means that your system should be equal or faster than that to use a detail level>>1
 	 */
-	public static double DETAIL_LEVEL = 0.5;
+	public static double DETAIL_LEVEL = 0.1;
 
 	/**
 	 * the angle we look down (x axis)
