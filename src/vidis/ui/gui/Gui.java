@@ -11,9 +11,9 @@ import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.GuiMouseEvent;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.MouseClickedEvent;
-import vidis.ui.events.MouseMovedEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.Button;
+import vidis.ui.model.impl.CheckBox;
 import vidis.ui.model.impl.PercentMarginLayout;
 import vidis.ui.model.impl.TextGuiContainer;
 import vidis.ui.model.impl.guielements.Basic3DScrollPane;
@@ -34,6 +34,7 @@ public class Gui extends AEventHandler {
 		logger.debug("Constructor()");
 		mainContainer = new BasicGuiContainer();
 		mainContainer.setOpaque( false );
+		mainContainer.setName("mainContainer");
 		initializeRightPanel();
 		initializeControls();
 	}
@@ -46,6 +47,16 @@ public class Gui extends AEventHandler {
 		rightPanel.setColor2( Color.white );
 		rightPanel.setLayout(new PercentMarginLayout(-0.7,1,1,1,-1,-0.30));
 		rightPanel.addChild(new Basic3DScrollPane());
+		
+		
+		CheckBox test = new CheckBox();
+		test.setName("myFirstCheckBox");
+		test.setText("checkMeIfYouCan");
+		test.setChecked(false);
+		test.setBounds(1, 1, 4, 20);
+		
+		rightPanel.addChild(test);
+		
 		// draw a label
 		Label label = new Label("tut");
 		rightPanel.addChild(label);

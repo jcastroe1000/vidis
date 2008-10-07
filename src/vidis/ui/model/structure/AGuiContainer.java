@@ -133,7 +133,6 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 //			break;
 		case IVidisEvent.MouseMovedEvent:
 			handleMouseMovedEvent( (MouseMovedEvent) e );
-			forward = true;
 			break;
 		case IVidisEvent.MouseClickedEvent:
 		case IVidisEvent.MousePressedEvent:
@@ -149,26 +148,57 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 		}
 	}
 	
-	private boolean mouseInContainerOld = false;
-	private boolean mouseInContainerNew = false;
+//	private boolean mouseInContainerOld = false;
+//	private boolean mouseInContainerNew = false;
+	
+	private Set<IGuiContainer> underMouse = new HashSet<IGuiContainer>();
 	private void handleMouseMovedEvent(MouseMovedEvent e) {
 		Point2d where = e.guiCoords;
-		// copy old value
-		mouseInContainerOld = mouseInContainerNew;
-		if ( isPointInContainer( where ) ) {
-			mouseInContainerNew = true;
+		for ( IGuiContainer c : childs ) {
+			if ( c instanceof AGuiContainer ) {
+				if ( c.isPointInContainer( where ) ) {
+					if ( ! underMouse.contains( c ) ) {
+						underMouse.add( c );
+						((AGuiContainer) c).onMouseEnter();
+					}
+				}
+				else {
+					if ( underMouse.contains( c ) ) {
+						underMouse.remove( c );
+						((AGuiContainer)c).onMouseExit();
+					}
+				}
+			}
+			else {
+				logger.warn( "found unsuspected guiContainer CHECK THAT! POSSIBLE BUG!" );
+			}
+			// forward to childs
+			
 		}
-		else {
-			mouseInContainerNew = false;
+		for ( IGuiContainer c : underMouse ) {
+			logger.debug( "forwarding to "+c);
+			// XXX possible bug: what if 2 container overlap
+			MouseMovedEvent nextEvent = new MouseMovedEvent( e.mouseEvent );
+			nextEvent.guiCoords = new Point2d(e.guiCoords.x - c.getX(), e.guiCoords.y - c.getY());
+			c.fireEvent( nextEvent );
 		}
-		if ( mouseInContainerNew && !mouseInContainerOld ) {
-			// ON MOUSE ENTER
-			onMouseEnter();
-		}
-		else if ( !mouseInContainerNew && mouseInContainerOld ) {
-			// ON MOUSE EXIT
-			onMouseExit();
-		}
+		
+//		// copy old value
+//		mouseInContainerOld = mouseInContainerNew;
+//		if ( isPointInContainer( where ) ) {
+//			mouseInContainerNew = true;
+//		}
+//		else {
+//			mouseInContainerNew = false;
+//		}
+//		if ( mouseInContainerNew && !mouseInContainerOld ) {
+//			// ON MOUSE ENTER
+//			onMouseEnter();
+//		}
+//		else if ( !mouseInContainerNew && mouseInContainerOld ) {
+//			// ON MOUSE EXIT
+//			onMouseExit();
+//		}
 		
 	}
 	
@@ -179,6 +209,9 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	protected abstract void onMouseReleased( MouseReleasedEvent e );
 	protected abstract void onMouseClicked( MouseClickedEvent e );
 	
+	/**
+	 * must be called with p in the parents coordinate system
+	 */
 	public boolean isPointInContainer( Point2d p ) {
 		if ( 	this.getX() < p.x &&
 				this.getY() < p.y &&
@@ -191,9 +224,7 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 		}
 	}
 
-	private Point2d drawme = new Point2d(0,0);
-	protected void handleMouseEvent( AMouseEvent e ){
-		logger.debug("handleMouseClickedEvent() "+ e);
+	private void dispatchMouseEvent( AMouseEvent e ) {
 		switch ( e.getID() ) {
 		case IVidisEvent.MouseClickedEvent:
 			onMouseClicked( (MouseClickedEvent) e );
@@ -205,16 +236,25 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 			onMouseReleased( (MouseReleasedEvent) e );
 			break;
 		}
+	}
+	
+	private Point2d drawme = new Point2d(0,0);
+	protected void handleMouseEvent( AMouseEvent e ){
+		logger.debug("handleMouseClickedEvent() "+ e);
+		boolean childFound = false;
 		drawme = e.guiCoords;
 		for ( IGuiContainer c : childs) {
-			if ( c.getX() < e.guiCoords.x &&
-					c.getY() < e.guiCoords.y &&
-					c.getX() + c.getWidth() > e.guiCoords.x &&
-					c.getY() + c.getHeight() > e.guiCoords.y ) {
-				logger.debug("  found one..");
+			if ( c.isPointInContainer( e.guiCoords ) ) {
+				// XXX possible bug: what if 2 container overlap
 				e.guiCoordsRelative = new Point2d(e.guiCoords.x - c.getX(), e.guiCoords.y - c.getY());
 				c.fireEvent( e );
+				childFound = true;
+				break;
 			}
+		}
+		if ( ! childFound ) {
+			// if there is no child around - use the event on this
+			dispatchMouseEvent( e );
 		}
 	}
 	

@@ -1,0 +1,181 @@
+package vidis.ui.model.impl;
+
+import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
+
+import javax.media.opengl.GL;
+
+import org.apache.log4j.Logger;
+
+import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.MousePressedEvent;
+import vidis.ui.events.MouseReleasedEvent;
+
+public class CheckBox extends BasicGuiContainer {
+	private static Logger logger = Logger.getLogger(CheckBox.class);
+
+	private boolean checked = false;
+	
+	float borderPercent = 0.05f;
+	
+	private String text = "BUTTON";
+	
+	private Color colorLight = Color.LIGHT_GRAY;
+	private Color colorDark = Color.DARK_GRAY;
+	
+	private Color textColor = Color.white;
+	
+	public CheckBox() {
+		setColor1( Color.gray );
+		setColor2( Color.gray.darker() );
+	}
+	
+	private static double checkBoxSize = 2;
+	
+	@Override
+	public void renderContainer(GL gl) {
+
+		// background
+		gl.glPushMatrix();
+		gl.glTranslated(0, 0, -0.01);
+		gl.glBegin(GL.GL_QUADS); 
+			gl.glVertex2d( 0, 0);
+			gl.glVertex2d( 0, getHeight());
+			gl.glVertex2d( getWidth(), getHeight());
+			gl.glVertex2d( getWidth(), 0);	
+		gl.glEnd();
+		gl.glPopMatrix();
+	
+		// text
+		
+		requireTextRenderer();
+		
+		useColor( gl, getColor() );
+		
+		// drawing the box
+		gl.glPushMatrix();
+			double h = checkBoxSize;
+			double w = checkBoxSize;
+			double border = h * borderPercent;
+			useColor( gl, getColor() );
+			// center
+			gl.glBegin(GL.GL_QUADS); 
+				gl.glVertex2d( border, border);
+				gl.glVertex2d( border, h - border);
+				gl.glVertex2d( w - border, h - border );
+				gl.glVertex2d( w - border, border);	
+			gl.glEnd();
+		
+			// rand
+			if ( !checked ) {
+				useColor( gl, colorLight );
+			}
+			else {
+				useColor( gl, colorDark );
+			}
+	
+			//  bottom
+			gl.glBegin(GL.GL_QUADS); 
+				gl.glVertex2d( 0, h );
+				gl.glVertex2d( border, h - border);
+				gl.glVertex2d( w - border, h - border );
+				gl.glVertex2d( w, h );	
+			gl.glEnd();
+			//  left
+			gl.glBegin(GL.GL_QUADS); 
+				gl.glVertex2d( 0, 0);
+				gl.glVertex2d( border, border);
+				gl.glVertex2d( border, h - border );
+				gl.glVertex2d( 0, h );	
+			gl.glEnd();
+			
+			if ( !checked ) {
+				useColor( gl, colorDark );
+			}
+			else {
+				useColor( gl, colorLight );
+			}
+			//  top
+			gl.glBegin(GL.GL_QUADS); 
+				gl.glVertex2d( 0, 0);
+				gl.glVertex2d( w, 0 );
+				gl.glVertex2d( w - border, border );
+				gl.glVertex2d( border, border );	
+			gl.glEnd();
+		//  right
+			gl.glBegin(GL.GL_QUADS); 
+				gl.glVertex2d( w, 0);
+				gl.glVertex2d( w, h);
+				gl.glVertex2d( w - border, h - border );
+				gl.glVertex2d( w - border, border );	
+			gl.glEnd();
+		gl.glPopMatrix();
+			
+		// text
+		Rectangle2D r = textRenderer.getBounds( text );
+		float scale = 0.01f;
+		
+		double factor = 0.7;
+		double fontScaleWidth = (w * factor) / (r.getWidth() * scale);
+		double fontScaleHeight = (h * factor) / (r.getHeight() * scale);
+		double fontScale = fontScaleWidth;
+		
+		gl.glPushMatrix();
+			
+		//gl.glScaled( fontScale, fontScale, 1);
+			textRenderer.setColor( textColor );
+			textRenderer.begin3DRendering();
+			textRenderer.draw3D( text, 
+					(float) (w / 2f - r.getWidth() * scale * fontScale / 2f), 
+					(float) (h / 2f - r.getHeight() * scale * fontScale / 2f),
+					0.5f,
+					(float) (scale * fontScale) );
+			textRenderer.end3DRendering();
+		gl.glPopMatrix();
+	}
+	
+	private void useColor( GL gl, Color c ) {
+		gl.glColor4d(c.getRed()/255d, c.getGreen()/255d, c.getBlue()/255d, c.getAlpha()/255d);
+	}
+	
+	@Override
+	protected void onMousePressed(MousePressedEvent e) {
+	}
+	@Override
+	protected void onMouseReleased(MouseReleasedEvent e) {
+	}
+	@Override
+	protected void onMouseClicked(MouseClickedEvent e) {
+		if ( checked == false ) {
+			checked = true;
+		}
+		else {
+			checked = false;
+		}
+	}
+	
+	public void setText( String text ) {
+		this.text = text;
+	}
+	
+	public boolean isChecked() {
+		return checked;
+	}
+	
+	public void setChecked( boolean checked ) {
+		this.checked = checked;
+	}
+	
+	@Override
+	protected void onMouseEnter() {
+		logger.info("CHECKBOX WAS ENTERED");
+		super.onMouseEnter();
+	}
+	
+	@Override
+	protected void onMouseExit() {
+		logger.info("CHECKBOX WAS EXITED");
+		super.onMouseExit();
+	}
+}

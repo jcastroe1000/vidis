@@ -115,7 +115,7 @@ public class BasicGuiContainer extends AGuiContainer {
 	
 	@Override
 	public String toString() {
-		return this.name;
+		return this.name==null?super.toString():this.name;
 	}
 
 	@Override
