@@ -242,11 +242,14 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	protected void handleMouseEvent( AMouseEvent e ){
 		logger.debug("handleMouseClickedEvent() "+ e);
 		boolean childFound = false;
-		drawme = e.guiCoords;
+		Point2d toCheck = (e.guiCoordsRelative==null)?e.guiCoords:e.guiCoordsRelative;
+		
+		drawme = toCheck;
+		
 		for ( IGuiContainer c : childs) {
-			if ( c.isPointInContainer( e.guiCoords ) ) {
+			if ( c.isPointInContainer( toCheck ) ) {
 				// XXX possible bug: what if 2 container overlap
-				e.guiCoordsRelative = new Point2d(e.guiCoords.x - c.getX(), e.guiCoords.y - c.getY());
+				e.guiCoordsRelative = new Point2d(toCheck.x - c.getX(), toCheck.y - c.getY());
 				c.fireEvent( e );
 				childFound = true;
 				break;

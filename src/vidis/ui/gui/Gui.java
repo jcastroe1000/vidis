@@ -6,6 +6,7 @@ import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
+import vidis.ui.config.Configuration;
 import vidis.ui.events.AEventHandler;
 import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.GuiMouseEvent;
@@ -14,6 +15,7 @@ import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.Button;
 import vidis.ui.model.impl.CheckBox;
+import vidis.ui.model.impl.CheckChangeListener;
 import vidis.ui.model.impl.PercentMarginLayout;
 import vidis.ui.model.impl.TextGuiContainer;
 import vidis.ui.model.impl.guielements.Basic3DScrollPane;
@@ -51,9 +53,15 @@ public class Gui extends AEventHandler {
 		
 		CheckBox test = new CheckBox();
 		test.setName("myFirstCheckBox");
-		test.setText("checkMeIfYouCan");
+		test.setText("Wireframe?");
+		test.addCheckChangeListener( new CheckChangeListener() {
+			@Override
+			public void onCheckCange(boolean checked) {
+				Configuration.DISPLAY_WIREFRAME = checked;
+			}
+		});
 		test.setChecked(false);
-		test.setBounds(1, 1, 4, 20);
+		test.setBounds(1, 1, 1.5, 20);
 		
 		rightPanel.addChild(test);
 		
@@ -62,6 +70,7 @@ public class Gui extends AEventHandler {
 		rightPanel.addChild(label);
 		mainContainer.addChild(rightPanel);
 	}
+	
 	private void initializeControls(){
 		logger.debug("initializeControls()");
 		BasicGuiContainer container1 = new BasicGuiContainer();

@@ -1,8 +1,9 @@
 package vidis.ui.model.impl;
 
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.media.opengl.GL;
 
@@ -17,7 +18,7 @@ public class CheckBox extends BasicGuiContainer {
 
 	private boolean checked = false;
 	
-	float borderPercent = 0.05f;
+	float borderPercent = 0.1f;
 	
 	private String text = "BUTTON";
 	
@@ -31,95 +32,97 @@ public class CheckBox extends BasicGuiContainer {
 		setColor2( Color.gray.darker() );
 	}
 	
-	private static double checkBoxSize = 2;
+	private static double checkBoxSize = 1;
 	
 	@Override
 	public void renderContainer(GL gl) {
 
 		// background
-		gl.glPushMatrix();
-		gl.glTranslated(0, 0, -0.01);
-		gl.glBegin(GL.GL_QUADS); 
-			gl.glVertex2d( 0, 0);
-			gl.glVertex2d( 0, getHeight());
-			gl.glVertex2d( getWidth(), getHeight());
-			gl.glVertex2d( getWidth(), 0);	
-		gl.glEnd();
-		gl.glPopMatrix();
+//		useColor( gl, Color.blue );
+//		gl.glPushMatrix();
+//		gl.glTranslated(0, 0, -0.01);
+//		gl.glBegin(GL.GL_QUADS); 
+//			gl.glVertex2d( 0, 0);
+//			gl.glVertex2d( 0, getHeight());
+//			gl.glVertex2d( getWidth(), getHeight());
+//			gl.glVertex2d( getWidth(), 0);	
+//		gl.glEnd();
+//		gl.glPopMatrix();
 	
-		// text
-		
 		requireTextRenderer();
 		
-		useColor( gl, getColor() );
-		
-		// drawing the box
 		gl.glPushMatrix();
-			double h = checkBoxSize;
-			double w = checkBoxSize;
-			double border = h * borderPercent;
-			useColor( gl, getColor() );
-			// center
-			gl.glBegin(GL.GL_QUADS); 
-				gl.glVertex2d( border, border);
-				gl.glVertex2d( border, h - border);
-				gl.glVertex2d( w - border, h - border );
-				gl.glVertex2d( w - border, border);	
-			gl.glEnd();
 		
-			// rand
-			if ( !checked ) {
-				useColor( gl, colorLight );
-			}
-			else {
-				useColor( gl, colorDark );
-			}
-	
-			//  bottom
-			gl.glBegin(GL.GL_QUADS); 
-				gl.glVertex2d( 0, h );
-				gl.glVertex2d( border, h - border);
-				gl.glVertex2d( w - border, h - border );
-				gl.glVertex2d( w, h );	
-			gl.glEnd();
-			//  left
-			gl.glBegin(GL.GL_QUADS); 
-				gl.glVertex2d( 0, 0);
-				gl.glVertex2d( border, border);
-				gl.glVertex2d( border, h - border );
-				gl.glVertex2d( 0, h );	
-			gl.glEnd();
+			gl.glTranslated(0, (getHeight() - checkBoxSize) / 2d, 0);
 			
-			if ( !checked ) {
-				useColor( gl, colorDark );
-			}
-			else {
-				useColor( gl, colorLight );
-			}
-			//  top
-			gl.glBegin(GL.GL_QUADS); 
-				gl.glVertex2d( 0, 0);
-				gl.glVertex2d( w, 0 );
-				gl.glVertex2d( w - border, border );
-				gl.glVertex2d( border, border );	
-			gl.glEnd();
-		//  right
-			gl.glBegin(GL.GL_QUADS); 
-				gl.glVertex2d( w, 0);
-				gl.glVertex2d( w, h);
-				gl.glVertex2d( w - border, h - border );
-				gl.glVertex2d( w - border, border );	
-			gl.glEnd();
+			useColor( gl, getColor() );
+			// drawing the box
+			gl.glPushMatrix();
+				double h = checkBoxSize;
+				double w = checkBoxSize;
+				double border = h * borderPercent;
+				useColor( gl, getColor() );
+				
+				if ( !checked ) {
+					useColor( gl, Color.white );
+				}
+				else {
+					useColor( gl, Color.red );
+				}
+				
+				// center
+				gl.glBegin(GL.GL_QUADS); 
+					gl.glVertex2d( border, border);
+					gl.glVertex2d( border, h - border);
+					gl.glVertex2d( w - border, h - border );
+					gl.glVertex2d( w - border, border);	
+				gl.glEnd();
+			
+				// rand
+					useColor( gl, colorDark );
+		
+				//  bottom
+				gl.glBegin(GL.GL_QUADS); 
+					gl.glVertex2d( 0, h );
+					gl.glVertex2d( border, h - border);
+					gl.glVertex2d( w - border, h - border );
+					gl.glVertex2d( w, h );	
+				gl.glEnd();
+				//  left
+				gl.glBegin(GL.GL_QUADS); 
+					gl.glVertex2d( 0, 0);
+					gl.glVertex2d( border, border);
+					gl.glVertex2d( border, h - border );
+					gl.glVertex2d( 0, h );	
+				gl.glEnd();
+				
+					useColor( gl, colorLight );
+				//  top
+				gl.glBegin(GL.GL_QUADS); 
+					gl.glVertex2d( 0, 0);
+					gl.glVertex2d( w, 0 );
+					gl.glVertex2d( w - border, border );
+					gl.glVertex2d( border, border );	
+				gl.glEnd();
+			//  right
+				gl.glBegin(GL.GL_QUADS); 
+					gl.glVertex2d( w, 0);
+					gl.glVertex2d( w, h);
+					gl.glVertex2d( w - border, h - border );
+					gl.glVertex2d( w - border, border );	
+				gl.glEnd();
+			gl.glPopMatrix();
+			
 		gl.glPopMatrix();
-			
+		
 		// text
 		Rectangle2D r = textRenderer.getBounds( text );
 		float scale = 0.01f;
 		
 		double factor = 0.7;
-		double fontScaleWidth = (w * factor) / (r.getWidth() * scale);
-		double fontScaleHeight = (h * factor) / (r.getHeight() * scale);
-		double fontScale = fontScaleWidth;
+		double fontScaleWidth = (getWidth() * factor) / (r.getWidth() * scale);
+		double fontScaleHeight = (getHeight() * factor) / (r.getHeight() * scale);
+		double fontScale = fontScaleHeight;
 		
 		gl.glPushMatrix();
 			
@@ -127,8 +130,8 @@ public class CheckBox extends BasicGuiContainer {
 			textRenderer.setColor( textColor );
 			textRenderer.begin3DRendering();
 			textRenderer.draw3D( text, 
-					(float) (w / 2f - r.getWidth() * scale * fontScale / 2f), 
-					(float) (h / 2f - r.getHeight() * scale * fontScale / 2f),
+					(float) (2 * checkBoxSize), 
+					(float) (getHeight() / 2f - r.getHeight() * scale * fontScale / 2f),
 					0.5f,
 					(float) (scale * fontScale) );
 			textRenderer.end3DRendering();
@@ -153,6 +156,7 @@ public class CheckBox extends BasicGuiContainer {
 		else {
 			checked = false;
 		}
+		notifyCheckChangeListeners();
 	}
 	
 	public void setText( String text ) {
@@ -165,17 +169,35 @@ public class CheckBox extends BasicGuiContainer {
 	
 	public void setChecked( boolean checked ) {
 		this.checked = checked;
+		notifyCheckChangeListeners();
+	}
+	
+	private List<CheckChangeListener> checkChangeListener = new ArrayList<CheckChangeListener>();
+	public void addCheckChangeListener( CheckChangeListener c ) {
+		synchronized ( this.checkChangeListener ) {
+			this.checkChangeListener.add( c );
+		}
+	}
+	public void removeCheckChangeListener( CheckChangeListener c ) {
+		synchronized ( this.checkChangeListener ) {
+			this.checkChangeListener.remove( c );
+		}
+	}
+	private void notifyCheckChangeListeners() {
+		synchronized ( this.checkChangeListener ) {
+			for ( CheckChangeListener c : this.checkChangeListener ) {
+				c.onCheckCange( checked );
+			}
+		}
 	}
 	
 	@Override
 	protected void onMouseEnter() {
-		logger.info("CHECKBOX WAS ENTERED");
-		super.onMouseEnter();
+		textColor = Color.gray;
 	}
 	
 	@Override
 	protected void onMouseExit() {
-		logger.info("CHECKBOX WAS EXITED");
-		super.onMouseExit();
+		textColor = Color.white;
 	}
 }

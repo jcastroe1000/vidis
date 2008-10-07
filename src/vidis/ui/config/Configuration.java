@@ -51,7 +51,7 @@ public class Configuration {
 	/**
 	 * just display wireframe
 	 */
-	public static boolean DISPLAY_WIREFRAME = true;
+	public static boolean DISPLAY_WIREFRAME = false;
 	
 	/**
 	 * adjustable detail level within [0 .. 1] (where 0 is poor, 1 is best)
