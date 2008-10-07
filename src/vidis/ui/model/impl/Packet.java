@@ -7,6 +7,7 @@ import javax.vecmath.Vector3d;
 
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
+import vidis.sim.Simulator;
 import vidis.ui.config.Configuration;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.model.structure.ASimObject;
@@ -96,9 +97,11 @@ public class Packet extends ASimObject {
 		}
 		// set color
 		gl.glColor4d( 1, 0, 1, 0 );
-		// now rotate it
-		gl.glRotated(position, getPosition().x, getPosition().y, getPosition().z);
-		position += Math.random()*10+4;
+		if(!Simulator.getInstance().getPlayer().isPaused()) {
+			// now rotate it
+			gl.glRotated(position, getPosition().x, getPosition().y, getPosition().z);
+			position += Math.random()*10+4;
+		}
 		// now draw it
 		gl.glCallList( displayListId );
 	}
