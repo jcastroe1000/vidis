@@ -76,9 +76,9 @@ public class Node extends ASimObject {
 	
 	public void preRenderObject(GL gl) {
 		int slices_min = 6;
-		int slices_max = 40;
+		int slices_max = 25;
 		int stacks_min = 6;
-		int stacks_max = 40;
+		int stacks_max = 25;
 		int slices = (int)Math.round(Configuration.DETAIL_LEVEL * slices_max + slices_min);
 		int stacks = (int)Math.round(Configuration.DETAIL_LEVEL * stacks_max + stacks_min);
 		requireTextRenderer();
