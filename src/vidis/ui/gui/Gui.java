@@ -6,6 +6,7 @@ import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
+import vidis.sim.Simulator;
 import vidis.ui.config.Configuration;
 import vidis.ui.events.AEventHandler;
 import vidis.ui.events.AMouseEvent;
@@ -18,8 +19,8 @@ import vidis.ui.model.impl.CheckBox;
 import vidis.ui.model.impl.CheckChangeListener;
 import vidis.ui.model.impl.PercentMarginLayout;
 import vidis.ui.model.impl.TextGuiContainer;
-import vidis.ui.model.impl.guielements.Basic3DScrollPane;
-import vidis.ui.model.impl.guielements.Label;
+import vidis.ui.model.impl.guielements.slider.ASlider3D;
+import vidis.ui.model.impl.guielements.slider.VerticalSlider3D;
 import vidis.ui.model.structure.IVisObject;
 import vidis.ui.mvc.api.Dispatcher;
 
@@ -45,11 +46,12 @@ public class Gui extends AEventHandler {
 		logger.debug("initializeRightPanel");
 		BasicGuiContainer rightPanel = new BasicGuiContainer();
 		rightPanel.setName("right Panel");
-		rightPanel.setColor1( Color.black );
-		rightPanel.setColor2( Color.white );
+		rightPanel.setColor1( Color.gray );
+		rightPanel.setColor2( Color.black );
 		rightPanel.setLayout(new PercentMarginLayout(-0.7,1,1,1,-1,-0.30));
-		rightPanel.addChild(new Basic3DScrollPane());
-		
+		ASlider3D slider = new VerticalSlider3D();
+		slider.setBounds(0, 0, rightPanel.getHeight(), 0.2);
+		rightPanel.addChild(slider);
 		
 		CheckBox test = new CheckBox();
 		test.setName("myFirstCheckBox");
@@ -65,9 +67,6 @@ public class Gui extends AEventHandler {
 		
 		rightPanel.addChild(test);
 		
-		// draw a label
-		Label label = new Label("tut");
-		rightPanel.addChild(label);
 		mainContainer.addChild(rightPanel);
 	}
 	
@@ -78,13 +77,17 @@ public class Gui extends AEventHandler {
 		Button playButton = new Button() {
 			@Override
 			protected void onMouseClicked( MouseClickedEvent e ) {
+				if(Simulator.getInstance().getPlayer().isPaused())
+					setText("Pause");
+				else
+					setText("Play");
 				Dispatcher.forwardEvent( IVidisEvent.SimulatorPlay );
 			}
 		};
 		playButton.setName("PLAY BUTTON");
 		playButton.setLayout(new PercentMarginLayout(1,0.9,-0.9,1,-0.1,-0.1));
 		//playButton.setLayout(new PercentMarginLayout(-0.1,0.9,-0.1,-0.1,-0.8,-0.8));
-		playButton.setText("Play / Pause");
+		playButton.setText("Play");
 
 		BasicGuiContainer container2 = new BasicGuiContainer();
 		container2.setLayout(new PercentMarginLayout(-0.2,0.9,-0.8,1,-0.1,-0.1));
