@@ -49,9 +49,13 @@ public class Gui extends AEventHandler {
 		rightPanel.setColor1( Color.gray );
 		rightPanel.setColor2( Color.black );
 		rightPanel.setLayout(new PercentMarginLayout(-0.7,1,1,1,-1,-0.30));
-		ASlider3D slider = new VerticalSlider3D();
-		slider.setBounds(0, 0, rightPanel.getHeight(), 0.2);
+		ASlider3D slider = new VerticalSlider3D(0, 10);
+		slider.setColor1(Color.cyan);
+		slider.setColor2(Color.pink);
 		rightPanel.addChild(slider);
+//		slider.setBounds(2, 0, rightPanel.getHeight(), 0.2);
+		slider.setLayout(new PercentMarginLayout(-0.7,1,1,1,-1,-0.30));
+		slider.setOpaque( false );
 		
 		CheckBox test = new CheckBox();
 		test.setName("myFirstCheckBox");
