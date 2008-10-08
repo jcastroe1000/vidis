@@ -4,154 +4,173 @@ import java.awt.Color;
 
 import javax.media.opengl.GL;
 
+import org.apache.log4j.Logger;
+
 import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
+import vidis.ui.model.impl.PercentMarginLayout;
+import vidis.ui.model.structure.IGuiContainer;
+import vidis.ui.model.structure.ILayout;
 
-public abstract class ASlider3D extends BasicGuiContainer {
-	protected static final int VERTICAL = 0;
-	protected static final int HORIZONTAL = 1;
-	
-	private BasicGuiContainer line;
+public class ASlider3D extends BasicGuiContainer {
+	private static Logger logger = Logger.getLogger(ASlider3D.class);
+
 	private BasicGuiContainer top;
-	private BasicGuiContainer bottom;
 	private BasicGuiContainer middle;
-	private int type;
-	private double position;
+	private BasicGuiContainer bottom;
 	
-	private void lineOnMouseClick() {
-		System.err.println("line clicked");
-	}
+	private int scroll_min = 0;
+	private int scroll_max = 0;
+	private int scroll_position = 0;
 	
-	private void topOnMouseClick() {
-		System.err.println("top clicked");
-	}
-	
-	private void bottomOnMouseClick() {
-		System.err.println("bottom clicked");
-	}
-	
-	private void middleOnMouseClick() {
-		System.err.println("middle clicked");
-	}
-	
-	public ASlider3D(int type) {
-		this.type = type;
+	public ASlider3D(int min, int max) {
+		super();
 		
-		setPosition(0.1);
+		setMin(min);
+		setMax(max);
 		
-		// instantiate line
-		line = new BasicGuiContainer() {
-			@Override
-			protected void onMouseClicked(MouseClickedEvent e) {
-				lineOnMouseClick();
-			}
-		};
-		line.setColor1(Color.red);
-		addChild(line);
-		
-		// top
 		top = new BasicGuiContainer() {
 			@Override
 			protected void onMouseClicked(MouseClickedEvent e) {
-				topOnMouseClick();
-			}
-			@Override
-			public double getWidth() {
-				return 0.5;
-			}
-			@Override
-			public double getHeight() {
-				return 0.8;
+				super.onMouseClicked(e);
+				// scroll up
+				scrollDown();
 			}
 			@Override
 			public void renderContainer(GL gl) {
 				gl.glPushMatrix();
-					gl.glRotated(180, 1, 0, 0);
-					gl.glBegin(GL.GL_TRIANGLES);
-						gl.glVertex2d(0, 0);
-						gl.glVertex2d(getWidth(), getHeight());
-						gl.glVertex2d(-getWidth(), getHeight());
-					gl.glEnd();
-					
-				gl.glPopMatrix();
+				Color color = Color.green;
+				gl.glColor3d(color.getGreen(), color.getRed(), color.getBlue());
+//				gl.glRotated(180, 1, 0, 0);
+				gl.glTranslated(0, -buttonSize, 0);
+				gl.glBegin(GL.GL_TRIANGLE_STRIP);
+					gl.glVertex2d(buttonSize/2, 0);
+					gl.glVertex2d(buttonSize/2 + 0.3, buttonSize);
+					gl.glVertex2d(buttonSize/2 - 0.3, buttonSize);
+				gl.glEnd();
+			gl.glPopMatrix();
 			}
 		};
-		addChild(top);
+		top.setLayout( new PercentMarginLayout( -0.01, -0.01, -0.01, -0.9, -0.1, -1 ) );
+		top.setName( "TOP" );
 		
-		// bottom
+		middle = new BasicGuiContainer();
+//		middle.setLayout( new PercentMarginLayout( -0.01, -0.1, -0.01, -0.1, -0.8, -1 ) );
+//		middle.setLayout(new PercentMarginLayout( -0.01, -0.1 + getPositionPercentage()*0.9, -0.01, -0.1+getPositionPercentage()*0.9, 3, -1 ));
+		positionMiddle();
+		middle.setName( "MIDDLE" );
+		
 		bottom = new BasicGuiContainer() {
 			@Override
 			protected void onMouseClicked(MouseClickedEvent e) {
-				bottomOnMouseClick();
+				super.onMouseClicked(e);
+				scrollUp();
 			}
-			@Override
-			public double getWidth() {
-				return 0.5;
-			}
-			@Override
-			public double getHeight() {
-				return 0.8;
-			}
+			
 			@Override
 			public void renderContainer(GL gl) {
 				gl.glPushMatrix();
-					gl.glBegin(GL.GL_TRIANGLES);
-						gl.glVertex2d(0, 0);
-						gl.glVertex2d(getWidth(), getHeight());
-						gl.glVertex2d(-getWidth(), getHeight());
+					Color color = Color.green;
+					gl.glColor3d(color.getGreen(), color.getRed(), color.getBlue());
+					gl.glRotated(180, 1, 0, 0);
+					gl.glTranslated(0, -buttonSize, 0);
+					gl.glBegin(GL.GL_TRIANGLE_STRIP);
+						gl.glVertex2d(buttonSize/2, 0);
+						gl.glVertex2d(buttonSize/2 + 0.3, buttonSize);
+						gl.glVertex2d(buttonSize/2 - 0.3, buttonSize);
 					gl.glEnd();
-					
 				gl.glPopMatrix();
 			}
 		};
-		bottom.setColor1(Color.green);
-		addChild(bottom);
-		
-		// middle
-		middle = new BasicGuiContainer() {
-			@Override
-			protected void onMouseClicked(MouseClickedEvent e) {
-				middleOnMouseClick();
-			}
-		};
-		middle.setColor1(Color.pink);
-		addChild(middle);
-	}
-	
-	public boolean isVertical() {
-		return type == VERTICAL;
-	}
-	
-	public boolean isHorizontal() {
-		return type == HORIZONTAL;
-	}
-	
-	/**
-	 * the position of the slider
-	 * @return a double within [0..1]
-	 */
-	public double getPosition() {
-		return position;
-	}
-	
-	/**
-	 * sets the position
-	 * @param pos position within [0..1]
-	 */
-	public void setPosition(double pos) {
-		this.position = pos;
-	}
-	
-	@Override
-	public void renderContainer(GL gl) {
-		// set line size
-		line.setBounds(0, 0, getParent().getHeight(), .2);
-		// set middle position and size
-		middle.setBounds(middle.getX(), getHeight() * getPosition(), middle.getHeight(), middle.getWidth());
-		// top triangle
-		top.setBounds(0, 0, top.getHeight(), top.getWidth());
-		// bottom triangle
-		bottom.setBounds(0, getHeight(), bottom.getHeight(), bottom.getWidth());
-	}
+		//bottom.setLayout( new PercentMarginLayout( -0.01, -0.9, -0.01, -0.01, -0.1, -1 ) );
+		bottom.setName( "BOTTOM" );
+		bottom.setLayout( new ILayout() {
 
+			public double getHeight() {
+				return buttonSize;
+			}
+
+			public double getWidth() {
+				return ASlider3D.this.getWidth();
+			}
+
+			public double getX() {
+				return 0;
+			}
+
+			public double getY() {
+				return ASlider3D.this.getHeight() - buttonSize;
+			}
+
+			public void layout() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void setGuiContainer(IGuiContainer c) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+		this.setName( "PARENT" );
+		
+		this.addChild( top );
+		this.addChild( middle );
+		this.addChild( bottom );
+		
+		
+	}
+	
+	private double buttonSize = 3;
+	private double sliderSize = 1.5;
+	
+	private void positionMiddle() {
+		middle.setBounds(0, buttonSize + ( getHeight() - sliderSize - 2 * buttonSize ) * ( 1d - getPositionPercentage() ), sliderSize, getWidth());
+	}
+	
+	protected void setPosition(int pos) {
+		pos = Math.min(Math.max(getMin(), pos), getMax());
+		
+		scroll_position = pos;
+		
+		positionMiddle();
+		
+		System.err.println("now at : "+getMin()+" ("+getPositionPercentage()*100+"%) < " + getPosition() + " < " + getMax());
+	}
+	
+	public int getMin() {
+		return scroll_min;
+	}
+	
+	public int getMax() {
+		return scroll_max;
+	}
+	
+	public void setMin(int min) {
+		min = Math.min(getMax(), min);
+		scroll_min = min;
+	}
+	
+	public void setMax(int max) {
+		max = Math.max(getMin(), max);
+		scroll_max = max;
+	}
+	
+	protected int getPosition() {
+		return scroll_position;
+	}
+	
+	private double getPositionPercentage() {
+		return ((double)(getPosition()-getMin())) / ((double)(getMax()-getMin()));
+	}
+	
+	public void scrollUp() {
+		setPosition(getPosition() - 1);
+	}
+	
+	public void scrollDown() {
+		setPosition(getPosition() + 1);
+	}
 }
