@@ -52,7 +52,7 @@ public class ASlider3D extends BasicGuiContainer {
 						gl.glVertex2d(buttonSize/2 - 0.3, buttonSize);
 					gl.glEnd();
 				gl.glPopMatrix();
-//				super.renderContainer(gl);
+				super.renderContainer(gl);
 			}
 		};
 //		top.setLayout( new PercentMarginLayout( -0.01, -0.01, -0.01, -0.9, -0.1, -1 ) );
@@ -113,7 +113,7 @@ public class ASlider3D extends BasicGuiContainer {
 						gl.glVertex2d(buttonSize/2 - 0.3, buttonSize);
 					gl.glEnd();
 				gl.glPopMatrix();
-//				super.renderContainer(gl);
+				super.renderContainer(gl);
 			}
 		};
 		//bottom.setLayout( new PercentMarginLayout( -0.01, -0.9, -0.01, -0.01, -0.1, -1 ) );

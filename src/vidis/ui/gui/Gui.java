@@ -19,8 +19,8 @@ import vidis.ui.model.impl.CheckBox;
 import vidis.ui.model.impl.CheckChangeListener;
 import vidis.ui.model.impl.PercentMarginLayout;
 import vidis.ui.model.impl.TextGuiContainer;
-import vidis.ui.model.impl.guielements.slider.ASlider3D;
-import vidis.ui.model.impl.guielements.slider.VerticalSlider3D;
+import vidis.ui.model.impl.guielements.scrollpane.AScrollpane3D;
+import vidis.ui.model.impl.guielements.scrollpane.ScrollPane3D;
 import vidis.ui.model.structure.IVisObject;
 import vidis.ui.mvc.api.Dispatcher;
 
@@ -49,12 +49,13 @@ public class Gui extends AEventHandler {
 		rightPanel.setColor1( Color.gray );
 		rightPanel.setColor2( Color.black );
 		rightPanel.setLayout(new PercentMarginLayout(-0.7,1,1,1,-1,-0.30));
-		ASlider3D slider = new VerticalSlider3D(0, 10);
-		slider.setColor1(Color.cyan);
-		slider.setColor2(Color.pink);
+		
+		AScrollpane3D slider = new ScrollPane3D();
+//		slider.setColor1(Color.cyan);
+//		slider.setColor2(Color.pink);
 		rightPanel.addChild(slider);
 //		slider.setBounds(2, 0, rightPanel.getHeight(), 0.2);
-		slider.setLayout(new PercentMarginLayout(-0.7,1,1,1,-1,-0.30));
+		slider.setLayout(new PercentMarginLayout(-0.0001,-0.0001,-0.0001,-0.0001,-1,-1));
 		slider.setOpaque( false );
 		
 		CheckBox test = new CheckBox();
@@ -69,7 +70,7 @@ public class Gui extends AEventHandler {
 		test.setChecked(false);
 		test.setBounds(1, 1, 1.5, 20);
 		
-		rightPanel.addChild(test);
+		slider.addChild(test);
 		
 		mainContainer.addChild(rightPanel);
 	}
