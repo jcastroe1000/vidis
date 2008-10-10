@@ -9,6 +9,7 @@ import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
+import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.guielements.slider.VerticalSlider3D;
 import vidis.ui.model.structure.IGuiContainer;

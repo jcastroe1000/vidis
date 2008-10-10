@@ -3,6 +3,7 @@ package vidis.ui.model.impl.guielements.slider;
 import java.awt.Color;
 
 import javax.media.opengl.GL;
+import javax.vecmath.Point2d;
 
 import org.apache.log4j.Logger;
 
@@ -207,7 +208,7 @@ public class ASlider3D extends BasicGuiContainer {
 		
 		positionMiddle();
 		
-		System.err.println("now at : "+getMin()+" ("+getPositionPercentage()*100+"%) < " + getPosition() + " < " + getMax());
+//		System.err.println("now at : "+getMin()+" ("+getPositionPercentage()*100+"%) < " + getPosition() + " < " + getMax());
 	}
 	
 	public int getMin() {
@@ -271,5 +272,20 @@ public class ASlider3D extends BasicGuiContainer {
 	@Override
 	public void renderContainer(GL gl) {
 //		super.renderContainer(gl);
+	}
+	
+	@Override
+	protected void onMouseClicked(MouseClickedEvent e) {
+		if(e.guiCoordsRelative != null) {
+			Point2d coords = e.guiCoordsRelative;
+			double c_y = coords.y;
+			double m_y = getHeight();
+			if(m_y > 0) {
+				double p_y = 1d - c_y/m_y;
+				int a_y = (int) Math.round(getMin() + getMax() * p_y);
+				setPosition(a_y);
+			}
+		}
+		super.onMouseClicked(e);
 	}
 }
