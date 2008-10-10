@@ -23,6 +23,9 @@ public class ASlider3D extends BasicGuiContainer {
 	private int scroll_max = 0;
 	private int scroll_position = 0;
 	
+	private double buttonSize = 3;
+	private double sliderSize = 1.5;
+	
 	public ASlider3D(int min, int max) {
 		super();
 		
@@ -39,19 +42,49 @@ public class ASlider3D extends BasicGuiContainer {
 			@Override
 			public void renderContainer(GL gl) {
 				gl.glPushMatrix();
-				Color color = Color.green;
-				gl.glColor3d(color.getGreen(), color.getRed(), color.getBlue());
-//				gl.glRotated(180, 1, 0, 0);
-				gl.glTranslated(0, -buttonSize, 0);
-				gl.glBegin(GL.GL_TRIANGLE_STRIP);
-					gl.glVertex2d(buttonSize/2, 0);
-					gl.glVertex2d(buttonSize/2 + 0.3, buttonSize);
-					gl.glVertex2d(buttonSize/2 - 0.3, buttonSize);
-				gl.glEnd();
-			gl.glPopMatrix();
+					Color color = Color.green;
+					gl.glColor3d(color.getGreen(), color.getRed(), color.getBlue());
+	//				gl.glRotated(180, 1, 0, 0);
+//					gl.glTranslated(0, -buttonSize, 0);
+					gl.glBegin(GL.GL_TRIANGLE_STRIP);
+						gl.glVertex2d(buttonSize/2, 0);
+						gl.glVertex2d(buttonSize/2 + 0.3, buttonSize);
+						gl.glVertex2d(buttonSize/2 - 0.3, buttonSize);
+					gl.glEnd();
+				gl.glPopMatrix();
+//				super.renderContainer(gl);
 			}
 		};
-		top.setLayout( new PercentMarginLayout( -0.01, -0.01, -0.01, -0.9, -0.1, -1 ) );
+//		top.setLayout( new PercentMarginLayout( -0.01, -0.01, -0.01, -0.9, -0.1, -1 ) );
+		top.setLayout( new ILayout() {
+
+			public double getHeight() {
+				return buttonSize;
+			}
+
+			public double getWidth() {
+				return ASlider3D.this.getWidth();
+			}
+
+			public double getX() {
+				return 0;
+			}
+
+			public double getY() {
+				return 0;
+			}
+
+			public void layout() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void setGuiContainer(IGuiContainer c) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 		top.setName( "TOP" );
 		
 		middle = new BasicGuiContainer();
@@ -80,6 +113,7 @@ public class ASlider3D extends BasicGuiContainer {
 						gl.glVertex2d(buttonSize/2 - 0.3, buttonSize);
 					gl.glEnd();
 				gl.glPopMatrix();
+//				super.renderContainer(gl);
 			}
 		};
 		//bottom.setLayout( new PercentMarginLayout( -0.01, -0.9, -0.01, -0.01, -0.1, -1 ) );
@@ -122,9 +156,6 @@ public class ASlider3D extends BasicGuiContainer {
 		
 		
 	}
-	
-	private double buttonSize = 3;
-	private double sliderSize = 1.5;
 	
 	private void positionMiddle() {
 		middle.setBounds(0, buttonSize + ( getHeight() - sliderSize - 2 * buttonSize ) * ( 1d - getPositionPercentage() ), sliderSize, getWidth());
