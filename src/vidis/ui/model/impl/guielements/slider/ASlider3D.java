@@ -42,8 +42,6 @@ public class ASlider3D extends BasicGuiContainer {
 			@Override
 			public void renderContainer(GL gl) {
 				gl.glPushMatrix();
-					Color color = Color.green;
-					gl.glColor3d(color.getGreen(), color.getRed(), color.getBlue());
 	//				gl.glRotated(180, 1, 0, 0);
 //					gl.glTranslated(0, -buttonSize, 0);
 					gl.glBegin(GL.GL_TRIANGLE_STRIP);
@@ -87,7 +85,20 @@ public class ASlider3D extends BasicGuiContainer {
 		});
 		top.setName( "TOP" );
 		
-		middle = new BasicGuiContainer();
+		middle = new BasicGuiContainer() {
+			@Override
+			public void renderContainer(GL gl) {
+				gl.glPushMatrix();
+					gl.glBegin(GL.GL_QUADS);
+						gl.glVertex2d(0, 0);
+						gl.glVertex2d(0, sliderSize);
+						gl.glVertex2d(sliderSize, sliderSize);
+						gl.glVertex2d(sliderSize, 0);
+					gl.glEnd();
+				gl.glPopMatrix();
+//				super.renderContainer(gl);
+			}
+		};
 //		middle.setLayout( new PercentMarginLayout( -0.01, -0.1, -0.01, -0.1, -0.8, -1 ) );
 //		middle.setLayout(new PercentMarginLayout( -0.01, -0.1 + getPositionPercentage()*0.9, -0.01, -0.1+getPositionPercentage()*0.9, 3, -1 ));
 		positionMiddle();
@@ -103,8 +114,6 @@ public class ASlider3D extends BasicGuiContainer {
 			@Override
 			public void renderContainer(GL gl) {
 				gl.glPushMatrix();
-					Color color = Color.green;
-					gl.glColor3d(color.getGreen(), color.getRed(), color.getBlue());
 					gl.glRotated(180, 1, 0, 0);
 					gl.glTranslated(0, -buttonSize, 0);
 					gl.glBegin(GL.GL_TRIANGLE_STRIP);
@@ -194,7 +203,11 @@ public class ASlider3D extends BasicGuiContainer {
 	}
 	
 	private double getPositionPercentage() {
-		return ((double)(getPosition()-getMin())) / ((double)(getMax()-getMin()));
+		if(getMax()-getMin() > 0) {
+			return ((double)(getPosition()-getMin())) / ((double)(getMax()-getMin()));
+		} else {
+			return 0;
+		}
 	}
 	
 	public void scrollUp() {
@@ -203,5 +216,10 @@ public class ASlider3D extends BasicGuiContainer {
 	
 	public void scrollDown() {
 		setPosition(getPosition() + 1);
+	}
+	
+	@Override
+	public void renderContainer(GL gl) {
+//		super.renderContainer(gl);
 	}
 }

@@ -1,14 +1,14 @@
 package vidis.ui.model.impl.guielements.scrollpane;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.media.opengl.GL;
+
 import org.apache.log4j.Logger;
 
 import vidis.ui.model.impl.BasicGuiContainer;
-import vidis.ui.model.impl.PercentMarginLayout;
 import vidis.ui.model.impl.guielements.slider.VerticalSlider3D;
 import vidis.ui.model.structure.IGuiContainer;
 import vidis.ui.model.structure.ILayout;
@@ -53,7 +53,12 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 			}
 		});
 		
-		container = new BasicGuiContainer();
+		container = new BasicGuiContainer() {
+			@Override
+			public void renderContainer(GL gl) {
+//				super.renderContainer(gl);
+			}
+		};
 		super.addChild(container);
 		
 		container.setName("scrollpane container");
@@ -80,9 +85,6 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 			public void setGuiContainer(IGuiContainer c) {
 			}
 		});
-		Color c = Color.yellow;
-		container.setColor1(c);
-		container.setColor2(c);
 	}
 	
 	@Override
@@ -94,7 +96,7 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 	
 	private void fixSliderMinMax() {
 		if(getHeightOfElements() > 0)
-			slider.setMax(getHeightOfElements() / 10);
+			slider.setMax(getHeightOfElements());
 		else
 			slider.setMax(1);
 	}
@@ -132,5 +134,10 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 	 */
 	public int countElements() {
 		return childs.size();
+	}
+	
+	@Override
+	public void renderContainer(GL gl) {
+//		super.renderContainer(gl);
 	}
 }
