@@ -86,6 +86,8 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 			public void setGuiContainer(IGuiContainer c) {
 			}
 		});
+		
+		fixSliderMinMax();
 	}
 	
 	@Override

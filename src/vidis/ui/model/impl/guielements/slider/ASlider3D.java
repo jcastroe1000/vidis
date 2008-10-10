@@ -113,6 +113,11 @@ public class ASlider3D extends BasicGuiContainer {
 			public double getWidth() {
 				return getParent().getWidth();
 			}
+			@Override
+			protected void handleResize() {
+				super.handleResize();
+				positionMiddle();
+			}
 		};
 //		middle.setLayout( new PercentMarginLayout( -0.01, -0.1, -0.01, -0.1, -0.8, -1 ) );
 //		middle.setLayout(new PercentMarginLayout( -0.01, -0.1 + getPositionPercentage()*0.9, -0.01, -0.1+getPositionPercentage()*0.9, 3, -1 ));
@@ -189,9 +194,10 @@ public class ASlider3D extends BasicGuiContainer {
 		double spacer_top = bottom.getHeight();
 		double spacer_bottom = top.getHeight();
 //		double y = top.getHeight() + ( getHeight() - middle.getHeight() - top.getHeight() - bottom.getHeight() ) * ( 1d - getPositionPercentage() );
-		System.err.println(getHeight() + " / " + middle.getHeight() + " / " + spacer_top + " / " + spacer_bottom);
+//		System.err.println(getHeight() + " / " + middle.getHeight() + " / " + spacer_top + " / " + spacer_bottom);
 		double y = spacer_bottom + ( ( getHeight() - middle.getHeight() - spacer_top - spacer_bottom ) * ( 1d - getPositionPercentage() ));
 		middle.setBounds(x, y, middle.getHeight(), middle.getWidth());
+//		System.err.println("["+x+","+y+" | "+middle.getHeight()+","+middle.getWidth()+"]");
 	}
 	
 	protected void setPosition(int pos) {
