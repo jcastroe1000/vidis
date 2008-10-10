@@ -1,5 +1,6 @@
 package vidis.ui.model.impl.guielements.scrollpane;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -139,5 +140,19 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 	@Override
 	public void renderContainer(GL gl) {
 //		super.renderContainer(gl);
+	}
+	
+	@Override
+	public void setColor1(Color c) {
+		super.setColor1(c);
+		
+		slider.setColor1(c);
+	}
+	
+	@Override
+	public void setColor2(Color c) {
+		super.setColor2(c);
+		
+		slider.setColor2(c);
 	}
 }

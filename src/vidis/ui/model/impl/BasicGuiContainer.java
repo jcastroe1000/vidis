@@ -41,6 +41,16 @@ public class BasicGuiContainer extends AGuiContainer {
 		this.color2 = c;
 	}
 	
+	protected void setColor(GL gl) {
+		try {
+			gl.glColor4d(getColor().getRed()/255d, getColor().getGreen()/255d, getColor().getBlue()/255d, 0.5);
+		}
+		catch ( Exception e ) {
+			gl.glColor4d(0d, 1d, 0d, 0.5);
+			logger.error( "error setting color", e );
+		}
+	}
+	
 	void renderStrokeString(GL gl, int font, String string, double contwith) {
 		// Center Our Text On The Screen
         float strwidth = glut.glutStrokeLengthf(font, string);
@@ -61,13 +71,7 @@ public class BasicGuiContainer extends AGuiContainer {
 //		renderStrokeString(gl, GLUT.STROKE_MONO_ROMAN, "BasicGuiContainer", getWidth());
 //		gl.glPopMatrix();
 		gl.glPushMatrix();
-		try {
-			gl.glColor4d(getColor().getRed()/255d, getColor().getGreen()/255d, getColor().getBlue()/255d, 0.5);
-		}
-		catch ( Exception e ) {
-			gl.glColor4d(0d, 1d, 0d, 0.5);
-			logger.error( "error setting color", e );
-		}
+			setColor(gl);
 			if (opaque) {
 				gl.glBegin(GL.GL_QUADS); 
 					gl.glVertex2d(0, 0);

@@ -57,8 +57,8 @@ public class Gui extends AEventHandler {
 //		slider.setBounds(2, 0, rightPanel.getHeight(), 0.2);
 		slider.setLayout(new PercentMarginLayout(-0.0001,-0.0001,-0.0001,-0.0001,-1,-1));
 		slider.setOpaque( false );
-		slider.setColor1( Color.gray );
-		slider.setColor2 ( Color.black );
+		slider.setColor1( Color.orange );
+		slider.setColor2 ( Color.orange.brighter() );
 		
 		CheckBox test = new CheckBox();
 		test.setName("myFirstCheckBox");
