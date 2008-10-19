@@ -149,4 +149,13 @@ public class Packet extends ASimObject {
 		mouse = false;
 	}
 
+	public String getId() {
+		try {
+			return (String) getVariableById( AVariable.COMMON_IDENTIFIERS.ID ).getData();
+		}
+		catch ( Exception e ) {
+			return "no id";
+		}
+	}
+
 }

@@ -115,4 +115,8 @@ public class Node extends ASimObject {
 		mouse = false;
 	}
 
+	public String getId() {
+		return (String) getVariableById( AVariable.COMMON_IDENTIFIERS.ID ).getData();
+	}
+
 }

@@ -8,29 +8,34 @@ import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
+import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.events.MousePressedEvent;
 import vidis.ui.events.MouseReleasedEvent;
+import vidis.ui.events.VidisEvent;
+import vidis.ui.mvc.api.Dispatcher;
 
-public class TextField extends BasicGuiContainer {
-	private static Logger logger = Logger.getLogger(TextField.class);
+public class PacketField extends BasicGuiContainer {
+	private static Logger logger = Logger.getLogger(PacketField.class);
 
 	float borderPercent = 0.05f;
 	
 	/**
-	 * represents the 'real' text in the textbox
+	 * represents the packet
 	 */
-	private String text = "exampletext";
+	private Packet packet = null;
 	
 	/**
 	 * represents the shown substring 
 	 */
 	private String shownText = "";
 	
+	private boolean selecting = false;
+	
 	/**
 	 * 
 	 */
-	private int shownChars = 10;
+	private int shownChars = 20;
 	
 	/**
 	 * 
@@ -50,7 +55,7 @@ public class TextField extends BasicGuiContainer {
 	// background
 	private Color backColor = Color.white;
 	
-	public TextField() {
+	public PacketField() {
 		setColor1( backColor );
 		setColor2( backColor.darker() );
 	}
@@ -110,6 +115,12 @@ public class TextField extends BasicGuiContainer {
 		gl.glEnd();
 		
 		// text
+		String text = packet==null?"<no packet selected>":"<Packet: " + packet.getId() + ">";
+		
+		if ( selecting ) {
+			text = "[select a packet]";
+		}
+		
 		Rectangle2D r = textRenderer.getBounds( text );
 		float scale = 0.01f;
 		
@@ -124,10 +135,10 @@ public class TextField extends BasicGuiContainer {
 			textRenderer.setColor( textColor );
 			textRenderer.begin3DRendering();
 			int endIndex = textOffset + shownChars;
-			if ( endIndex > this.text.length() ) {
-				endIndex = this.text.length();
+			if ( endIndex > text.length() ) {
+				endIndex = text.length();
 			}
-			String s = this.text.substring( textOffset, endIndex );
+			String s = text.substring( textOffset, endIndex );
 			textRenderer.draw3D(  s, 
 					(float) ( border + border ), 
 					(float) (h / 2f - r.getHeight() * scale * fontScale / 2f),
@@ -153,6 +164,7 @@ public class TextField extends BasicGuiContainer {
 				gl.glVertex2d( cursorX + cursorW, cursorY );
 			gl.glEnd();
 		gl.glPopMatrix();
+		
 		}
 	}
 	
@@ -168,14 +180,21 @@ public class TextField extends BasicGuiContainer {
 	}
 	@Override
 	protected void onMouseClicked(MouseClickedEvent e) {
-		setText( JOptionPane.showInputDialog( "Enter value" ) );
+		startPacketCapturing();
 	}
 	
-	public void setText( String text ) {
-		this.text = text;
+	public void setPacket( Packet packet ) {
+		selecting = false;
+		this.packet = packet;
 	}
 	
-	public String getText() {
-		return this.text;
+	public Packet getPacket() {
+		return this.packet;
+	}
+	
+	public void startPacketCapturing() {
+		selecting = true;
+		VidisEvent<PacketField> next = new VidisEvent<PacketField>( IVidisEvent.StartPacketCapturing, this );
+		Dispatcher.forwardEvent( next );
 	}
 }

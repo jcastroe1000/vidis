@@ -32,7 +32,9 @@ import vidis.ui.events.VidisEvent;
 import vidis.ui.input.InputListener;
 import vidis.ui.model.impl.Link;
 import vidis.ui.model.impl.Node;
+import vidis.ui.model.impl.NodeField;
 import vidis.ui.model.impl.Packet;
+import vidis.ui.model.impl.PacketField;
 import vidis.ui.model.structure.ASimObject;
 import vidis.ui.model.structure.IGuiContainer;
 import vidis.ui.model.structure.IVisObject;
@@ -74,6 +76,9 @@ public class SceneController extends AController implements GLEventListener {
 	private int fps_log_max = 30;
 	private List<Double> fps_log = new LinkedList<Double>();
 	
+	private NodeField nodeCapturingSource = null;
+	private PacketField packetCapturingSource = null;
+	
 	public SceneController() {
 		logger.debug( "Constructor()" );
 		addChildController( new CameraController() );
@@ -89,6 +94,9 @@ public class SceneController extends AController implements GLEventListener {
 		
 		registerEvent( IVidisEvent.MouseClickedEvent,
 					   IVidisEvent.MouseMovedEvent );
+		
+		registerEvent( IVidisEvent.StartNodeCapturing,
+					   IVidisEvent.StartPacketCapturing );
 		
 	}
 	
@@ -121,6 +129,12 @@ public class SceneController extends AController implements GLEventListener {
 //				logger.info("handling Mouse event");
 				handleMouseEvent( (AMouseEvent)event );
 			}
+			break;
+		case IVidisEvent.StartNodeCapturing:
+			nodeCapturingSource = ((VidisEvent<NodeField>)event).getData();
+			break;
+		case IVidisEvent.StartPacketCapturing:
+			packetCapturingSource = ((VidisEvent<PacketField>)event).getData();
 			break;
 		}	
 		forwardEventToChilds( event );
@@ -442,6 +456,18 @@ public class SceneController extends AController implements GLEventListener {
 		if ( nearestObject != null ) {
 			if ( e instanceof MouseClickedEvent ) {
 				nearestObject.hit();
+				if ( nearestObject instanceof Node ) {
+					if ( nodeCapturingSource != null ) {
+						nodeCapturingSource.setNode( (Node) nearestObject );
+						nodeCapturingSource = null;
+					}
+				}
+				else if ( nearestObject instanceof Packet ) {
+					if ( packetCapturingSource != null ) {
+						packetCapturingSource.setPacket( (Packet) nearestObject );
+						packetCapturingSource = null;
+					}
+				}
 			}
 		}
 		

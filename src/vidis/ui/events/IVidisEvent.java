@@ -38,6 +38,10 @@ public interface IVidisEvent {
 	public final int ZoomIn = 1009;
 	public final int ZoomOut = 1010;
 	
+	public final int StartNodeCapturing = 1500;
+	public final int NodeCapturingResult = 1501;
+	public final int StartPacketCapturing = 1502;
+	public final int PacketCapturingResult = 1503;
 	
 	public final int GuiResizeEvent = 2001;
 	public final int GuiMouseEvent = 2002;

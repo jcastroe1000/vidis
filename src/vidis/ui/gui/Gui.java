@@ -17,7 +17,10 @@ import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.Button;
 import vidis.ui.model.impl.CheckBox;
 import vidis.ui.model.impl.CheckChangeListener;
+import vidis.ui.model.impl.NodeField;
+import vidis.ui.model.impl.PacketField;
 import vidis.ui.model.impl.PercentMarginLayout;
+import vidis.ui.model.impl.TextField;
 import vidis.ui.model.impl.TextGuiContainer;
 import vidis.ui.model.impl.guielements.scrollpane.AScrollpane3D;
 import vidis.ui.model.impl.guielements.scrollpane.ScrollPane3D;
@@ -54,6 +57,19 @@ public class Gui extends AEventHandler {
 //		slider.setColor1(Color.cyan);
 //		slider.setColor2(Color.pink);
 		rightPanel.addChild(slider);
+		
+		TextField tf = new TextField();
+		tf.setBounds(1, 5, 2, 20);
+		rightPanel.addChild( tf );
+		
+		NodeField nf = new NodeField();
+		nf.setBounds(1, 18, 2, 20);
+		rightPanel.addChild( nf );
+		
+		PacketField pf = new PacketField();
+		pf.setBounds(1, 11, 2, 20);
+		rightPanel.addChild( pf );
+		
 //		slider.setBounds(2, 0, rightPanel.getHeight(), 0.2);
 		slider.setLayout(new PercentMarginLayout(-0.0001,-0.0001,-0.0001,-0.0001,-1,-1));
 		slider.setOpaque( false );
@@ -155,5 +171,7 @@ public class Gui extends AEventHandler {
 	public IVisObject getMainContainer() {
 		return mainContainer;
 	}
+	
+	
 }
 
