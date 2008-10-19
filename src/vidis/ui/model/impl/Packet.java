@@ -95,13 +95,20 @@ public class Packet extends ASimObject {
 				gl.glPopMatrix();
 			}
 		}
-		// set color
-		gl.glColor4d( 1, 0, 1, 0 );
+		
 		if(!Simulator.getInstance().getPlayer().isPaused()) {
 			// now rotate it
 			gl.glRotated(position, getPosition().x, getPosition().y, getPosition().z);
 			position += Math.random()*10+4;
 		}
+		// set color
+		if ( mouse ) {
+			gl.glColor3d( 1, 1, 1 );
+		}
+		else {
+			gl.glColor3d( 1, 0, 1 );
+		}
+		
 		// now draw it
 		gl.glCallList( displayListId );
 	}
@@ -132,6 +139,14 @@ public class Packet extends ASimObject {
 	@Override
 	public double getHitRadius() {
 		return 0.15;
+	}
+	
+	private boolean mouse = false;
+	public void onMouseIn() {
+		mouse = true;
+	}
+	public void onMouseOut() {
+		mouse = false;
 	}
 
 }

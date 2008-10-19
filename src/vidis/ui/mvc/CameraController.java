@@ -32,7 +32,8 @@ public class CameraController extends AController{
 						IVidisEvent.ZoomIn,
 						IVidisEvent.ZoomOut);
 		
-		registerEvent(	IVidisEvent.MouseClickedEvent );
+		registerEvent(	IVidisEvent.MouseClickedEvent,
+						IVidisEvent.MouseMovedEvent );
 	}
 	
 	@Override
@@ -55,6 +56,7 @@ public class CameraController extends AController{
 			forwardEventToOtherHandler( defaultCamera, event );
 			break;
 		case IVidisEvent.MouseClickedEvent:
+		case IVidisEvent.MouseMovedEvent:
 			defaultCamera.fireEvent( event );
 			break;
 		}

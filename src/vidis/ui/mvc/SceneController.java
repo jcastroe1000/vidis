@@ -23,6 +23,7 @@ import javax.vecmath.Vector4d;
 import org.apache.log4j.Logger;
 
 import vidis.ui.config.Configuration;
+import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.CameraEvent;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.MouseClickedEvent;
@@ -86,7 +87,8 @@ public class SceneController extends AController implements GLEventListener {
 		registerEvent( IVidisEvent.ObjectRegister, 
 					   IVidisEvent.ObjectUnregister );
 		
-		registerEvent( IVidisEvent.MouseClickedEvent );
+		registerEvent( IVidisEvent.MouseClickedEvent,
+					   IVidisEvent.MouseMovedEvent );
 		
 	}
 	
@@ -114,9 +116,10 @@ public class SceneController extends AController implements GLEventListener {
 			unregisterObject( ((ObjectEvent)event).getObject() );
 			break;
 		case IVidisEvent.MouseClickedEvent:
-			if ( ((MouseClickedEvent)event).ray != null ) {
-				logger.info("handling Mouse event");
-				handleMouseEvent( (MouseClickedEvent)event );
+		case IVidisEvent.MouseMovedEvent:
+			if ( ((AMouseEvent)event).ray != null ) {
+//				logger.info("handling Mouse event");
+				handleMouseEvent( (AMouseEvent)event );
 			}
 			break;
 		}	
@@ -277,7 +280,7 @@ public class SceneController extends AController implements GLEventListener {
 				// then the packets
 				// and finally the front sides of the links
 				gl.glPushMatrix();
-					gl.glEnable( GL.GL_LIGHTING );
+//					gl.glEnable( GL.GL_LIGHTING );
 					// nodes
 					gl.glDisable( GL.GL_LIGHT0 );
 					gl.glEnable( GL.GL_LIGHT1 );
@@ -393,9 +396,11 @@ public class SceneController extends AController implements GLEventListener {
 		return new ArrayList<IVisObject>( objects );
 	}
 	
+	private ASimObject underMouseObject = null;
+	
 	Point3d P;
 	Point3d A;
-	private void handleMouseEvent( MouseClickedEvent e ) {
+	private void handleMouseEvent( AMouseEvent e ) {
 		A = new Point3d( e.rayOrigin.x, e.rayOrigin.y, e.rayOrigin.z );
 		Vector3d g = new Vector3d ( e.ray.x, e.ray.y, e.ray.z ) ;
 		g.normalize();
@@ -435,8 +440,32 @@ public class SceneController extends AController implements GLEventListener {
 			}
 		}
 		if ( nearestObject != null ) {
-			nearestObject.hit();
+			if ( e instanceof MouseClickedEvent ) {
+				nearestObject.hit();
+			}
 		}
 		
+		if ( nearestObject != null && underMouseObject != null ) {
+			if ( ! nearestObject.equals( underMouseObject ) ) {
+				// mouse out underMouseObject
+				logger.info( "onMouseOut " + underMouseObject );
+				underMouseObject.onMouseOut();
+				// mouse in nearestObject
+				underMouseObject = nearestObject;
+				logger.info( "onMouseIn " + underMouseObject );
+				underMouseObject.onMouseIn();
+				
+			}
+		}
+		else if ( nearestObject != null && underMouseObject == null ){
+			underMouseObject = nearestObject;
+			underMouseObject.onMouseIn();
+			logger.info( "onMouseIn " + underMouseObject );
+		}
+		else if ( nearestObject == null && underMouseObject != null ) {
+			logger.info( "onMouseOut " + underMouseObject );
+			underMouseObject.onMouseOut();
+			underMouseObject = null;
+		}
 	}
 }

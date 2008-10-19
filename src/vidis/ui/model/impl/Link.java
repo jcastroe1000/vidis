@@ -526,5 +526,17 @@ public class Link extends ASimObject {
 	public double getHitRadius() {
 		return 0;
 	}
+
+	@Override
+	public void onMouseIn() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onMouseOut() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

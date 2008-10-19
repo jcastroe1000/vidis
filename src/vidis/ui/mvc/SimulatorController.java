@@ -53,7 +53,7 @@ public class SimulatorController extends AController {
 //		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "veryComplex.msim") );
 		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "veryComplexLoose.msim") );
 		// apply default layout
-		layout();
+//		layout();
 		// start playing
 		//sim.getPlayer().play();
 		

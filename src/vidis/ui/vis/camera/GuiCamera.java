@@ -164,8 +164,10 @@ public class GuiCamera extends AEventHandler implements ICamera {
 	}
 	
 	private void handleMouseMovedEvent(MouseMovedEvent event) {
-		event.guiCoords = convert2Dto3D( event.mouseEvent.getX(), event.mouseEvent.getY() );
-		gui.fireEvent( event );
+		if ( event.ray == null ) {
+			event.guiCoords = convert2Dto3D( event.mouseEvent.getX(), event.mouseEvent.getY() );
+			gui.fireEvent( event );
+		}
 	}
 	
 	private void handleMouseEvent( AMouseEvent event ) {

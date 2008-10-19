@@ -2,6 +2,7 @@ package vidis.ui.mvc;
 
 import org.apache.log4j.Logger;
 
+import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.CameraEvent;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.MouseClickedEvent;
@@ -41,7 +42,7 @@ public class GuiController extends AController {
 			initialize();
 			break;
 		case IVidisEvent.MouseClickedEvent:
-			if ( ((MouseClickedEvent)event).ray == null ) {
+			if ( ((AMouseEvent)event).ray == null ) {
 				guiCamera.fireEvent( event );
 			}
 			break;

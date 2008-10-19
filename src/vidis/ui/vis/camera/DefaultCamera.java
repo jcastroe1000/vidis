@@ -7,6 +7,7 @@ import java.nio.IntBuffer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
+import javax.vecmath.Point3d;
 import javax.vecmath.Point4d;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector4d;
@@ -15,8 +16,10 @@ import org.apache.log4j.Logger;
 
 import vidis.ui.config.Configuration;
 import vidis.ui.events.AEventHandler;
+import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.MouseMovedEvent;
 import vidis.ui.events.StartEvent;
 import vidis.ui.events.StopEvent;
 import vidis.ui.mvc.api.Dispatcher;
@@ -64,7 +67,7 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 		
 		gl.glEnable( GL.GL_DEPTH_TEST );
-		gl.glEnable( GL.GL_LIGHTING );
+//		gl.glEnable( GL.GL_LIGHTING );
 		gl.glEnable( GL.GL_LIGHT0 );
 //		gl.glEnable( GL.GL_LIGHT1 );
 		gl.glViewport((int)target.getX(), (int)target.getY(), (int)target.getWidth(), (int)target.getHeight());
@@ -206,6 +209,17 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 				logger.error( "exception", e );
 			}
 			break;
+		case IVidisEvent.MouseMovedEvent:
+			try {
+			if ( ! ((AMouseEvent)event).rayCalculated ) {
+				calc3DMousePoint( ((AMouseEvent)event) );
+				Dispatcher.forwardEvent( event );
+			}
+			}
+			catch ( Exception e ) {
+				logger.error( "exception", e );
+			}
+			break;
 		}
 	}
 	
@@ -265,7 +279,7 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 	Vector3d P1 = new Vector3d( 0,0,0 );
 	Vector3d P2 = new Vector3d( 1,1,1 );
 	
-	public Vector4d calc3DMousePoint( MouseClickedEvent e ) {
+	public Vector4d calc3DMousePoint( AMouseEvent e ) {
 		Point p = e.mouseEvent.getPoint();
 		DoubleBuffer point1 = DoubleBuffer.allocate(3);
 		DoubleBuffer point2 = DoubleBuffer
@@ -323,8 +337,9 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 		mul.scale(y, P1P2);
 		Vector4d ret = new Vector4d();
 		ret.add( Px1, mul);
-		e.ray = new Vector4d( P1P2 );
-		e.rayOrigin = new Point4d( Px1 );
+		e.ray = new Vector3d( P1P2.x, P1P2.y, P1P2.z );
+		e.rayOrigin = new Point3d( Px1.x, Px1.y, Px1.z );
+		e.rayCalculated = true;
 		return ret;
 	}
 }

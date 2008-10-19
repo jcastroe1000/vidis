@@ -12,10 +12,6 @@ public class MouseClickedEvent extends AMouseEvent {
 		super(m);
 	}
 
-	public Point4d rayOrigin; // ?
-	public Vector4d ray; // ?
-	public Point2d guiCoords; 
-	
 	public int getID() {
 		return IVidisEvent.MouseClickedEvent;
 	}

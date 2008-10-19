@@ -95,6 +95,9 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	public void hit() {
 		logger.info( this + " GOT HIT" );
 	}
+	
+	public abstract void onMouseIn();
+	public abstract void onMouseOut();
 
 	public abstract double getHitRadius();
 

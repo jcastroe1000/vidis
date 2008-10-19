@@ -40,6 +40,7 @@ public class Node extends ASimObject {
 	public void renderObject(GL gl) {
 		if ( displayListId == -1 ) {
 			displayListId = gl.glGenLists(1);
+			gl.glColor3d(0, 1, 0);
 			preRenderObject(gl);
 		}
 		String text = "test";
@@ -70,7 +71,12 @@ public class Node extends ASimObject {
 			gl.glPopMatrix();
 		}
 		// draw node
-		gl.glColor3d( 1, 0, 0 );
+		if ( mouse ) {
+			gl.glColor3d( 0, 0, 1 );
+		}
+		else {
+			gl.glColor3d( 0, 1, 0 );
+		}
 		gl.glCallList( displayListId );
 	}
 	
@@ -95,6 +101,18 @@ public class Node extends ASimObject {
 	@Override
 	public double getHitRadius() {
 		return 0.5;
+	}
+
+	
+	private boolean mouse = false;
+	@Override
+	public void onMouseIn() {
+		mouse = true;
+	}
+
+	@Override
+	public void onMouseOut() {
+		mouse = false;
 	}
 
 }
