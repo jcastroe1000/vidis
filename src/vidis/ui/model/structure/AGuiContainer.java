@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 
 import vidis.ui.events.AEventHandler;
 import vidis.ui.events.AMouseEvent;
-import vidis.ui.events.GuiMouseEvent;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.events.MouseMovedEvent;
