@@ -99,8 +99,8 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 	}
 	
 	private void fixSliderMinMax() {
-		if(getHeightOfElements() > 0)
-			slider.setMax(getHeightOfElements());
+		if(getHeightOfElements() > 1)
+			slider.setMax(childs.size());
 		else
 			slider.setMax(1);
 	}
