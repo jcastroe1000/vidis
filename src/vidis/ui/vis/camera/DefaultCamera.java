@@ -211,9 +211,10 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 			break;
 		case IVidisEvent.MouseMovedEvent:
 			try {
-			logger.info( "looping " + event );
+//			logger.info( "looping " + event );
 			if ( ! ((AMouseEvent)event).rayCalculated ) {
 				calc3DMousePoint( ((AMouseEvent)event) );
+				((AMouseEvent)event).rayCalculated = true;
 				Dispatcher.forwardEvent( event );
 			}
 			}

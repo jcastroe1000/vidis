@@ -12,6 +12,9 @@ import org.apache.log4j.Logger;
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.ui.events.AEventHandler;
+import vidis.ui.events.IVidisEvent;
+import vidis.ui.events.VidisEvent;
+import vidis.ui.mvc.api.Dispatcher;
 import vidis.util.ResourceManager;
 
 import com.sun.opengl.util.j2d.TextRenderer;
@@ -23,8 +26,8 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	protected static TextRenderer textRenderer;
 	
 	
-	private IVariableContainer obj; // FIXME
-	private IGuiContainer guiObj; // FIXME
+	private IVariableContainer obj;
+	protected IGuiContainer guiObj; 
 	
 	public ASimObject( IVariableContainer c ) {
 		obj = c;
@@ -93,7 +96,12 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	 * TEMP FUNCTION <DELME>
 	 */
 	public void hit() {
-		logger.info( this + " GOT HIT" );
+		logger.info( this + " GOT HIT * " + guiObj );
+		// send gui show guiObj event
+		if ( guiObj != null ) {
+			VidisEvent<IGuiContainer> next = new VidisEvent<IGuiContainer>( IVidisEvent.ShowGuiContainer, guiObj );
+			Dispatcher.forwardEvent( next );
+		}
 	}
 	
 	public abstract void onMouseIn();

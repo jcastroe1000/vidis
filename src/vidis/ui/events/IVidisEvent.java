@@ -51,6 +51,7 @@ public interface IVidisEvent {
 	
 	
 	public final int FPS 			= 10001;
+	public final int ShowGuiContainer = 238472389;
 	
 	
 	

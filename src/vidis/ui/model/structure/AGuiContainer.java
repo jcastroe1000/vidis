@@ -271,6 +271,10 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 			return layout.getHeight();
 		}
 	}
+	
+	public double getWantedHeight() {
+		return this.height;
+	}
 
 	public void setHeight(double height) {
 		this.height = height;

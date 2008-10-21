@@ -24,6 +24,7 @@ import vidis.ui.model.impl.TextField;
 import vidis.ui.model.impl.TextGuiContainer;
 import vidis.ui.model.impl.guielements.scrollpane.AScrollpane3D;
 import vidis.ui.model.impl.guielements.scrollpane.ScrollPane3D;
+import vidis.ui.model.structure.IGuiContainer;
 import vidis.ui.model.structure.IVisObject;
 import vidis.ui.mvc.api.Dispatcher;
 
@@ -35,6 +36,8 @@ public class Gui extends AEventHandler {
 	private BasicGuiContainer mainContainer;
 	
 	public TextGuiContainer fps;
+	
+	private AScrollpane3D slider = new ScrollPane3D();
 	
 	public Gui() {
 		logger.debug("Constructor()");
@@ -53,28 +56,28 @@ public class Gui extends AEventHandler {
 		rightPanel.setColor2( Color.black );
 		rightPanel.setLayout(new PercentMarginLayout(-0.7,1,1,1,-1,-0.30));
 		
-		AScrollpane3D slider = new ScrollPane3D();
+		
+		slider.setLayout(new PercentMarginLayout(-0.0001,-0.0001,-0.0001,-0.0001,-1,-1));
+		slider.setOpaque( false );
+		slider.setColor1( Color.orange );
+		slider.setColor2 ( Color.orange.brighter() );
+		
+		
 //		slider.setColor1(Color.cyan);
 //		slider.setColor2(Color.pink);
 		rightPanel.addChild(slider);
 		
 		TextField tf = new TextField();
 		tf.setBounds(1, 5, 2, 20);
-		rightPanel.addChild( tf );
+		slider.addChild( tf );
 		
 		NodeField nf = new NodeField();
 		nf.setBounds(1, 18, 2, 20);
-		rightPanel.addChild( nf );
+		slider.addChild( nf );
 		
 		PacketField pf = new PacketField();
 		pf.setBounds(1, 11, 2, 20);
-		rightPanel.addChild( pf );
-		
-//		slider.setBounds(2, 0, rightPanel.getHeight(), 0.2);
-		slider.setLayout(new PercentMarginLayout(-0.0001,-0.0001,-0.0001,-0.0001,-1,-1));
-		slider.setOpaque( false );
-		slider.setColor1( Color.orange );
-		slider.setColor2 ( Color.orange.brighter() );
+		slider.addChild( pf );
 		
 		CheckBox test = new CheckBox();
 		test.setName("myFirstCheckBox");
@@ -170,6 +173,10 @@ public class Gui extends AEventHandler {
 
 	public IVisObject getMainContainer() {
 		return mainContainer;
+	}
+
+	public void addContainer(IGuiContainer data) {
+		slider.addChild( data );
 	}
 	
 	

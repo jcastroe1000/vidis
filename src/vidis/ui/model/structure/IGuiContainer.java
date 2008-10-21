@@ -14,6 +14,7 @@ public interface IGuiContainer extends IVisObject, IEventHandler {
 	public void render(GL gl);
 	public void renderBox(GL gl, double d);
 	
+	public double getWantedHeight();
 	public double getHeight();
 	public double getWidth();
 	public double getX();

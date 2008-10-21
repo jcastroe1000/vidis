@@ -9,6 +9,7 @@ import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.events.ObjectEvent;
 import vidis.ui.events.VidisEvent;
 import vidis.ui.gui.Gui;
+import vidis.ui.model.structure.IGuiContainer;
 import vidis.ui.mvc.api.AController;
 import vidis.ui.mvc.api.Dispatcher;
 import vidis.ui.vis.camera.GuiCamera;
@@ -31,7 +32,7 @@ public class GuiController extends AController {
 		
 		registerEvent( IVidisEvent.FPS );
 		
-		
+		registerEvent( IVidisEvent.ShowGuiContainer );
 	}
 	
 	@Override
@@ -40,6 +41,9 @@ public class GuiController extends AController {
 		switch ( event.getID() ) {
 		case IVidisEvent.InitGui:
 			initialize();
+			break;
+		case IVidisEvent.ShowGuiContainer:
+			gui.addContainer( (IGuiContainer) ((VidisEvent)event).getData() );
 			break;
 		case IVidisEvent.MouseClickedEvent:
 			if ( ((AMouseEvent)event).ray == null ) {

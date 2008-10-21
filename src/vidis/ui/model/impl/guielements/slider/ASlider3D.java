@@ -229,7 +229,7 @@ public class ASlider3D extends BasicGuiContainer {
 		scroll_max = max;
 	}
 	
-	protected int getPosition() {
+	public int getPosition() {
 		return scroll_position;
 	}
 	
