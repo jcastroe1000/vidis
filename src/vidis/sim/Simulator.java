@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -336,12 +337,12 @@ public class Simulator {
 					for (String identifier : document.getNodeById(nodeId).getVariables().keySet()) {
 						node.registerVariable(new DefaultVariable(AVariable.COMMON_SCOPES.USER + "." + identifier, document.getNodeById(nodeId).getVariables().get(identifier)));
 					}
-					if (!node.hasVariable(AVariable.COMMON_IDENTIFIERS.POSITION)) {
-						Point3d point = ((GraphSpiralLayout)GraphSpiralLayout.getInstance()).nextNodePoint3d();
-						// Logger.output(this, nodeId + " => " + point);
-						// Logger.output(LogLevel.WARN, this, nodeId + " => " + point);
-						node.registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.POSITION, point));
-					}
+//					if (!node.hasVariable(AVariable.COMMON_IDENTIFIERS.POSITION)) {
+//						Point3d point = ((GraphSpiralLayout)GraphSpiralLayout.getInstance()).nextNodePoint3d();
+//						// Logger.output(this, nodeId + " => " + point);
+//						// Logger.output(LogLevel.WARN, this, nodeId + " => " + point);
+//						node.registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.POSITION, point));
+//					}
 					nodes.put(nodeId, node);
 					registerComponent(node);
 					// this.informAll(new NodeJoinEvent(node.getInstance()));
@@ -359,6 +360,12 @@ public class Simulator {
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
 			}
+		}
+		try {
+			GraphSpiralLayout.getInstance().apply(nodes.values());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

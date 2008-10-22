@@ -181,13 +181,17 @@ public class SceneController extends AController implements GLEventListener {
 	private void updateObjects() {
 			synchronized ( objectsToAdd ) {
 				if ( objectsToAdd.size() > 0 ) {
-					objects.addAll( objectsToAdd );
+					synchronized (objects) {
+						objects.addAll( objectsToAdd );
+					}
 					objectsToAdd.clear();
 				}
 			}
 			synchronized ( objectsToDel ) {
 				if ( objectsToDel.size() > 0 ) {
-					objects.removeAll( objectsToDel );
+					synchronized ( objects ) {
+						objects.removeAll( objectsToDel );
+					}
 					objectsToDel.clear();
 				}
 			}
@@ -216,7 +220,9 @@ public class SceneController extends AController implements GLEventListener {
 			c.update();
 		}
 		
-		for ( ICamera c : cameras ) {
+//		for ( ICamera c : cameras ) {
+		for (int i=0; i<cameras.size(); i++) {
+			ICamera c = cameras.get(i);
 			// INIT
 			c.init(gl);
 			
@@ -401,7 +407,7 @@ public class SceneController extends AController implements GLEventListener {
 	}
 	
 	private void unregisterObject( IVisObject o ) {
-		synchronized ( objectsToAdd ) {
+		synchronized ( objectsToDel ) {
 			objectsToDel.add( o );
 		}
 	}

@@ -538,5 +538,11 @@ public class Link extends ASimObject {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void renderObjectText(GL gl) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

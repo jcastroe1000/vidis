@@ -32,11 +32,13 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	private double width;
 	private double x;
 	private double y;
+	protected double textH;
 	
 	protected void requireTextRenderer() {
 		if ( textRenderer == null ) {
 			try {
 				textRenderer = new TextRenderer( ResourceManager.getFont( ResourceManager.FONT_ARIAL, 130 ) );
+				textH = textRenderer.getBounds("pb[{").getHeight();
 			}
 			catch ( Exception e ) {
 				logger.error( "error initializing TextRenderer", e );

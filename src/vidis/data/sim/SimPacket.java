@@ -212,6 +212,12 @@ public class SimPacket extends AComponent implements ISimPacketCon {
     	Dispatcher.forwardEvent( oe );
     	this.visObject = null;
     }
+    
+    @Override
+    protected void killVisObject() {
+    	ObjectEvent nextEvent = new ObjectEvent( IVidisEvent.ObjectUnregister, visObject );
+		Dispatcher.forwardEvent( nextEvent );
+    }
 
 	public void createVisObject() {
 		visObject = new Packet(this, this.getThrough().getVisObject() );

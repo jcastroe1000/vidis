@@ -1,5 +1,6 @@
 package vidis.ui.mvc;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,9 @@ import vidis.sim.Simulator;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
 import vidis.ui.mvc.api.AController;
+import vidis.ui.mvc.api.Dispatcher;
 import vidis.util.ResourceManager;
+import vidis.ui.events.VidisEvent;
 
 public class SimulatorController extends AController {
 	private static Logger logger = Logger.getLogger( SimulatorController.class );
@@ -23,7 +26,8 @@ public class SimulatorController extends AController {
 		
 		registerEvent( IVidisEvent.InitSimulator );
 		
-		registerEvent( IVidisEvent.SimulatorPlay );
+		registerEvent( IVidisEvent.SimulatorPlay, 
+						IVidisEvent.SimulatorLoad );
 	}
 	
 	@Override
@@ -35,6 +39,13 @@ public class SimulatorController extends AController {
 			break;
 		case IVidisEvent.SimulatorPlay:
 			sim.getPlayer().playPause();
+			break;
+		case IVidisEvent.SimulatorLoad:
+			if(event instanceof VidisEvent) {
+				// now pick a file
+				File f = (File) ((VidisEvent)event).getData();
+				sim.importSimFile(f);
+			}
 			break;
 		}
 	}

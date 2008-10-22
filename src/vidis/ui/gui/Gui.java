@@ -1,8 +1,11 @@
 package vidis.ui.gui;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.io.File;
 
 import javax.media.opengl.GL;
+import javax.swing.JFileChooser;
 
 import org.apache.log4j.Logger;
 
@@ -12,6 +15,7 @@ import vidis.ui.events.AEventHandler;
 import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.GuiMouseEvent;
 import vidis.ui.events.IVidisEvent;
+import vidis.ui.events.VidisEvent;
 import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.Button;
@@ -121,10 +125,15 @@ public class Gui extends AEventHandler {
 		container2.setLayout(new PercentMarginLayout(-0.2,0.9,-0.8,1,-0.1,-0.1));
 		
 		Button loadButton = new Button() {
+			JFileChooser x = new JFileChooser( new File( Configuration.MODULE_PATH ));
 			@Override
 			protected void onMouseClicked(MouseClickedEvent e) {
-				System.err.println("clicked: " + this);
-				super.onMouseClicked(e);
+				x.setVisible( true );
+				x.showOpenDialog( null );
+				if ( x.getSelectedFile() != null ) { 
+					VidisEvent<File> ve = new VidisEvent<File>( IVidisEvent.SimulatorLoad, x.getSelectedFile() );
+					Dispatcher.forwardEvent( ve );
+				}
 			}
 		};
 		loadButton.setLayout(new PercentMarginLayout(-0.2,0.9,-0.8,1,-0.1,-0.1));

@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
+import vidis.ui.config.Configuration;
 import vidis.ui.events.AEventHandler;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.VidisEvent;
@@ -79,6 +80,11 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 		}
 		try {
 			renderObject(gl);
+			
+			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_FILL );
+			renderObjectText(gl);
+			if(Configuration.DISPLAY_WIREFRAME)
+				gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
 		}
 		catch ( Exception e ) {
 			logger.error( null, e );
@@ -87,6 +93,7 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	}
 	
 	public abstract void renderObject( GL gl );
+	public abstract void renderObjectText( GL gl );
 	
 	protected IVariableContainer getVariableContainer() {
 		return obj;

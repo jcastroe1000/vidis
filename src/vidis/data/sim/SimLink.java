@@ -68,6 +68,12 @@ public class SimLink extends AComponent implements ISimLinkCon {
 		}
 		super.kill();
     }
+    
+    @Override
+    protected void killVisObject() {
+    	ObjectEvent nextEvent = new ObjectEvent( IVidisEvent.ObjectUnregister, visObject );
+		Dispatcher.forwardEvent( nextEvent );
+    }
 
     private void init(IUserLink link) {
 		this.logic = link;

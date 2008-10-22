@@ -47,12 +47,12 @@ public interface IVidisEvent {
 	public final int GuiMouseEvent = 2002;
 
 	public final int SimulatorPlay = 5001;
+	public final int SimulatorLoad = 5002;
 	
 	
 	
 	public final int FPS 			= 10001;
 	public final int ShowGuiContainer = 238472389;
-	
 	
 	
 }

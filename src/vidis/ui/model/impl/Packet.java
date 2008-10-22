@@ -158,4 +158,10 @@ public class Packet extends ASimObject {
 		}
 	}
 
+	@Override
+	public void renderObjectText(GL gl) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

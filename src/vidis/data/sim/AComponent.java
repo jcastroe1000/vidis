@@ -66,6 +66,7 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
     public void kill() {
 		this.vars.clear();
 		this.variableChangeListeners.clear();
+		killVisObject();
     }
 
     /**
@@ -73,6 +74,11 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
      * @return a concrete implementation of IUserComponent
      */
     protected abstract IUserComponent getUserLogic();
+    
+    /**
+     * kills the vis object safely
+     */
+    protected abstract void killVisObject();
 
     /**
      * initialize all method variables

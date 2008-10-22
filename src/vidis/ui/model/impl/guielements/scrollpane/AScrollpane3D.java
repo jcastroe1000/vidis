@@ -82,7 +82,8 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 		slider.setLayout( new ILayout() {
 
 			public double getHeight() {
-				return getParent().getHeight();
+				return AScrollpane3D.this.getHeight();
+//				return getParent().getHeight();
 			}
 
 			public double getWidth() {
@@ -90,7 +91,7 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 			}
 
 			public double getX() {
-				return getParent().getWidth() - this.getWidth();
+				return AScrollpane3D.this.getWidth() - this.getWidth();
 			}
 
 			public double getY() {
@@ -220,7 +221,7 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 	
 	@Override
 	public void renderContainer(GL gl) {
-//		super.renderContainer(gl);
+		super.renderContainer(gl);
 	}
 	
 	@Override

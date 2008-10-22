@@ -5,13 +5,18 @@ import java.awt.Color;
 import javax.media.opengl.GL;
 import javax.vecmath.Vector3d;
 
+import sun.java2d.pipe.NullPipe;
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.ui.config.Configuration;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.model.impl.guielements.Mode;
+import vidis.ui.model.impl.guielements.scrollpane.ScrollPane3D;
+import vidis.ui.model.impl.guielements.variableDisplays.CompositeScrollPane;
 import vidis.ui.model.structure.ASimObject;
+import vidis.ui.model.structure.IGuiContainer;
+import vidis.ui.model.structure.ILayout;
 
 public class Node extends ASimObject {
 	
@@ -25,13 +30,60 @@ public class Node extends ASimObject {
 		private double normHeight = 4;
 		private double expHeight = 15;
 		
+		private CompositeScrollPane scrollPane;
+		
 		public NodeGuiElement() {
 			this.color1 = Color.green;
 			this.setOpaque(true);
+			
+			scrollPane = new CompositeScrollPane( Node.this.getVariableContainer() );
+			scrollPane.setLayout( new ILayout() {
+
+				public double getHeight() {
+					return expHeight - normHeight;
+				}
+
+				public double getWidth() {
+					return NodeGuiElement.this.getWidth();
+				}
+
+				public double getX() {
+					return 0;
+				}
+
+				public double getY() {
+					switch ( mode ) {
+						case MINIMIZED:
+							return Double.MAX_VALUE;
+						case NORMAL:
+							return Double.MAX_VALUE;
+						case EXPANDED:
+							return 0;
+					}
+					return Double.MAX_VALUE;
+				}
+
+				public void layout() {
+					// nothing dude
+				}
+
+				public void setGuiContainer(IGuiContainer c) {
+					// nothing dude
+				}
+				
+			});
+			this.addChild( scrollPane );
+			
+			// debug inhalt
+			scrollPane.addChild( new BasicGuiContainer() );
+			
 		}
 		
 		@Override
 		public void renderContainer(GL gl) {
+			requireTextRenderer();
+			
+			double textH = this.textH * 0.01;
 			switch ( mode ) {
 			case MINIMIZED:
 				double h2e = minHeight / 2d;
@@ -40,8 +92,8 @@ public class Node extends ASimObject {
 					Node.this.renderObject(gl);
 				gl.glPopMatrix();
 				gl.glPushMatrix();
-					gl.glTranslated(2 * h2e, h2e, 0);
-					renderObjectText(gl);
+					gl.glTranslated(2 * h2e, h2e-textH/2.0, 0);
+					renderObjectText( gl, 0.01 );
 				gl.glPopMatrix();
 				break;
 			case NORMAL:
@@ -52,6 +104,10 @@ public class Node extends ASimObject {
 					gl.glScaled(nfac, nfac, 1d);
 					Node.this.renderObject(gl);
 				gl.glPopMatrix();
+				gl.glPushMatrix();
+					gl.glTranslated(2 * h2e2, normHeight-textH/2.0-minHeight/2d, 0);
+					renderObjectText( gl, 0.01 );
+				gl.glPopMatrix();
 				break;
 			case EXPANDED:
 				double h2e3 = normHeight / 2d;
@@ -60,6 +116,10 @@ public class Node extends ASimObject {
 					gl.glTranslated(h2e3, h2e3 + expHeight - normHeight, 0);
 					gl.glScaled(nfac3, nfac3, 1d);
 					Node.this.renderObject(gl);
+				gl.glPopMatrix();
+				gl.glPushMatrix();
+					gl.glTranslated(2 * h2e3, expHeight-textH/2.0-minHeight/2d, 0);
+					renderObjectText( gl, 0.01 );
 				gl.glPopMatrix();
 				break;
 			}
@@ -116,9 +176,13 @@ public class Node extends ASimObject {
 	private String text;
 	
 	public void renderObjectText( GL gl ) {
+		renderObjectText( gl, 0.001 );
+	}
+	
+	public void renderObjectText( GL gl, double scale ) {
 		gl.glPushMatrix();
 //			drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
-			gl.glScaled(0.01, 0.01, 0.01);
+			gl.glScaled( scale, scale, scale );
 			textRenderer.begin3DRendering();
 			textRenderer.setUseVertexArrays(false);
 			textRenderer.draw3D( text, 0f, 0f, 0f, 1f );
@@ -139,10 +203,17 @@ public class Node extends ASimObject {
 			text = getVariableById(AVariable.COMMON_IDENTIFIERS.NAME).getData().toString();
 		} catch (NullPointerException e) {
 			// may happen, but if, don't care
-			text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
-			text = getVariableIds().toString();
+			try {
+				text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
+			} catch (NullPointerException e2) {
+				try {
+					text = getVariableIds().toString();
+				} catch (NullPointerException e3) {
+					text = "huh?";
+				}
+			}
 		} finally {
-			drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
+//			drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
 		}
 		
 		// draw node

@@ -76,6 +76,12 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 		packetQueue.clear();
 		super.kill();
     }
+    
+    @Override
+    protected void killVisObject() {
+    	ObjectEvent nextEvent = new ObjectEvent( IVidisEvent.ObjectUnregister, visObject );
+		Dispatcher.forwardEvent( nextEvent );
+    }
 
     /**
      * initialize this class with provided user node
