@@ -46,7 +46,7 @@ public class GuiController extends AController {
 			gui.addContainer( (IGuiContainer) ((VidisEvent)event).getData() );
 			break;
 		case IVidisEvent.MouseClickedEvent:
-			if ( ((AMouseEvent)event).ray == null ) {
+			if ( ((AMouseEvent)event).ray == null && guiCamera != null ) {
 				guiCamera.fireEvent( event );
 			}
 			break;
