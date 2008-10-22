@@ -170,5 +170,9 @@ public class LinkTest implements IVisObject {
 		gl.glPopMatrix();
 		
 	}
+	public void kill() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

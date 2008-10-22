@@ -140,4 +140,9 @@ public class BasicGuiContainer extends AGuiContainer {
 		logger.info( "onMouseReleased() on " + this );
 	}
 
+	public void kill() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

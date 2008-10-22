@@ -46,4 +46,9 @@ public class Axis implements IVisObject  {
 	public Vector3d getPos() {
 		return new Vector3d(0, 0, 0);
 	}
+
+	public void kill() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -51,4 +51,8 @@ public class Grid implements IVisObject {
 	public Vector3d getPos() {
 		return new Vector3d(this.x, 0, this.z);
 	}
+	public void kill() {
+		// TODO Auto-generated method stub
+		
+	}
 }
