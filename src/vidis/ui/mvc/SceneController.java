@@ -407,6 +407,7 @@ public class SceneController extends AController implements GLEventListener {
 	}
 	
 	private void unregisterObject( IVisObject o ) {
+		o.kill();
 		synchronized ( objectsToDel ) {
 			objectsToDel.add( o );
 		}

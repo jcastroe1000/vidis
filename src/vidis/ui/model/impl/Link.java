@@ -93,7 +93,7 @@ public class Link extends ASimObject {
 			ShaderFactory.removeAllPrograms(gl);
 		}
 		catch ( Exception e ) {
-			logger.warn( e.getMessage(), e );
+//			logger.warn( e.getMessage(), e );
 		}
 	}
 
@@ -545,4 +545,7 @@ public class Link extends ASimObject {
 		
 	}
 	
+	public void kill() {
+		// FIXME does nothing up to now
+	}
 }

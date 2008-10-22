@@ -163,5 +163,12 @@ public class Packet extends ASimObject {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	public void kill() {
+		try {
+			guiObj.getParent().getParent().removeChild( guiObj );
+		} catch (NullPointerException e) {
+			// may happen if not opened in the gui
+		}
+	}
 }

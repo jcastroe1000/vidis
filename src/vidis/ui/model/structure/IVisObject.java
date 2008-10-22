@@ -9,4 +9,6 @@ import com.sun.opengl.util.GLUT;
 public interface IVisObject {
 	public static final GLUT glut = new GLUT();
 	public void render( GL gl );
+	
+	public void kill();
 }

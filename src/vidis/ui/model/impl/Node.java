@@ -264,5 +264,13 @@ public class Node extends ASimObject {
 	public String getId() {
 		return (String) getVariableById( AVariable.COMMON_IDENTIFIERS.ID ).getData();
 	}
+	
+	public void kill() {
+		try {
+			guiObj.getParent().getParent().removeChild( guiObj );
+		} catch (NullPointerException e) {
+			// may happen if not opened in the gui
+		}
+	}
 
 }
