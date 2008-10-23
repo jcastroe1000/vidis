@@ -5,14 +5,12 @@ import java.awt.Color;
 import javax.media.opengl.GL;
 import javax.vecmath.Vector3d;
 
-import sun.java2d.pipe.NullPipe;
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.ui.config.Configuration;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.model.impl.guielements.Mode;
-import vidis.ui.model.impl.guielements.scrollpane.ScrollPane3D;
 import vidis.ui.model.impl.guielements.variableDisplays.CompositeScrollPane;
 import vidis.ui.model.structure.ASimObject;
 import vidis.ui.model.structure.IGuiContainer;
