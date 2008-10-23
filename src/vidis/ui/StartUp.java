@@ -17,7 +17,7 @@ public class StartUp {
 		
 		logger.info( "starting up" );
 		logger.info( "java.library.path:" );
-		String[] l = System.getProperty( "java.library.path" ).split(":");
+		String[] l = System.getProperty( "java.library.path" ).split(";");
 		for (String s : l) logger.info( " * " + s );
 		
 		Dispatcher.registerController( new VidisController() );	
