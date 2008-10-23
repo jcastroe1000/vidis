@@ -44,7 +44,12 @@ public class SimulatorController extends AController {
 			if(event instanceof VidisEvent) {
 				// now pick a file
 				File f = (File) ((VidisEvent)event).getData();
-				sim.importSimFile(f);
+				if ( f != null && f.exists() && f.isFile()) {
+					if(!Simulator.getInstance().getPlayer().isPaused())
+						Simulator.getInstance().getPlayer().pause();
+					Simulator.getInstance().getPlayer().stop();
+					sim.importSimFile(f);
+				}
 			}
 			break;
 		}

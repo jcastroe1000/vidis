@@ -106,13 +106,20 @@ public class Gui extends AEventHandler {
 		container1.setLayout(new PercentMarginLayout(1,0.9,-0.9,1,-0.1,-0.1));
 		// FIXME something does not work with play and load button; if click on load, play is clicked too but not vice versa
 		Button playButton = new Button() {
+			private boolean paused = false;
+			@Override
+			public void renderContainer(GL gl) {
+				if(Simulator.getInstance().getPlayer().isPaused() && !paused) {
+					paused = true;
+					setText("Play");
+				} else if (!Simulator.getInstance().getPlayer().isPaused() && paused) {
+					paused = false;
+					setText("Pause");
+				}
+				super.renderContainer(gl);
+			}
 			@Override
 			protected void onMouseClicked( MouseClickedEvent e ) {
-				System.err.println("clicked: " + this);
-				if(Simulator.getInstance().getPlayer().isPaused())
-					setText("Pause");
-				else
-					setText("Play");
 				Dispatcher.forwardEvent( IVidisEvent.SimulatorPlay );
 			}
 		};
