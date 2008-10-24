@@ -15,6 +15,7 @@ import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.DummyEvent;
 import vidis.ui.events.GuiMouseEvent;
 import vidis.ui.events.IVidisEvent;
+import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.events.MouseMovedEvent;
 import vidis.ui.gui.Gui;
 
@@ -172,6 +173,7 @@ public class GuiCamera extends AEventHandler implements ICamera {
 	
 	private void handleMouseEvent( AMouseEvent event ) {
 		event.guiCoords = convert2Dto3D( event.mouseEvent.getX(), event.mouseEvent.getY() );
+		logger.info("mouse event was here:"+event);
 		gui.fireEvent( event );
 	}
 	

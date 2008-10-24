@@ -96,7 +96,7 @@ public class Packet extends ASimObject {
 			}
 		}
 		
-		if(!Simulator.getInstance().getPlayer().isPaused()) {
+		if(!Simulator.getInstance().getPlayer().isPaused() && getPosition() != null) {
 			// now rotate it
 			gl.glRotated(position, getPosition().x, getPosition().y, getPosition().z);
 			position += Math.random()*10+4;
