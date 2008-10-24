@@ -1,5 +1,6 @@
 package vidis.ui.mvc;
 
+import java.awt.Adjustable;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -69,11 +70,11 @@ public class SceneController extends AController implements GLEventListener {
 	 */
 	private Animator animator;
 	
-	private int wantedFps = 25;
+	private int wantedFps = 15;
 	
 	private long startTime;
 	
-	private int fps_log_max = 30;
+	private int fps_log_max = 5;
 	private List<Double> fps_log = new LinkedList<Double>();
 	
 	private NodeField nodeCapturingSource = null;
@@ -179,22 +180,22 @@ public class SceneController extends AController implements GLEventListener {
 	
 	
 	private void updateObjects() {
-			synchronized ( objectsToAdd ) {
-				if ( objectsToAdd.size() > 0 ) {
-					synchronized (objects) {
-						objects.addAll( objectsToAdd );
-					}
-					objectsToAdd.clear();
+		synchronized ( objectsToAdd ) {
+			if ( objectsToAdd.size() > 0 ) {
+				synchronized (objects) {
+					objects.addAll( objectsToAdd );
 				}
+				objectsToAdd.clear();
 			}
-			synchronized ( objectsToDel ) {
-				if ( objectsToDel.size() > 0 ) {
-					synchronized ( objects ) {
-						objects.removeAll( objectsToDel );
-					}
-					objectsToDel.clear();
+		}
+		synchronized ( objectsToDel ) {
+			if ( objectsToDel.size() > 0 ) {
+				synchronized ( objects ) {
+					objects.removeAll( objectsToDel );
 				}
+				objectsToDel.clear();
 			}
+		}
 	}
 	
 	
@@ -251,7 +252,32 @@ public class SceneController extends AController implements GLEventListener {
 			if(fps_log_max < fps_log.size())
 				fps_log.remove(0);
 		}
-		Dispatcher.forwardEvent( new VidisEvent<Double>( IVidisEvent.FPS, median(fps_log) ) );
+		
+		double fpsMiddle = median(fps_log);
+		// here we check if we have to decrease / increase the detail level
+		if( fpsMiddle > 0 ) {
+			if ( ! inRange(fpsMiddle, wantedFps-2, wantedFps+2) ) {
+				double adjust = 0;
+				double factor = (fpsMiddle / wantedFps) - 1;
+				adjust = 0.05 * factor;
+//				System.err.println("adjustingFactor = " + factor + " ==> inc/dec by " + adjust);
+//				if(wantedFps > fpsMiddle) {
+//					// too slow, decrease detail level
+//					System.err.println("decrease detail level " + Configuration.DETAIL_LEVEL + " - 0.01");
+//					
+//				} else {
+//					// too fast, increase detail level
+//					System.err.println("increase detail level" + Configuration.DETAIL_LEVEL + " + 0.01");
+//					adjust = 0.01;
+//				}
+				Configuration.DETAIL_LEVEL = Math.max(0, Math.min(1.5, Configuration.DETAIL_LEVEL + adjust ));
+			}
+		}
+		Dispatcher.forwardEvent( new VidisEvent<Double>( IVidisEvent.FPS, fps ) );
+	}
+	
+	private boolean inRange (double value, double minV, double maxV) {
+		return value > minV && value < maxV;
 	}
 	
 	private double median(List<Double> list) {

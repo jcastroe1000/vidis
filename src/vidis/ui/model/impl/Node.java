@@ -172,6 +172,7 @@ public class Node extends ASimObject {
 	}
 	
 	private String text;
+	private double lastDetailLevel = Configuration.DETAIL_LEVEL;
 	
 	public void renderObjectText( GL gl ) {
 		renderObjectText( gl, 0.001 );
@@ -190,7 +191,9 @@ public class Node extends ASimObject {
 	
 	@Override
 	public void renderObject(GL gl) {
-		if ( displayListId == -1 ) {
+		if ( displayListId == -1 || lastDetailLevel  != Configuration.DETAIL_LEVEL) {
+			lastDetailLevel = Configuration.DETAIL_LEVEL;
+			
 			displayListId = gl.glGenLists(1);
 			gl.glColor3d(0, 1, 0);
 			preRenderObject(gl);

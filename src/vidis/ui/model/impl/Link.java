@@ -58,6 +58,8 @@ public class Link extends ASimObject {
 	
 	private double l = radius * kappa;
 	
+	private double lastDetailLevel = Configuration.DETAIL_LEVEL;
+	
 	public Link(IVariableContainer c) {
 		super(c);
 		logger.debug( "new link with the following vars: \n"+ getVariableIds());
@@ -71,9 +73,14 @@ public class Link extends ASimObject {
 			Tuple3d posA = (Tuple3d) getVariableById( SimLink.POINT_A ).getData();
 			Tuple3d posB = (Tuple3d) getVariableById( SimLink.POINT_B ).getData();
 			
-			if ( ! knownPointA.equals( posA ) && ! knownPointB.equals( posB ) ) {
+			if ( lastDetailLevel != Configuration.DETAIL_LEVEL || ( ! knownPointA.equals( posA ) && ! knownPointB.equals( posB ) ) ) {
+				// fix if detail level changes
+				lastDetailLevel = Configuration.DETAIL_LEVEL;
+				
+				// recalculate geometry
 				knownPointA = new Point3d( posA );
 				knownPointB = new Point3d( posB );
+				
 				calculateControlPoints( knownPointA, knownPointB );
 				preRenderObject( gl );
 			}
@@ -258,6 +265,12 @@ public class Link extends ASimObject {
 	}
 	
 	private void calculateControlPoints( Point3d pointA, Point3d pointB) {
+		// clean cache
+		surfaceControlPointsLeftDown.clear();
+		surfaceControlPointsLeftUp.clear();
+		surfaceControlPointsRightDown.clear();
+		surfaceControlPointsRightUp.clear();
+		
 		int segments_min = 3;
 		int segments_max = 45;
 		// calc axis
