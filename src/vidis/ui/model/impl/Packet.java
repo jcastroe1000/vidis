@@ -5,6 +5,8 @@ import javax.vecmath.Point3d;
 import javax.vecmath.Tuple3d;
 import javax.vecmath.Vector3d;
 
+import org.apache.log4j.Logger;
+
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.sim.Simulator;
@@ -14,7 +16,8 @@ import vidis.ui.model.structure.ASimObject;
 
 
 public class Packet extends ASimObject {
-
+	private Logger logger = Logger.getLogger( Packet.class );
+	
 	public Packet( IVariableContainer c, Link link ) {
 		super(c);
 		link.addPacket( this );
@@ -98,8 +101,13 @@ public class Packet extends ASimObject {
 		
 		if(!Simulator.getInstance().getPlayer().isPaused() && getPosition() != null) {
 			// now rotate it
-			gl.glRotated(position, getPosition().x, getPosition().y, getPosition().z);
-			position += Math.random()*10+4;
+			try {
+				gl.glRotated(position, getPosition().x, getPosition().y, getPosition().z);
+				position += Math.random()*10+4;
+			} catch (NullPointerException e) {
+				// may happen
+				logger.warn( e );
+			}
 		}
 		// set color
 		if ( mouse ) {
