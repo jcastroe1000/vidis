@@ -106,7 +106,7 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 		if (!isSleeping()) {
 		    this.logic.execute();
 		} else {
-			logger.info("skip logic.execute()");
+			logger.debug("skip logic.execute()");
 		}
     }
 

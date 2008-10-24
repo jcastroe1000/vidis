@@ -212,7 +212,7 @@ public class Node extends ASimObject {
 				}
 			}
 		} finally {
-//			drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
+			drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
 		}
 		
 		// draw node

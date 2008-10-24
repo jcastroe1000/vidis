@@ -58,7 +58,7 @@ public class SimulatorController extends AController {
 	private void initialize() {
 		Simulator.createInstance();
 		sim = Simulator.getInstance();
-//		sim.importSimFile( ResourceManager.getModuleFile("bullyElectionAlgorithm", "demo.msim") );
+		sim.importSimFile( ResourceManager.getModuleFile("bullyElectionAlgorithm", "demo.msim") );
 //		sim.importSimFile( ResourceManager.getModuleFile("demo", "demo.msim") );
 //		sim.importSimFile( ResourceManager.getModuleFile("demo", "simpledemo.msim") );
 //		sim.importSimFile( ResourceManager.getModuleFile("flooding", "flood1.msim") );
@@ -67,7 +67,7 @@ public class SimulatorController extends AController {
 //		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "simple.msim") );
 //		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "complex.msim") );
 //		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "veryComplex.msim") );
-		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "veryComplexLoose.msim") );
+//		sim.importSimFile( ResourceManager.getModuleFile("vectorClockAlgorithm", "veryComplexLoose.msim") );
 		// apply default layout
 //		layout();
 		// start playing
