@@ -1,5 +1,6 @@
 package vidis.ui.model.structure;
 
+import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -101,8 +102,13 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 		gl.glTranslated(getX(), getY(), z);
 		renderContainer( gl );
 		gl.glPushMatrix();
-			for ( IGuiContainer c : childs ) {
-				c.renderBox(gl, z + IGuiContainer.Z_OFFSET);
+			try {
+				for ( IGuiContainer c : childs ) {
+					c.renderBox(gl, z + IGuiContainer.Z_OFFSET);
+				}
+			} catch (ConcurrentModificationException e) {
+				// well, may happen but is not that severe
+				logger.warn( e );
 			}
 		gl.glPopMatrix();
 		

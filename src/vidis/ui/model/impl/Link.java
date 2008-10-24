@@ -235,6 +235,10 @@ public class Link extends ASimObject {
 	
 	private void preRenderObject( GL gl ) {
 		requireTextRenderer();
+		if ( displayListId != -1 ) {
+			gl.glDeleteLists(displayListId, 1);
+			displayListId = -1;
+		}
 		if ( displayListId == -1 ) {
 			displayListId = gl.glGenLists(1);
 		}

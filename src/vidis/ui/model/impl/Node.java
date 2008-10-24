@@ -191,10 +191,8 @@ public class Node extends ASimObject {
 	
 	@Override
 	public void renderObject(GL gl) {
-		if ( displayListId == -1 || lastDetailLevel  != Configuration.DETAIL_LEVEL) {
-			lastDetailLevel = Configuration.DETAIL_LEVEL;
-			
-			displayListId = gl.glGenLists(1);
+		if ( displayListId == -1 || lastDetailLevel  != Configuration.DETAIL_LEVEL ) {
+			// need to update
 			gl.glColor3d(0, 1, 0);
 			preRenderObject(gl);
 		}
@@ -228,6 +226,14 @@ public class Node extends ASimObject {
 	}
 	
 	public void preRenderObject(GL gl) {
+		lastDetailLevel = Configuration.DETAIL_LEVEL;
+		if ( displayListId != -1 ) {
+			gl.glDeleteLists(displayListId, 1);
+			displayListId = -1;
+		}
+		if ( displayListId == -1 ) {
+			displayListId = gl.glGenLists(1);
+		}
 		int slices_min = 6;
 		int slices_max = 25;
 		int stacks_min = 6;

@@ -258,9 +258,8 @@ public class SceneController extends AController implements GLEventListener {
 		// here we check if we have to decrease / increase the detail level
 		if( fpsMiddle > 0 ) {
 			if ( ! inRange(fpsMiddle, wantedFps-2, wantedFps+2) ) {
-				double adjust = 0;
 				double factor = (fpsMiddle / wantedFps) - 1;
-				adjust = 0.005 * factor;
+				double adjust = 0.005 * factor;
 //				System.err.println("adjustingFactor = " + factor + " ==> inc/dec by " + adjust);
 //				if(wantedFps > fpsMiddle) {
 //					// too slow, decrease detail level
@@ -282,7 +281,7 @@ public class SceneController extends AController implements GLEventListener {
 		Dispatcher.forwardEvent( new VidisEvent<Double>( IVidisEvent.FPS, fps ) );
 	}
 	
-	private boolean inRange (double value, double minV, double maxV) {
+	private static boolean inRange (double value, double minV, double maxV) {
 		return value > minV && value < maxV;
 	}
 	
