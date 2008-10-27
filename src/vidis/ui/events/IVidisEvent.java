@@ -54,5 +54,8 @@ public interface IVidisEvent {
 	public final int FPS 			= 10001;
 	public final int ShowGuiContainer = 238472389;
 	
+	public final int LayoutApplyGraphElectricSpring = 5010;
+	public final int LayoutApplyRandom = 5011;
+	public final int LayoutApplySpiral = 5012;
 	
 }
