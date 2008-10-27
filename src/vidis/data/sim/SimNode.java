@@ -45,6 +45,8 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 
     private IVisObject visObject;
     
+    private int step = 0;
+    
     /**
      * public constructor
      * 
@@ -101,6 +103,7 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
     }
 
     public void execute() {
+    	if ( step == 0) logic.init();
 		processPacketQueue();
 		super.execute();
 		if (!isSleeping()) {
@@ -108,6 +111,7 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 		} else {
 			logger.debug("skip logic.execute()");
 		}
+		step++;
     }
 
     public List<IUserLink> getConnectedLinks() {

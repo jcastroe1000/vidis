@@ -22,6 +22,12 @@ public class FloodNode extends AUserNode {
 			// no action
 		}
 	}
+	
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	private void receive(FloodPacket packet) {
 		// check if the sender was me

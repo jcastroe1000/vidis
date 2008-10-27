@@ -27,6 +27,8 @@ public abstract class AUserNode extends AUserComponent implements IUserNode {
 		    throw new ObstructInitCallException();
 		simulatorComponent = c;
     }
+    
+    public abstract void init();
 
     /**
      * retrieve all the connected links to this node

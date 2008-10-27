@@ -15,6 +15,12 @@ public class BullyElectionAlgorithmNode extends AUserNode {
     public boolean gotBully() {
     	return bully != null;
     }
+    
+    @Override
+    public void init() {
+    	// TODO Auto-generated method stub
+    	
+    }
 
     public void execute() {
 		if (gotBully()) {

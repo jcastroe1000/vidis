@@ -18,6 +18,12 @@ public class VectorClockAlgorithmNode extends AUserNode {
     	return getId() + "["+getTimeVector()+"]";
     }
     
+    @Override
+    public void init() {
+    	// TODO Auto-generated method stub
+    	
+    }
+    
     public VectorTime getTimeVector() {
     	return localTimeVector;
     }

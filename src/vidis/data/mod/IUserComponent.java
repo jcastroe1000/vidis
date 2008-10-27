@@ -52,4 +52,5 @@ public interface IUserComponent {
      * if component does not sleep, no action is made
      */
     public void interrupt();
+    
 }

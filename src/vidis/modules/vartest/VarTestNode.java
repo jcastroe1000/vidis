@@ -31,6 +31,12 @@ public class VarTestNode extends AUserNode {
 	integerExecuteCount = 0;
 
     }
+    
+    @Override
+    public void init() {
+    	// TODO Auto-generated method stub
+    	
+    }
 
     @Display(name = "test LIST")
     public List<Integer> getSomeList() {

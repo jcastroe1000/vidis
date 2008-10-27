@@ -19,6 +19,12 @@ public class DemoNode extends AUserNode {
 	private Map<IUserLink, Boolean> pingSent = new ConcurrentHashMap<IUserLink, Boolean>();
 	private Map<IUserNode, Boolean> pongReceived = new ConcurrentHashMap<IUserNode, Boolean>();
 
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public void execute() {
 		for (IUserLink link : this.getConnectedLinks()) {
 			if (!pingSent.containsKey(link) || !pingSent.get(link)) {

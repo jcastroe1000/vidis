@@ -34,4 +34,14 @@ public interface IUserNode extends IUserComponent {
 	 * @param packet the packet the user receives
 	 */
 	public void receive(IUserPacket packet);
+	
+	/**
+	 * this function will be executed upon the first simulation step
+	 * 
+	 * here you can put all possible initialize operations like:
+	 * 		* send messages
+	 * 		* check variables from msim file
+	 * 		* ...
+	 */
+	public void init();
 }
