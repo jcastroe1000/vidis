@@ -256,7 +256,7 @@ public class SceneController extends AController implements GLEventListener {
 		
 		double fpsMiddle = median(fps_log);
 		// here we check if we have to decrease / increase the detail level
-		if( fpsMiddle > 0 ) {
+		if( fpsMiddle > 0 && fpsMiddle < wantedFps*2 ) {
 			if ( ! inRange(fpsMiddle, wantedFps-2, wantedFps+2) ) {
 				double factor = (fpsMiddle / wantedFps) - 1;
 				double adjust = 0.005 * factor;
