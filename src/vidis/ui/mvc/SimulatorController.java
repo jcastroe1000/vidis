@@ -10,11 +10,13 @@ import vidis.data.sim.AComponent;
 import vidis.data.sim.SimNode;
 import vidis.sim.Simulator;
 import vidis.ui.events.IVidisEvent;
+import vidis.ui.events.VidisEvent;
 import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
+import vidis.ui.model.graph.layouts.impl.GraphRandomLayout;
+import vidis.ui.model.graph.layouts.impl.GraphSpiralLayout;
 import vidis.ui.mvc.api.AController;
 import vidis.ui.mvc.api.Dispatcher;
 import vidis.util.ResourceManager;
-import vidis.ui.events.VidisEvent;
 
 public class SimulatorController extends AController {
 	private static Logger logger = Logger.getLogger( SimulatorController.class );
@@ -28,6 +30,10 @@ public class SimulatorController extends AController {
 		
 		registerEvent( IVidisEvent.SimulatorPlay, 
 						IVidisEvent.SimulatorLoad );
+		
+		registerEvent( IVidisEvent.LayoutApplyGraphElectricSpring, 
+				IVidisEvent.LayoutApplyRandom,
+				IVidisEvent.LayoutApplySpiral);
 	}
 	
 	@Override
@@ -49,8 +55,30 @@ public class SimulatorController extends AController {
 						Simulator.getInstance().getPlayer().pause();
 					Simulator.getInstance().getPlayer().stop();
 					sim.importSimFile(f);
+					Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGraphElectricSpring );
 				}
 			}
+			break;
+		case IVidisEvent.LayoutApplyGraphElectricSpring:
+			try {
+					GraphElectricSpringLayout.getInstance().apply(getNodes());
+				} catch (Exception e) {
+					logger.error(e);
+				}
+			break;
+		case IVidisEvent.LayoutApplyRandom:
+			try {
+					GraphRandomLayout.getInstance().apply(getNodes());
+				} catch (Exception e) {
+					logger.error(e);
+				}
+			break;
+		case IVidisEvent.LayoutApplySpiral:
+			try {
+					GraphSpiralLayout.getInstance().apply(getNodes());
+				} catch (Exception e) {
+					logger.error(e);
+				}
 			break;
 		}
 	}
@@ -72,23 +100,17 @@ public class SimulatorController extends AController {
 //		layout();
 		// start playing
 		//sim.getPlayer().play();
-		
+//		Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGraphElectricSpring );
 	}
 	
-	private void layout() {
-		try {
-			List<AComponent> components = sim.getSimulatorComponents();
-			List<SimNode> nodes = new ArrayList<SimNode>();
-			for(AComponent component : components) {
-				if(component instanceof SimNode) {
-					nodes.add((SimNode) component);
-				}
+	private List<SimNode> getNodes() {
+		List<AComponent> components = sim.getSimulatorComponents();
+		List<SimNode> nodes = new ArrayList<SimNode>();
+		for(AComponent component : components) {
+			if(component instanceof SimNode) {
+				nodes.add((SimNode) component);
 			}
-			GraphElectricSpringLayout.getInstance().apply(nodes);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		return nodes;
 	}
-
 }
