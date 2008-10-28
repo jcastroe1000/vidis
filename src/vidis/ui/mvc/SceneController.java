@@ -263,16 +263,6 @@ public class SceneController extends AController implements GLEventListener {
 			if ( ! inRange(fpsMiddle, wantedFps-2, wantedFps+2) ) {
 				double factor = (fpsMiddle / wantedFps) - 1;
 				double adjust = 0.005 * factor;
-//				System.err.println("adjustingFactor = " + factor + " ==> inc/dec by " + adjust);
-//				if(wantedFps > fpsMiddle) {
-//					// too slow, decrease detail level
-//					System.err.println("decrease detail level " + Configuration.DETAIL_LEVEL + " - 0.01");
-//					
-//				} else {
-//					// too fast, increase detail level
-//					System.err.println("increase detail level" + Configuration.DETAIL_LEVEL + " + 0.01");
-//					adjust = 0.01;
-//				}
 				Configuration.DETAIL_LEVEL = Math.max(0, Math.min(1.5, Configuration.DETAIL_LEVEL + adjust ));
 				if ( Configuration.DETAIL_LEVEL == 0 ) {
 					warnLevel_laptopTooSlow++;
@@ -281,7 +271,7 @@ public class SceneController extends AController implements GLEventListener {
 				}
 			}
 		}
-		Dispatcher.forwardEvent( new VidisEvent<Double>( IVidisEvent.FPS, fps ) );
+		Dispatcher.forwardEvent( new VidisEvent<Double>( IVidisEvent.FPS, fpsMiddle ) );
 	}
 	
 	private static boolean inRange (double value, double minV, double maxV) {

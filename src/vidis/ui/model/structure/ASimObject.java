@@ -1,5 +1,6 @@
 package vidis.ui.model.structure;
 
+import java.awt.Color;
 import java.util.Set;
 
 import javax.media.opengl.GL;
@@ -40,6 +41,10 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	
 	protected Set<String> getVariableIds() {
 		return obj.getVariableIds();
+	}
+	
+	protected final void setColor( GL gl, Color c ) {
+		gl.glColor4d( c.getRed() / 255d, c.getGreen() / 255d, c.getBlue() / 255d, c.getAlpha() / 255d );
 	}
 	
 	protected void requireTextRenderer() {

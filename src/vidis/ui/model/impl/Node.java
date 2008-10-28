@@ -192,8 +192,6 @@ public class Node extends ASimObject {
 	@Override
 	public void renderObject(GL gl) {
 		if ( displayListId == -1 || lastDetailLevel  != Configuration.DETAIL_LEVEL ) {
-			// need to update
-			gl.glColor3d(0, 1, 0);
 			preRenderObject(gl);
 		}
 		text = "test";
@@ -220,7 +218,14 @@ public class Node extends ASimObject {
 			gl.glColor3d( 0, 0, 1 );
 		}
 		else {
-			gl.glColor3d( 0, 1, 0 );
+			Color c;
+			try {
+				c = (Color) getVariableById( AVariable.COMMON_IDENTIFIERS.COLOR ).getData();
+			}
+			catch ( Exception e) {
+				c = Color.RED;
+			}
+			setColor(gl, c);
 		}
 		gl.glCallList( displayListId );
 	}

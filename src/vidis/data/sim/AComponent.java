@@ -14,9 +14,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import vidis.data.annotation.ComponentColor;
 import vidis.data.annotation.ComponentInfo;
 import vidis.data.annotation.Display;
+import vidis.data.annotation.DisplayColor;
 import vidis.data.mod.IUserComponent;
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableChangeListener;
+import vidis.data.var.AVariable.COMMON_IDENTIFIERS;
 import vidis.data.var.AVariable.COMMON_SCOPES;
 import vidis.data.var.vars.DefaultVariable;
 import vidis.data.var.vars.FieldVariable;
@@ -105,7 +107,16 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 				} else {
 				    registerVariable(new MethodVariable(id, getUserLogic(), m));
 				}
-		    } else {
+		    } else if ( a.annotationType().equals( DisplayColor.class ) ) {
+				DisplayColor displayColor = (DisplayColor)a;
+				String id = COMMON_IDENTIFIERS.COLOR;
+				if (hasVariable(id)) {
+					// only update
+					((MethodVariable)getVariableById(id)).update(getUserLogic(), m);
+			    } else {
+			    	registerVariable(new MethodVariable(id, getUserLogic(), m));
+			    }
+			} else {
 		    	//Logger.output(LogLevel.WARN, this, "unknown method-annotation "
 				//+ a + " encountered!");
 		    }
@@ -159,6 +170,16 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 				    }
 				    String id = ns + d.name();
 				    if (hasVariable(id)) {
+						// only update
+						((FieldVariable)getVariableById(id)).update(getUserLogic(), f);
+				    } else {
+				    	registerVariable(new FieldVariable(id, getUserLogic(), f));
+				    }
+				} 
+				else if ( a.annotationType().equals( DisplayColor.class ) ) {
+					DisplayColor displayColor = (DisplayColor)a;
+					String id = COMMON_IDENTIFIERS.COLOR;
+					if (hasVariable(id)) {
 						// only update
 						((FieldVariable)getVariableById(id)).update(getUserLogic(), f);
 				    } else {

@@ -1,9 +1,12 @@
 package vidis.modules.echoAlgorithm;
 
+import java.awt.Color;
+
 import org.apache.log4j.Logger;
 
 import vidis.data.AUserNode;
 import vidis.data.annotation.Display;
+import vidis.data.annotation.DisplayColor;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
 import vidis.data.mod.IUserPacket;
@@ -28,10 +31,22 @@ public class EchoNode extends AUserNode {
 	private static Logger logger = Logger.getLogger(EchoNode.class);
 	
 	private enum State {
-		WHITE,
-		RED,
-		GREEN
+		WHITE( Color.WHITE ),
+		RED( Color.RED ),
+		GREEN( Color.GREEN );
+		private Color color;
+		private State( Color c ) {
+			this.color = c;
+		}
+		public Color getColor() {
+			return color;
+		}
 	};
+
+	@DisplayColor()
+	public Color getColor() {
+		return state.getColor();
+	}
 	
 	private State state = State.WHITE;
 	private IUserNode firstNeighbour = null;

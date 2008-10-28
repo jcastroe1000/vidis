@@ -132,12 +132,27 @@ public class Gui extends AEventHandler {
 		container2.setLayout(new PercentMarginLayout(-0.2,0.9,-0.8,1,-0.1,-0.1));
 		
 		Button loadButton = new Button() {
-			JFileChooser x = new JFileChooser( new File( Configuration.MODULE_PATH ));
+			private File selectedFile = null;
+			JFileChooser x = new JFileChooser( new File( Configuration.MODULE_PATH )) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void cancelSelection() {
+					super.cancelSelection();
+					selectedFile = null;
+				}
+				
+				@Override
+				public void approveSelection() {
+					super.approveSelection();
+					selectedFile = getSelectedFile();
+				}
+			};
 			@Override
 			protected void onMouseClicked(MouseClickedEvent e) {
 				x.setVisible( true );
 				x.showOpenDialog( null );
-				if ( x.getSelectedFile() != null ) { 
+				if ( selectedFile != null ) { 
 					VidisEvent<File> ve = new VidisEvent<File>( IVidisEvent.SimulatorLoad, x.getSelectedFile() );
 					Dispatcher.forwardEvent( ve );
 				}
