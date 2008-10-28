@@ -34,9 +34,9 @@ public class InputController extends AController {
 					   IVidisEvent.KeyReleasedEvent,
 					   IVidisEvent.KeyTypedEvent );
 		
-		registerEvent( IVidisEvent.MouseClickedEvent,
-					   IVidisEvent.MousePressedEvent,
-					   IVidisEvent.MouseReleasedEvent );
+//		registerEvent( IVidisEvent.MouseClickedEvent,
+//					   IVidisEvent.MousePressedEvent,
+//					   IVidisEvent.MouseReleasedEvent );
 	}
 	
 	private void loadHardcodedKeyBinding() {

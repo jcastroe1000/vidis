@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.CameraEvent;
 import vidis.ui.events.IVidisEvent;
-import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.events.ObjectEvent;
 import vidis.ui.events.VidisEvent;
 import vidis.ui.gui.Gui;
@@ -45,16 +44,12 @@ public class GuiController extends AController {
 		case IVidisEvent.ShowGuiContainer:
 			gui.addContainer( (IGuiContainer) ((VidisEvent)event).getData() );
 			break;
+		
 		case IVidisEvent.MouseClickedEvent:
-			if ( ((AMouseEvent)event).rayCalculated && guiCamera != null ) {
-				logger.info( "GuiController fires " + event);
-				guiCamera.fireEvent( event );
-			}
-			break;
 		case IVidisEvent.MousePressedEvent:
 		case IVidisEvent.MouseReleasedEvent:
 		case IVidisEvent.MouseMovedEvent:
-			if ( guiCamera != null ) {
+			if ( ((AMouseEvent)event).rayCalculated == false && ((AMouseEvent)event).forwardTo3D == false && ((AMouseEvent)event).guiCoords == null && guiCamera != null ) {
 				guiCamera.fireEvent( event );
 			}
 			break;

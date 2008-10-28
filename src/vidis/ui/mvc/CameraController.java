@@ -3,6 +3,7 @@ package vidis.ui.mvc;
 
 import org.apache.log4j.Logger;
 
+import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.CameraEvent;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.mvc.api.AController;
@@ -57,7 +58,9 @@ public class CameraController extends AController{
 			break;
 		case IVidisEvent.MouseClickedEvent:
 		case IVidisEvent.MouseMovedEvent:
-			defaultCamera.fireEvent( event );
+			if ( ((AMouseEvent)event).rayCalculated == false && ((AMouseEvent)event).forwardTo3D == true ) {
+				defaultCamera.fireEvent( event );
+			}
 			break;
 		}
 	}

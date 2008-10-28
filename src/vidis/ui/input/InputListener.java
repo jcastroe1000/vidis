@@ -49,7 +49,7 @@ public class InputListener implements KeyListener, MouseWheelListener, MouseList
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		logger.debug( "mouseClicked("+e+")");
+		logger.warn( "mouseClicked("+e+")");
 		Dispatcher.forwardEvent( new MouseClickedEvent( e ) );
 	}
 

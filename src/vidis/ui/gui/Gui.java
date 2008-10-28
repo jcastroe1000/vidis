@@ -172,10 +172,10 @@ public class Gui extends AEventHandler {
 			
 		}
 		// workaround for clicking ( FIXME: gui should use normal mouseEvent with guiCoords set! )
-		if ( e instanceof GuiMouseEvent ) {
-			GuiMouseEvent ge = (GuiMouseEvent) e;
-			ge.where.y = mainContainer.getHeight() - ge.where.y;
-		}
+//		if ( e instanceof GuiMouseEvent ) {
+//			GuiMouseEvent ge = (GuiMouseEvent) e;
+//			ge.where.y = mainContainer.getHeight() - ge.where.y;
+//		}
 		mainContainer.fireEvent(e);
 	}
 	

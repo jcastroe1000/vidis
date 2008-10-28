@@ -92,7 +92,7 @@ public class Link extends ASimObject {
 				// may happen, but if, don't care
 				text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
 			} finally {
-				if(text != "")
+				if( ! "".equals( text ) )
 					drawText(gl, text, 0, 0, 1, 0);
 			}
 			Link.useShaderProgram(gl);

@@ -125,20 +125,20 @@ public class GuiCamera extends AEventHandler implements ICamera {
 		
 	}
 	
-	@Deprecated
-	public void handleMouseClickedEvent( AMouseEvent e ) {
-		logger.debug("handleMouseClickedEvent() id="+e.getID());
-		GuiMouseEvent m = new GuiMouseEvent();
-		m.where = convert2Dto3D(e.mouseEvent.getX(), e.mouseEvent.getY());
-		gui.fireEvent( m );
-	}
+//	@Deprecated
+//	public void handleMouseClickedEvent( AMouseEvent e ) {
+//		logger.debug("handleMouseClickedEvent() id="+e.getID());
+//		GuiMouseEvent m = new GuiMouseEvent();
+//		m.where = convert2Dto3D(e.mouseEvent.getX(), e.mouseEvent.getY());
+//		gui.fireEvent( m );
+//	}
 	
 	private Point2d convert2Dto3D( int x, int y ) {
-		double xrel = (double) x / (double) target.getWidth();
-		double yrel = (double) y / (double) target.getHeight();
-		
-		double xout = xrel * target.getWidth() / 2d;
-		double yout = yrel * target.getHeight() / 2d;
+//		double xrel = (double) x / (double) target.getWidth();
+//		double yrel = (double) y / (double) target.getHeight();
+//		
+//		double xout = xrel * target.getWidth() / 2d;
+//		double yout = yrel * target.getHeight() / 2d;
 		
 		return new Point2d( x / 10d, y / 10d);
 	}

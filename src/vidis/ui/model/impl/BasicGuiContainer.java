@@ -101,13 +101,13 @@ public class BasicGuiContainer extends AGuiContainer {
 		gl.glPopMatrix();
 	}
 	@Override
-	protected void onMouseEnter() {
-		logger.info( "onMouseEnter() on " + this );
+	protected synchronized void onMouseEnter() {
+		logger.debug( "onMouseEnter() on " + this );
 		color = color2;
 	}
 	@Override
-	protected void onMouseExit() {
-		logger.info( "onMouseExit() on " + this );
+	protected synchronized void onMouseExit() {
+		logger.debug( "onMouseExit() on " + this );
 		color = color1;
 	}
 	

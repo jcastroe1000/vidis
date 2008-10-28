@@ -1,6 +1,5 @@
 package vidis.ui.mvc;
 
-import java.awt.Adjustable;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -17,9 +16,7 @@ import javax.media.opengl.GLCapabilitiesChooser;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.GLEventListener;
 import javax.vecmath.Point3d;
-import javax.vecmath.Point4d;
 import javax.vecmath.Vector3d;
-import javax.vecmath.Vector4d;
 
 import org.apache.log4j.Logger;
 
@@ -133,8 +130,8 @@ public class SceneController extends AController implements GLEventListener {
 			break;
 		case IVidisEvent.MouseClickedEvent:
 		case IVidisEvent.MouseMovedEvent:
-			if ( ((AMouseEvent)event).ray != null ) {
-//				logger.info("handling Mouse event");
+			if ( ((AMouseEvent)event).rayCalculated ) {
+//				logger.warn("handling Mouse event");
 				handleMouseEvent( (AMouseEvent)event );
 			}
 			break;

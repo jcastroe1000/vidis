@@ -17,6 +17,7 @@ import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.events.MouseMovedEvent;
 import vidis.ui.events.MousePressedEvent;
 import vidis.ui.events.MouseReleasedEvent;
+import vidis.ui.mvc.api.Dispatcher;
 import vidis.util.ResourceManager;
 
 import com.sun.opengl.util.j2d.TextRenderer;
@@ -183,6 +184,11 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 		for ( IGuiContainer c : childs ) {
 			c.fireEvent( e );
 		}
+		
+		if ( parent == null && underMouse.contains( this ) && underMouse.size() == 1 ) {
+			e.forwardTo3D = true;
+			Dispatcher.forwardEvent( e );
+		}
 	}
 	
 	protected abstract void onMouseEnter();
@@ -194,18 +200,11 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	
 	
 	/**
-	 * must be called with p in the parents coordinate system
 	 */
 	public boolean isPointInContainer( Point2d p ) {
-		if ( 	this.getX() < p.x &&
-				this.getY() < p.y &&
-				this.getX() + this.getWidth() > p.x &&
-				this.getY() + this.getHeight() > p.y ) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		double myX = getAbsoluteX();
+		double myY = getAbsoluteY();
+		return isPointWithinRect( p, myX, myY, getWidth(), getHeight() );
 	}
 	
 	/**
@@ -225,6 +224,7 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	}
 
 	private void dispatchMouseEvent( AMouseEvent e ) {
+		logger.info("dispatchMouseEvent() " + e + ", " + this);
 		switch ( e.getID() ) {
 		case IVidisEvent.MouseClickedEvent:
 			onMouseClicked( (MouseClickedEvent) e );
@@ -241,29 +241,30 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	private Point2d drawme = new Point2d(0,0);
 	
 	protected void handleMouseEvent( AMouseEvent e ){
-		logger.debug("handleMouseClickedEvent() "+ e);
-		boolean childFound = false;
-		Point2d toCheck = (e.guiCoordsRelative==null)?e.guiCoords:e.guiCoordsRelative;
+		logger.info("handleMouseEvent() "+ e + ", " + this);
 		
-		drawme = toCheck;
-		
-		for ( IGuiContainer c : childs) {
-			if ( c.isPointInContainer( toCheck ) ) {
-				// XXX possible bug: what if 2 container overlap
-				e.guiCoordsRelative = new Point2d(toCheck.x - c.getX(), toCheck.y - c.getY());
-				c.fireEvent( e );
-				childFound = true;
-				break;
+		Point2d point = e.guiCoords;
+		double myX = getAbsoluteX();
+		double myY = getAbsoluteY();
+		if ( isPointWithinRect( point, myX, myY, getWidth(), getHeight() ) ) {
+			// forward to childs
+			boolean childFound = false;
+			for ( IGuiContainer c : childs ) {
+				if ( c.isPointInContainer( point ) ) {
+					c.fireEvent( e );
+					childFound = true;
+				}
+			}
+			
+			if ( ! childFound ) {
+				if ( parent == null ) {
+					e.forwardTo3D = true;
+					Dispatcher.forwardEvent( e );
+				}
+				dispatchMouseEvent( e );
 			}
 		}
-		if ( ! childFound ) {
-			// if there is no child around - use the event on this
-			dispatchMouseEvent( e );
-		}
 	}
-	
-	// -----
-	
 	
 	public double getHeight() {
 		if ( layout == null ) {
