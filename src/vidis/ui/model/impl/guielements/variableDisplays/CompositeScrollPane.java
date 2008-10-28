@@ -38,7 +38,7 @@ public class CompositeScrollPane extends AScrollpane3D implements IVariableChang
 			return new StringDisplay( (DefaultVariable) var );
 		}
 		else if ( var.getVariableType().equals( MethodVariable.class ) ) {
-			return new StringDisplay((MethodVariable) var );
+			return new StringDisplay( (MethodVariable) var );
 		}
 		return new StringDisplay( new DefaultVariable("fuck", "you") );
 	}
@@ -54,7 +54,7 @@ public class CompositeScrollPane extends AScrollpane3D implements IVariableChang
 	}
 
 	public void variableChanged(String id) {
-		// FIXME or FIXME not Auto-generated method stub
+		variableAdded(id);
 		
 	}
 

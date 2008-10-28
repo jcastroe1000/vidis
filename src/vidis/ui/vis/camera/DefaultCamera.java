@@ -65,7 +65,10 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 	public void init(GL gl) {
 		gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-		
+		gl.glEnable(GL.GL_LINE_SMOOTH);
+		gl.glEnable(GL.GL_BLEND);
+		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+		gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_DONT_CARE);
 		gl.glEnable( GL.GL_DEPTH_TEST );
 //		gl.glEnable( GL.GL_LIGHTING );
 		gl.glEnable( GL.GL_LIGHT0 );

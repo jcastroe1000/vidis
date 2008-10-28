@@ -71,7 +71,7 @@ public class SceneController extends AController implements GLEventListener {
 	
 	private long startTime;
 	
-	private int fps_log_max = 120;
+	private int fps_log_max = 12;
 	private List<Double> fps_log = new LinkedList<Double>();
 	
 	private NodeField nodeCapturingSource = null;
@@ -167,7 +167,9 @@ public class SceneController extends AController implements GLEventListener {
 		};
 		GLContext glContext = GLContext.getCurrent();
 		
+		
 		canvas = new GLCanvas();
+		
 		canvas.addGLEventListener( this );
 		
 		InputListener l = new InputListener();

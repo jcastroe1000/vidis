@@ -8,6 +8,7 @@ import javax.vecmath.Vector3d;
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.ui.config.Configuration;
+import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.model.impl.guielements.Mode;
@@ -28,11 +29,50 @@ public class Node extends ASimObject {
 		private double normHeight = 4;
 		private double expHeight = 15;
 		
+		private BasicGuiContainer top;
 		private CompositeScrollPane scrollPane;
 		
 		public NodeGuiElement() {
-			this.color1 = Color.green;
+			this.color1 = Color.gray;
+			this.color2 = Color.gray.brighter();
 			this.setOpaque(true);
+			
+			top = new BasicGuiContainer() {
+				@Override
+				public double getHeight() {
+					switch(mode) {
+					case MINIMIZED:
+						return minHeight;
+					case NORMAL:
+						return normHeight;
+					case EXPANDED:
+					default:
+						return normHeight;
+					}
+				}
+				@Override
+				public double getY() {
+					switch(mode) {
+					case MINIMIZED:
+						return 0;
+					case NORMAL:
+						return 0;
+					case EXPANDED:
+					default:
+						return expHeight-normHeight;
+					}
+				}
+				@Override
+				public double getWidth() {
+					return NodeGuiElement.this.getWidth();
+				}
+				@Override
+				protected void onMouseClicked(MouseClickedEvent e) {
+					NodeGuiElement.this.onMouseClicked(e);
+				}
+			};
+			top.setOpaque( true );
+			this.addChild( top );
 			
 			scrollPane = new CompositeScrollPane( Node.this.getVariableContainer() );
 			scrollPane.setLayout( new ILayout() {
@@ -71,10 +111,6 @@ public class Node extends ASimObject {
 				
 			});
 			this.addChild( scrollPane );
-			
-			// debug inhalt
-			scrollPane.addChild( new BasicGuiContainer() );
-			
 		}
 		
 		@Override

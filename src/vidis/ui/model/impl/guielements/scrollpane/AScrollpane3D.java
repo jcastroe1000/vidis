@@ -75,9 +75,10 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 	public AScrollpane3D() {
 		childs = new ArrayList<IGuiContainer>();
 		
-		slider = new VerticalSlider3D(0, 1); // initially 0,1; increment later as the elements count increases
-		super.addChild(slider);
+		setOpaque( false );
 		
+		slider = new VerticalSlider3D(0, 1); // initially 0,1; increment later as the elements count increases
+		slider.setOpaque( false );
 		slider.setName("scrollpane slider");
 		slider.setLayout( new ILayout() {
 
@@ -104,6 +105,7 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 			public void setGuiContainer(IGuiContainer c) {
 			}
 		});
+		super.addChild(slider);
 		
 		container = new BasicGuiContainer() {
 			@Override
@@ -111,16 +113,15 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 //				super.renderContainer(gl);
 			}
 		};
-		super.addChild(container);
-		
+		container.setOpaque(false);
 		container.setName("scrollpane container");
 		container.setLayout(new ILayout() {
 			public double getHeight() {
-				return getParent().getHeight();
+				return AScrollpane3D.this.getHeight();
 			}
 
 			public double getWidth() {
-				return getParent().getWidth() - slider.getWidth();
+				return AScrollpane3D.this.getWidth() - slider.getWidth();
 			}
 
 			public double getX() {
@@ -137,6 +138,7 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 			public void setGuiContainer(IGuiContainer c) {
 			}
 		});
+		super.addChild(container);
 		
 		fixSliderMinMax();
 	}

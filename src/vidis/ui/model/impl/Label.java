@@ -1,0 +1,97 @@
+package vidis.ui.model.impl;
+
+import java.awt.Color;
+import java.awt.geom.Rectangle2D;
+
+import javax.media.opengl.GL;
+
+import org.apache.log4j.Logger;
+
+import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.MousePressedEvent;
+import vidis.ui.events.MouseReleasedEvent;
+
+public class Label extends BasicGuiContainer {
+	private static Logger logger = Logger.getLogger(Label.class);
+
+	float borderPercent = 0.00f;
+	
+	/**
+	 * represents the 'real' text in the textbox
+	 */
+	private String text = "label";
+	
+	// border colors
+	private Color colorLight = Color.LIGHT_GRAY;
+	private Color colorDark = Color.DARK_GRAY;
+	
+	// text color
+	private Color textColor = Color.black;
+	// background
+	private Color backColor = Color.white;
+	
+	public Label() {
+		setColor1( backColor );
+		setColor2( backColor.darker() );
+	}
+	
+	@Override
+	public void renderContainer(GL gl) {
+		double h = getHeight();
+		double border = h * borderPercent;
+
+		requireTextRenderer();
+		
+		useColor( gl, getColor() );
+		
+		// text
+		Rectangle2D r = textRenderer.getBounds( "Apdq[]" );
+		float scale = 0.01f;
+		
+		double factor = 0.7;
+		double fontScaleHeight = (h * factor) / (r.getHeight() * scale);
+		double fontScale = fontScaleHeight;
+		
+		gl.glPushMatrix();
+			
+		//gl.glScaled( fontScale, fontScale, 1);
+			textRenderer.setColor( textColor );
+			textRenderer.begin3DRendering();
+			String s = this.text;
+			textRenderer.draw3D(  s, 
+					(float) ( border + border ), 
+					(float) (h / 2f - r.getHeight() * scale * fontScale / 2f),
+					0.01f,
+					(float) (scale * fontScale) );
+			textRenderer.end3DRendering();
+		gl.glPopMatrix();
+//		super.renderContainer(gl);
+	}
+	
+	private void useColor( GL gl, Color c ) {
+		gl.glColor4d(c.getRed()/255d, c.getGreen()/255d, c.getBlue()/255d, c.getAlpha()/255d);
+	}
+	
+	@Override
+	protected void onMousePressed(MousePressedEvent e) {
+	}
+	@Override
+	protected void onMouseReleased(MouseReleasedEvent e) {
+	}
+	@Override
+	protected void onMouseClicked(MouseClickedEvent e) {
+	}
+	
+	public void setText( String text ) {
+		this.text = text;
+	}
+	
+	public String getText() {
+		return this.text;
+	}
+
+	public void setTextColor(Color c) {
+		this.textColor = c;
+		
+	}
+}

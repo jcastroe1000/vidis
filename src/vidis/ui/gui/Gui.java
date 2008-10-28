@@ -18,9 +18,11 @@ import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.VidisEvent;
 import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
+import vidis.ui.model.impl.BasicMarginLayout;
 import vidis.ui.model.impl.Button;
 import vidis.ui.model.impl.CheckBox;
 import vidis.ui.model.impl.CheckChangeListener;
+import vidis.ui.model.impl.Label;
 import vidis.ui.model.impl.NodeField;
 import vidis.ui.model.impl.PacketField;
 import vidis.ui.model.impl.PercentMarginLayout;
@@ -39,7 +41,7 @@ public class Gui extends AEventHandler {
 	
 	private BasicGuiContainer mainContainer;
 	
-	public TextGuiContainer fps;
+	public Label fps;
 	
 	private AScrollpane3D slider = new ScrollPane3D();
 	
@@ -168,9 +170,10 @@ public class Gui extends AEventHandler {
 		//container1.addChild(playButton);
 		mainContainer.addChild(loadButton);
 		//container2.addChild(loadButton);
-		fps = new TextGuiContainer();
+		fps = new Label();
 		fps.setName("FPS");
-		fps.setLayout(new PercentMarginLayout(1,-0.8,-0.9,-0.9,-0.1,-0.1));
+		fps.setLayout(new BasicMarginLayout(0, -1, -1, 0, 1.5, 6 ));
+		fps.setTextColor( Color.white );
 		fps.setText("0fps");
 		mainContainer.addChild(fps);
 	}
