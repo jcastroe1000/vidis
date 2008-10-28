@@ -438,9 +438,14 @@ public class SceneController extends AController implements GLEventListener {
 	}
 	
 	private void unregisterObject( IVisObject o ) {
-		o.kill();
-		synchronized ( objectsToDel ) {
-			objectsToDel.add( o );
+		if ( o == null ) logger.error ( " SHOULD I KILL A NULL OBJECT?? ");
+		try {
+			o.kill();
+			synchronized ( objectsToDel ) {
+				objectsToDel.add( o );
+			}
+		} catch ( NullPointerException e ) {
+			e.printStackTrace();
 		}
 	}
 	

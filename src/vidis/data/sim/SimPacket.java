@@ -208,15 +208,18 @@ public class SimPacket extends AComponent implements ISimPacketCon {
     	logger.debug( "kill()" );
     	super.kill();
     	//logger.info("");
-    	ObjectEvent oe = new ObjectEvent( IVidisEvent.ObjectUnregister, this.visObject );
-    	Dispatcher.forwardEvent( oe );
-    	this.visObject = null;
+    	// this will be done by super
+//    	ObjectEvent oe = new ObjectEvent( IVidisEvent.ObjectUnregister, this.visObject );
+//    	Dispatcher.forwardEvent( oe );
+//    	this.visObject = null;
     }
     
     @Override
     protected void killVisObject() {
-    	ObjectEvent nextEvent = new ObjectEvent( IVidisEvent.ObjectUnregister, visObject );
-		Dispatcher.forwardEvent( nextEvent );
+    	if ( visObject != null ) {
+	    	ObjectEvent nextEvent = new ObjectEvent( IVidisEvent.ObjectUnregister,visObject );
+			Dispatcher.forwardEvent( nextEvent );
+    	}
     }
 
 	public void createVisObject() {
