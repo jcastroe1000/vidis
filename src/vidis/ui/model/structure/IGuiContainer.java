@@ -17,8 +17,20 @@ public interface IGuiContainer extends IVisObject, IEventHandler {
 	public double getWantedHeight();
 	public double getHeight();
 	public double getWidth();
+	
 	public double getX();
 	public double getY();
+	
+	/**
+	 * returns x in the roots coordinate system
+	 * @return
+	 */
+	public double getAbsoluteX();
+	/**
+	 * returns y in the roots coordinate system
+	 * @return
+	 */
+	public double getAbsoluteY();
 	
 	public void setHeight( double height );
 	public void setWidth( double width );

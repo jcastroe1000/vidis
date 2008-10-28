@@ -1,5 +1,6 @@
 package vidis.ui.model.structure;
 
+import java.awt.Rectangle;
 import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Set;
@@ -158,55 +159,30 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 //	private boolean mouseInContainerOld = false;
 //	private boolean mouseInContainerNew = false;
 	
-	private Set<IGuiContainer> underMouse = new HashSet<IGuiContainer>();
-	private void handleMouseMovedEvent(MouseMovedEvent e) {
-		Point2d where = e.guiCoords;
+	private static Set<IGuiContainer> underMouse = new HashSet<IGuiContainer>();
+	
+	private void handleMouseMovedEvent( MouseMovedEvent e ) {
+		// we need to check absolute mouse moved coordinates
+		// to be sure that every element receives its event
+		Point2d point = e.guiCoords;
+		double myX = getAbsoluteX();
+		double myY = getAbsoluteY();
+		if ( isPointWithinRect( point, myX, myY, getWidth(), getHeight() ) ) {
+			if ( ! underMouse.contains(this) ) {
+				underMouse.add( this );
+				onMouseEnter();
+			}
+		}
+		else {
+			if ( underMouse.contains( this ) ) {
+				underMouse.remove( this );
+				onMouseExit();
+			}
+		}
+		// forward to all childs
 		for ( IGuiContainer c : childs ) {
-			if ( c instanceof AGuiContainer ) {
-				if ( c.isPointInContainer( where ) ) {
-					if ( ! underMouse.contains( c ) ) {
-						underMouse.add( c );
-						((AGuiContainer) c).onMouseEnter();
-					}
-				}
-				else {
-					if ( underMouse.contains( c ) ) {
-						underMouse.remove( c );
-						((AGuiContainer)c).onMouseExit();
-					}
-				}
-			}
-			else {
-				logger.warn( "found unsuspected guiContainer CHECK THAT! POSSIBLE BUG!" );
-			}
-			// forward to childs
-			
+			c.fireEvent( e );
 		}
-		for ( IGuiContainer c : underMouse ) {
-			logger.debug( "forwarding to "+c);
-			// XXX possible bug: what if 2 container overlap
-			MouseMovedEvent nextEvent = new MouseMovedEvent( e.mouseEvent );
-			nextEvent.guiCoords = new Point2d(e.guiCoords.x - c.getX(), e.guiCoords.y - c.getY());
-			c.fireEvent( nextEvent );
-		}
-		
-//		// copy old value
-//		mouseInContainerOld = mouseInContainerNew;
-//		if ( isPointInContainer( where ) ) {
-//			mouseInContainerNew = true;
-//		}
-//		else {
-//			mouseInContainerNew = false;
-//		}
-//		if ( mouseInContainerNew && !mouseInContainerOld ) {
-//			// ON MOUSE ENTER
-//			onMouseEnter();
-//		}
-//		else if ( !mouseInContainerNew && mouseInContainerOld ) {
-//			// ON MOUSE EXIT
-//			onMouseExit();
-//		}
-		
 	}
 	
 	protected abstract void onMouseEnter();
@@ -216,6 +192,7 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	protected abstract void onMouseReleased( MouseReleasedEvent e );
 	protected abstract void onMouseClicked( MouseClickedEvent e );
 	
+	
 	/**
 	 * must be called with p in the parents coordinate system
 	 */
@@ -224,6 +201,22 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 				this.getY() < p.y &&
 				this.getX() + this.getWidth() > p.x &&
 				this.getY() + this.getHeight() > p.y ) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	/**
+	 * checks whether a given point p is within the specified rect
+	 * @return true if p is in the rect; false otherwise
+	 */
+	public boolean isPointWithinRect( Point2d p, double rX, double rY, double rW, double rH ) {
+		if ( 	rX < p.x &&
+				rY < p.y &&
+				rX + rW > p.x &&
+				rY + rH > p.y ) {
 			return true;
 		}
 		else {
@@ -246,6 +239,7 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	}
 	
 	private Point2d drawme = new Point2d(0,0);
+	
 	protected void handleMouseEvent( AMouseEvent e ){
 		logger.debug("handleMouseClickedEvent() "+ e);
 		boolean childFound = false;
@@ -325,5 +319,23 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 
 	public void setY(double y) {
 		this.y = y;
+	}
+	
+	public double getAbsoluteX() {
+		if ( parent == null ) {
+			return 0;
+		}
+		else {
+			return parent.getAbsoluteX() + this.getX();
+		}
+	}
+	
+	public double getAbsoluteY() {
+		if ( parent == null ) {
+			return 0;
+		}
+		else {
+			return parent.getAbsoluteY() + this.getY();
+		}
 	}
 }
