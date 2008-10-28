@@ -31,7 +31,7 @@ public class WindowController extends AController {
 			break;
 		case IVidisEvent.RegisterCanvas:
 			frame.addGLCanvas( ((VidisEvent<GLCanvas>) event).getData() );
-			frame.layout();
+			frame.doLayout();
 		}
 
 	}
