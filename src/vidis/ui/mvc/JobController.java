@@ -11,22 +11,16 @@ import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.JobAppend;
 import vidis.ui.mvc.api.AController;
 
+/**
+ * a job controller that takes jobs and executes them
+ * @author Dominik
+ *
+ */
 public class JobController extends AController {
 	private static Logger logger = Logger.getLogger(JobController.class);
 	
 	private BlockingQueue<Runnable> jobs = new ArrayBlockingQueue<Runnable>( 150 );
-	private ThreadPoolExecutor executer = new ThreadPoolExecutor( 3, 3, 30, TimeUnit.SECONDS, jobs) {
-		@Override
-		protected void afterExecute(Runnable r, Throwable t) {
-			super.afterExecute(r, t);
-			logger.debug("finished job: " + r);
-		}
-		@Override
-		protected void beforeExecute(Thread t, Runnable r) {
-			super.beforeExecute(t, r);
-			logger.debug("starting job: " + r + " @ " + t);
-		}
-	};
+	private ThreadPoolExecutor executer = new ThreadPoolExecutor( 3, 3, 30, TimeUnit.SECONDS, jobs);
 	
 	public JobController() {
 		registerEvent( IVidisEvent.AppendJob );

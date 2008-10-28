@@ -1,14 +1,12 @@
 package vidis.ui.events;
 
-import org.apache.log4j.Logger;
+import vidis.ui.events.jobs.IJob;
 
 public class JobAppend implements IVidisEvent {
-	private static Logger logger = Logger.getLogger(JobAppend.class);
-	
 	private int id;
-	private Runnable job;
+	private IJob job;
 	
-	public JobAppend(int eventId, Runnable data) {
+	public JobAppend(int eventId, IJob data) {
 		this.id = eventId;
 		this.job = data;
 	}
@@ -17,7 +15,7 @@ public class JobAppend implements IVidisEvent {
 		return id;
 	}
 	
-	public Runnable getJob() {
+	public IJob getJob() {
 		return job;
 	}
 }

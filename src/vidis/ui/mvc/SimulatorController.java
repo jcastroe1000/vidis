@@ -14,7 +14,7 @@ import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.JobAppend;
 import vidis.ui.events.VidisEvent;
 import vidis.ui.events.jobs.ALayoutJob;
-import vidis.ui.events.jobs.ILayoutJob;
+import vidis.ui.events.jobs.IJob;
 import vidis.ui.model.graph.layouts.GraphLayout;
 import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
 import vidis.ui.model.graph.layouts.impl.GraphRandomLayout;
