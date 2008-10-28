@@ -108,10 +108,16 @@ public class SceneController extends AController implements GLEventListener {
 		switch ( event.getID() ) {
 		case IVidisEvent.InitScene:
 			initialize();
-			Dispatcher.forwardEvent( new VidisEvent<GLCanvas>( IVidisEvent.InitWindow, canvas ) );
-			
+
+			logger.info( "sending InitCamera Event" );
 			Dispatcher.forwardEvent( IVidisEvent.InitCamera );
+			
+			logger.info( "sending InitGui Event" );
 			Dispatcher.forwardEvent( IVidisEvent.InitGui );
+			
+			logger.info( "sending RegisterCanvas Event" );
+			Dispatcher.forwardEvent( new VidisEvent<GLCanvas>( IVidisEvent.RegisterCanvas, canvas ) );
+			
 			break;
 		case IVidisEvent.CameraRegister:
 			registerCamera( ((CameraEvent)event).getCamera() );

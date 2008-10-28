@@ -1,9 +1,11 @@
 package vidis.ui.vis;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Label;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -16,15 +18,18 @@ public class FrameContainer extends Frame {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger( FrameContainer.class );
 	
-	public FrameContainer(String title, GLCanvas glcanvas){
+	public FrameContainer(String title){
 		super(title);
 		
 		logger.debug( "Constructor()" );
 		
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 300);
-		setLayout( new BorderLayout() );
-		add( glcanvas, BorderLayout.CENTER );
+		
+		setLayout( new FlowLayout() );
+		
+		add( new Label( "loading..." ) );
+		
 		setVisible( true );	
 		this.addWindowListener( new WindowListener() {
 			public void windowActivated(WindowEvent e) {
@@ -51,6 +56,12 @@ public class FrameContainer extends Frame {
 			}
 			
 		});
+	}
+	
+	public void addGLCanvas( GLCanvas glCanvas ) {
+		removeAll();
+		setLayout( new BorderLayout() );
+		add( glCanvas, BorderLayout.CENTER );
 	}
 	
 	public void fullscreen(){

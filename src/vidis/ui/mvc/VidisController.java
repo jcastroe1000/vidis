@@ -26,10 +26,13 @@ public class VidisController extends AController {
 		logger.debug( "handleEvent( "+event+" )" );
 		switch ( event.getID() ) {
 		case IVidisEvent.Init:
+			logger.info( "sending InitWindow Event" );
+			Dispatcher.forwardEvent( VidisEvent.InitWindow );
+			logger.info( "sending InitScene Event" );
 			Dispatcher.forwardEvent( VidisEvent.InitScene );
+			logger.info( "sending InitSimulator Event" );
 			Dispatcher.forwardEvent( VidisEvent.InitSimulator );
 			break;
-		
 		}
 		forwardEventToChilds( event );
 	}

@@ -26,9 +26,12 @@ public class WindowController extends AController {
 		logger.debug( "handleEvent( "+event+" )" );
 		switch (event.getID()) {
 		case IVidisEvent.InitWindow:
-			frame = new FrameContainer( "VIDIS", ((VidisEvent<GLCanvas>) event).getData() );
+			frame = new FrameContainer( "VIDIS" );
 			frame.setVisible( true );
 			break;
+		case IVidisEvent.RegisterCanvas:
+			frame.addGLCanvas( ((VidisEvent<GLCanvas>) event).getData() );
+			frame.layout();
 		}
 
 	}

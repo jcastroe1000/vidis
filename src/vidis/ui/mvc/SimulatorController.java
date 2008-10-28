@@ -20,6 +20,7 @@ import vidis.ui.model.graph.layouts.impl.GraphRandomLayout;
 import vidis.ui.model.graph.layouts.impl.GraphSpiralLayout;
 import vidis.ui.mvc.api.AController;
 import vidis.ui.mvc.api.Dispatcher;
+import vidis.util.ResourceManager;
 
 public class SimulatorController extends AController {
 	private static Logger logger = Logger.getLogger( SimulatorController.class );
@@ -123,7 +124,7 @@ public class SimulatorController extends AController {
 		// start playing
 		//sim.getPlayer().play();
 //		Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGraphElectricSpring );
-		Dispatcher.forwardEvent( IVidisEvent.SimulatorLoad );
+		Dispatcher.forwardEvent( new VidisEvent<File>( IVidisEvent.SimulatorLoad, ResourceManager.getModuleFile("vectorClockAlgorithm", "simple.msim") ) );
 	}
 	
 	private List<SimNode> getNodes() {

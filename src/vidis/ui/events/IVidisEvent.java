@@ -19,6 +19,7 @@ public interface IVidisEvent {
 	public final int InitWindow = 10;
 	public final int InitGui = 11;
 	public final int InitCamera = 12;
+	public final int RegisterCanvas = 14;
 
 	
 	public final int CameraRegister = 20;
@@ -59,4 +60,5 @@ public interface IVidisEvent {
 	public final int LayoutApplySpiral = 5012;
 	
 	public final int AppendJob = 6000;
+	
 }

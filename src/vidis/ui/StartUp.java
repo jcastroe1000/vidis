@@ -15,10 +15,10 @@ public class StartUp {
 	public static void main(String[] args){
 //		BasicConfigurator.configure();
 		
-		logger.info( "starting up" );
-		logger.info( "java.library.path:" );
-		String[] l = System.getProperty( "java.library.path" ).split(";");
-		for (String s : l) logger.info( " * " + s );
+//		logger.info( "starting up" );
+//		logger.info( "java.library.path:" );
+//		String[] l = System.getProperty( "java.library.path" ).split(";");
+//		for (String s : l) logger.info( " * " + s );
 		
 		Dispatcher.registerController( new VidisController() );	
 		Dispatcher.forwardEvent( IVidisEvent.Init );
