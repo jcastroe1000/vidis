@@ -2,6 +2,7 @@ package vidis.ui.mvc;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -10,7 +11,11 @@ import vidis.data.sim.AComponent;
 import vidis.data.sim.SimNode;
 import vidis.sim.Simulator;
 import vidis.ui.events.IVidisEvent;
+import vidis.ui.events.JobAppend;
 import vidis.ui.events.VidisEvent;
+import vidis.ui.events.jobs.ALayoutJob;
+import vidis.ui.events.jobs.ILayoutJob;
+import vidis.ui.model.graph.layouts.GraphLayout;
 import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
 import vidis.ui.model.graph.layouts.impl.GraphRandomLayout;
 import vidis.ui.model.graph.layouts.impl.GraphSpiralLayout;
@@ -60,22 +65,39 @@ public class SimulatorController extends AController {
 			}
 			break;
 		case IVidisEvent.LayoutApplyGraphElectricSpring:
-			try {
-					GraphElectricSpringLayout.getInstance().apply(getNodes());
-				} catch (Exception e) {
-					logger.error(e);
+			Dispatcher.forwardEvent( new JobAppend (IVidisEvent.AppendJob, new ALayoutJob() {
+				public GraphLayout getLayout() {
+					return GraphElectricSpringLayout.getInstance();
 				}
+				public Collection<SimNode> getNodes() {
+					return SimulatorController.this.getNodes();
+				}
+			}));
 			break;
 		case IVidisEvent.LayoutApplyRandom:
 			try {
-					GraphRandomLayout.getInstance().apply(getNodes());
+				Dispatcher.forwardEvent( new JobAppend (IVidisEvent.AppendJob, new ALayoutJob() {
+					public GraphLayout getLayout() {
+						return GraphRandomLayout.getInstance();
+					}
+					public Collection<SimNode> getNodes() {
+						return SimulatorController.this.getNodes();
+					}
+				}));
 				} catch (Exception e) {
 					logger.error(e);
 				}
 			break;
 		case IVidisEvent.LayoutApplySpiral:
 			try {
-					GraphSpiralLayout.getInstance().apply(getNodes());
+				Dispatcher.forwardEvent( new JobAppend (IVidisEvent.AppendJob, new ALayoutJob() {
+					public GraphLayout getLayout() {
+						return GraphSpiralLayout.getInstance();
+					}
+					public Collection<SimNode> getNodes() {
+						return SimulatorController.this.getNodes();
+					}
+				}));
 				} catch (Exception e) {
 					logger.error(e);
 				}

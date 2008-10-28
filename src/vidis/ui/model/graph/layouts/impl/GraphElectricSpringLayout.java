@@ -44,7 +44,7 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 	private double electricalRepulsion = 0.2;
 	private double increment = 0.5; // just small increments
 	private double pingFactor = 0.4;
-	private long slowMotion = 3;
+	private long slowMotion = 2;
 	
 	private GraphElectricSpringLayout() {
 		setNodeDensity(0.1);
@@ -78,7 +78,6 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 	 * @param nodes the list of all nodes
 	 */
 	public void apply(Collection<SimNode> nodes) throws Exception {
-		Thread.sleep(2000);
 		List<SimNode> nodesList = new ArrayList<SimNode>(nodes);
 		
 		// init position vars if not available
@@ -139,7 +138,7 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 			logger.debug("iterations left: "+maximum_relaxations+", diff<?eps: " + diff + "<?"+0.1);
 			if(maximum_relaxations <= 0)
 				break;
-			if(delta_history.size() > 1 && diff < 0.1 && delta < 1)
+			if(delta_history.size() > 1 && diff < 0.05 && delta < 1)
 				break;
 			maximum_relaxations--;
 		}

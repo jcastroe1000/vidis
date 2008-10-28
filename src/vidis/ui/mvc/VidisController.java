@@ -17,6 +17,7 @@ public class VidisController extends AController {
 		addChildController( new WindowController() );
 		addChildController( new SceneController() );
 		addChildController( new SimulatorController() );
+		addChildController( new JobController() );
 		
 	}
 	
