@@ -121,7 +121,7 @@ public class NodeField extends BasicGuiContainer {
 			text = "[select a node]";
 		}
 		
-		Rectangle2D r = textRenderer.getBounds( text );
+		Rectangle2D r = textRenderer.getBounds( "Apd[]" );
 		float scale = 0.01f;
 		
 		double factor = 0.7;

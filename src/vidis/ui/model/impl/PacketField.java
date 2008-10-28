@@ -121,7 +121,7 @@ public class PacketField extends BasicGuiContainer {
 			text = "[select a packet]";
 		}
 		
-		Rectangle2D r = textRenderer.getBounds( text );
+		Rectangle2D r = textRenderer.getBounds( "Apd[]" );
 		float scale = 0.01f;
 		
 		double factor = 0.7;
