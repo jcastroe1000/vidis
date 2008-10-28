@@ -14,19 +14,17 @@ import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.JobAppend;
 import vidis.ui.events.VidisEvent;
 import vidis.ui.events.jobs.ALayoutJob;
-import vidis.ui.events.jobs.IJob;
 import vidis.ui.model.graph.layouts.GraphLayout;
 import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
 import vidis.ui.model.graph.layouts.impl.GraphRandomLayout;
 import vidis.ui.model.graph.layouts.impl.GraphSpiralLayout;
 import vidis.ui.mvc.api.AController;
 import vidis.ui.mvc.api.Dispatcher;
-import vidis.util.ResourceManager;
 
 public class SimulatorController extends AController {
 	private static Logger logger = Logger.getLogger( SimulatorController.class );
 
-	Simulator sim;
+	private Simulator sim = Simulator.getInstance();
 	
 	public SimulatorController() {
 		logger.debug( "Constructor()" );
@@ -36,9 +34,11 @@ public class SimulatorController extends AController {
 		registerEvent( IVidisEvent.SimulatorPlay, 
 						IVidisEvent.SimulatorLoad );
 		
-		registerEvent( IVidisEvent.LayoutApplyGraphElectricSpring, 
+		registerEvent(
+				IVidisEvent.LayoutApplyGraphElectricSpring, 
 				IVidisEvent.LayoutApplyRandom,
-				IVidisEvent.LayoutApplySpiral);
+				IVidisEvent.LayoutApplySpiral
+		);
 	}
 	
 	@Override
@@ -65,7 +65,7 @@ public class SimulatorController extends AController {
 			}
 			break;
 		case IVidisEvent.LayoutApplyGraphElectricSpring:
-			Dispatcher.forwardEvent( new JobAppend (IVidisEvent.AppendJob, new ALayoutJob() {
+			Dispatcher.forwardEvent( new JobAppend (new ALayoutJob() {
 				public GraphLayout getLayout() {
 					return GraphElectricSpringLayout.getInstance();
 				}
@@ -76,7 +76,7 @@ public class SimulatorController extends AController {
 			break;
 		case IVidisEvent.LayoutApplyRandom:
 			try {
-				Dispatcher.forwardEvent( new JobAppend (IVidisEvent.AppendJob, new ALayoutJob() {
+				Dispatcher.forwardEvent( new JobAppend (new ALayoutJob() {
 					public GraphLayout getLayout() {
 						return GraphRandomLayout.getInstance();
 					}
@@ -90,7 +90,7 @@ public class SimulatorController extends AController {
 			break;
 		case IVidisEvent.LayoutApplySpiral:
 			try {
-				Dispatcher.forwardEvent( new JobAppend (IVidisEvent.AppendJob, new ALayoutJob() {
+				Dispatcher.forwardEvent( new JobAppend (new ALayoutJob() {
 					public GraphLayout getLayout() {
 						return GraphSpiralLayout.getInstance();
 					}
@@ -106,9 +106,9 @@ public class SimulatorController extends AController {
 	}
 	
 	private void initialize() {
-		Simulator.createInstance();
-		sim = Simulator.getInstance();
-		sim.importSimFile( ResourceManager.getModuleFile("bullyElectionAlgorithm", "demo.msim") );
+//		Simulator.createInstance();
+//		sim = Simulator.getInstance();
+//		sim.importSimFile( ResourceManager.getModuleFile("bullyElectionAlgorithm", "demo.msim") );
 //		sim.importSimFile( ResourceManager.getModuleFile("demo", "demo.msim") );
 //		sim.importSimFile( ResourceManager.getModuleFile("demo", "simpledemo.msim") );
 //		sim.importSimFile( ResourceManager.getModuleFile("flooding", "flood1.msim") );
@@ -123,6 +123,7 @@ public class SimulatorController extends AController {
 		// start playing
 		//sim.getPlayer().play();
 //		Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGraphElectricSpring );
+		Dispatcher.forwardEvent( IVidisEvent.SimulatorLoad );
 	}
 	
 	private List<SimNode> getNodes() {

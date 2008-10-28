@@ -24,17 +24,17 @@ public class StringDisplay extends BasicGuiContainer {
 	
 	public StringDisplay( DefaultVariable v) {
 		this ( (AVariable)v );
-		System.err.println("defvar: " + v.getIdentifier());
+//		System.err.println("defvar: " + v.getIdentifier());
 	}
 	
 	public StringDisplay( MethodVariable v) {
 		this ( (AVariable)v );
-		System.err.println("methvar: " + v.getIdentifier());
+//		System.err.println("methvar: " + v.getIdentifier());
 	}
 	
 	public StringDisplay( FieldVariable v) {
 		this ( (AVariable)v );
-		System.err.println("fieldvar: " + v.getIdentifier());
+//		System.err.println("fieldvar: " + v.getIdentifier());
 	}
 	
 	@Override
