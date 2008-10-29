@@ -1,5 +1,6 @@
 package vidis.modules.vartest;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,13 +26,17 @@ public class VarTestNode extends AUserNode {
 
     }
     
+    private ColorType color = ColorType.BLACK;
+    
     @DisplayColor()
 	public ColorType getColor() {
-		return ColorType.values()[Math.min(ColorType.values().length-1,(int)(Math.random()*ColorType.values().length))];
+		return color;
 	}
 
     @Display(name = "int exCount")
     public int integerExecuteCount;
+    
+    private LinkedList<Integer> list;
 
     public VarTestNode() {
 	integerExecuteCount = 0;
@@ -41,15 +46,15 @@ public class VarTestNode extends AUserNode {
     @Override
     public void init() {
     	// TODO Auto-generated method stub
-    	
+    	list = new LinkedList<Integer>();
+    	for (int i = 0; i < 6; i++) {
+    	    list.add((int) (100 * Math.random()));
+    	}
     }
 
     @Display(name = "test LIST")
     public List<Integer> getSomeList() {
-	LinkedList<Integer> list = new LinkedList<Integer>();
-	for (int i = 0; i < 10 * Math.random(); i++) {
-	    list.add((int) (100 * Math.random()));
-	}
+	
 	return list;
     }
 
@@ -72,8 +77,9 @@ public class VarTestNode extends AUserNode {
     }
 
     public void execute() {
-	integerExecuteCount++;
-
+    	integerExecuteCount++;
+		color = ColorType.values()[integerExecuteCount%(ColorType.values().length)];
+		Collections.shuffle(list);
     }
 
 }

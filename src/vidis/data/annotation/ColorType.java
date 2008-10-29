@@ -52,6 +52,8 @@ public enum ColorType implements Comparable<ColorType> {
     YELLOW(Color.yellow),
     YELLOW_DARK(Color.yellow.darker()),
     YELLOW_LIGHT(Color.yellow.brighter()),
+    
+    TRANSPARENT(new Color(0,0,0,0)),
     /**
      * initially:
      * R G B A
