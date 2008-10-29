@@ -17,8 +17,6 @@ public class StringDisplay extends Label {
 
 	private AVariable var;
 	
-	private double height = 1.5;
-	
 	private StringDisplay ( AVariable v) {
 		this.var = v;
 		this.setText( "Label" );
@@ -40,15 +38,12 @@ public class StringDisplay extends Label {
 //		System.err.println("fieldvar: " + v.getIdentifier());
 	}
 	
-	@Override
-	public double getWantedHeight() {
-		return height;
-	}
+
 	
 	
 	@Override
 	public void renderContainer(GL gl) {
-		String txt = var.getIdentifier() + " -> " + var.getData().toString();
+		String txt = var.getIdentifier().replaceAll(var.getNameSpace(), "   ") + " -> " + var.getData().toString();
 		this.setText(txt);
 		super.renderContainer(gl);
 	}

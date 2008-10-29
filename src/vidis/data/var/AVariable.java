@@ -95,4 +95,14 @@ public abstract class AVariable implements IVariableChangeProducer {
 	 * @param data the new object
 	 */
 	public abstract void update(Object data);
+	
+	
+	public static String getNamespace( String id ) {
+		String ns = "";
+		int occ = id.indexOf('.');
+		if (occ >= 0) {
+			ns = id.substring(0, occ);
+		}
+		return ns;
+	}
 }

@@ -1,6 +1,5 @@
 package vidis.ui.model.structure;
 
-import java.awt.Rectangle;
 import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Set;
@@ -85,6 +84,10 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 		}
 		
 	}
+	public void removeAllChilds() {
+		this.childs.clear();
+	}
+	
 	public void removeChild(IGuiContainer c) {
 		c.setParent( null );
 		this.childs.remove( c );
@@ -106,7 +109,9 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 		gl.glPushMatrix();
 			try {
 				for ( IGuiContainer c : childs ) {
-					c.renderBox(gl, z + IGuiContainer.Z_OFFSET);
+					if ( c.isVisible() ) {
+						c.renderBox(gl, z + IGuiContainer.Z_OFFSET);
+					}
 				}
 			} catch (ConcurrentModificationException e) {
 				// well, may happen but is not that severe

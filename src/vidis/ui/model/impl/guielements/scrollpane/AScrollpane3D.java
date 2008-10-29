@@ -43,17 +43,39 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 			double maxHeight = AScrollpane3D.this.container.getHeight();
 			int myIndex = childs.indexOf( container );
 			int chosen = slider.getPosition();
-			if ( myIndex < chosen ) {
+			int realIndex = 0;
+			for ( IGuiContainer c : childs ) {
+				 if ( c.isVisible() ) {
+					 realIndex++;
+				 }
+				 if ( c.equals( container ) ) {
+					 break;
+				 }
+			}
+			int ch_count = chosen;
+			int realChosen = 0;
+			for ( int i = 0; i < childs.size(); i++ ) {
+				 if ( childs.get(i).isVisible() ) {
+					 ch_count--;
+				 }
+				 if ( ch_count == 0 ) {
+					 realChosen = i;
+					 break;
+				 }
+			}
+			if ( realIndex < chosen ) {
 				return Double.MAX_VALUE;
 			}
-			else if ( myIndex == chosen ) {
+			else if ( realIndex == realChosen ) {
 				return padding;
 			}
 			else {
 				double sum = padding;
-				for ( int i = chosen; i <= myIndex; i++ ) {
-					sum += childs.get(i).getHeight();
-					sum += padding;
+				for ( int i = realChosen; i <= myIndex; i++ ) {
+					if ( childs.get(i).isVisible() ) {
+						sum += childs.get(i).getHeight();
+						sum += padding;
+					}
 					if ( sum > maxHeight ) {
 						return Double.MAX_VALUE;
 					}
@@ -156,6 +178,13 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 		}
 	}
 	
+	@Override
+	public void removeAllChilds() {
+		childs.clear();
+		container.removeAllChilds();
+		fixSliderMinMax();
+	}
+	
 	private void fixSliderMinMax() {
 		if(getHeightOfElements() > 1) {
 			// calculate minimum (this is the first N elements that are displayable)
@@ -176,11 +205,11 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 //					max++;
 //				}
 //			}
-//			slider.setMin(min);
+			slider.setMin(1);
 //			slider.setMax(childs.size() - max);
 			
 			// theoriginal thingy
-			slider.setMax(childs.size());
+			slider.setMax( countElements() );
 		}
 		else
 			slider.setMax(1);
@@ -208,21 +237,31 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 		Iterator<IGuiContainer> it = container.getChilds().iterator();
 		while(it.hasNext()) {
 			IGuiContainer element = it.next();
-			size += element.getHeight();
+			if ( element.isVisible() ) {
+				size += element.getHeight();
+			}
 		}
 		return size;
 	}
 	
 	/**
 	 * counts the elements that this scrollpane has
+	 * element must hava a size bigger than zero to be counted
 	 * @return the count of elements
 	 */
 	public int countElements() {
-		return childs.size();
+		int s=0;
+		for ( IGuiContainer c : childs ) {
+			if ( c.isVisible() ) {
+				s++;
+			}
+		}
+		return s;
 	}
 	
 	@Override
 	public void renderContainer(GL gl) {
+		fixSliderMinMax();
 		super.renderContainer(gl);
 	}
 	

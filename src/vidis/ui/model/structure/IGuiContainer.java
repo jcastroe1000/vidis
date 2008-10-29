@@ -52,4 +52,6 @@ public interface IGuiContainer extends IVisObject, IEventHandler {
 	
 	public boolean isPointInContainer( Point2d p );
 	
+	public void setVisible( boolean v );
+	public boolean isVisible();
 }

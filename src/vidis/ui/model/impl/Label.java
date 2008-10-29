@@ -11,9 +11,16 @@ import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.events.MousePressedEvent;
 import vidis.ui.events.MouseReleasedEvent;
 
+/**
+ * represents a common known Label to write something onto the screen
+ * @author Christoph
+ *
+ */
 public class Label extends BasicGuiContainer {
 	private static Logger logger = Logger.getLogger(Label.class);
 
+	private double height = 1.5;
+	
 	float borderPercent = 0.00f;
 	
 	/**
@@ -37,39 +44,50 @@ public class Label extends BasicGuiContainer {
 	
 	@Override
 	public void renderContainer(GL gl) {
-		double h = getHeight();
-		double border = h * borderPercent;
-
-		requireTextRenderer();
-		
-		useColor( gl, getColor() );
-		
-		// text
-		Rectangle2D r = textRenderer.getBounds( "Apdq[]" );
-		float scale = 0.01f;
-		
-		double factor = 0.7;
-		double fontScaleHeight = (h * factor) / (r.getHeight() * scale);
-		double fontScale = fontScaleHeight;
-		
-		gl.glPushMatrix();
+		if ( isVisible() ) {
+			double h = getHeight();
+			double border = h * borderPercent;
+	
+			requireTextRenderer();
 			
-		//gl.glScaled( fontScale, fontScale, 1);
-			textRenderer.setColor( textColor );
-			textRenderer.begin3DRendering();
-			String s = this.text;
-			textRenderer.draw3D(  s, 
-					(float) ( border + border ), 
-					(float) (h / 2f - r.getHeight() * scale * fontScale / 2f),
-					0.01f,
-					(float) (scale * fontScale) );
-			textRenderer.end3DRendering();
-		gl.glPopMatrix();
-//		super.renderContainer(gl);
+			useColor( gl, getColor() );
+			
+			// text
+			Rectangle2D r = textRenderer.getBounds( "Apdq[]" );
+			float scale = 0.01f;
+			
+			double factor = 0.7;
+			double fontScaleHeight = (h * factor) / (r.getHeight() * scale);
+			double fontScale = fontScaleHeight;
+			
+			gl.glPushMatrix();
+				
+			//gl.glScaled( fontScale, fontScale, 1);
+				textRenderer.setColor( textColor );
+				textRenderer.begin3DRendering();
+				String s = this.text;
+				textRenderer.draw3D(  s, 
+						(float) ( border + border ), 
+						(float) (h / 2f - r.getHeight() * scale * fontScale / 2f),
+						0.01f,
+						(float) (scale * fontScale) );
+				textRenderer.end3DRendering();
+			gl.glPopMatrix();
+//			super.renderContainer(gl);
+		}
 	}
 	
 	private void useColor( GL gl, Color c ) {
 		gl.glColor4d(c.getRed()/255d, c.getGreen()/255d, c.getBlue()/255d, c.getAlpha()/255d);
+	}
+	
+	@Override
+	public double getWantedHeight() {
+		double height = 0d;
+		if ( isVisible() ) {
+			height = this.height;
+		}
+		return height;
 	}
 	
 	@Override
