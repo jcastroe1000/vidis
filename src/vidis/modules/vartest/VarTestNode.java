@@ -8,6 +8,7 @@ import vidis.data.annotation.ColorType;
 import vidis.data.annotation.ComponentColor;
 import vidis.data.annotation.ComponentInfo;
 import vidis.data.annotation.Display;
+import vidis.data.annotation.DisplayColor;
 import vidis.data.mod.IUserPacket;
 
 /**
@@ -23,6 +24,11 @@ public class VarTestNode extends AUserNode {
 	// TODO Auto-generated method stub
 
     }
+    
+    @DisplayColor()
+	public ColorType getColor() {
+		return ColorType.values()[Math.min(ColorType.values().length-1,(int)(Math.random()*ColorType.values().length))];
+	}
 
     @Display(name = "int exCount")
     public int integerExecuteCount;

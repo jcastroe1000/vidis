@@ -5,7 +5,7 @@ import vidis.data.annotation.ColorType;
 import vidis.data.annotation.ComponentColor;
 import vidis.data.annotation.Display;
 
-@ComponentColor(color = ColorType.LIGHT_GREY)
+@ComponentColor(color = ColorType.GREY_LIGHT)
 public class FloodPacket extends AUserPacket {
 	@Display(name = "sent by")
 	public FloodNode whoSentThis;

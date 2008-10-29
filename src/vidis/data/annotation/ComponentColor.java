@@ -5,6 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import javax.annotation.processing.SupportedOptions;
+
 /**
  * Die Annotation ComponentColor ist optional und beschreibt welchen
  * grundfarbton ein element haben soll.
@@ -13,7 +15,7 @@ import java.lang.annotation.Target;
  * 
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.METHOD, ElementType.FIELD, ElementType.TYPE })
+@Target(ElementType.TYPE)
 public @interface ComponentColor {
 	/**
 	 * Die farbe dieser Komponente

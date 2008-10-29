@@ -7,8 +7,12 @@ import java.lang.annotation.Target;
 
 
 /**
- * Die Annotation ComponentInfo sollte vor jedem User-Implementertem Link, jeder Node und jedem Packet stehen
+ * Die Annotation ComponentInfo kann vor jedem User-Implementertem Link, jeder Node und jedem Packet stehen
  * 
+ * Damit kann der Name einer Komponente festgelegt werden.
+ * 
+ * NOTIZ: der name kann anschliessend auch noch von einer funktion ueberschrieben werden!
+ * @see Display
  * @author Christoph
  *
  */

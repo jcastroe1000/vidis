@@ -1,14 +1,19 @@
 package vidis.modules.flooding;
 
+import java.awt.Color;
+
 import vidis.data.AUserNode;
+import vidis.data.annotation.ColorType;
+import vidis.data.annotation.ComponentColor;
 import vidis.data.annotation.ComponentInfo;
 import vidis.data.annotation.Display;
+import vidis.data.annotation.DisplayColor;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserPacket;
 
 @ComponentInfo(name = "FloodNode")
 public class FloodNode extends AUserNode {
-
+	
 	@Display(name = "flood sent")
 	public boolean floodSent = false;
 	

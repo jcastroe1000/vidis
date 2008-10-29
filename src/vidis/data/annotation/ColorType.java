@@ -14,56 +14,83 @@ import vidis.util.ColorGenerator;
  * @see ComponentColor
  */
 public enum ColorType implements Comparable<ColorType> {
-    // color1 color2
-    RED(Color.red, ColorGenerator.nearByColor(Color.red, ColorType.shift,
-					      ColorType.shift, ColorType.shift)),
-    GREEN(Color.green, ColorGenerator.nearByColor(Color.green, ColorType.shift,
-						  ColorType.shift,
-						  ColorType.shift)),
-    BLUE(Color.blue, ColorGenerator.nearByColor(Color.blue, ColorType.shift,
-						ColorType.shift,
-						ColorType.shift)),
-    YELLOW(Color.yellow, ColorGenerator.nearByColor(Color.yellow,
-						    ColorType.shift,
-						    ColorType.shift,
-						    ColorType.shift)),
-    WHITE(Color.white, ColorGenerator.nearByColor(Color.white, ColorType.shift,
-						  ColorType.shift,
-						  ColorType.shift)),
-    LIGHT_GREY(Color.lightGray, ColorGenerator.nearByColor(Color.lightGray,
-							   ColorType.shift,
-							   ColorType.shift,
-							   ColorType.shift)),
-    GREY(Color.gray, ColorGenerator.nearByColor(Color.gray, ColorType.shift,
-						ColorType.shift,
-						ColorType.shift)),
-    DARK_GREY(Color.darkGray, ColorGenerator.nearByColor(Color.darkGray,
-							 ColorType.shift,
-							 ColorType.shift,
-							 ColorType.shift)),
-    BLACK(Color.black, ColorGenerator.nearByColor(Color.black, ColorType.shift,
-						  ColorType.shift,
-						  ColorType.shift));
+	BLACK(Color.black),
+	WHITE(Color.white),
+	
+	GREY(Color.gray),
+	GREY_DARK(Color.darkGray),
+	GREY_LIGHT(Color.lightGray),
+	
+	BLUE(Color.blue),
+	BLUE_LIGHT(Color.blue.brighter()),
+	BLUE_DARK(Color.blue.darker()),
+	
+	CYAN(Color.cyan),
+	CYAN_LIGHT(Color.cyan.brighter()),
+	CYAN_DARK(Color.cyan.darker()),
+	
+	GREEN(Color.green),
+	GREEN_LIGHT(Color.green.brighter()),
+	GREEN_DARK(Color.green.darker()),
+    
+    MAGENTA(Color.magenta),
+    MAGENTA_DARK(Color.magenta.darker()),
+    MAGENTA_LIGHT(Color.magenta.brighter()),
+    
+    ORANGE(Color.orange),
+    ORANGE_DARK(Color.orange.darker()),
+    ORANGE_LIGHT(Color.orange.brighter()),
+    
+    PINK(Color.pink),
+    PINK_DARK(Color.pink.darker()),
+    PINK_LIGHT(Color.pink.brighter()),
+    
+    RED(Color.red),
+    RED_DARK(Color.red.darker()),
+    RED_LIGHT(Color.red.brighter()),
+    
+    YELLOW(Color.yellow),
+    YELLOW_DARK(Color.yellow.darker()),
+    YELLOW_LIGHT(Color.yellow.brighter()),
+    /**
+     * initially:
+     * R G B A
+     * 0 0 0 0
+     * 
+     * can be edited by using setColor(r,g,b) or setColor(r,g,b,a)
+     * 
+     * BUT NOTE THIS: only enum constants are allowed for enumerated 
+     * 	annotations, therefore you can only set one of the pre-set
+     * 	colors in combination with the annotation!
+     * @see ColorType.setColor
+     */
+    CUSTOM(0,0,0,0);
 
-    private Color3f color1;
-    private Color3f color2;
-    private static final int shift = 20;
+    private Color color;
 
-    private ColorType(Color c1, Color c2) {
-	color1 = new Color3f(c1);
-	color2 = new Color3f(c2);
+    private ColorType(int r, int g, int b, int a) {
+    	color = new Color(r, g, b, a);
     }
-
-    @Deprecated
-    public Color3f getColor3f() {
-	return color1;
+    private ColorType(int r, int g, int b) {
+    	color = new Color(r, g, b);
     }
-
-    public Color3f getColor1() {
-	return color1;
+    private ColorType(Color c1) {
+    	color = c1;
     }
+    public ColorType setColor(int r, int g, int b, int a) {
+		this.color = new Color(r, g, b, a);
+		return this;
+	}
+    public ColorType setColor(int r, int g, int b) {
+    	color = new Color(r, g, b);
+    	return this;
+    }
+    public ColorType setColor(Color color) {
+		this.color = color;
+		return this;
+	}
 
-    public Color3f getColor2() {
-	return color2;
+    public Color color() {
+    	return color;
     }
 }

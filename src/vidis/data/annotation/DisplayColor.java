@@ -7,8 +7,8 @@ import java.lang.annotation.Target;
 
 /**
  * This annotation determines the variable's color
- * A method MUST return a <code>java.awt.Color</code> instance
- * A field MUST be of the Type <code>java.awt.Color</code>
+ * A method MUST return a <code>vidis.data.annotation.ColorType</code> instance
+ * A field MUST be of the Type <code>vidis.data.annotation.ColorType</code>
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target( { ElementType.METHOD, ElementType.FIELD })

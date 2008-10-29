@@ -110,12 +110,13 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 		    } else if ( a.annotationType().equals( DisplayColor.class ) ) {
 				DisplayColor displayColor = (DisplayColor)a;
 				String id = COMMON_IDENTIFIERS.COLOR;
-				if (hasVariable(id)) {
-					// only update
+				try {
 					((MethodVariable)getVariableById(id)).update(getUserLogic(), m);
-			    } else {
-			    	registerVariable(new MethodVariable(id, getUserLogic(), m));
-			    }
+				} catch (ClassCastException e) {
+					registerVariable(new MethodVariable(id, getUserLogic(), m));
+				} catch (NullPointerException e) {
+					registerVariable(new MethodVariable(id, getUserLogic(), m));
+				}
 			} else {
 		    	//Logger.output(LogLevel.WARN, this, "unknown method-annotation "
 				//+ a + " encountered!");
@@ -179,12 +180,13 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 				else if ( a.annotationType().equals( DisplayColor.class ) ) {
 					DisplayColor displayColor = (DisplayColor)a;
 					String id = COMMON_IDENTIFIERS.COLOR;
-					if (hasVariable(id)) {
-						// only update
+					try {
 						((FieldVariable)getVariableById(id)).update(getUserLogic(), f);
-				    } else {
-				    	registerVariable(new FieldVariable(id, getUserLogic(), f));
-				    }
+					} catch (ClassCastException e) {
+						registerVariable(new FieldVariable(id, getUserLogic(), f));
+					} catch (NullPointerException e) {
+						registerVariable(new FieldVariable(id, getUserLogic(), f));
+					}
 				} else {
 //				    Logger.output(LogLevel.WARN, this,
 //						  "unknown field-annotation " + a

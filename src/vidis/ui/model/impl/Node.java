@@ -5,10 +5,10 @@ import java.awt.Color;
 import javax.media.opengl.GL;
 import javax.vecmath.Vector3d;
 
+import vidis.data.annotation.ColorType;
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.ui.config.Configuration;
-import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.model.impl.guielements.Mode;
@@ -256,7 +256,8 @@ public class Node extends ASimObject {
 		else {
 			Color c;
 			try {
-				c = (Color) getVariableById( AVariable.COMMON_IDENTIFIERS.COLOR ).getData();
+				ColorType ct = (ColorType) getVariableById( AVariable.COMMON_IDENTIFIERS.COLOR ).getData();
+				c = ct.color();
 			}
 			catch ( Exception e) {
 				c = Color.RED;

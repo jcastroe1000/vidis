@@ -10,7 +10,7 @@ import vidis.data.annotation.Display;
  * @author Dominik
  *
  */
-@ComponentColor(color = ColorType.LIGHT_GREY)
+@ComponentColor(color = ColorType.GREY_LIGHT)
 public class VectorClockAlgorithmPacket extends AUserPacket {
     private VectorTime time = new VectorTime();
     public VectorClockAlgorithmPacket(VectorTime time) {
