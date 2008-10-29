@@ -64,6 +64,7 @@ public class EchoNode extends AUserNode {
 			for ( IUserLink l : getConnectedLinks() ) {
 				send( new ExplorePacket(), l);
 			}
+			state = State.RED;
 		}
 	}
 
