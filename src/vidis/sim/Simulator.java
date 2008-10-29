@@ -27,6 +27,7 @@ import vidis.sim.xml.modules.XMLModuleReader;
 import vidis.sim.xml.modules.dataStructure.DocumentData;
 import vidis.sim.xml.modules.dataStructure.DocumentDataConnection;
 import vidis.sim.xml.modules.dataStructure.DocumentDataLink;
+import vidis.ui.model.graph.layouts.AGraphLayout;
 import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
 import vidis.ui.model.graph.layouts.impl.GraphRandomLayout;
 import vidis.ui.model.graph.layouts.impl.GraphSpiralLayout;
@@ -209,10 +210,7 @@ public class Simulator {
 
 		if (reader.getDocument().getNodeDensity() != null) {
 			double density = reader.getDocument().getNodeDensity();
-			GraphElectricSpringLayout.getInstance().setNodeDensity(density);
-			GraphRandomLayout.getInstance().setNodeDensity(density);
-			GraphSpiralLayout.getInstance().setNodeDensity(density);
-			
+			AGraphLayout.setNodeDensityToAll(density);
 		}
 
 		// get nodes

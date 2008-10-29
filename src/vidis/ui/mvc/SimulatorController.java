@@ -16,6 +16,7 @@ import vidis.ui.events.VidisEvent;
 import vidis.ui.events.jobs.ALayoutJob;
 import vidis.ui.model.graph.layouts.GraphLayout;
 import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
+import vidis.ui.model.graph.layouts.impl.GraphGridLayout;
 import vidis.ui.model.graph.layouts.impl.GraphRandomLayout;
 import vidis.ui.model.graph.layouts.impl.GraphSpiralLayout;
 import vidis.ui.mvc.api.AController;
@@ -38,7 +39,8 @@ public class SimulatorController extends AController {
 		registerEvent(
 				IVidisEvent.LayoutApplyGraphElectricSpring, 
 				IVidisEvent.LayoutApplyRandom,
-				IVidisEvent.LayoutApplySpiral
+				IVidisEvent.LayoutApplySpiral,
+				IVidisEvent.LayoutApplyGrid
 		);
 	}
 	
@@ -61,7 +63,8 @@ public class SimulatorController extends AController {
 						Simulator.getInstance().getPlayer().pause();
 					Simulator.getInstance().getPlayer().stop();
 					sim.importSimFile(f);
-					Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGraphElectricSpring );
+//					Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGraphElectricSpring );
+					Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGrid );
 				}
 			}
 			break;
@@ -94,6 +97,20 @@ public class SimulatorController extends AController {
 				Dispatcher.forwardEvent( new JobAppend (new ALayoutJob() {
 					public GraphLayout getLayout() {
 						return GraphSpiralLayout.getInstance();
+					}
+					public Collection<SimNode> getNodes() {
+						return SimulatorController.this.getNodes();
+					}
+				}));
+				} catch (Exception e) {
+					logger.error(e);
+				}
+			break;
+		case IVidisEvent.LayoutApplyGrid:
+			try {
+				Dispatcher.forwardEvent( new JobAppend (new ALayoutJob() {
+					public GraphLayout getLayout() {
+						return GraphGridLayout.getInstance();
 					}
 					public Collection<SimNode> getNodes() {
 						return SimulatorController.this.getNodes();

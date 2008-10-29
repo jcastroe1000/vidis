@@ -5,6 +5,10 @@ import javax.vecmath.Point3d;
 import vidis.data.sim.SimNode;
 import vidis.data.var.AVariable;
 import vidis.data.var.vars.DefaultVariable;
+import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
+import vidis.ui.model.graph.layouts.impl.GraphGridLayout;
+import vidis.ui.model.graph.layouts.impl.GraphRandomLayout;
+import vidis.ui.model.graph.layouts.impl.GraphSpiralLayout;
 
 /**
  * the abstract class for all graph layouts
@@ -12,6 +16,12 @@ import vidis.data.var.vars.DefaultVariable;
  *
  */
 public abstract class AGraphLayout implements GraphLayout {
+	public static void setNodeDensityToAll(double density) {
+		GraphElectricSpringLayout.getInstance().setNodeDensity(density);
+		GraphGridLayout.getInstance().setNodeDensity(density);
+		GraphRandomLayout.getInstance().setNodeDensity(density);
+		GraphSpiralLayout.getInstance().setNodeDensity(density);
+	}
 	/**
 	 * set the position for a node
 	 * @param node the node to set the position
