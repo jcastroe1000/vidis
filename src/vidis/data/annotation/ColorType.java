@@ -91,6 +91,10 @@ public enum ColorType implements Comparable<ColorType> {
 		this.color = color;
 		return this;
 	}
+    
+    public static ColorType valueOf(Color color) {
+    	return ColorType.CUSTOM.setColor(color);
+    }
 
     public Color color() {
     	return color;

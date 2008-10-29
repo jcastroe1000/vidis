@@ -18,7 +18,7 @@ import vidis.data.mod.IUserPacket;
  *
  */
 @ComponentInfo(name = "VarTestNode")
-@ComponentColor(color = ColorType.BLUE)
+@ComponentColor(color=ColorType.BLUE)
 public class VarTestNode extends AUserNode {
 
     public void receive(IUserPacket packet) {
