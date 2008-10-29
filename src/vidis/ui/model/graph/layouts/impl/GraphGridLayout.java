@@ -25,12 +25,12 @@ public class GraphGridLayout extends AGraphLayout {
 	private static Logger logger = Logger.getLogger( GraphGridLayout.class );
 	
 	private static GraphLayout instance = null;
-	private final double xMin = 1;
-	private final double xMax = 1;
-	private final double yMin = 1;
-	private final double yMax = 1;
-	private final double zMin = 1;
-	private final double zMax = 1;
+	private final double xMin = 2;
+	private final double xMax = 10;
+	private final double yMin = 0;
+	private final double yMax = 0;
+	private final double zMin = 2;
+	private final double zMax = 10;
 	private double x;
 	private double y;
 	private double z;

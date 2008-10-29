@@ -7,9 +7,11 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import sun.security.krb5.Config;
 import vidis.data.sim.AComponent;
 import vidis.data.sim.SimNode;
 import vidis.sim.Simulator;
+import vidis.ui.config.Configuration;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.JobAppend;
 import vidis.ui.events.VidisEvent;
@@ -63,6 +65,7 @@ public class SimulatorController extends AController {
 						Simulator.getInstance().getPlayer().pause();
 					Simulator.getInstance().getPlayer().stop();
 					sim.importSimFile(f);
+					Configuration.DETAIL_LEVEL = 0.0;
 //					Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGraphElectricSpring );
 					Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGrid );
 				}
