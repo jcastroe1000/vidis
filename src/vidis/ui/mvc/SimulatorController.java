@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import sun.security.krb5.Config;
 import vidis.data.sim.AComponent;
 import vidis.data.sim.SimNode;
 import vidis.sim.Simulator;
@@ -36,7 +35,8 @@ public class SimulatorController extends AController {
 		registerEvent( IVidisEvent.InitSimulator );
 		
 		registerEvent( IVidisEvent.SimulatorPlay, 
-						IVidisEvent.SimulatorLoad );
+						IVidisEvent.SimulatorLoad,
+						IVidisEvent.SimulatorReset );
 		
 		registerEvent(
 				IVidisEvent.LayoutApplyGraphElectricSpring, 
@@ -70,6 +70,9 @@ public class SimulatorController extends AController {
 					Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGrid );
 				}
 			}
+			break;
+		case IVidisEvent.SimulatorReset:
+			sim.reset();
 			break;
 		case IVidisEvent.LayoutApplyGraphElectricSpring:
 			Dispatcher.forwardEvent( new JobAppend (new ALayoutJob() {

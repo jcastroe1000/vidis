@@ -98,6 +98,8 @@ public class Simulator {
 
 	private SimulatorData data;
 	
+	private List<File> simFileHistory = new LinkedList<File>();
+	
 	private static boolean RUN_WITH_3D = true;
 
 	private Simulator() {
@@ -191,6 +193,7 @@ public class Simulator {
 	}
 
 	public void importSimFile(File file) {
+		simFileHistory.add(file);
 		XMLModuleReader reader = XMLModuleReader.parse(file);
 		init(reader);
 	}
@@ -204,7 +207,7 @@ public class Simulator {
 
 		if (data.components.size() > 0) {
 			data.killComponents();
-			reset();
+			reset_internal();
 			data = new SimulatorData();
 		}
 
@@ -368,7 +371,17 @@ public class Simulator {
 	}
 
 	public void reset() {
-		this.data.reset();
+		reset_internal();
+		if( simFileHistory.size() > 0) {
+			importSimFile( simFileHistory.get(simFileHistory.size()-1) );
+		} else {
+			// cannot reset
+			
+		}
+	}
+	
+	private void reset_internal() {
+		data.reset();
 	}
 
 	public List<AComponent> getSimulatorComponents() {

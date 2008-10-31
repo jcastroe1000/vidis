@@ -49,7 +49,7 @@ public interface IVidisEvent {
 
 	public final int SimulatorPlay = 5001;
 	public final int SimulatorLoad = 5002;
-	
+	public final int SimulatorReset = 5003;
 	
 	
 	public final int FPS 			= 10001;
@@ -61,5 +61,4 @@ public interface IVidisEvent {
 	public final int LayoutApplyGrid = 5013;
 	
 	public final int AppendJob = 6000;
-	
 }

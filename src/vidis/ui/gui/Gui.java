@@ -165,11 +165,24 @@ public class Gui extends AEventHandler {
 //		loadButton.setLayout(new PercentMarginLayout(-0.1,-0.1,-0.1,-0.1,-0.8,-0.8));
 		loadButton.setText("Load");
 		
+		Button resetButton = new Button() {
+			@Override
+			protected void onMouseClicked(MouseClickedEvent e) {
+				Dispatcher.forwardEvent( IVidisEvent.SimulatorReset );
+			}
+		};
+		resetButton.setLayout(new PercentMarginLayout(-0.4,0.9,-0.6,1,-0.1,-0.1));
+		resetButton.setName("RESET BUTTON");
+//		loadButton.setLayout(new PercentMarginLayout(-0.1,-0.1,-0.1,-0.1,-0.8,-0.8));
+		resetButton.setText("Reset");
+		
 		
 		mainContainer.addChild(playButton);
 		//container1.addChild(playButton);
 		mainContainer.addChild(loadButton);
 		//container2.addChild(loadButton);
+		mainContainer.addChild(resetButton);
+		
 		fps = new Label();
 		fps.setName("FPS");
 		fps.setLayout(new BasicMarginLayout(0, -1, -1, 0, 1.5, 6 ));
