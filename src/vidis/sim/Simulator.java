@@ -207,7 +207,7 @@ public class Simulator {
 
 		if (data.components.size() > 0) {
 			data.killComponents();
-			reset_internal();
+			reset();
 			data = new SimulatorData();
 		}
 
@@ -369,9 +369,8 @@ public class Simulator {
 			e.printStackTrace();
 		}
 	}
-
-	public void reset() {
-		reset_internal();
+	
+	public void reload() {
 		if( simFileHistory.size() > 0) {
 			importSimFile( simFileHistory.get(simFileHistory.size()-1) );
 		} else {
@@ -379,8 +378,8 @@ public class Simulator {
 			
 		}
 	}
-	
-	private void reset_internal() {
+
+	public void reset() {
 		data.reset();
 	}
 

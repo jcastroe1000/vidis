@@ -70,13 +70,9 @@ public class Player {
 	
 	public void playPause() {
 		if ( stopped ) {
-			stopped = false;
-		}
-		if ( paused ) {
-			paused = false;
-		}
-		else {
-			paused = true;
+			play();
+		} else {
+			pause();
 		}
 	}
 
@@ -89,6 +85,7 @@ public class Player {
 
 	public void stop() {
 		stopped = true;
+		paused = true;
 	}
 
 	public void kill() {

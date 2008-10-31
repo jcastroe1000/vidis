@@ -49,7 +49,7 @@ public interface IVidisEvent {
 
 	public final int SimulatorPlay = 5001;
 	public final int SimulatorLoad = 5002;
-	public final int SimulatorReset = 5003;
+	public final int SimulatorReload = 5003;
 	
 	
 	public final int FPS 			= 10001;

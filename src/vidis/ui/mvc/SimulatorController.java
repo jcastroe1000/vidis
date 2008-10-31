@@ -36,7 +36,7 @@ public class SimulatorController extends AController {
 		
 		registerEvent( IVidisEvent.SimulatorPlay, 
 						IVidisEvent.SimulatorLoad,
-						IVidisEvent.SimulatorReset );
+						IVidisEvent.SimulatorReload );
 		
 		registerEvent(
 				IVidisEvent.LayoutApplyGraphElectricSpring, 
@@ -71,8 +71,9 @@ public class SimulatorController extends AController {
 				}
 			}
 			break;
-		case IVidisEvent.SimulatorReset:
-			sim.reset();
+		case IVidisEvent.SimulatorReload:
+			sim.reload();
+			Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGrid );
 			break;
 		case IVidisEvent.LayoutApplyGraphElectricSpring:
 			Dispatcher.forwardEvent( new JobAppend (new ALayoutJob() {

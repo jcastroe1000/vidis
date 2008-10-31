@@ -168,7 +168,7 @@ public class Gui extends AEventHandler {
 		Button resetButton = new Button() {
 			@Override
 			protected void onMouseClicked(MouseClickedEvent e) {
-				Dispatcher.forwardEvent( IVidisEvent.SimulatorReset );
+				Dispatcher.forwardEvent( IVidisEvent.SimulatorReload );
 			}
 		};
 		resetButton.setLayout(new PercentMarginLayout(-0.4,0.9,-0.6,1,-0.1,-0.1));
