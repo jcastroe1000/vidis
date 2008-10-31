@@ -1,6 +1,7 @@
 package vidis.ui.model.structure;
 
 import java.awt.Color;
+import java.nio.FloatBuffer;
 import java.util.Set;
 
 import javax.media.opengl.GL;
@@ -17,16 +18,53 @@ import vidis.ui.events.AEventHandler;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.VidisEvent;
 import vidis.ui.mvc.api.Dispatcher;
+import vidis.util.ColorGenerator;
 import vidis.util.ResourceManager;
 
 import com.sun.opengl.util.j2d.TextRenderer;
 
+/**
+ * Abstract version of Node, Packet and Link
+ * @author Christoph
+ *
+ */
 public abstract class ASimObject extends AEventHandler implements ISimObject {
 
 	private static Logger logger = Logger.getLogger( ASimObject.class );
 	
 	protected static TextRenderer textRenderer;
 	
+	private Color color1 = Color.GREEN;
+	private Color color2 = Color.BLACK;
+	
+	public void setColor1( Color color ) {
+		this.color1 = color;
+	}
+	
+	public void setColor2( Color color ) {
+		this.color2 = color;
+	}
+	
+	public Color getColor1() {
+		return this.color1;
+	}
+	
+	public Color getColor2() {
+		return this.color2;
+	}
+	
+	public void setColor1( Color color, boolean autoColor2 ) {
+		setColor1( color );
+		// FIXME set right factors
+		setColor2( ColorGenerator.nearByColor(color, 12, 13, -14) );
+	}
+	
+	protected void useMaterial( GL gl ) {
+		float[] c1v = { color1.getRed() / 255f, color1.getGreen() / 255f, color1.getBlue() / 255f, color1.getAlpha() / 255f };
+		gl.glMaterialfv( GL.GL_FRONT, GL.GL_AMBIENT_AND_DIFFUSE, c1v, 0 );
+		float[] c2v = { color2.getRed() / 255f, color2.getGreen() / 255f, color2.getBlue() / 255f, color2.getAlpha() / 255f };
+		gl.glMaterialfv( GL.GL_BACK, GL.GL_AMBIENT_AND_DIFFUSE, c2v, 0 );
+	}
 	
 	private IVariableContainer obj;
 	protected IGuiContainer guiObj; 
@@ -43,7 +81,7 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 		return obj.getVariableIds();
 	}
 	
-	protected final void setColor( GL gl, Color c ) {
+	protected final void useColor( GL gl, Color c ) {
 		gl.glColor4d( c.getRed() / 255d, c.getGreen() / 255d, c.getBlue() / 255d, c.getAlpha() / 255d );
 	}
 	

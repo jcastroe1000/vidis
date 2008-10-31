@@ -179,7 +179,7 @@ public class Node extends ASimObject {
 		}
 	}
 	
-
+	private Color onMouseColor = Color.blue;
 	
 	public Node(IVariableContainer c) {
 		super(c);
@@ -207,7 +207,7 @@ public class Node extends ASimObject {
 			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
 	}
 	
-	private String text;
+	private String text = "";
 	private double lastDetailLevel = Configuration.DETAIL_LEVEL;
 	
 	public void renderObjectText( GL gl ) {
@@ -225,11 +225,31 @@ public class Node extends ASimObject {
 		gl.glPopMatrix();
 	}
 	
+	private Color getVariableColor() {
+		if ( mouse ) {
+			return onMouseColor;
+		}
+		else {
+			try {
+				ColorType ct = (ColorType) getVariableById( AVariable.COMMON_IDENTIFIERS.COLOR ).getData();
+				return ct.color();
+			}
+			catch ( Exception e) {
+				return Color.RED;
+			}
+		}
+	}
+	
 	@Override
 	public void renderObject(GL gl) {
+		Color c = getVariableColor();
+		useColor( gl, c );
+		setColor1( c, true );
+		useMaterial(gl);
 		if ( displayListId == -1 || lastDetailLevel  != Configuration.DETAIL_LEVEL ) {
 			preRenderObject(gl);
 		}
+		/*
 		text = "test";
 		try {
 			// add text
@@ -248,22 +268,14 @@ public class Node extends ASimObject {
 		} finally {
 //			drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
 		}
-		
+		*/
 		// draw node
-		if ( mouse ) {
-			gl.glColor3d( 0, 0, 1 );
+		/*
+
+			
 		}
-		else {
-			Color c;
-			try {
-				ColorType ct = (ColorType) getVariableById( AVariable.COMMON_IDENTIFIERS.COLOR ).getData();
-				c = ct.color();
-			}
-			catch ( Exception e) {
-				c = Color.RED;
-			}
-			setColor(gl, c);
-		}
+		*/
+		
 		gl.glCallList( displayListId );
 	}
 	

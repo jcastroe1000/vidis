@@ -70,9 +70,7 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 		gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_DONT_CARE);
 		gl.glEnable( GL.GL_DEPTH_TEST );
-//		gl.glEnable( GL.GL_LIGHTING );
-		gl.glEnable( GL.GL_LIGHT0 );
-//		gl.glEnable( GL.GL_LIGHT1 );
+		gl.glEnable( GL.GL_LIGHTING );
 		gl.glViewport((int)target.getX(), (int)target.getY(), (int)target.getWidth(), (int)target.getHeight());
 	
 		

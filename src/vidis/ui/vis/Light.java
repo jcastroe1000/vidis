@@ -33,21 +33,21 @@ public class Light {
      * GL_LIGHT1 Node
      * - directional light source
      * - no ambient
-     * - blue diffuse
+     * - white diffuse
      */
     public static void initNodeLight( GL gl ) {
     	logger.debug( "initNodeLight()" );
         float noAmbient[] = {0.0f, 0.0f, 0.0f, 1.0f};
-        float redDiffuse[] = {1.0f, 0.0f, 0.0f, 1.0f};
+        float whiteDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
         /*
          * Directional light source (w = 0)
          * The light source is at an infinite distance,
          * all the ray are parallel and have the direction (x, y, z).
          */
-        float position[] = {0.0f, 1.0f, 0.0f, 0.0f};
+        float position[] = {0.0f, 10.0f, 0.0f, 0.0f};
        
         gl.glLightfv(GL.GL_LIGHT1, GL.GL_AMBIENT, noAmbient, 0);
-        gl.glLightfv(GL.GL_LIGHT1, GL.GL_DIFFUSE, redDiffuse, 0);
+        gl.glLightfv(GL.GL_LIGHT1, GL.GL_DIFFUSE, whiteDiffuse, 0);
         gl.glLightfv(GL.GL_LIGHT1, GL.GL_POSITION, position, 0);
     }
    

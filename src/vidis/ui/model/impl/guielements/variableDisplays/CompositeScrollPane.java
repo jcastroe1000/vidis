@@ -13,7 +13,6 @@ import vidis.data.var.vars.FieldVariable;
 import vidis.data.var.vars.MethodVariable;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.guielements.scrollpane.AScrollpane3D;
-import vidis.ui.model.structure.IGuiContainer;
 
 public class CompositeScrollPane extends AScrollpane3D implements IVariableChangeListener {
 	private static Logger logger = Logger.getLogger(CompositeScrollPane.class);

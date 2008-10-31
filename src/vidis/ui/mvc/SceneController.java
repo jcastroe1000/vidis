@@ -328,26 +328,20 @@ public class SceneController extends AController implements GLEventListener {
 				gl.glPushMatrix();
 //					gl.glEnable( GL.GL_LIGHTING );
 					// nodes
-					gl.glDisable( GL.GL_LIGHT0 );
 					gl.glEnable( GL.GL_LIGHT1 );
-					gl.glDisable( GL.GL_LIGHT2 );
 					for ( IVisObject o : objects ) {
 						if ( (o instanceof Node) ) {
 							o.render(gl);
 						}
 					}
-					// packets
-					gl.glDisable( GL.GL_LIGHT0 );
 					gl.glDisable( GL.GL_LIGHT1 );
-					gl.glEnable( GL.GL_LIGHT2 );
+					// packets
 					for ( IVisObject o : objects ) {
 						if ( (o instanceof Packet) ) {
 							o.render(gl);
 						}
 					}
 					// links
-					gl.glEnable( GL.GL_LIGHT0 );
-					gl.glEnable( GL.GL_LIGHT1 );
 					gl.glEnable( GL.GL_BLEND );
 					gl.glEnable( GL.GL_CULL_FACE );
 					gl.glCullFace( GL.GL_BACK );
