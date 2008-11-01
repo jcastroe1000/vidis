@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project basedir="." default="launch-vis" name="Vidis">
+<project basedir="." default="compile" name="Vidis">
 	
 	<target name="prepare" depends="get-os-properties,set-system-properties,set-vidis-properties" description="Retrieve global required data.">
 		<echo message="OK" />
