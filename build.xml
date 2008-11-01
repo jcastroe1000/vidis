@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project basedir="." default="compile" name="Vidis">
+<project basedir="." default="launch-vis" name="Vidis">
 	
 	<target name="prepare" depends="get-os-properties,set-system-properties,set-vidis-properties" description="Retrieve global required data.">
 		<echo message="OK" />
@@ -149,7 +149,7 @@
     </target>
 	
 	<!-- target launch-vis -->
-	<target description="Startet VM und Vidis (JOGL)" name="launch-vis" depends="get-os-properties, set-vidis-properties, set-system-properties">
+	<target description="Startet VM und Vidis (JOGL)" name="launch-vis" depends="get-os-properties, set-vidis-properties, set-system-properties, compile">
 		<echo message="Starting ${vidis.main}" />
 		<echo message="Library path ${vidis.libraries_str}" />
 		<java classname="${vidis.main}" fork="true" classpathref="vidis.classpath">
