@@ -42,6 +42,11 @@ public class Label extends BasicGuiContainer {
 		setColor2( backColor.darker() );
 	}
 	
+	public Label( String text ) {
+		this();
+		setText( text );
+	}
+	
 	@Override
 	public void renderContainer(GL gl) {
 		if ( isVisible() ) {
