@@ -11,6 +11,7 @@ import javax.vecmath.Vector3d;
 
 import org.apache.log4j.Logger;
 
+import vidis.data.annotation.ColorType;
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.ui.config.Configuration;
@@ -40,7 +41,6 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	public void setColor1( Color color ) {
 		this.color1 = color;
 	}
-	
 	public void setColor2( Color color ) {
 		this.color2 = color;
 	}
@@ -52,11 +52,16 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	public Color getColor2() {
 		return this.color2;
 	}
-	
+	@Deprecated
 	public void setColor1( Color color, boolean autoColor2 ) {
 		setColor1( color );
 		// FIXME set right factors
 		setColor2( ColorGenerator.nearByColor(color, 12, 13, -14) );
+	}
+	
+	public void setColors( Color color1, Color color2 ) {
+		setColor1( color1 );
+		setColor2( color2 );
 	}
 	
 	protected void useMaterial( GL gl ) {
@@ -154,9 +159,51 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 		}
 	}
 	
+	
+	
 	public abstract void onMouseIn();
 	public abstract void onMouseOut();
 
 	public abstract double getHitRadius();
+	
+	protected abstract Color getDefaultColor();
+	protected abstract boolean isMouseOver();
+	
+	private Color getVariableColor() {
+		Color retVal;
+		try {
+			ColorType ct = (ColorType) getVariableById( AVariable.COMMON_IDENTIFIERS.COLOR ).getData();
+			retVal = ct.color();
+		}
+		catch ( Exception e) {
+			retVal = getDefaultColor();
+		}
+		return retVal;
+	}
+	
+	protected Color onMouseOverModifier( Color in ) {
+		// FIXME choose right parameters
+		//return ColorGenerator.nearByColor( in, 25, 2, 0 );
+		return in.darker().darker().darker();
+	}
+	
+	
+	protected Color getVariableColor1() {
+		Color retVal = getVariableColor();
+		if ( isMouseOver() ) {
+			retVal = onMouseOverModifier( retVal );
+		}
+		return retVal;
+	}
+	
+	protected Color getVariableColor2() {
+		Color retVal = getVariableColor();
+		// FIXME choose right paramters
+		retVal = ColorGenerator.nearByColor( retVal, 12, 13, -14 );
+		if ( isMouseOver() ) {
+			retVal = onMouseOverModifier( retVal );
+		}
+		return retVal;
+	}
 	
 }

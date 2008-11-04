@@ -1,5 +1,7 @@
 package vidis.ui.model.impl;
 
+import java.awt.Color;
+
 import javax.media.opengl.GL;
 import javax.vecmath.Point3d;
 import javax.vecmath.Tuple3d;
@@ -51,6 +53,9 @@ public class Packet extends ASimObject {
 	
 	@Override
 	public void renderObject( GL gl ) {
+		setColors( getVariableColor1(), getVariableColor2() );
+		useColor( gl, getVariableColor1() );
+		useMaterial(gl);
 		if ( displayListId == -1 ) {
 			preRenderObject( gl );
 		}
@@ -178,5 +183,15 @@ public class Packet extends ASimObject {
 		} catch (NullPointerException e) {
 			// may happen if not opened in the gui
 		}
+	}
+
+	@Override
+	protected Color getDefaultColor() {
+		return Color.green;
+	}
+
+	@Override
+	protected boolean isMouseOver() {
+		return mouse;
 	}
 }

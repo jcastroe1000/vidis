@@ -1,5 +1,6 @@
 package vidis.ui.model.impl;
 
+import java.awt.Color;
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -172,6 +173,9 @@ public class Link extends ASimObject {
 	
 	@Override
 	public void renderObject(GL gl) {
+		setColors( getVariableColor1(), getVariableColor2() );
+		useColor( gl, getVariableColor1() );
+		useMaterial(gl);
 		for( int i=0; i<9; i++) {
 			if(packets.size() > i) {
 				Packet p = packets.get(i);
@@ -564,5 +568,15 @@ public class Link extends ASimObject {
 	
 	public void kill() {
 		// FIXME does nothing up to now
+	}
+
+	@Override
+	protected Color getDefaultColor() {
+		return Color.blue;
+	}
+
+	@Override
+	protected boolean isMouseOver() {
+		return false;
 	}
 }

@@ -5,7 +5,6 @@ import java.awt.Color;
 import javax.media.opengl.GL;
 import javax.vecmath.Vector3d;
 
-import vidis.data.annotation.ColorType;
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.ui.config.Configuration;
@@ -179,11 +178,17 @@ public class Node extends ASimObject {
 		}
 	}
 	
-	private Color onMouseColor = Color.blue;
-	
 	public Node(IVariableContainer c) {
 		super(c);
 		guiObj = new NodeGuiElement();
+	}
+	
+	protected Color getDefaultColor() {
+		return Color.red;
+	}
+	
+	protected boolean isMouseOver() {
+		return mouse;
 	}
 	
 	private static int displayListId = -1;
@@ -225,26 +230,10 @@ public class Node extends ASimObject {
 		gl.glPopMatrix();
 	}
 	
-	private Color getVariableColor() {
-		if ( mouse ) {
-			return onMouseColor;
-		}
-		else {
-			try {
-				ColorType ct = (ColorType) getVariableById( AVariable.COMMON_IDENTIFIERS.COLOR ).getData();
-				return ct.color();
-			}
-			catch ( Exception e) {
-				return Color.RED;
-			}
-		}
-	}
-	
 	@Override
 	public void renderObject(GL gl) {
-		Color c = getVariableColor();
-		useColor( gl, c );
-		setColor1( c, true );
+		setColors( getVariableColor1(), getVariableColor2() );
+		useColor( gl, getVariableColor1() );
 		useMaterial(gl);
 		if ( displayListId == -1 || lastDetailLevel  != Configuration.DETAIL_LEVEL ) {
 			preRenderObject(gl);
