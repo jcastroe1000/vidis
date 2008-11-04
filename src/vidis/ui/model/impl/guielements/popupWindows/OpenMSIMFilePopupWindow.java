@@ -16,6 +16,7 @@ import vidis.ui.model.impl.Label;
 import vidis.ui.model.impl.PercentMarginLayout;
 import vidis.ui.model.impl.guielements.PopupWindow;
 import vidis.ui.model.impl.guielements.scrollpane.ScrollPane3D;
+import vidis.ui.model.structure.IGuiContainer;
 import vidis.util.ResourceManager;
 
 public class OpenMSIMFilePopupWindow extends PopupWindow {
@@ -24,6 +25,8 @@ public class OpenMSIMFilePopupWindow extends PopupWindow {
 	private Map<String, List<File>> moduleFiles = new HashMap<String, List<File>>();
 	
 	private ScrollPane3D moduleFilesScrollPane;
+	
+	private static IGuiContainer instance = null;
 	
 	private int counter = 0;
 	
@@ -80,5 +83,11 @@ public class OpenMSIMFilePopupWindow extends PopupWindow {
 		if(counter%10 == 0)
 			refresh();
 		counter++;
+	}
+
+	public static IGuiContainer getInstance() {
+		if(instance == null)
+			instance = new OpenMSIMFilePopupWindow();
+		return instance;
 	}
 }

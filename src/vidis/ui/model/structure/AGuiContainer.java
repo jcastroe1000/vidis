@@ -82,7 +82,6 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 		if (c.getLayout() != null ) {
 			c.getLayout().layout();
 		}
-		
 	}
 	public void removeAllChilds() {
 		this.childs.clear();
@@ -101,13 +100,13 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 		renderBox(gl, 0);
 	}
 	
-	
 	public void renderBox(GL gl, double z) {
 		gl.glPushMatrix();
 		gl.glTranslated(getX(), getY(), z);
 		renderContainer( gl );
 		gl.glPushMatrix();
 			try {
+				// render them
 				for ( IGuiContainer c : childs ) {
 					if ( c.isVisible() ) {
 						c.renderBox(gl, z + IGuiContainer.Z_OFFSET);
@@ -254,11 +253,15 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 		if ( isPointWithinRect( point, myX, myY, getWidth(), getHeight() ) ) {
 			// forward to childs
 			boolean childFound = false;
-			for ( IGuiContainer c : childs ) {
-				if ( c.isPointInContainer( point ) ) {
-					c.fireEvent( e );
-					childFound = true;
+			try {
+				for ( IGuiContainer c : childs ) {
+					if ( c.isPointInContainer( point ) ) {
+						c.fireEvent( e );
+						childFound = true;
+					}
 				}
+			} catch ( ConcurrentModificationException ex) {
+				logger.error("I introduced this bug with adding elements within onClick events.", ex);
 			}
 			
 			if ( ! childFound ) {

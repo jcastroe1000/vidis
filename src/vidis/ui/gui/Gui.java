@@ -28,6 +28,7 @@ import vidis.ui.model.impl.PacketField;
 import vidis.ui.model.impl.PercentMarginLayout;
 import vidis.ui.model.impl.TextField;
 import vidis.ui.model.impl.TextGuiContainer;
+import vidis.ui.model.impl.guielements.popupWindows.OpenMSIMFilePopupWindow;
 import vidis.ui.model.impl.guielements.scrollpane.AScrollpane3D;
 import vidis.ui.model.impl.guielements.scrollpane.ScrollPane3D;
 import vidis.ui.model.structure.IGuiContainer;
@@ -100,6 +101,7 @@ public class Gui extends AEventHandler {
 		slider.addChild(test);
 		
 		mainContainer.addChild(rightPanel);
+		
 	}
 	
 	private void initializeControls(){
@@ -134,29 +136,38 @@ public class Gui extends AEventHandler {
 		container2.setLayout(new PercentMarginLayout(-0.2,0.9,-0.8,1,-0.1,-0.1));
 		
 		Button loadButton = new Button() {
-			private File selectedFile = null;
-			JFileChooser x = new JFileChooser( new File( Configuration.MODULE_PATH )) {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void cancelSelection() {
-					super.cancelSelection();
-					selectedFile = null;
-				}
-				
-				@Override
-				public void approveSelection() {
-					super.approveSelection();
-					selectedFile = getSelectedFile();
-				}
-			};
+//			private File selectedFile = null;
+//			JFileChooser x = new JFileChooser( new File( Configuration.MODULE_PATH )) {
+//				private static final long serialVersionUID = 1L;
+//
+//				@Override
+//				public void cancelSelection() {
+//					super.cancelSelection();
+//					selectedFile = null;
+//				}
+//				
+//				@Override
+//				public void approveSelection() {
+//					super.approveSelection();
+//					selectedFile = getSelectedFile();
+//				}
+//			};
+//			@Override
+//			protected void onMouseClicked(MouseClickedEvent e) {
+//				x.setVisible( true );
+//				x.showOpenDialog( null );
+//				if ( selectedFile != null ) { 
+//					VidisEvent<File> ve = new VidisEvent<File>( IVidisEvent.SimulatorLoad, x.getSelectedFile() );
+//					Dispatcher.forwardEvent( ve );
+//				}
+//			}
 			@Override
 			protected void onMouseClicked(MouseClickedEvent e) {
-				x.setVisible( true );
-				x.showOpenDialog( null );
-				if ( selectedFile != null ) { 
-					VidisEvent<File> ve = new VidisEvent<File>( IVidisEvent.SimulatorLoad, x.getSelectedFile() );
-					Dispatcher.forwardEvent( ve );
+//				super.onMouseClicked(e);
+				try {
+					mainContainer.addChild( OpenMSIMFilePopupWindow.getInstance() );
+				} catch (Exception ex) {
+					logger.error( ex );
 				}
 			}
 		};
