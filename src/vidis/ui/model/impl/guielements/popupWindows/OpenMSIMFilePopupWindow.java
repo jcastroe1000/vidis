@@ -25,12 +25,12 @@ import vidis.util.ResourceManager;
 public class OpenMSIMFilePopupWindow extends PopupWindow {
 	private static Logger logger = Logger.getLogger(OpenMSIMFilePopupWindow.class);
 	
+	private static IGuiContainer instance = null;
+	
 	private Map<String, List<File>> moduleFiles = new HashMap<String, List<File>>();
 	private Map<String, File> moduleFilesMapGui = new HashMap<String, File>();
 	
 	private ScrollPane3D moduleFilesScrollPane;
-	
-	private static IGuiContainer instance = null;
 	
 	private int counter = 0;
 	
@@ -76,20 +76,17 @@ public class OpenMSIMFilePopupWindow extends PopupWindow {
 						// load msim file
 						Dispatcher.forwardEvent( new VidisEvent<File>(IVidisEvent.SimulatorLoad, file) );
 						// close this one
-						OpenMSIMFilePopupWindow.this.getParent().removeChild( OpenMSIMFilePopupWindow.this );
+						close();
 					}
 				};
+				tmp.setBounds(1, 1, 7, 18);
 				moduleFilesScrollPane.addChild( tmp );
 			}
 		}
 	}
 	
 	public OpenMSIMFilePopupWindow() {
-		super();
-		Label tmp = new Label("Please pick a module file You want to load");
-		tmp.setLayout( new PercentMarginLayout(0, -0.93, 0, 0, -0.07, -1) );
-		tmp.setTextColor( Color.LIGHT_GRAY );
-		addChild( tmp );
+		super("Please pick a module file You want to load");
 		
 		moduleFilesScrollPane = new ScrollPane3D();
 		moduleFilesScrollPane.setLayout( new PercentMarginLayout(0,0,0,-0.07,-0.93,-1) );

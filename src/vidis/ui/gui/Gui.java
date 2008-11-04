@@ -28,6 +28,7 @@ import vidis.ui.model.impl.PacketField;
 import vidis.ui.model.impl.PercentMarginLayout;
 import vidis.ui.model.impl.TextField;
 import vidis.ui.model.impl.TextGuiContainer;
+import vidis.ui.model.impl.guielements.popupWindows.ApplyLayoutPopupWindow;
 import vidis.ui.model.impl.guielements.popupWindows.OpenMSIMFilePopupWindow;
 import vidis.ui.model.impl.guielements.scrollpane.AScrollpane3D;
 import vidis.ui.model.impl.guielements.scrollpane.ScrollPane3D;
@@ -187,12 +188,25 @@ public class Gui extends AEventHandler {
 //		loadButton.setLayout(new PercentMarginLayout(-0.1,-0.1,-0.1,-0.1,-0.8,-0.8));
 		resetButton.setText("Reset");
 		
+		Button layoutButton = new Button() {
+			@Override
+			protected void onMouseClicked(MouseClickedEvent e) {
+//				Dispatcher.forwardEvent( IVidisEvent.SimulatorReload );
+				mainContainer.addChild(ApplyLayoutPopupWindow.getInstance());
+			}
+		};
+		layoutButton.setLayout(new PercentMarginLayout(-0.6,0.9,-0.6,1,-0.1,-0.1));
+		layoutButton.setName("LAYOUT BUTTON");
+//		loadButton.setLayout(new PercentMarginLayout(-0.1,-0.1,-0.1,-0.1,-0.8,-0.8));
+		layoutButton.setText("Layout");
+		
 		
 		mainContainer.addChild(playButton);
 		//container1.addChild(playButton);
 		mainContainer.addChild(loadButton);
 		//container2.addChild(loadButton);
 		mainContainer.addChild(resetButton);
+		mainContainer.addChild(layoutButton);
 		
 		fps = new Label();
 		fps.setName("FPS");
