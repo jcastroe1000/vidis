@@ -11,18 +11,22 @@ import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
+import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.VidisEvent;
 import vidis.ui.model.impl.Label;
 import vidis.ui.model.impl.PercentMarginLayout;
 import vidis.ui.model.impl.guielements.PopupWindow;
 import vidis.ui.model.impl.guielements.scrollpane.ScrollPane3D;
 import vidis.ui.model.structure.IGuiContainer;
+import vidis.ui.mvc.api.Dispatcher;
 import vidis.util.ResourceManager;
 
 public class OpenMSIMFilePopupWindow extends PopupWindow {
 	private static Logger logger = Logger.getLogger(OpenMSIMFilePopupWindow.class);
 	
 	private Map<String, List<File>> moduleFiles = new HashMap<String, List<File>>();
+	private Map<String, File> moduleFilesMapGui = new HashMap<String, File>();
 	
 	private ScrollPane3D moduleFilesScrollPane;
 	
@@ -31,8 +35,10 @@ public class OpenMSIMFilePopupWindow extends PopupWindow {
 	private int counter = 0;
 	
 	private void clean() {
+		counter = 0;
 		moduleFiles.clear();
 		moduleFilesScrollPane.removeAllChilds();
+		moduleFilesMapGui.clear();
 	}
 	
 	/**
@@ -54,9 +60,27 @@ public class OpenMSIMFilePopupWindow extends PopupWindow {
 			moduleFiles.get( module ).addAll(ResourceManager.getModuleFiles(module));
 			
 			// refresh gui
-			Label tmp = new Label( module );
-			tmp.setBounds(1, 1, 4, 18);
-			moduleFilesScrollPane.addChild( tmp );
+//			Label tmp = new Label( module );
+//			tmp.setBounds(1, 1, 4, 18);
+//			moduleFilesScrollPane.addChild( tmp );
+			
+			for(File moduleFile : moduleFiles.get( module )) {
+				String title = module + " -> " + moduleFile.getName();
+				moduleFilesMapGui.put(title, moduleFile);
+				Label tmp = new Label( title ) {
+					@Override
+					protected void onMouseClicked(MouseClickedEvent e) {
+						super.onMouseClicked(e);
+						// extract file
+						File file = moduleFilesMapGui.get( getText() );
+						// load msim file
+						Dispatcher.forwardEvent( new VidisEvent<File>(IVidisEvent.SimulatorLoad, file) );
+						// close this one
+						OpenMSIMFilePopupWindow.this.getParent().removeChild( OpenMSIMFilePopupWindow.this );
+					}
+				};
+				moduleFilesScrollPane.addChild( tmp );
+			}
 		}
 	}
 	
@@ -80,7 +104,7 @@ public class OpenMSIMFilePopupWindow extends PopupWindow {
 	@Override
 	public void renderContainer(GL gl) {
 		super.renderContainer(gl);
-		if(counter%10 == 0)
+		if(counter%100 == 0)
 			refresh();
 		counter++;
 	}
