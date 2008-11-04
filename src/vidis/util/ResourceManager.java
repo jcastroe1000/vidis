@@ -90,9 +90,13 @@ public class ResourceManager {
 		File moduleFolder = new File(modulesPath);
 		if(moduleFolder.exists()) {
 			if(moduleFolder.isDirectory()) {
-				for(File module : moduleFolder.listFiles()) {
-					if(module.isDirectory()) {
-						modules.add(module.getName());
+				if(! moduleFolder.getName().startsWith(".")) {
+					for(File module : moduleFolder.listFiles()) {
+						if(module.isDirectory()) {
+							if(! module.getName().startsWith(".")) {
+								modules.add(module.getName());
+							}
+						}
 					}
 				}
 			}
@@ -105,9 +109,11 @@ public class ResourceManager {
 		File moduleFolder = new File(modulesPath + pathSeperator + module);
 		if(moduleFolder.exists()) {
 			if(moduleFolder.isDirectory()) {
-				for(File moduleFile : moduleFolder.listFiles()) {
-					if(moduleFile.isFile() && moduleFile.canRead()) {
-						moduleFiles.add(moduleFile);
+				if(! moduleFolder.getName().startsWith(".")) {
+					for(File moduleFile : moduleFolder.listFiles()) {
+						if(moduleFile.isFile() && moduleFile.canRead() && moduleFile.getName().toLowerCase().endsWith(".msim") ) {
+							moduleFiles.add(moduleFile);
+						}
 					}
 				}
 			}
