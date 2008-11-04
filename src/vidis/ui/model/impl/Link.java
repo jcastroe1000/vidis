@@ -68,6 +68,23 @@ public class Link extends ASimObject {
 
 	// need to override render to get rid of the automatic positioning
 	@Override
+	public void renderText(GL gl) {
+		String text = "";
+		try {
+			// add text
+			text = getVariableById(AVariable.COMMON_IDENTIFIERS.NAME).getData().toString();
+		} catch (NullPointerException e) {
+			// may happen, but if, don't care
+			text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
+		} finally {
+			if( ! "".equals( text ) )
+				drawText(gl, text, 0, 0, 1, 0);
+		}
+		
+	}
+	
+	// need to override render to get rid of the automatic positioning
+	@Override
 	public void render(GL gl) {
 		try {
 			
@@ -85,17 +102,7 @@ public class Link extends ASimObject {
 				calculateControlPoints( knownPointA, knownPointB );
 				preRenderObject( gl );
 			}
-			String text = "";
-			try {
-				// add text
-				text = getVariableById(AVariable.COMMON_IDENTIFIERS.NAME).getData().toString();
-			} catch (NullPointerException e) {
-				// may happen, but if, don't care
-				text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
-			} finally {
-				if( ! "".equals( text ) )
-					drawText(gl, text, 0, 0, 1, 0);
-			}
+			
 			Link.useShaderProgram(gl);
 			renderObject(gl);
 			ShaderFactory.removeAllPrograms(gl);
@@ -562,7 +569,7 @@ public class Link extends ASimObject {
 
 	@Override
 	public void renderObjectText(GL gl) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 	

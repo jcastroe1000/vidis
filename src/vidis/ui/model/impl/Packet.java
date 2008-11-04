@@ -59,51 +59,7 @@ public class Packet extends ASimObject {
 		if ( displayListId == -1 ) {
 			preRenderObject( gl );
 		}
-		// add name
-		/*
-		if(getVariableIds().contains(AVariable.COMMON_IDENTIFIERS.NAME)) {
-			textRenderer.begin3DRendering();
-			textRenderer.draw3D( getVariableById(AVariable.COMMON_IDENTIFIERS.NAME).getData().toString(), 0f, 0f, 0f, 1f );
-			textRenderer.end3DRendering();
-		} else {
-			gl.glColor3d(1, 0, 1);
-			String text = "test inspector very long, inspector even longer";
-			gl.glPushMatrix();
-				gl.glScaled(0.001, 0.001, 0.001);
-				textRenderer.begin3DRendering();
-				textRenderer.draw3D( text, 0f, 0f, 0f, 1f );
-				textRenderer.end3DRendering();
-			gl.glPopMatrix();
-		}*/
-		String text = "";
-		try {
-			// add text
-			text = getVariableById(AVariable.COMMON_IDENTIFIERS.NAME).getData().toString();
-		} catch (NullPointerException e) {
-			// may happen, but if, don't care
-//			try {
-//				text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
-//			} catch (NullPointerException e2) {
-//				text = getVariableContainer().toString();
-//			}
-		} finally {
-			if(text.length() > 0) {
-				gl.glPushMatrix();
-					// rotate the whole thingy by 180 (future rotate by 180 AND camera angle)
-					//gl.glRotated(180, 0, 1, 0);
-					drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
-		//			// front
-		//			drawText(gl, text, 0, 0, 1, 0, new Vector3d(scale,0,scale*1));
-		//			// right
-		//			drawText(gl, text, 90, 0, 1, 0, new Vector3d(scale*-1,0,-scale));
-		//			// back
-		//			drawText(gl, text, 180, 0, 1, 0, new Vector3d(-scale,0,scale*-1));
-		//			// left
-		//			drawText(gl, text, 270, 0, 1, 0, new Vector3d(scale*1,0,scale));
-				gl.glPopMatrix();
-			}
-		}
-		
+		// pauses rotation
 		if(!Simulator.getInstance().getPlayer().isPaused() && getPosition() != null) {
 			// now rotate it
 			try {
@@ -114,14 +70,6 @@ public class Packet extends ASimObject {
 				logger.warn( e );
 			}
 		}
-		// set color
-		if ( mouse ) {
-			gl.glColor3d( 1, 1, 1 );
-		}
-		else {
-			gl.glColor3d( 1, 0, 1 );
-		}
-		
 		// now draw it
 		gl.glCallList( displayListId );
 	}
@@ -173,8 +121,34 @@ public class Packet extends ASimObject {
 
 	@Override
 	public void renderObjectText(GL gl) {
-		// TODO Auto-generated method stub
-		
+		String text = "";
+		try {
+			// add text
+			text = getVariableById(AVariable.COMMON_IDENTIFIERS.NAME).getData().toString();
+		} catch (NullPointerException e) {
+			// may happen, but if, don't care
+//			try {
+//				text = getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
+//			} catch (NullPointerException e2) {
+//				text = getVariableContainer().toString();
+//			}
+		} finally {
+			if(text.length() > 0) {
+				gl.glPushMatrix();
+					// rotate the whole thingy by 180 (future rotate by 180 AND camera angle)
+					//gl.glRotated(180, 0, 1, 0);
+					drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
+		//			// front
+		//			drawText(gl, text, 0, 0, 1, 0, new Vector3d(scale,0,scale*1));
+		//			// right
+		//			drawText(gl, text, 90, 0, 1, 0, new Vector3d(scale*-1,0,-scale));
+		//			// back
+		//			drawText(gl, text, 180, 0, 1, 0, new Vector3d(-scale,0,scale*-1));
+		//			// left
+		//			drawText(gl, text, 270, 0, 1, 0, new Vector3d(scale*1,0,scale));
+				gl.glPopMatrix();
+			}
+		}
 	}
 	
 	public void kill() {

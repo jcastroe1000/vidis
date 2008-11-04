@@ -55,4 +55,12 @@ public class Grid implements IVisObject {
 		// TODO Auto-generated method stub
 		
 	}
+	public boolean isTextRenderable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	public void renderText(GL gl) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -220,25 +220,16 @@ public class Node extends ASimObject {
 	}
 	
 	public void renderObjectText( GL gl, double scale ) {
-		gl.glPushMatrix();
-//			drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
-			gl.glScaled( scale, scale, scale );
-			textRenderer.begin3DRendering();
-			textRenderer.setUseVertexArrays(false);
-			textRenderer.draw3D( text, 0f, 0f, 0f, 1f );
-			textRenderer.end3DRendering();
-		gl.glPopMatrix();
-	}
-	
-	@Override
-	public void renderObject(GL gl) {
-		setColors( getVariableColor1(), getVariableColor2() );
-		useColor( gl, getVariableColor1() );
-		useMaterial(gl);
-		if ( displayListId == -1 || lastDetailLevel  != Configuration.DETAIL_LEVEL ) {
-			preRenderObject(gl);
-		}
-		/*
+//		gl.glPushMatrix();
+////			drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
+//			gl.glScaled( scale, scale, scale );
+//			textRenderer.begin3DRendering();
+//			textRenderer.setUseVertexArrays(false);
+//			textRenderer.draw3D( text, 0f, 0f, 0f, 1f );
+//			textRenderer.end3DRendering();
+//		gl.glPopMatrix();
+		
+		
 		text = "test";
 		try {
 			// add text
@@ -255,15 +246,19 @@ public class Node extends ASimObject {
 				}
 			}
 		} finally {
-//			drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
+			drawText(gl, text, 0, 0, 1, 0, new Vector3d(0, 0, 0));
 		}
-		*/
-		// draw node
-		/*
-
-			
+		
+	}
+	
+	@Override
+	public void renderObject(GL gl) {
+		setColors( getVariableColor1(), getVariableColor2() );
+		useColor( gl, getVariableColor1() );
+		useMaterial(gl);
+		if ( displayListId == -1 || lastDetailLevel  != Configuration.DETAIL_LEVEL ) {
+			preRenderObject(gl);
 		}
-		*/
 		
 		gl.glCallList( displayListId );
 	}

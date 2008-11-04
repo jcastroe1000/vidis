@@ -344,4 +344,8 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 			return parent.getAbsoluteY() + this.getY();
 		}
 	}
+	
+	public boolean isTextRenderable() {
+		return false;
+	}
 }

@@ -115,8 +115,7 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 		return new Point3d( (Tuple3d)getVariableById( AVariable.COMMON_IDENTIFIERS.POSITION ).getData() );
 	}
 	
-	public void render( GL gl ) {
-		gl.glPushMatrix();
+	private void translateToPosition( GL gl ) {
 		try {
 			if(obj.hasVariable(AVariable.COMMON_IDENTIFIERS.POSITION)) {
 				Tuple3d pos = (Tuple3d) obj.getVariableById( AVariable.COMMON_IDENTIFIERS.POSITION ).getData();
@@ -126,17 +125,29 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 		catch ( Exception e ) {
 			logger.error("error getting pos variable of "+obj +"  ", e);
 		}
-		try {
-			renderObject(gl);
-			
-			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_FILL );
-			renderObjectText(gl);
-			if(Configuration.DISPLAY_WIREFRAME)
-				gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
-		}
-		catch ( Exception e ) {
-			logger.error( null, e );
-		}
+	}
+	
+	public void render( GL gl ) {
+		gl.glPushMatrix();
+			translateToPosition( gl );
+			try {
+				renderObject(gl);
+			}
+			catch ( Exception e ) {
+				logger.error( null, e );
+			}
+		gl.glPopMatrix();
+	}
+	
+	public void renderText( GL gl ) {
+		gl.glPushMatrix();
+			translateToPosition( gl );
+			try {
+				renderObjectText(gl);
+			}
+			catch ( Exception e ) {
+				logger.error( null, e );
+			}
 		gl.glPopMatrix();
 	}
 	
@@ -204,6 +215,10 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 			retVal = onMouseOverModifier( retVal );
 		}
 		return retVal;
+	}
+	
+	public boolean isTextRenderable() {
+		return true;
 	}
 	
 }

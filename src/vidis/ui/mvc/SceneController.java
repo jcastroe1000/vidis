@@ -39,6 +39,7 @@ import vidis.ui.model.structure.IVisObject;
 import vidis.ui.mvc.api.AController;
 import vidis.ui.mvc.api.Dispatcher;
 import vidis.ui.vis.Light;
+import vidis.ui.vis.camera.DefaultCamera;
 import vidis.ui.vis.camera.GuiCamera;
 import vidis.ui.vis.camera.ICamera;
 import vidis.ui.vis.objects.Axis;
@@ -246,6 +247,11 @@ public class SceneController extends AController implements GLEventListener {
 			// MODEL
 			drawModel( gl, c);
 			
+			// TEXT
+			if ( c instanceof DefaultCamera ) {
+				draw3DText( gl );
+			}
+			
 		}
 		
 		long usedTime = System.currentTimeMillis() - startTime;
@@ -291,6 +297,16 @@ public class SceneController extends AController implements GLEventListener {
 		return 0;
 	}
 
+	private void draw3DText( GL gl ) {
+		gl.glPushMatrix();
+		for ( IVisObject o : objects ) {
+			if ( o.isTextRenderable() ) {
+				o.renderText( gl );
+			}
+		}
+		gl.glPopMatrix();
+	}
+	
 	private void drawModel( GL gl, ICamera c ) {
 		if ( c instanceof GuiCamera) {
 			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_FILL );
@@ -334,7 +350,6 @@ public class SceneController extends AController implements GLEventListener {
 							o.render(gl);
 						}
 					}
-					gl.glDisable( GL.GL_LIGHT1 );
 					// packets
 					for ( IVisObject o : objects ) {
 						if ( (o instanceof Packet) ) {

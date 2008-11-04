@@ -156,4 +156,9 @@ public class BasicGuiContainer extends AGuiContainer {
 		
 	}
 
+	public void renderText(GL gl) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
