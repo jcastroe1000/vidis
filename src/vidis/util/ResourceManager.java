@@ -85,8 +85,8 @@ public class ResourceManager {
 		return new ImageIcon(dataPath + pathSeperator + "resources" + pathSeperator + "images" + pathSeperator + icon);
 	}
 	
-	public static List<String> getModules() {
-		List<String> modules = new ArrayList<String>();
+	public static List<File> getModules() {
+		List<File> modules = new ArrayList<File>();
 		File moduleFolder = new File(modulesPath);
 		if(moduleFolder.exists()) {
 			if(moduleFolder.isDirectory()) {
@@ -94,7 +94,7 @@ public class ResourceManager {
 					for(File module : moduleFolder.listFiles()) {
 						if(module.isDirectory()) {
 							if(! module.getName().startsWith(".")) {
-								modules.add(module.getName());
+								modules.add(module);
 							}
 						}
 					}
@@ -104,9 +104,9 @@ public class ResourceManager {
 		return modules;
 	}
 	
-	public static List<File> getModuleFiles(String module) {
+	public static List<File> getModuleFiles(File module) {
 		List<File> moduleFiles = new ArrayList<File>();
-		File moduleFolder = new File(modulesPath + pathSeperator + module);
+		File moduleFolder = module;
 		if(moduleFolder.exists()) {
 			if(moduleFolder.isDirectory()) {
 				if(! moduleFolder.getName().startsWith(".")) {
