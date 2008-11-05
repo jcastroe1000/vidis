@@ -63,6 +63,7 @@ public class GraphRandomLayout extends AGraphLayout {
 			SimNode node = nodesList.get(i);
 			setPosition(node, random);
 		}
+		GraphCenterLayout.getInstance().apply(nodesList);
 	}
 
 	public void setNodeDensity(double density) {

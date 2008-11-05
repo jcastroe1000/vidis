@@ -134,5 +134,6 @@ public class GraphGridLayout extends AGraphLayout {
 			Point3d p = generatePoint();
 			setPosition(nodesList.get(i), p);
 		}
+		GraphCenterLayout.getInstance().apply(nodesList);
 	}
 }

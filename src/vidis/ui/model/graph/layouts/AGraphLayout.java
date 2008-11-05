@@ -6,7 +6,7 @@ import vidis.data.sim.SimNode;
 import vidis.data.var.AVariable;
 import vidis.data.var.vars.DefaultVariable;
 import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
-import vidis.ui.model.graph.layouts.impl.GraphGridLayout;
+import vidis.ui.model.graph.layouts.impl.GraphCenterLayout;
 import vidis.ui.model.graph.layouts.impl.GraphRandomLayout;
 import vidis.ui.model.graph.layouts.impl.GraphSpiralLayout;
 
@@ -18,7 +18,7 @@ import vidis.ui.model.graph.layouts.impl.GraphSpiralLayout;
 public abstract class AGraphLayout implements GraphLayout {
 	public static void setNodeDensityToAll(double density) {
 		GraphElectricSpringLayout.getInstance().setNodeDensity(density);
-		GraphGridLayout.getInstance().setNodeDensity(density);
+		GraphCenterLayout.getInstance().setNodeDensity(density);
 		GraphRandomLayout.getInstance().setNodeDensity(density);
 		GraphSpiralLayout.getInstance().setNodeDensity(density);
 	}

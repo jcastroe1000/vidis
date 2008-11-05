@@ -110,6 +110,8 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 			}
 		}
 		apply_electricSpringAlgorithm(graph, nodesList, vertices);
+		
+		GraphCenterLayout.getInstance().apply(nodesList);
 	}
 	
 	private void apply_electricSpringAlgorithm(WeightedGraph graph, List<SimNode> nodes, Map<SimNode, Vertex> vertices) {

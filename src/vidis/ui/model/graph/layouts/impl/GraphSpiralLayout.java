@@ -97,5 +97,6 @@ public class GraphSpiralLayout extends AGraphLayout {
 		for(int i=0; i<nodesList.size(); i++) {
 			setPosition(nodesList.get(i), nextNodePoint3d());
 		}
+		GraphCenterLayout.getInstance().apply(nodesList);
 	}
 }
