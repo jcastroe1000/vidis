@@ -30,6 +30,7 @@ import vidis.ui.model.impl.TextField;
 import vidis.ui.model.impl.TextGuiContainer;
 import vidis.ui.model.impl.guielements.popupWindows.ApplyLayoutPopupWindow;
 import vidis.ui.model.impl.guielements.popupWindows.OpenMSIMFilePopupWindow;
+import vidis.ui.model.impl.guielements.popupWindows.OpenMSIMFilePopupWindow_tree;
 import vidis.ui.model.impl.guielements.scrollpane.AScrollpane3D;
 import vidis.ui.model.impl.guielements.scrollpane.ScrollPane3D;
 import vidis.ui.model.structure.IGuiContainer;
@@ -166,8 +167,9 @@ public class Gui extends AEventHandler {
 			protected void onMouseClicked(MouseClickedEvent e) {
 //				super.onMouseClicked(e);
 				try {
-					mainContainer.addChild( OpenMSIMFilePopupWindow.getInstance() );
+					mainContainer.addChild( OpenMSIMFilePopupWindow_tree.getInstance() );
 				} catch (Exception ex) {
+					ex.printStackTrace();
 					logger.error( ex );
 				}
 			}

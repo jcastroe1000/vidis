@@ -29,11 +29,12 @@ public class OpenMSIMFilePopupWindow extends PopupWindow {
 	
 	private Map<String, List<File>> moduleFiles = new HashMap<String, List<File>>();
 	private Map<String, File> moduleFilesMapGui = new HashMap<String, File>();
+	private Map<String, Boolean> expandedModules = new HashMap<String, Boolean>();
 	
 	private ScrollPane3D moduleFilesScrollPane;
 	
 	private int counter = 0;
-	
+
 	private void clean() {
 		counter = 0;
 		moduleFiles.clear();
@@ -50,37 +51,49 @@ public class OpenMSIMFilePopupWindow extends PopupWindow {
 		clean();
 		
 		// then load list and refresh gui
-		List<String> modules = ResourceManager.getModules();
-		for(String module : modules) {
+		List<File> modules = ResourceManager.getModules();
+		for(File module : modules) {
 			// restore module's file list
 			if(! moduleFiles.containsKey( module )) {
-				moduleFiles.put(module, new LinkedList<File>());
+				moduleFiles.put(module.getName(), new LinkedList<File>());
 			}
 			// add files to the list
 			moduleFiles.get( module ).addAll(ResourceManager.getModuleFiles(module));
 			
 			// refresh gui
-//			Label tmp = new Label( module );
-//			tmp.setBounds(1, 1, 4, 18);
-//			moduleFilesScrollPane.addChild( tmp );
-			
-			for(File moduleFile : moduleFiles.get( module )) {
-				String title = module + " -> " + moduleFile.getName();
-				moduleFilesMapGui.put(title, moduleFile);
-				Label tmp = new Label( title ) {
-					@Override
-					protected void onMouseClicked(MouseClickedEvent e) {
-						super.onMouseClicked(e);
-						// extract file
-						File file = moduleFilesMapGui.get( getText() );
-						// load msim file
-						Dispatcher.forwardEvent( new VidisEvent<File>(IVidisEvent.SimulatorLoad, file) );
-						// close this one
-						close();
+			Label tmpX = new Label( module.getName() ) {
+				@Override
+				protected void onMouseClicked(MouseClickedEvent e) {
+//					super.onMouseClicked(e);
+					if(expandedModules.containsKey( getText() )) {
+						expandedModules.remove( getText() );
+					} else {
+						expandedModules.put(getText(), true);
 					}
-				};
-				tmp.setBounds(1, 1, 7, 18);
-				moduleFilesScrollPane.addChild( tmp );
+				}
+			};
+			tmpX.setBounds(1, 1, 4, 18);
+			moduleFilesScrollPane.addChild( tmpX );
+			
+			if(expandedModules.containsKey( module )) {
+				for(File moduleFile : moduleFiles.get( module )) {
+					String title = "     " + moduleFile.getName();
+					moduleFilesMapGui.put(title, moduleFile);
+					Label tmp = new Label( title ) {
+						@Override
+						protected void onMouseClicked(MouseClickedEvent e) {
+							super.onMouseClicked(e);
+							// extract file
+							File file = moduleFilesMapGui.get( getText() );
+							// load msim file
+							Dispatcher.forwardEvent( new VidisEvent<File>(IVidisEvent.SimulatorLoad, file) );
+							// close this one
+							close();
+						}
+					};
+					tmp.setBounds(1, 1, 7, 18);
+					moduleFilesScrollPane.addChild( tmp );
+				}
 			}
 		}
 	}
