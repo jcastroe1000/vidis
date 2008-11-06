@@ -108,11 +108,11 @@ public class ASlider3D extends BasicGuiContainer {
 			}
 			@Override
 			public double getHeight() {
-				return getParent().getWidth();
+				return ASlider3D.this.getWidth();
 			}
 			@Override
 			public double getWidth() {
-				return getParent().getWidth();
+				return ASlider3D.this.getWidth();
 			}
 			@Override
 			protected void handleResize() {
@@ -187,7 +187,11 @@ public class ASlider3D extends BasicGuiContainer {
 		this.addChild( middle );
 		this.addChild( bottom );
 		
-		positionMiddle();
+//		setPosition(getMin());
+		
+//		positionMiddle();
+//		
+//		scrollUp();
 	}
 	
 	private void positionMiddle() {
@@ -272,19 +276,18 @@ public class ASlider3D extends BasicGuiContainer {
 	@Override
 	public void renderContainer(GL gl) {
 //		super.renderContainer(gl);
+		setPosition(getPosition());
 	}
 	
 	@Override
 	protected void onMouseClicked(MouseClickedEvent e) {
-		if(e.guiCoordsRelative != null) {
-			Point2d coords = e.guiCoordsRelative;
-			double c_y = coords.y;
-			double m_y = getHeight();
-			if(m_y > 0) {
-				double p_y = 1d - c_y/m_y;
-				int a_y = (int) Math.round(getMin() + getMax() * p_y);
-				setPosition(a_y);
-			}
+		Point2d coords = new Point2d(e.guiCoords.x - getParent().getAbsoluteX(), e.guiCoords.y - getParent().getAbsoluteY());
+		double c_y = coords.y;
+		double m_y = getHeight();
+		if(m_y > 0) {
+			double p_y = 1d - c_y/m_y;
+			int a_y = (int) Math.round(getMin() + getMax() * p_y);
+			setPosition(a_y);
 		}
 		super.onMouseClicked(e);
 	}
