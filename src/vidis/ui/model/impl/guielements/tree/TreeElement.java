@@ -53,7 +53,13 @@ public class TreeElement<T> extends BasicGuiContainer {
 		Label my = new Label( asdf ) {
 			@Override
 			protected void onMouseClicked(MouseClickedEvent e) {
+				if(isExpanded()) {
+					collapse();
+				} else {
+					expand();
+				}
 				root.clickedOn(TreeElement.this);
+				root.refresh();
 			}
 		};
 		my.setBounds(1, 1, 7, 18);

@@ -11,6 +11,7 @@ public abstract class Tree<T> extends TreeElement<T> {
 		super(name, obj);
 		root = this;
 		scrollpane = new ScrollPane3D();
+		setOpaque(false);
 		expand();
 	}
 	private ScrollPane3D scrollpane;

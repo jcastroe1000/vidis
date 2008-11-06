@@ -26,20 +26,24 @@ public class OpenMSIMFilePopupWindow_tree extends PopupWindow {
 		Tree<File> tree = new Tree<File>("Modules", null) {
 			@Override
 			protected void clickedOn(TreeElement<File> element) {
-				logger.info("CLICKED ON: " + element.getObject().getName() );
-				if(element.getObject().isDirectory()) {
-					// module directory, expand/close
-					if(element.isExpanded())
-						element.collapse();
-					else
-						element.expand();
-					// refresh display
-					refresh();
+				if( element.getObject() != null) {
+					logger.info("CLICKED ON: " + element.getObject().getName() );
+					if(element.getObject().isDirectory()) {
+	//					// module directory, expand/close
+	//					if(element.isExpanded())
+	//						element.collapse();
+	//					else
+	//						element.expand();
+						// refresh display
+	//					refresh();
+					} else {
+						// module file, open
+						Dispatcher.forwardEvent(new VidisEvent<File>(IVidisEvent.SimulatorLoad, element.getObject()));
+						// close this popup
+						close();
+					}
 				} else {
-					// module file, open
-					Dispatcher.forwardEvent(new VidisEvent<File>(IVidisEvent.SimulatorLoad, element.getObject()));
-					// close this popup
-					close();
+					// clicked on root element
 				}
 			}
 		};
@@ -53,8 +57,8 @@ public class OpenMSIMFilePopupWindow_tree extends PopupWindow {
 			}
 		}
 		tree.refresh();
-		tree.setLayout( new PercentMarginLayout(0,0,0,0,-1,-1));
-		tree.getScrollPane().setLayout(new PercentMarginLayout(0,0,0,-0.07,-0.93,-1));
+		tree.setLayout( new PercentMarginLayout(0.001,0.001,0.001,0.001,-1,-1));
+		tree.getScrollPane().setLayout(new PercentMarginLayout(0.001,0.001,0.001,-0.07,-0.93,-1));
 		this.addChild( tree.getScrollPane() );
 	}
 }
