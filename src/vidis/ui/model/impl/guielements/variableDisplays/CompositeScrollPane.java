@@ -32,16 +32,7 @@ public class CompositeScrollPane extends AScrollpane3D implements IVariableChang
 
 	private BasicGuiContainer createNewDisplay( String id ) {
 		AVariable var = this.vcontainer.getVariableById( id );
-		if ( var.getVariableType().equals( FieldVariable.class ) ) {
-			return new StringDisplay( (FieldVariable)var );
-		}
-		else if (var.getVariableType().equals( DefaultVariable.class )) {
-			return new StringDisplay( (DefaultVariable) var );
-		}
-		else if ( var.getVariableType().equals( MethodVariable.class ) ) {
-			return new StringDisplay( (MethodVariable) var );
-		}
-		return new StringDisplay( new DefaultVariable("fuck", "you") );
+		return DisplayRegistry.createDisplay( var );
 	}
 	
 	public void variableAdded(String id) {

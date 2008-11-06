@@ -9,7 +9,7 @@ import vidis.ui.events.IEventHandler;
 
 public interface IGuiContainer extends IVisObject, IEventHandler {
 
-	public final double Z_OFFSET = 0.02;
+	public final double Z_OFFSET = 0.0002;
 	
 	public void render(GL gl);
 	public void renderBox(GL gl, double d);

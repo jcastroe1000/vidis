@@ -10,12 +10,13 @@ import vidis.data.var.AVariable;
 import vidis.data.var.vars.DefaultVariable;
 import vidis.data.var.vars.FieldVariable;
 import vidis.data.var.vars.MethodVariable;
-import vidis.ui.model.impl.Label;
 
-public class StringDisplay extends Label {
+public class StringDisplay extends Display {
 	private static Logger logger = Logger.getLogger(StringDisplay.class);
 
-	private AVariable var;
+	public StringDisplay() {
+		// dummy constructor for registering
+	}
 	
 	private StringDisplay ( AVariable v) {
 		this.var = v;
@@ -23,7 +24,7 @@ public class StringDisplay extends Label {
 		this.setTextColor( Color.red );
 	}
 	
-	public StringDisplay( DefaultVariable v) {
+	private StringDisplay( DefaultVariable v) {
 		this ( (AVariable)v );
 //		System.err.println("defvar: " + v.getIdentifier());
 	}
@@ -38,14 +39,19 @@ public class StringDisplay extends Label {
 //		System.err.println("fieldvar: " + v.getIdentifier());
 	}
 	
-
+	@Override
+	public Display newInstance( AVariable var ) {
+		return new StringDisplay( var );
+	}
 	
 	
 	@Override
 	public void renderContainer(GL gl) {
-		String txt = var.getIdentifier().replaceAll(var.getNameSpace(), "   ") + " -> " + var.getData().toString();
-		this.setText(txt);
-		super.renderContainer(gl);
+		if ( var != null ) {
+			String txt = var.getIdentifier().replaceAll(var.getNameSpace()+".", "   ") + " -> " + var.getData().toString();
+			this.setText(txt);
+			super.renderContainer(gl);
+		}
 	}
 //	@Override
 //	public void renderContainer(GL gl) {
@@ -63,4 +69,5 @@ public class StringDisplay extends Label {
 //		gl.glPopMatrix();
 //		//super.renderContainer(gl);
 //	}
+
 }
