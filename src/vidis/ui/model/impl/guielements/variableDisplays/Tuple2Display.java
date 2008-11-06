@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.media.opengl.GL;
 import javax.vecmath.Tuple2d;
 import javax.vecmath.Tuple2f;
+import javax.vecmath.Tuple2i;
 import javax.vecmath.Tuple3d;
 import javax.vecmath.Tuple3f;
 
@@ -12,16 +13,16 @@ import org.apache.log4j.Logger;
 
 import vidis.data.var.AVariable;
 
-public class TupleDisplay extends Display {
-	private static Logger logger = Logger.getLogger(TupleDisplay.class);
+public class Tuple2Display extends Display {
+	private static Logger logger = Logger.getLogger(Tuple2Display.class);
 
 	private AVariable var;
 	
-	public TupleDisplay() {
+	public Tuple2Display() {
 		
 	}
 	
-	private TupleDisplay ( AVariable v ) {
+	private Tuple2Display ( AVariable v ) {
 		this.var = v;
 		this.setText( "Label" );
 		this.setTextColor( Color.red );
@@ -29,24 +30,18 @@ public class TupleDisplay extends Display {
 	
 	@Override
 	public Display newInstance( AVariable var ) {
-		return new TupleDisplay( var );
+		return new Tuple2Display( var );
 	}
 	
 	private String convertUnknownTupleToString() {
 		Object tuple = var.getData();
 		if ( tuple instanceof Tuple2d ) {
 			return ((Tuple2d)tuple).toString();
-		}
-		else if ( tuple instanceof Tuple3d ) {
-			return ((Tuple3d)tuple).toString();
-		}
-		else if ( tuple instanceof Tuple2f ) {
+		} else if ( tuple instanceof Tuple2f ) {
 			return ((Tuple2f)tuple).toString();
-		}
-		else if ( tuple instanceof Tuple3f ) {
-			return ((Tuple3f)tuple).toString();
-		}
-		else {
+		} else if ( tuple instanceof Tuple2i ) {
+			return ((Tuple2i)tuple).toString();
+		} else {
 			return "ERROR";
 		}
 	}

@@ -7,18 +7,15 @@ import javax.media.opengl.GL;
 import org.apache.log4j.Logger;
 
 import vidis.data.var.AVariable;
-import vidis.data.var.vars.DefaultVariable;
-import vidis.data.var.vars.FieldVariable;
-import vidis.data.var.vars.MethodVariable;
 
-public class StringDisplay extends Display {
-	private static Logger logger = Logger.getLogger(StringDisplay.class);
+public class PrimitiveByteDisplay extends Display {
+	private static Logger logger = Logger.getLogger(PrimitiveByteDisplay.class);
 
-	public StringDisplay() {
+	public PrimitiveByteDisplay() {
 		// dummy constructor for registering
 	}
 	
-	private StringDisplay ( AVariable v) {
+	private PrimitiveByteDisplay ( AVariable v) {
 		this.var = v;
 		this.setText( "Label" );
 		this.setTextColor( Color.red );
@@ -26,14 +23,21 @@ public class StringDisplay extends Display {
 	
 	@Override
 	public Display newInstance( AVariable var ) {
-		return new StringDisplay( var );
+		return new PrimitiveByteDisplay( var );
 	}
 	
 	
 	@Override
 	public void renderContainer(GL gl) {
 		if ( var != null ) {
-			String txt = var.getIdentifier().replaceAll(var.getNameSpace()+".", "   ") + " -> " + var.getData().toString();
+			String txt = "   " + AVariable.getIdentifierWithoutNamespace(var.getIdentifier()) + " -> ";
+			Object num = var.getData();
+			if (Byte.class.isAssignableFrom(num.getClass()) || num.getClass().equals(Byte.TYPE)) {
+				txt += ((Byte)num);
+			} else {
+				txt += "NAN";
+			}
+			//var.getData().toString();
 			this.setText(txt);
 			super.renderContainer(gl);
 		}

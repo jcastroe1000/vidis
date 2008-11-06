@@ -6,8 +6,11 @@ import java.util.Map;
 
 import javax.vecmath.Tuple2d;
 import javax.vecmath.Tuple2f;
+import javax.vecmath.Tuple2i;
+import javax.vecmath.Tuple3b;
 import javax.vecmath.Tuple3d;
 import javax.vecmath.Tuple3f;
+import javax.vecmath.Tuple3i;
 
 import org.apache.log4j.Logger;
 
@@ -21,11 +24,9 @@ import vidis.data.var.AVariable;
 public class DisplayRegistry {
 	private static Logger logger = Logger.getLogger(DisplayRegistry.class);
 
-	@SuppressWarnings( "unchecked" )
-	private static Map<Class, Display> knownTypes = new HashMap<Class, Display>();
+	private static Map<Class<?>, Display> knownTypes = new HashMap<Class<?>, Display>();
 	
-	@SuppressWarnings( "unchecked" )
-	public static void registerDisplay( Class clazz, Display display ) {
+	public static void registerDisplay( Class<?> clazz, Display display ) {
 		knownTypes.put( clazz, display );
 	}
 	
@@ -44,25 +45,41 @@ public class DisplayRegistry {
 	private static void init() {
 		registerDisplay( String.class, new StringDisplay() );
 		
-		TupleDisplay tuple = new TupleDisplay();
-		registerDisplay( Tuple2d.class, tuple );
-		registerDisplay( Tuple3d.class, tuple );
-		registerDisplay( Tuple2f.class, tuple );
-		registerDisplay( Tuple3f.class, tuple );
+		Tuple2Display tuple2 = new Tuple2Display();
+		registerDisplay( Tuple2i.class, tuple2 );
+		registerDisplay( Tuple2d.class, tuple2 );
+		registerDisplay( Tuple2f.class, tuple2 );
 		
-		registerDisplay( Collection.class, new CollectionDisplay() );
+		Tuple3Display tuple3 = new Tuple3Display();
+		registerDisplay( Tuple3b.class, tuple3 );
+		registerDisplay( Tuple3i.class, tuple3 );
+		registerDisplay( Tuple3d.class, tuple3 );
+		registerDisplay( Tuple3f.class, tuple3 );
+		
+		registerDisplay( Number.class, new NumberDisplay());
+		registerDisplay( Integer.TYPE, new PrimitiveIntDisplay());
+		registerDisplay( Byte.TYPE, new PrimitiveByteDisplay());
+		registerDisplay( Double.TYPE, new PrimitiveDoubleDisplay());
+		registerDisplay( Float.TYPE, new PrimitiveFloatDisplay());
+		registerDisplay( Long.TYPE, new PrimitiveLongDisplay());
+		
+		registerDisplay( Map.class, new MapDisplay());
+		
+		//FIXME this thingy is buggy and running with vartest causes system instability
+//		registerDisplay( Collection.class, new CollectionDisplay() );
 	}
 	
-	@SuppressWarnings( "unchecked" )
 	public static Display createDisplay( AVariable var ) {
 		requireInit();
-		Class c = var.getDataType();
+		Class<?> c = var.getDataType();
 		logger.debug( "creating display for " + c + ":" + var );
-		for ( Class key : knownTypes.keySet() ) {
+		for ( Class<?> key : knownTypes.keySet() ) {
 			if ( key.isAssignableFrom( c ) ) {
+				System.err.println("DISPLAY for "+ c +"{"+var.getIdentifier()+"} = " + key + " through " + knownTypes.get(key).getClass());
 				return knownTypes.get( key ).newInstance( var );
 			}
 		}
+		System.err.println("SKIPPED DISPLAY for "+ c +"{"+var.getIdentifier()+"}");
 		// Fallback to String
 		return knownTypes.get( String.class ).newInstance( var );
 	}

@@ -10,15 +10,16 @@ import vidis.data.var.AVariable;
 import vidis.data.var.vars.DefaultVariable;
 import vidis.data.var.vars.FieldVariable;
 import vidis.data.var.vars.MethodVariable;
+import vidis.util.Rounding;
 
-public class StringDisplay extends Display {
-	private static Logger logger = Logger.getLogger(StringDisplay.class);
+public class PrimitiveFloatDisplay extends Display {
+	private static Logger logger = Logger.getLogger(PrimitiveFloatDisplay.class);
 
-	public StringDisplay() {
+	public PrimitiveFloatDisplay() {
 		// dummy constructor for registering
 	}
 	
-	private StringDisplay ( AVariable v) {
+	private PrimitiveFloatDisplay ( AVariable v) {
 		this.var = v;
 		this.setText( "Label" );
 		this.setTextColor( Color.red );
@@ -26,14 +27,21 @@ public class StringDisplay extends Display {
 	
 	@Override
 	public Display newInstance( AVariable var ) {
-		return new StringDisplay( var );
+		return new PrimitiveFloatDisplay( var );
 	}
 	
 	
 	@Override
 	public void renderContainer(GL gl) {
 		if ( var != null ) {
-			String txt = var.getIdentifier().replaceAll(var.getNameSpace()+".", "   ") + " -> " + var.getData().toString();
+			String txt = "   " + AVariable.getIdentifierWithoutNamespace(var.getIdentifier()) + " -> ";
+			Object num = var.getData();
+			if (Float.class.isAssignableFrom(num.getClass()) || num.getClass().equals(Float.TYPE)) {
+				txt += Rounding.round((Float)num, 3);
+			} else {
+				txt += "NAN";
+			}
+			//var.getData().toString();
 			this.setText(txt);
 			super.renderContainer(gl);
 		}

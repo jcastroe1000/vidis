@@ -7,18 +7,15 @@ import javax.media.opengl.GL;
 import org.apache.log4j.Logger;
 
 import vidis.data.var.AVariable;
-import vidis.data.var.vars.DefaultVariable;
-import vidis.data.var.vars.FieldVariable;
-import vidis.data.var.vars.MethodVariable;
 
-public class StringDisplay extends Display {
-	private static Logger logger = Logger.getLogger(StringDisplay.class);
+public class MapDisplay extends Display {
+	private static Logger logger = Logger.getLogger(MapDisplay.class);
 
-	public StringDisplay() {
+	public MapDisplay() {
 		// dummy constructor for registering
 	}
 	
-	private StringDisplay ( AVariable v) {
+	private MapDisplay ( AVariable v) {
 		this.var = v;
 		this.setText( "Label" );
 		this.setTextColor( Color.red );
@@ -26,7 +23,7 @@ public class StringDisplay extends Display {
 	
 	@Override
 	public Display newInstance( AVariable var ) {
-		return new StringDisplay( var );
+		return new MapDisplay( var );
 	}
 	
 	

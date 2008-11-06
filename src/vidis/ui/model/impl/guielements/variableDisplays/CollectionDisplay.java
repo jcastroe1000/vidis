@@ -56,7 +56,7 @@ public class CollectionDisplay extends Display {
 		label.setColor1( Color.red );
 		label.setOpaque( true );
 		list.setColor1( Color.blue );
-		list.setOpaque( true );
+		list.setOpaque( false );
 		list.setLayout(new ILayout() {
 			public double getHeight() {
 				return 4.5;
@@ -96,7 +96,7 @@ public class CollectionDisplay extends Display {
 		list.removeAllChilds();
 		int i = 0;
 		while ( it.hasNext() ) { 
-			logger.error( "doing something! ");
+//			logger.error( "doing something! ");
 			list.addChild( DisplayRegistry.createDisplay( new DefaultVariable( "ID"+i++, it.next() )));
 		}
 		super.renderContainer(gl);

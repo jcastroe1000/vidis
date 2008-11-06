@@ -35,6 +35,22 @@ public class VarTestNode extends AUserNode {
 
     @Display(name = "int exCount")
     public int integerExecuteCount;
+    @Display(name = "byte exCount")
+    public byte byteExecuteCount() {
+    	return (byte) integerExecuteCount;
+    }
+    @Display(name = "float exCount")
+    public float floatExecuteCount() {
+    	return (float) integerExecuteCount;
+    }
+    @Display(name = "double exCount")
+    public double doubleExecuteCount() {
+    	return (double) integerExecuteCount;
+    }
+    @Display(name = "long exCount")
+    public long longExecuteCount() {
+    	return (long) integerExecuteCount;
+    }
     
     private LinkedList<Integer> list;
 
