@@ -56,7 +56,7 @@ public class DisplayRegistry {
 	@SuppressWarnings( "unchecked" )
 	public static Display createDisplay( AVariable var ) {
 		requireInit();
-		Class c = var.getData().getClass();
+		Class c = var.getDataType();
 		logger.debug( "creating display for " + c + ":" + var );
 		for ( Class key : knownTypes.keySet() ) {
 			if ( key.isAssignableFrom( c ) ) {
