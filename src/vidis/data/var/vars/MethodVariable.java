@@ -47,7 +47,7 @@ public class MethodVariable extends AVariable {
     private Object object;
     private Method method;
     
-    public Class<?> getType() {
+    public Class<?> getDataType() {
     	return method.getReturnType();
     }
     

@@ -77,6 +77,10 @@ public class FieldVariable extends AVariable {
 		}
 		return null;
 	}
+	
+	public Class<?> getDataType() {
+		return field.getType();
+	}
 
 	public Class<? extends AVariable> getVariableType() {
 		return this.getClass();

@@ -46,7 +46,7 @@ public class DefaultVariable extends AVariable {
 	 * 
 	 * @return class object
 	 */
-	public Class<?> getType() {
+	public Class<?> getDataType() {
 		return data.getClass();
 	}
 
@@ -93,7 +93,7 @@ public class DefaultVariable extends AVariable {
 	 * a common to string method
 	 */
 	public String toString() {
-		return "(" + getType().getName() + ")" + getIdentifier() + "=" + getData().toString();
+		return "(" + getDataType().getName() + ")" + getIdentifier() + "=" + getData().toString();
 	}
 
 	@Override

@@ -34,6 +34,7 @@ public abstract class AVariable implements IVariableChangeProducer {
 //	}
 	
 	public abstract Object getData();
+	public abstract Class<?> getDataType();
 	
 //	@Deprecated
 //	private void setDisplayType(DisplayType type) {
@@ -79,7 +80,6 @@ public abstract class AVariable implements IVariableChangeProducer {
 	}
 	
 	public abstract Class<? extends AVariable> getVariableType();
-	
 
 	public String getNameSpace() {
 		String ns = "";
@@ -104,5 +104,9 @@ public abstract class AVariable implements IVariableChangeProducer {
 			ns = id.substring(0, occ);
 		}
 		return ns;
+	}
+	
+	public static String getIdentifierWithoutNamespace( String id ) {
+		return id.replaceFirst(getNamespace(id) + ".", "");
 	}
 }
