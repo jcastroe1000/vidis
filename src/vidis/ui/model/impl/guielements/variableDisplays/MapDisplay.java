@@ -10,22 +10,18 @@ import vidis.data.var.AVariable;
 
 public class MapDisplay extends Display {
 	private static Logger logger = Logger.getLogger(MapDisplay.class);
-
-	public MapDisplay() {
-		// dummy constructor for registering
-	}
 	
-	private MapDisplay ( AVariable v) {
-		this.var = v;
+	public MapDisplay ( AVariable v ) {
+		super(v);
 		this.setText( "Label" );
 		this.setTextColor( Color.red );
 	}
 	
-	@Override
-	public Display newInstance( AVariable var ) {
-		return new MapDisplay( var );
-	}
-	
+//	@Override
+//	public Display newInstance( AVariable var ) {
+//		return new MapDisplay( var );
+//	}
+//	
 	
 	@Override
 	public void renderContainer(GL gl) {

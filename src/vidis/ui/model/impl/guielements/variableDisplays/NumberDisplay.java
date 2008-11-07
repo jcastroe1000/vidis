@@ -15,21 +15,17 @@ import vidis.util.Rounding;
 public class NumberDisplay extends Display {
 	private static Logger logger = Logger.getLogger(NumberDisplay.class);
 
-	public NumberDisplay() {
-		// dummy constructor for registering
-	}
-	
-	private NumberDisplay ( AVariable v) {
-		this.var = v;
+	public NumberDisplay ( AVariable v) {
+		super(v);
 		this.setText( "Label" );
 		this.setTextColor( Color.red );
 	}
 	
-	@Override
-	public Display newInstance( AVariable var ) {
-		return new NumberDisplay( var );
-	}
-	
+//	@Override
+//	public Display newInstance( AVariable var ) {
+//		return new NumberDisplay( var );
+//	}
+//	
 	
 	@Override
 	public void renderContainer(GL gl) {

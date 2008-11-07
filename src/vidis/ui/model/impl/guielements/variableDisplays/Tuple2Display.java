@@ -6,8 +6,6 @@ import javax.media.opengl.GL;
 import javax.vecmath.Tuple2d;
 import javax.vecmath.Tuple2f;
 import javax.vecmath.Tuple2i;
-import javax.vecmath.Tuple3d;
-import javax.vecmath.Tuple3f;
 
 import org.apache.log4j.Logger;
 
@@ -16,22 +14,16 @@ import vidis.data.var.AVariable;
 public class Tuple2Display extends Display {
 	private static Logger logger = Logger.getLogger(Tuple2Display.class);
 
-	private AVariable var;
-	
-	public Tuple2Display() {
-		
-	}
-	
-	private Tuple2Display ( AVariable v ) {
-		this.var = v;
+	public Tuple2Display ( AVariable v ) {
+		super(v);
 		this.setText( "Label" );
 		this.setTextColor( Color.red );
 	}
 	
-	@Override
-	public Display newInstance( AVariable var ) {
-		return new Tuple2Display( var );
-	}
+//	@Override
+//	public Display newInstance( AVariable var ) {
+//		return new Tuple2Display( var );
+//	}
 	
 	private String convertUnknownTupleToString() {
 		Object tuple = var.getData();

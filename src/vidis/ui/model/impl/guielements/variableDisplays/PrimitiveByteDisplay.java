@@ -11,20 +11,16 @@ import vidis.data.var.AVariable;
 public class PrimitiveByteDisplay extends Display {
 	private static Logger logger = Logger.getLogger(PrimitiveByteDisplay.class);
 
-	public PrimitiveByteDisplay() {
-		// dummy constructor for registering
-	}
-	
-	private PrimitiveByteDisplay ( AVariable v) {
-		this.var = v;
+	public PrimitiveByteDisplay ( AVariable v) {
+		super(v);
 		this.setText( "Label" );
 		this.setTextColor( Color.red );
 	}
 	
-	@Override
-	public Display newInstance( AVariable var ) {
-		return new PrimitiveByteDisplay( var );
-	}
+//	@Override
+//	public Display newInstance( AVariable var ) {
+//		return new PrimitiveByteDisplay( var );
+//	}
 	
 	
 	@Override

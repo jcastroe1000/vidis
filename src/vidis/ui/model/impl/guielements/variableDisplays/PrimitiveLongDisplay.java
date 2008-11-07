@@ -15,20 +15,16 @@ import vidis.util.Rounding;
 public class PrimitiveLongDisplay extends Display {
 	private static Logger logger = Logger.getLogger(PrimitiveLongDisplay.class);
 
-	public PrimitiveLongDisplay() {
-		// dummy constructor for registering
-	}
-	
-	private PrimitiveLongDisplay ( AVariable v) {
-		this.var = v;
+	public PrimitiveLongDisplay ( AVariable v) {
+		super(v);
 		this.setText( "Label" );
 		this.setTextColor( Color.red );
 	}
 	
-	@Override
-	public Display newInstance( AVariable var ) {
-		return new PrimitiveLongDisplay( var );
-	}
+//	@Override
+//	public Display newInstance( AVariable var ) {
+//		return new PrimitiveLongDisplay( var );
+//	}
 	
 	
 	@Override

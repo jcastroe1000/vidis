@@ -12,26 +12,20 @@ import vidis.data.var.AVariable;
 import vidis.data.var.vars.DefaultVariable;
 import vidis.ui.model.impl.Label;
 import vidis.ui.model.impl.guielements.scrollpane.AScrollpane3D;
-import vidis.ui.model.structure.AGuiContainer;
 import vidis.ui.model.structure.IGuiContainer;
 import vidis.ui.model.structure.ILayout;
 
 public class CollectionDisplay extends Display {
 	private static Logger logger = Logger.getLogger(CollectionDisplay.class);
 
-	private AVariable var;
-	
-	public CollectionDisplay() {
-	}
-	
 	private Label label = new Label();
 	private AScrollpane3D list = new AScrollpane3D() {
 		
 	};
 	
-	private CollectionDisplay ( AVariable v ) {
+	public CollectionDisplay ( AVariable v ) {
+		super(v);
 		this.setText( "" );
-		this.var = v;
 		//this.setHeight( 5 );
 		this.addChild( label );
 		this.addChild( list );
@@ -82,10 +76,10 @@ public class CollectionDisplay extends Display {
 		return 6;
 	}
 	
-	@Override
-	public Display newInstance( AVariable var ) {
-		return new CollectionDisplay( var );
-	}
+//	@Override
+//	public Display newInstance( AVariable var ) {
+//		return new CollectionDisplay( var );
+//	}
 	
 	@Override
 	public void renderContainer(GL gl) {

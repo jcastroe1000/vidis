@@ -1,5 +1,7 @@
 package vidis.ui.model.impl.guielements.variableDisplays;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,9 +26,9 @@ import vidis.data.var.AVariable;
 public class DisplayRegistry {
 	private static Logger logger = Logger.getLogger(DisplayRegistry.class);
 
-	private static Map<Class<?>, Display> knownTypes = new HashMap<Class<?>, Display>();
+	private static Map<Class<?>, Class<? extends Display>> knownTypes = new HashMap<Class<?>, Class<? extends Display>>();
 	
-	public static void registerDisplay( Class<?> clazz, Display display ) {
+	public static void registerDisplay( Class<?> clazz, Class<? extends Display> display ) {
 		knownTypes.put( clazz, display );
 	}
 	
@@ -43,27 +45,25 @@ public class DisplayRegistry {
 	
 	private static boolean init = false;
 	private static void init() {
-		registerDisplay( String.class, new StringDisplay() );
+		registerDisplay( String.class, StringDisplay.class );
 		
-		Tuple2Display tuple2 = new Tuple2Display();
-		registerDisplay( Tuple2i.class, tuple2 );
-		registerDisplay( Tuple2d.class, tuple2 );
-		registerDisplay( Tuple2f.class, tuple2 );
+		registerDisplay( Tuple2i.class, Tuple2Display.class );
+		registerDisplay( Tuple2d.class, Tuple2Display.class );
+		registerDisplay( Tuple2f.class, Tuple2Display.class );
 		
-		Tuple3Display tuple3 = new Tuple3Display();
-		registerDisplay( Tuple3b.class, tuple3 );
-		registerDisplay( Tuple3i.class, tuple3 );
-		registerDisplay( Tuple3d.class, tuple3 );
-		registerDisplay( Tuple3f.class, tuple3 );
+		registerDisplay( Tuple3b.class, Tuple3Display.class );
+		registerDisplay( Tuple3i.class, Tuple3Display.class );
+		registerDisplay( Tuple3d.class, Tuple3Display.class );
+		registerDisplay( Tuple3f.class, Tuple3Display.class );
 		
-		registerDisplay( Number.class, new NumberDisplay());
-		registerDisplay( Integer.TYPE, new PrimitiveIntDisplay());
-		registerDisplay( Byte.TYPE, new PrimitiveByteDisplay());
-		registerDisplay( Double.TYPE, new PrimitiveDoubleDisplay());
-		registerDisplay( Float.TYPE, new PrimitiveFloatDisplay());
-		registerDisplay( Long.TYPE, new PrimitiveLongDisplay());
+		registerDisplay( Number.class, NumberDisplay.class);
+		registerDisplay( Integer.TYPE, PrimitiveIntDisplay.class);
+		registerDisplay( Byte.TYPE, PrimitiveByteDisplay.class);
+		registerDisplay( Double.TYPE, PrimitiveDoubleDisplay.class);
+		registerDisplay( Float.TYPE, PrimitiveFloatDisplay.class);
+		registerDisplay( Long.TYPE, PrimitiveLongDisplay.class);
 		
-		registerDisplay( Map.class, new MapDisplay());
+		registerDisplay( Map.class, MapDisplay.class);
 		
 		//FIXME this thingy is buggy and running with vartest causes system instability
 //		registerDisplay( Collection.class, new CollectionDisplay() );
@@ -75,13 +75,58 @@ public class DisplayRegistry {
 		logger.debug( "creating display for " + c + ":" + var );
 		for ( Class<?> key : knownTypes.keySet() ) {
 			if ( key.isAssignableFrom( c ) ) {
-				System.err.println("DISPLAY for "+ c +"{"+var.getIdentifier()+"} = " + key + " through " + knownTypes.get(key).getClass());
-				return knownTypes.get( key ).newInstance( var );
+				System.err.println("DISPLAY for "+ c +"{"+var.getIdentifier()+"} = " + key + " through " + knownTypes.get(key));
+				//return knownTypes.get( key ).newInstance( var );
+				return createDisplay(knownTypes.get(key), var);
 			}
 		}
 		System.err.println("SKIPPED DISPLAY for "+ c +"{"+var.getIdentifier()+"}");
 		// Fallback to String
-		return knownTypes.get( String.class ).newInstance( var );
+		return createDisplay(knownTypes.get( String.class ),  var );
+	}
+	
+	private static Constructor<?> getRightConstructor(Class<? extends Display> c) {
+		Constructor<?>[] constructors = c.getConstructors();
+		// fetch correct constructor
+		Constructor<?> constructor = null;
+		for (int i = 0; i < constructors.length; i++) {
+			// match empty constructor
+			if (constructors[i].getParameterTypes().length == 1) {
+				if (AVariable.class.isAssignableFrom(constructors[i].getParameterTypes()[0])) {
+					constructor = constructors[i];
+				}
+				break;
+			}
+		}
+		return constructor;
+	}
+
+	
+	private static Display createDisplay(Class<? extends Display> clazz, AVariable var) {
+		Constructor<?> constructor = getRightConstructor(clazz);
+		if (constructor != null) {
+			// instance IUserLink
+			Object obj;
+			try {
+				obj = constructor.newInstance(var);
+				return (Display) obj;
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			throw new RuntimeException("CANNOT CREATE CLASS: " + clazz + "; constructor not found!");
+		}
+		return null;
 	}
 	
 //	public static Display createDisplay( Object data ) {

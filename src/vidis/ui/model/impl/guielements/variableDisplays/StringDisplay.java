@@ -7,27 +7,20 @@ import javax.media.opengl.GL;
 import org.apache.log4j.Logger;
 
 import vidis.data.var.AVariable;
-import vidis.data.var.vars.DefaultVariable;
-import vidis.data.var.vars.FieldVariable;
-import vidis.data.var.vars.MethodVariable;
 
 public class StringDisplay extends Display {
 	private static Logger logger = Logger.getLogger(StringDisplay.class);
 
-	public StringDisplay() {
-		// dummy constructor for registering
-	}
-	
-	private StringDisplay ( AVariable v) {
-		this.var = v;
+	public StringDisplay ( AVariable v) {
+		super(v);
 		this.setText( "Label" );
 		this.setTextColor( Color.red );
 	}
 	
-	@Override
-	public Display newInstance( AVariable var ) {
-		return new StringDisplay( var );
-	}
+//	@Override
+//	public Display newInstance( AVariable var ) {
+//		return new StringDisplay( var );
+//	}
 	
 	
 	@Override

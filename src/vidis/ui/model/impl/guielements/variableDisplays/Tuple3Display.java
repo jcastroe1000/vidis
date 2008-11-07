@@ -3,8 +3,6 @@ package vidis.ui.model.impl.guielements.variableDisplays;
 import java.awt.Color;
 
 import javax.media.opengl.GL;
-import javax.vecmath.Tuple2d;
-import javax.vecmath.Tuple2f;
 import javax.vecmath.Tuple3b;
 import javax.vecmath.Tuple3d;
 import javax.vecmath.Tuple3f;
@@ -17,22 +15,16 @@ import vidis.data.var.AVariable;
 public class Tuple3Display extends Display {
 	private static Logger logger = Logger.getLogger(Tuple3Display.class);
 
-	private AVariable var;
-	
-	public Tuple3Display() {
-		
-	}
-	
-	private Tuple3Display ( AVariable v ) {
-		this.var = v;
+	public Tuple3Display ( AVariable v ) {
+		super(v);
 		this.setText( "Label" );
 		this.setTextColor( Color.red );
 	}
 	
-	@Override
-	public Display newInstance( AVariable var ) {
-		return new Tuple3Display( var );
-	}
+//	@Override
+//	public Display newInstance( AVariable var ) {
+//		return new Tuple3Display( var );
+//	}
 	
 	private String convertUnknownTupleToString() {
 		Object tuple = var.getData();
