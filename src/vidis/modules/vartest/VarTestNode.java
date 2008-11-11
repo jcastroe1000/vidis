@@ -33,6 +33,11 @@ public class VarTestNode extends AUserNode {
 		return color;
 	}
 
+    @Display( name = "reset" )
+    public void reset() {
+    	integerExecuteCount = 0;
+    }
+    
     @Display(name = "int exCount")
     public int integerExecuteCount;
     @Display(name = "byte exCount")

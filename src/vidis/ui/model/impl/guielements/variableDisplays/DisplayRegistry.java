@@ -17,6 +17,7 @@ import javax.vecmath.Tuple3i;
 import org.apache.log4j.Logger;
 
 import vidis.data.var.AVariable;
+import vidis.data.var.vars.MethodVariable;
 
 /**
  * holds all known displays and decides which should be instantiated
@@ -65,24 +66,32 @@ public class DisplayRegistry {
 		
 		registerDisplay( Map.class, MapDisplay.class);
 		
+		registerDisplay( Void.TYPE, MethodDisplay.class );
+		
 		//FIXME this thingy is buggy and running with vartest causes system instability
 //		registerDisplay( Collection.class, new CollectionDisplay() );
 	}
 	
 	public static Display createDisplay( AVariable var ) {
 		requireInit();
-		Class<?> c = var.getDataType();
-		logger.debug( "creating display for " + c + ":" + var );
-		for ( Class<?> key : knownTypes.keySet() ) {
-			if ( key.isAssignableFrom( c ) ) {
-				System.err.println("DISPLAY for "+ c +"{"+var.getIdentifier()+"} = " + key + " through " + knownTypes.get(key));
-				//return knownTypes.get( key ).newInstance( var );
-				return createDisplay(knownTypes.get(key), var);
+//		if ( var instanceof MethodVariable ) {
+//			logger.info( "new methodDisplay for " + var );
+//			return new MethodDisplay( (MethodVariable) var );
+//		}
+//		else {
+			Class<?> c = var.getDataType();
+			logger.debug( "creating display for " + c + ":" + var );
+			for ( Class<?> key : knownTypes.keySet() ) {
+				if ( key.isAssignableFrom( c ) ) {
+					System.err.println("DISPLAY for "+ c +"{"+var.getIdentifier()+"} = " + key + " through " + knownTypes.get(key));
+					//return knownTypes.get( key ).newInstance( var );
+					return createDisplay(knownTypes.get(key), var);
+				}
 			}
-		}
-		System.err.println("SKIPPED DISPLAY for "+ c +"{"+var.getIdentifier()+"}");
-		// Fallback to String
-		return createDisplay(knownTypes.get( String.class ),  var );
+			System.err.println("SKIPPED DISPLAY for "+ c +"{"+var.getIdentifier()+"}");
+			// Fallback to String
+			return createDisplay(knownTypes.get( String.class ),  var );
+//		}
 	}
 	
 	private static Constructor<?> getRightConstructor(Class<? extends Display> c) {

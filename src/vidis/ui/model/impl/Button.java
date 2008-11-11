@@ -103,7 +103,7 @@ public class Button extends BasicGuiContainer {
 		double factor = 0.7;
 		double fontScaleWidth = (w * factor) / (r.getWidth() * scale);
 		double fontScaleHeight = (h * factor) / (r.getHeight() * scale);
-		double fontScale = fontScaleWidth;
+		double fontScale = fontScaleHeight;
 		
 		gl.glPushMatrix();
 			

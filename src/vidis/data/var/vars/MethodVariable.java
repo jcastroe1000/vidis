@@ -51,6 +51,9 @@ public class MethodVariable extends AVariable {
     	return method.getReturnType();
     }
     
+    /**
+     * invokes the method
+     */
     public Object getData() {
     	try {
 			return method.invoke(object);
