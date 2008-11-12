@@ -1,14 +1,13 @@
 package vidis.modules.bullyElectionAlgorithm_v2;
 
-import vidis.data.AUserPacket;
 import vidis.data.annotation.Display;
 
-public class ElectionCheckPacket extends AUserPacket {
+public class PongPacket extends ABullyPacket {
 
     private String id;
     private String senderId;
 
-    public ElectionCheckPacket(String id, String senderId) {
+    public PongPacket(String id, String senderId) {
     	this.id = id;
     	this.senderId = senderId;
     }
@@ -23,6 +22,6 @@ public class ElectionCheckPacket extends AUserPacket {
     
     @Display ( name="name" )
     public String toString() {
-    	return "Check{"+getBullyId()+","+getSenderId()+"}";
+    	return "Pong{"+getBullyId()+","+getSenderId()+","+getHops()+"/"+getMaxHops()+"}";
     }
 }

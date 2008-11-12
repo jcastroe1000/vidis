@@ -1,9 +1,8 @@
 package vidis.modules.bullyElectionAlgorithm_v2;
 
-import vidis.data.AUserPacket;
 import vidis.data.annotation.Display;
 
-public class ElectionRestartPacket extends AUserPacket {
+public class ElectionRestartPacket extends ABullyPacket {
 
     private String id;
     
@@ -17,6 +16,11 @@ public class ElectionRestartPacket extends AUserPacket {
     
     @Display ( name="name" )
     public String toString() {
-    	return "Restart{"+getBullyId()+"}";
+    	return "Restart{"+getBullyId()+","+getHops()+"/"+getMaxHops()+"}";
     }
+
+	@Override
+	public int getMaxHops() {
+		return 15;
+	}
 }
