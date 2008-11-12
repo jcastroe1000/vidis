@@ -1,4 +1,4 @@
-package vidis.modules.bullyElectionAlgorithm_v3;
+package vidis.modules.bullyElectionAlgorithm_v1;
 
 import vidis.data.AUserPacket;
 import vidis.data.annotation.Display;
@@ -6,7 +6,7 @@ import vidis.data.annotation.Display;
 public class ElectionPacket extends AUserPacket {
 
     private String id;
-
+    
     public ElectionPacket(String id) {
     	this.id = id;
     }

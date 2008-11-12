@@ -1,4 +1,4 @@
-package vidis.modules.bullyElectionAlgorithm_v3;
+package vidis.modules.bullyElectionAlgorithm_v2;
 
 import vidis.data.AUserPacket;
 import vidis.data.annotation.Display;

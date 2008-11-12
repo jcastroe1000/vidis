@@ -1,6 +1,6 @@
 <module>
 	<id>demo simulation</id>
-	<classpath>vidis.modules.bullyElectionAlgorithm</classpath>
+	<classpath>vidis.modules.bullyElectionAlgorithm_v1</classpath>
 	<!-- density between 0.0 and 1.0 -->
 	<nodeDensity>0.5</nodeDensity>
 	<objects>
