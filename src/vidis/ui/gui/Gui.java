@@ -136,7 +136,8 @@ public class Gui extends AEventHandler {
 
 		BasicGuiContainer container2 = new BasicGuiContainer();
 		container2.setLayout(new PercentMarginLayout(-0.2,0.9,-0.8,1,-0.1,-0.1));
-		
+		mainContainer.addChild( OpenMSIMFilePopupWindow_tree.getInstance() );
+		OpenMSIMFilePopupWindow_tree.getInstance().setVisible( false );
 		Button loadButton = new Button() {
 //			private File selectedFile = null;
 //			JFileChooser x = new JFileChooser( new File( Configuration.MODULE_PATH )) {
@@ -165,12 +166,11 @@ public class Gui extends AEventHandler {
 //			}
 			@Override
 			protected void onMouseClicked(MouseClickedEvent e) {
-//				super.onMouseClicked(e);
-				try {
-					mainContainer.addChild( OpenMSIMFilePopupWindow_tree.getInstance() );
-				} catch (Exception ex) {
-					ex.printStackTrace();
-					logger.error( ex );
+				if ( OpenMSIMFilePopupWindow_tree.getInstance().isVisible() ) {
+					OpenMSIMFilePopupWindow_tree.getInstance().setVisible( false );
+				}
+				else {
+					OpenMSIMFilePopupWindow_tree.getInstance().setVisible( true );
 				}
 			}
 		};
@@ -189,12 +189,18 @@ public class Gui extends AEventHandler {
 		resetButton.setName("RESET BUTTON");
 //		loadButton.setLayout(new PercentMarginLayout(-0.1,-0.1,-0.1,-0.1,-0.8,-0.8));
 		resetButton.setText("Reset");
-		
+		mainContainer.addChild(ApplyLayoutPopupWindow.getInstance());
+		ApplyLayoutPopupWindow.getInstance().setVisible(false);
 		Button layoutButton = new Button() {
 			@Override
 			protected void onMouseClicked(MouseClickedEvent e) {
 //				Dispatcher.forwardEvent( IVidisEvent.SimulatorReload );
-				mainContainer.addChild(ApplyLayoutPopupWindow.getInstance());
+				if ( ApplyLayoutPopupWindow.getInstance().isVisible() ) {
+					ApplyLayoutPopupWindow.getInstance().setVisible( false );
+				}
+				else {
+					ApplyLayoutPopupWindow.getInstance().setVisible(true);
+				}
 			}
 		};
 		layoutButton.setLayout(new PercentMarginLayout(-0.6,0.9,-0.6,1,-0.1,-0.1));

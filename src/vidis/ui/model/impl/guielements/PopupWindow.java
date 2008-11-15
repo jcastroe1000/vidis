@@ -37,6 +37,6 @@ public abstract class PopupWindow extends BasicGuiContainer {
 	}
 	
 	protected final void close() {
-		getParent().removeChild( this );
+		this.setVisible( false );
 	}
 }

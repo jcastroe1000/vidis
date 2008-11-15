@@ -21,6 +21,7 @@ public class OpenMSIMFilePopupWindow_tree extends PopupWindow {
 			instance = new OpenMSIMFilePopupWindow_tree("Please pick a module You want to load");
 		return instance;
 	}
+	
 	public OpenMSIMFilePopupWindow_tree(String title) {
 		super(title);
 		Tree<File> tree = new Tree<File>("Modules", null) {
@@ -60,5 +61,21 @@ public class OpenMSIMFilePopupWindow_tree extends PopupWindow {
 		tree.setLayout( new PercentMarginLayout(0.001,0.001,0.001,0.001,-1,-1));
 		tree.getScrollPane().setLayout(new PercentMarginLayout(0.001,0.001,0.001,-0.07,-0.93,-1));
 		this.addChild( tree.getScrollPane() );
+	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+		if ( visible == true ) {
+			handleReload();
+		}
+		super.setVisible(visible);
+	}
+	
+	/**
+	 * @dominik FIXME handle reload here
+	 * called every time this dialog is shown
+	 */
+	private void handleReload() {
+		
 	}
 }
