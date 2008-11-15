@@ -9,173 +9,40 @@ import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.ui.config.Configuration;
 import vidis.ui.events.IVidisEvent;
-import vidis.ui.events.MouseClickedEvent;
-import vidis.ui.model.impl.guielements.Mode;
+import vidis.ui.model.impl.guielements.ObjectGuiElement;
 import vidis.ui.model.impl.guielements.variableDisplays.CompositeScrollPane;
 import vidis.ui.model.structure.ASimObject;
-import vidis.ui.model.structure.IGuiContainer;
-import vidis.ui.model.structure.ILayout;
 
 public class Node extends ASimObject {
 	
-	private class NodeGuiElement extends BasicGuiContainer {
+	private class NodeGuiElement extends ObjectGuiElement {
 		
-		Mode mode = Mode.MINIMIZED;
+		
 		
 		//private static Logger logger = Logger.getLogger(NodeGuiElement.class);
 		
-		private double minHeight = 2;
-		private double normHeight = 4;
-		private double expHeight = 15;
-		
-		private BasicGuiContainer top;
-		private CompositeScrollPane scrollPane;
 		
 		public NodeGuiElement() {
-			this.color1 = Color.gray;
-			this.color2 = Color.gray.brighter();
-			this.setOpaque(true);
-			
-			top = new BasicGuiContainer() {
-				@Override
-				public double getHeight() {
-					switch(mode) {
-					case MINIMIZED:
-						return minHeight;
-					case NORMAL:
-						return normHeight;
-					case EXPANDED:
-					default:
-						return normHeight;
-					}
-				}
-				@Override
-				public double getY() {
-					switch(mode) {
-					case MINIMIZED:
-						return 0;
-					case NORMAL:
-						return 0;
-					case EXPANDED:
-					default:
-						return expHeight-normHeight;
-					}
-				}
-				@Override
-				public double getWidth() {
-					return NodeGuiElement.this.getWidth();
-				}
-				@Override
-				protected void onMouseClicked(MouseClickedEvent e) {
-					NodeGuiElement.this.onMouseClicked(e);
-				}
-			};
-			top.setOpaque( true );
-			this.addChild( top );
-			
-			scrollPane = new CompositeScrollPane( Node.this.getVariableContainer() );
-			scrollPane.setLayout( new ILayout() {
-
-				public double getHeight() {
-					return expHeight - normHeight;
-				}
-
-				public double getWidth() {
-					return NodeGuiElement.this.getWidth();
-				}
-
-				public double getX() {
-					return 0;
-				}
-
-				public double getY() {
-					switch ( mode ) {
-						case MINIMIZED:
-							return Double.MAX_VALUE;
-						case NORMAL:
-							return Double.MAX_VALUE;
-						case EXPANDED:
-							return 0;
-					}
-					return Double.MAX_VALUE;
-				}
-
-				public void layout() {
-					// nothing dude
-				}
-
-				public void setGuiContainer(IGuiContainer c) {
-					// nothing dude
-				}
-				
-			});
-			this.addChild( scrollPane );
+			init();
 		}
 		
-		@Override
-		public void renderContainer(GL gl) {
-			requireTextRenderer();
-			
-			double textH = this.textH * 0.01;
-			switch ( mode ) {
-			case MINIMIZED:
-				double h2e = minHeight / 2d;
-				gl.glPushMatrix();
-					gl.glTranslated(h2e, h2e, 0);
-					Node.this.renderObject(gl);
-				gl.glPopMatrix();
-				gl.glPushMatrix();
-					gl.glTranslated(2 * h2e, h2e-textH/2.0, 0);
-					renderObjectText( gl, 0.01 );
-				gl.glPopMatrix();
-				break;
-			case NORMAL:
-				double h2e2 = normHeight / 2d;
-				double nfac = normHeight / minHeight;
-				gl.glPushMatrix();
-					gl.glTranslated(h2e2, h2e2, 0);
-					gl.glScaled(nfac, nfac, 1d);
-					Node.this.renderObject(gl);
-				gl.glPopMatrix();
-				gl.glPushMatrix();
-					gl.glTranslated(2 * h2e2, normHeight-textH/2.0-minHeight/2d, 0);
-					renderObjectText( gl, 0.01 );
-				gl.glPopMatrix();
-				break;
-			case EXPANDED:
-				double h2e3 = normHeight / 2d;
-				double nfac3 = normHeight / minHeight;
-				gl.glPushMatrix();
-					gl.glTranslated(h2e3, h2e3 + expHeight - normHeight, 0);
-					gl.glScaled(nfac3, nfac3, 1d);
-					Node.this.renderObject(gl);
-				gl.glPopMatrix();
-				gl.glPushMatrix();
-					gl.glTranslated(2 * h2e3, expHeight-textH/2.0-minHeight/2d, 0);
-					renderObjectText( gl, 0.01 );
-				gl.glPopMatrix();
-				break;
-			}
-			
-			super.renderContainer(gl);
+		protected CompositeScrollPane initScrollPane() {
+			return new CompositeScrollPane( Node.this.getVariableContainer() );
 		}
 		
-		@Override
-		public double getWantedHeight() {
-			switch ( mode ) {
-				case MINIMIZED: return minHeight;
-				case NORMAL: return normHeight;
-				case EXPANDED: return expHeight;
-				default: return -1;
-			}
+		protected IVariableContainer fetchVariableContainer() {
+			return Node.this.getVariableContainer();
 		}
 
-		@Override
-		protected void onMouseClicked(MouseClickedEvent e) {
-			if ( mode == Mode.MINIMIZED ) mode = Mode.NORMAL;
-			else if ( mode == Mode.NORMAL ) mode = Mode.EXPANDED;
-			else if ( mode == Mode.EXPANDED ) mode = Mode.MINIMIZED;
+		protected void renderObject( GL gl ) {
+			Node.this.renderObject(gl);
 		}
+
+		protected void renderText2( GL gl ) {
+			renderObjectText( gl, 0.01 );
+		};
+		
+
 	}
 	
 	public Node(IVariableContainer c) {
