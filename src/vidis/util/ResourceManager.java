@@ -31,7 +31,14 @@ public class ResourceManager {
 	private static String rootPath;
 	private static String shaderPath;
 	private static String dataPath;
+	/**
+	 * local path for modules (msim storage)
+	 */
 	private static String modulesPath;
+	/**
+	 * here someone can put jar archives containing modules
+	 */
+	private static String dropInPath;
 	/**
 	 * static constructor getting the path seperator TODO: Warning this needs to
 	 * be testet for other platforms works on Windows 2000,
@@ -48,6 +55,10 @@ public class ResourceManager {
 		shaderPath = rootPath + "shaders" + pathSeperator;
 		dataPath = rootPath + "data";
 		modulesPath = dataPath + pathSeperator + "modules";
+		dropInPath = dataPath + "dropIn";
+		
+		// modify class path in order to be able to load classes from the drop in folder directly
+		System.setProperty("java.class.path", System.getProperty("java.class.path") + File.pathSeparatorChar + dropInPath);
 	}
 
 	/**
@@ -86,6 +97,18 @@ public class ResourceManager {
 	}
 	
 	public static List<File> getModules() {
+		// check drop in folder for new modules and class files
+		// System.getProperty("java.class.path");
+		File dropInFolder = new File(ResourceManager.dropInPath);
+		if(dropInFolder.exists()) {
+			if(dropInFolder.isDirectory()) {
+				// TODO detect all possible .jar archives
+				// TODO load all possible .jar archives (if not loaded yet)
+				// TODO detect all possible .msim files (within .jar archives)
+			}
+		}
+		
+		// check default folder for built in modules
 		List<File> modules = new ArrayList<File>();
 		File moduleFolder = new File(modulesPath);
 		if(moduleFolder.exists()) {
