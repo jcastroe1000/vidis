@@ -1,7 +1,5 @@
 package vidis.modules.echoAlgorithm;
 
-import java.awt.Color;
-
 import org.apache.log4j.Logger;
 
 import vidis.data.AUserNode;
