@@ -169,31 +169,35 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	private static Set<IGuiContainer> underMouse = new HashSet<IGuiContainer>();
 	
 	private void handleMouseMovedEvent( MouseMovedEvent e ) {
-		// we need to check absolute mouse moved coordinates
-		// to be sure that every element receives its event
-		Point2d point = e.guiCoords;
-		double myX = getAbsoluteX();
-		double myY = getAbsoluteY();
-		if ( isPointWithinRect( point, myX, myY, getWidth(), getHeight() ) ) {
-			if ( ! underMouse.contains(this) ) {
-				underMouse.add( this );
-				onMouseEnter();
+		if ( this.isVisible() ) {
+			// we need to check absolute mouse moved coordinates
+			// to be sure that every element receives its event
+			Point2d point = e.guiCoords;
+			double myX = getAbsoluteX();
+			double myY = getAbsoluteY();
+			if ( isPointWithinRect( point, myX, myY, getWidth(), getHeight() ) ) {
+				if ( ! underMouse.contains(this) ) {
+					underMouse.add( this );
+					onMouseEnter();
+				}
 			}
-		}
-		else {
-			if ( underMouse.contains( this ) ) {
-				underMouse.remove( this );
-				onMouseExit();
+			else {
+				if ( underMouse.contains( this ) ) {
+					underMouse.remove( this );
+					onMouseExit();
+				}
 			}
-		}
-		// forward to all childs
-		for ( IGuiContainer c : childs ) {
-			c.fireEvent( e );
-		}
-		
-		if ( parent == null && underMouse.contains( this ) && underMouse.size() == 1 ) {
-			e.forwardTo3D = true;
-			Dispatcher.forwardEvent( e );
+			// forward to all childs
+			for ( IGuiContainer c : childs ) {
+				if ( c.isVisible() ) {
+					c.fireEvent( e );
+				}
+			}
+			
+			if ( parent == null && underMouse.contains( this ) && underMouse.size() == 1 ) {
+				e.forwardTo3D = true;
+				Dispatcher.forwardEvent( e );
+			}
 		}
 	}
 	
@@ -249,29 +253,33 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	protected void handleMouseEvent( AMouseEvent e ){
 		logger.info("handleMouseEvent() "+ e + ", " + this);
 		
-		Point2d point = e.guiCoords;
-		double myX = getAbsoluteX();
-		double myY = getAbsoluteY();
-		if ( isPointWithinRect( point, myX, myY, getWidth(), getHeight() ) ) {
-			// forward to childs
-			boolean childFound = false;
-			try {
-				for ( IGuiContainer c : childs ) {
-					if ( c.isPointInContainer( point ) ) {
-						c.fireEvent( e );
-						childFound = true;
+		if ( this.isVisible() ) {
+			Point2d point = e.guiCoords;
+			double myX = getAbsoluteX();
+			double myY = getAbsoluteY();
+			if ( isPointWithinRect( point, myX, myY, getWidth(), getHeight() ) ) {
+				// forward to childs
+				boolean childFound = false;
+				try {
+					for ( IGuiContainer c : childs ) {
+						if ( c.isPointInContainer( point ) ) {
+							if ( c.isVisible() ) {
+								c.fireEvent( e );
+								childFound = true;
+							}
+						}
 					}
+				} catch ( ConcurrentModificationException ex) {
+					logger.error("I introduced this bug with adding elements within onClick events.", ex);
 				}
-			} catch ( ConcurrentModificationException ex) {
-				logger.error("I introduced this bug with adding elements within onClick events.", ex);
-			}
-			
-			if ( ! childFound ) {
-				if ( parent == null ) {
-					e.forwardTo3D = true;
-					Dispatcher.forwardEvent( e );
+				
+				if ( ! childFound ) {
+					if ( parent == null ) {
+						e.forwardTo3D = true;
+						Dispatcher.forwardEvent( e );
+					}
+					dispatchMouseEvent( e );
 				}
-				dispatchMouseEvent( e );
 			}
 		}
 	}
