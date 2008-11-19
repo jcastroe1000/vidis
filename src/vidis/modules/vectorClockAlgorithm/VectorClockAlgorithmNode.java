@@ -24,6 +24,14 @@ public class VectorClockAlgorithmNode extends AUserNode {
     	
     }
     
+    @Display(name="Erzeuge Event")
+    public void erzeugeEvent() {
+    	increaseLocalTime();
+	    for (IUserLink link : this.getConnectedLinks()) {
+	    	send(link, new VectorClockAlgorithmPacket(getTimeVector()));
+	    }
+    }
+    
     public VectorTime getTimeVector() {
     	return localTimeVector;
     }
@@ -33,14 +41,6 @@ public class VectorClockAlgorithmNode extends AUserNode {
     }
     
     public void execute() {
-		// in 3% of all cases do 'some action' and increase local time
-		// then notify the neighbors
-		if (Math.random() < 0.03d) {
-		    increaseLocalTime();
-		    for (IUserLink link : this.getConnectedLinks()) {
-		    	send(link, new VectorClockAlgorithmPacket(getTimeVector()));
-		    }
-		}
     }
 
     private void increaseLocalTime() {
