@@ -14,7 +14,7 @@ public class VectorClockAlgorithmNode extends AUserNode {
     private VectorTime localTimeVector = new VectorTime(this, 0);
     
     @Display(name="Automatische Events")
-	private boolean autoEvents = false;
+	public boolean autoEvents = false;
 
     @Display(name = "name")
     public String toString()  {
@@ -38,12 +38,10 @@ public class VectorClockAlgorithmNode extends AUserNode {
     }
     
     private void macheEventAktion() {
-    	if(autoEvents && Math.random() < 0.03) {
-	    	increaseLocalTime();
-		    for (IUserLink link : this.getConnectedLinks()) {
-		    	send(link, new VectorClockAlgorithmPacket(getTimeVector()));
-		    }
-    	}
+    	increaseLocalTime();
+	    for (IUserLink link : this.getConnectedLinks()) {
+	    	send(link, new VectorClockAlgorithmPacket(getTimeVector()));
+	    }
     }
     
     public VectorTime getTimeVector() {
@@ -55,6 +53,9 @@ public class VectorClockAlgorithmNode extends AUserNode {
     }
     
     public void execute() {
+    	if(autoEvents && Math.random() < 0.03) {
+    		macheEventAktion();
+    	}
     }
 
     private void increaseLocalTime() {
