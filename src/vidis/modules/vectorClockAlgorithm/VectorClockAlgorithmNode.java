@@ -12,6 +12,9 @@ import vidis.data.mod.IUserPacket;
  */
 public class VectorClockAlgorithmNode extends AUserNode {
     private VectorTime localTimeVector = new VectorTime(this, 0);
+    
+    @Display(name="Automatische Events")
+	private boolean autoEvents = false;
 
     @Display(name = "name")
     public String toString()  {
@@ -26,10 +29,21 @@ public class VectorClockAlgorithmNode extends AUserNode {
     
     @Display(name="Erzeuge Event")
     public void erzeugeEvent() {
-    	increaseLocalTime();
-	    for (IUserLink link : this.getConnectedLinks()) {
-	    	send(link, new VectorClockAlgorithmPacket(getTimeVector()));
-	    }
+    	macheEventAktion();
+    }
+    
+    @Display(name="Autom.Events")
+    public void toggleAutoEvents() {
+    	autoEvents = !autoEvents;
+    }
+    
+    private void macheEventAktion() {
+    	if(autoEvents && Math.random() < 0.03) {
+	    	increaseLocalTime();
+		    for (IUserLink link : this.getConnectedLinks()) {
+		    	send(link, new VectorClockAlgorithmPacket(getTimeVector()));
+		    }
+    	}
     }
     
     public VectorTime getTimeVector() {
