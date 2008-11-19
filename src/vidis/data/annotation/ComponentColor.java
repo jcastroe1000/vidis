@@ -5,8 +5,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import javax.annotation.processing.SupportedOptions;
-
 /**
  * Die Annotation ComponentColor ist optional und beschreibt welchen
  * grundfarbton ein element haben soll.

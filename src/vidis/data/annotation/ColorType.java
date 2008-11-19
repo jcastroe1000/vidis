@@ -2,10 +2,6 @@ package vidis.data.annotation;
 
 import java.awt.Color;
 
-import javax.vecmath.Color3f;
-
-import vidis.util.ColorGenerator;
-
 /**
  * these color types are used by the ComponentColor annotation
  * 

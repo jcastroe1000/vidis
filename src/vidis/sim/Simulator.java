@@ -4,15 +4,12 @@ import java.io.File;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
-import javax.vecmath.Point3d;
 
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
@@ -28,8 +25,6 @@ import vidis.sim.xml.modules.dataStructure.DocumentData;
 import vidis.sim.xml.modules.dataStructure.DocumentDataConnection;
 import vidis.sim.xml.modules.dataStructure.DocumentDataLink;
 import vidis.ui.model.graph.layouts.AGraphLayout;
-import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
-import vidis.ui.model.graph.layouts.impl.GraphRandomLayout;
 import vidis.ui.model.graph.layouts.impl.GraphSpiralLayout;
 
 public class Simulator {

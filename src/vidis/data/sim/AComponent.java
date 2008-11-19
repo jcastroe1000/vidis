@@ -108,7 +108,7 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 				    registerVariable(new MethodVariable(id, getUserLogic(), m));
 				}
 		    } else if ( a.annotationType().equals( DisplayColor.class ) ) {
-				DisplayColor displayColor = (DisplayColor)a;
+//				DisplayColor displayColor = (DisplayColor)a;
 				String id = COMMON_IDENTIFIERS.COLOR;
 				try {
 					((MethodVariable)getVariableById(id)).update(getUserLogic(), m);
@@ -178,7 +178,7 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 				    }
 				} 
 				else if ( a.annotationType().equals( DisplayColor.class ) ) {
-					DisplayColor displayColor = (DisplayColor)a;
+//					DisplayColor displayColor = (DisplayColor)a;
 					String id = COMMON_IDENTIFIERS.COLOR;
 					try {
 						((FieldVariable)getVariableById(id)).update(getUserLogic(), f);
