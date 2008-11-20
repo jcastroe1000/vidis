@@ -4,12 +4,21 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.JarFile;
 
 import javax.swing.ImageIcon;
+
+import vidis.sim.classloader.VidisClassLoader;
+import vidis.sim.classloader.modules.impl.AModule;
+import vidis.sim.classloader.modules.impl.AModuleFile;
+import vidis.sim.classloader.modules.impl.dir.DirectoryModule;
+import vidis.sim.classloader.modules.impl.jar.JarModule;
 
 /**
  * This class provides the Resources in a static way to all other classes
@@ -40,14 +49,7 @@ public class ResourceManager {
 	 */
 	private static String dropInPath;
 	/**
-	 * static constructor getting the path seperator TODO: Warning this needs to
-	 * be testet for other platforms works on Windows 2000,
-	 * 
-	 * NOTE BY DOMINIK: edited pathSeparator for all supported java platforms
-	 * 
-	 * This script is based on the fact that (hopefully) every vm has path to
-	 * resources.jar in its sun.boot.class.path It simply takes the symbol
-	 * before resources.jar as the path seperator
+	 * static constructor getting the path settings
 	 */
 	static {
 		pathSeperator = File.separator;
@@ -55,7 +57,7 @@ public class ResourceManager {
 		shaderPath = rootPath + "shaders" + pathSeperator;
 		dataPath = rootPath + "data";
 		modulesPath = dataPath + pathSeperator + "modules";
-		dropInPath = dataPath + "dropIn";
+		dropInPath = dataPath + pathSeperator + "dropIn";
 		
 		// modify class path in order to be able to load classes from the drop in folder directly
 		System.setProperty("java.class.path", System.getProperty("java.class.path") + File.pathSeparatorChar + dropInPath);
@@ -96,20 +98,52 @@ public class ResourceManager {
 		return new ImageIcon(dataPath + pathSeperator + "resources" + pathSeperator + "images" + pathSeperator + icon);
 	}
 	
-	public static List<File> getModules() {
+	private static List<JarFile> findJarFiles(List<JarFile> returns, File base) {
+		for(File c : base.listFiles()) {
+			if(c.isFile()) {
+				if(c.getName().endsWith(".jar")) {
+					// possible a jar file, try to create one
+					try {
+						JarFile j = new JarFile(c, true);
+						returns.add(j);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+			} else if(c.isDirectory()) {
+				// recurse
+				findJarFiles(returns, c);
+			}
+		}
+		return returns;
+	}
+	
+	public static List<AModule> getModules() {
+		// all module files
+		List<AModule> modules = new ArrayList<AModule>();
+		
 		// check drop in folder for new modules and class files
 		// System.getProperty("java.class.path");
 		File dropInFolder = new File(ResourceManager.dropInPath);
 		if(dropInFolder.exists()) {
 			if(dropInFolder.isDirectory()) {
 				// TODO detect all possible .jar archives
+				List<JarFile> jars = findJarFiles(new LinkedList<JarFile>(), dropInFolder);
 				// TODO load all possible .jar archives (if not loaded yet)
-				// TODO detect all possible .msim files (within .jar archives)
+				for(JarFile p : jars) {
+					try {
+						VidisClassLoader.getInstance().addFile(p);
+						modules.add(new JarModule(p));
+					} catch (MalformedURLException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 		
 		// check default folder for built in modules
-		List<File> modules = new ArrayList<File>();
 		File moduleFolder = new File(modulesPath);
 		if(moduleFolder.exists()) {
 			if(moduleFolder.isDirectory()) {
@@ -117,7 +151,7 @@ public class ResourceManager {
 					for(File module : moduleFolder.listFiles()) {
 						if(module.isDirectory()) {
 							if(! module.getName().startsWith(".")) {
-								modules.add(module);
+								modules.add(new DirectoryModule(module));
 							}
 						}
 					}
@@ -125,23 +159,6 @@ public class ResourceManager {
 			}
 		}
 		return modules;
-	}
-	
-	public static List<File> getModuleFiles(File module) {
-		List<File> moduleFiles = new ArrayList<File>();
-		File moduleFolder = module;
-		if(moduleFolder.exists()) {
-			if(moduleFolder.isDirectory()) {
-				if(! moduleFolder.getName().startsWith(".")) {
-					for(File moduleFile : moduleFolder.listFiles()) {
-						if(moduleFile.isFile() && moduleFile.canRead() && moduleFile.getName().toLowerCase().endsWith(".msim") ) {
-							moduleFiles.add(moduleFile);
-						}
-					}
-				}
-			}
-		}
-		return moduleFiles;
 	}
 
 	public static File getModuleFile(String module, String moduleFile) {

@@ -4,6 +4,9 @@ import java.io.File;
 
 import org.apache.log4j.Logger;
 
+import vidis.sim.classloader.modules.impl.AModule;
+import vidis.sim.classloader.modules.impl.AModuleFile;
+import vidis.sim.classloader.modules.interfaces.IModuleComponent;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.VidisEvent;
 import vidis.ui.model.impl.PercentMarginLayout;
@@ -24,12 +27,12 @@ public class OpenMSIMFilePopupWindow_tree extends PopupWindow {
 	
 	public OpenMSIMFilePopupWindow_tree(String title) {
 		super(title);
-		Tree<File> tree = new Tree<File>("Modules", null) {
+		Tree<IModuleComponent> tree = new Tree<IModuleComponent>("Modules", null) {
 			@Override
-			protected void clickedOn(TreeElement<File> element) {
+			protected void clickedOn(TreeElement<IModuleComponent> element) {
 				if( element.getObject() != null) {
 					logger.info("CLICKED ON: " + element.getObject().getName() );
-					if(element.getObject().isDirectory()) {
+					if(element.getObject().isModule()) {
 	//					// module directory, expand/close
 	//					if(element.isExpanded())
 	//						element.collapse();
@@ -39,7 +42,7 @@ public class OpenMSIMFilePopupWindow_tree extends PopupWindow {
 	//					refresh();
 					} else {
 						// module file, open
-						Dispatcher.forwardEvent(new VidisEvent<File>(IVidisEvent.SimulatorLoad, element.getObject()));
+						Dispatcher.forwardEvent(new VidisEvent<IModuleComponent>(IVidisEvent.SimulatorLoad, element.getObject()));
 						// close this popup
 						close();
 					}
@@ -48,12 +51,12 @@ public class OpenMSIMFilePopupWindow_tree extends PopupWindow {
 				}
 			}
 		};
-		for( File module : ResourceManager.getModules() ) {
-			TreeElement<File> treeModule = tree.createTreeElement(module.getName(), module);
+		for( AModule module : ResourceManager.getModules() ) {
+			TreeElement<IModuleComponent> treeModule = tree.createTreeElement(module.getName(), module);
 			tree.addChild( treeModule );
-			for( File moduleFile : ResourceManager.getModuleFiles(module)) {
+			for( AModuleFile moduleFile : module.getModuleFiles()) {
 				treeModule.addChild(
-						tree.createTreeElement(moduleFile.getName(), moduleFile)
+						tree.createTreeElement(moduleFile.getName(), (IModuleComponent) moduleFile)
 				);
 			}
 		}

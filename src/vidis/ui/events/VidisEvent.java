@@ -1,5 +1,6 @@
 package vidis.ui.events;
 
+
 public class VidisEvent<D> implements IVidisEvent {
 
 	private int eventId;
@@ -9,7 +10,7 @@ public class VidisEvent<D> implements IVidisEvent {
 		this.eventId = eventId;
 		this.data = data;
 	}
-	
+
 	public int getID() {
 		return eventId;
 	}

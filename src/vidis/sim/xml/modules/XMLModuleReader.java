@@ -1,7 +1,6 @@
 package vidis.sim.xml.modules;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -15,6 +14,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import vidis.sim.classloader.modules.impl.AModuleFile;
+import vidis.sim.classloader.modules.impl.dir.FileModuleFile;
 import vidis.sim.exceptions.DocumentMalformedException;
 import vidis.sim.xml.CommonDomParser;
 import vidis.sim.xml.modules.dataStructure.DocumentData;
@@ -29,10 +30,10 @@ import vidis.sim.xml.modules.dataStructure.DocumentDataNode;
  * 
  */
 public class XMLModuleReader implements CommonDomParser {
-	private File simFile;
+	private AModuleFile simFile;
 	private DocumentData document;
 
-	private XMLModuleReader(File simFile, DocumentData document) {
+	private XMLModuleReader(AModuleFile simFile, DocumentData document) {
 		this.simFile = simFile;
 		this.document = document;
 	}
@@ -363,13 +364,17 @@ public class XMLModuleReader implements CommonDomParser {
 		moduleNodesFound++;
 		return moduleNodesFound;
 	}
+	
+	public static XMLModuleReader parse(File f) {
+		return parse(new FileModuleFile(f));
+	}
 
-	public static XMLModuleReader parse(File simFile) {
+	public static XMLModuleReader parse(AModuleFile simFile) {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
 		try {
 			builder = factory.newDocumentBuilder();
-			Document document = builder.parse(new InputSource(new FileInputStream(simFile)));
+			Document document = builder.parse(new InputSource(simFile.getInputStream()));
 			return new XMLModuleReader(simFile, analyze(document));
 		} catch (ParserConfigurationException e) {
 			System.err.println(e.getMessage());
@@ -385,7 +390,7 @@ public class XMLModuleReader implements CommonDomParser {
 		return null;
 	}
 
-	public File getSimFile() {
+	public AModuleFile getSimFile() {
 		return simFile;
 	}
 

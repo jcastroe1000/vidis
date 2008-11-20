@@ -1,11 +1,8 @@
 package vidis.ui.gui;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.io.File;
 
 import javax.media.opengl.GL;
-import javax.swing.JFileChooser;
 
 import org.apache.log4j.Logger;
 
@@ -13,9 +10,7 @@ import vidis.sim.Simulator;
 import vidis.ui.config.Configuration;
 import vidis.ui.events.AEventHandler;
 import vidis.ui.events.AMouseEvent;
-import vidis.ui.events.GuiMouseEvent;
 import vidis.ui.events.IVidisEvent;
-import vidis.ui.events.VidisEvent;
 import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.BasicMarginLayout;
@@ -27,9 +22,7 @@ import vidis.ui.model.impl.NodeField;
 import vidis.ui.model.impl.PacketField;
 import vidis.ui.model.impl.PercentMarginLayout;
 import vidis.ui.model.impl.TextField;
-import vidis.ui.model.impl.TextGuiContainer;
 import vidis.ui.model.impl.guielements.popupWindows.ApplyLayoutPopupWindow;
-import vidis.ui.model.impl.guielements.popupWindows.OpenMSIMFilePopupWindow;
 import vidis.ui.model.impl.guielements.popupWindows.OpenMSIMFilePopupWindow_tree;
 import vidis.ui.model.impl.guielements.scrollpane.AScrollpane3D;
 import vidis.ui.model.impl.guielements.scrollpane.ScrollPane3D;

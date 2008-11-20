@@ -19,6 +19,9 @@ import vidis.data.sim.SimLink;
 import vidis.data.sim.SimNode;
 import vidis.data.var.AVariable;
 import vidis.data.var.vars.DefaultVariable;
+import vidis.sim.classloader.VidisClassLoader;
+import vidis.sim.classloader.modules.impl.AModuleFile;
+import vidis.sim.classloader.modules.impl.dir.FileModuleFile;
 import vidis.sim.exceptions.SimulatorConfigRuntimeException;
 import vidis.sim.xml.modules.XMLModuleReader;
 import vidis.sim.xml.modules.dataStructure.DocumentData;
@@ -93,7 +96,7 @@ public class Simulator {
 
 	private SimulatorData data;
 	
-	private List<File> simFileHistory = new LinkedList<File>();
+	private List<AModuleFile> simFileHistory = new LinkedList<AModuleFile>();
 	
 	private static boolean RUN_WITH_3D = true;
 
@@ -186,11 +189,18 @@ public class Simulator {
 		}
 		return median;
 	}
+	
+	public void importSimFile(AModuleFile f) {
+		simFileHistory.add(f);
+		
+		XMLModuleReader reader = XMLModuleReader.parse(f);
+		init(reader);
+	}
 
 	public void importSimFile(File file) {
-		simFileHistory.add(file);
-		XMLModuleReader reader = XMLModuleReader.parse(file);
-		init(reader);
+		FileModuleFile f = new FileModuleFile(file);
+		
+		importSimFile(f);
 	}
 
 	private final void init(XMLModuleReader reader) {
@@ -281,7 +291,8 @@ public class Simulator {
 			DocumentDataLink documentLink = document.getLinkById(id);
 			String classpath = document.getClasspath() + "." + documentLink.getClasspath();
 			try {
-				Class<?> clazz = Class.forName(classpath);
+//				Class<?> clazz = Class.forName(classpath);
+				Class<?> clazz = VidisClassLoader.getInstance().loadClass(classpath);
 				Constructor<?> constructor = getEmptyConstructor(clazz);
 				if (constructor != null) {
 					// instance IUserLink
@@ -324,7 +335,8 @@ public class Simulator {
 			try {
 				// Class<?> clasS =
 				// ClassLoader.getSystemClassLoader().loadClass(classpath);
-				Class<?> c = Class.forName(classpath);
+//				Class<?> c = Class.forName(classpath);
+				Class<?> c = VidisClassLoader.getInstance().loadClass(classpath);
 				Constructor<?> k = getEmptyConstructor(c);
 				Object o = k.newInstance();
 				if (o instanceof IUserNode) {

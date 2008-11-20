@@ -10,6 +10,8 @@ import org.apache.log4j.Logger;
 import vidis.data.sim.AComponent;
 import vidis.data.sim.SimNode;
 import vidis.sim.Simulator;
+import vidis.sim.classloader.modules.impl.AModuleFile;
+import vidis.sim.classloader.modules.impl.dir.FileModuleFile;
 import vidis.ui.config.Configuration;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.JobAppend;
@@ -59,16 +61,37 @@ public class SimulatorController extends AController {
 		case IVidisEvent.SimulatorLoad:
 			if(event instanceof VidisEvent) {
 				// now pick a file
-				File f = (File) ((VidisEvent)event).getData();
-				if ( f != null && f.exists() && f.isFile()) {
+				AModuleFile f = null;
+				try {
+					f = new FileModuleFile((File) ((VidisEvent)event).getData());
+				} catch(ClassCastException e) {
+					f = (AModuleFile) ((VidisEvent)event).getData();
+				} finally {
+//					System.err.println("Loading MSIM: " + f);
+					// stop simulator
 					if(!Simulator.getInstance().getPlayer().isPaused())
 						Simulator.getInstance().getPlayer().pause();
 					Simulator.getInstance().getPlayer().stop();
-					sim.importSimFile(f);
+					
+					// load file
+					Simulator.getInstance().importSimFile(f);
+					
+					// reset detail level
 					Configuration.DETAIL_LEVEL = 0.0;
-//					Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGraphElectricSpring );
+					
+					// apply a nice layout
 					Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGrid );
 				}
+				
+//				if ( f != null && f.exists() && f.isFile()) {
+//					if(!Simulator.getInstance().getPlayer().isPaused())
+//						Simulator.getInstance().getPlayer().pause();
+//					Simulator.getInstance().getPlayer().stop();
+//					sim.importSimFile(f);
+//					Configuration.DETAIL_LEVEL = 0.0;
+////					Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGraphElectricSpring );
+//					Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGrid );
+//				}
 			}
 			break;
 		case IVidisEvent.SimulatorReload:

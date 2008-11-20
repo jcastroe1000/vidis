@@ -2,7 +2,6 @@ package vidis.ui.model.impl.guielements.variableDisplays;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +16,6 @@ import javax.vecmath.Tuple3i;
 import org.apache.log4j.Logger;
 
 import vidis.data.var.AVariable;
-import vidis.data.var.vars.MethodVariable;
 
 /**
  * holds all known displays and decides which should be instantiated
@@ -83,12 +81,12 @@ public class DisplayRegistry {
 			logger.debug( "creating display for " + c + ":" + var );
 			for ( Class<?> key : knownTypes.keySet() ) {
 				if ( key.isAssignableFrom( c ) ) {
-					System.err.println("DISPLAY for "+ c +"{"+var.getIdentifier()+"} = " + key + " through " + knownTypes.get(key));
+//					System.err.println("DISPLAY for "+ c +"{"+var.getIdentifier()+"} = " + key + " through " + knownTypes.get(key));
 					//return knownTypes.get( key ).newInstance( var );
 					return createDisplay(knownTypes.get(key), var);
 				}
 			}
-			System.err.println("SKIPPED DISPLAY for "+ c +"{"+var.getIdentifier()+"}");
+//			System.err.println("SKIPPED DISPLAY for "+ c +"{"+var.getIdentifier()+"}");
 			// Fallback to String
 			return createDisplay(knownTypes.get( String.class ),  var );
 //		}
