@@ -2,8 +2,6 @@ package vidis.ui.events;
 
 import java.awt.event.MouseEvent;
 
-import org.apache.log4j.Logger;
-
 
 /**
  * 
@@ -11,8 +9,6 @@ import org.apache.log4j.Logger;
  *
  */
 public class MouseMovedEvent extends AMouseEvent {
-	private static Logger logger = Logger.getLogger(MouseMovedEvent.class);
-
 	public MouseMovedEvent(MouseEvent m) {
 		super(m);
 	}
