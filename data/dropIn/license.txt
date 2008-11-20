@@ -1,8 +1,0 @@
-	<module name='apache-xalan'
-		licenseType='apache-2.0'
-		version='j_2.7.0'
-		projectHome='http://xml.apache.org/xalan-j/'
-		description='Xalan-Java is an XSLT processor for transforming XML documents'>
-		<jar name='xalan.jar' />
-		<jar name='serializer.jar' />
-	</module>

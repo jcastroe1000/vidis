@@ -194,6 +194,7 @@ public class Simulator {
 		simFileHistory.add(f);
 		
 		XMLModuleReader reader = XMLModuleReader.parse(f);
+		
 		init(reader);
 	}
 

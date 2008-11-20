@@ -16,7 +16,6 @@ import javax.swing.ImageIcon;
 
 import vidis.sim.classloader.VidisClassLoader;
 import vidis.sim.classloader.modules.impl.AModule;
-import vidis.sim.classloader.modules.impl.AModuleFile;
 import vidis.sim.classloader.modules.impl.dir.DirectoryModule;
 import vidis.sim.classloader.modules.impl.jar.JarModule;
 
@@ -58,9 +57,6 @@ public class ResourceManager {
 		dataPath = rootPath + "data";
 		modulesPath = dataPath + pathSeperator + "modules";
 		dropInPath = dataPath + pathSeperator + "dropIn";
-		
-		// modify class path in order to be able to load classes from the drop in folder directly
-		System.setProperty("java.class.path", System.getProperty("java.class.path") + File.pathSeparatorChar + dropInPath);
 	}
 
 	/**
@@ -106,6 +102,8 @@ public class ResourceManager {
 					try {
 						JarFile j = new JarFile(c, true);
 						returns.add(j);
+						// add it to the classpath
+						System.setProperty("java.class.path", System.getProperty("java.class.path") + File.pathSeparatorChar + j.getName());
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

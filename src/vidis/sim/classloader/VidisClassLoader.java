@@ -1,8 +1,10 @@
 package vidis.sim.classloader;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.jar.JarFile;
@@ -16,14 +18,15 @@ public class VidisClassLoader extends URLClassLoader {
 	
 	private List<JarFile> loadedJars;
 
-	private VidisClassLoader(URL[] urls) {
-		super(urls, ClassLoader.getSystemClassLoader());
+	private VidisClassLoader() {
+//		super(urls, ClassLoader.getSystemClassLoader());
+		super(new URL[] { });
 		loadedJars = new LinkedList<JarFile>();
 	}
 	
 	public static VidisClassLoader getInstance() {
 		if(instance == null)
-			instance = new VidisClassLoader(new URL[] {});
+			instance = new VidisClassLoader();
 		return instance;
 	}
 	
@@ -32,7 +35,7 @@ public class VidisClassLoader extends URLClassLoader {
 	}
 	
 	public void addFile(JarFile p) throws MalformedURLException {
-		String urlpath = "jar:file://" + p + "!/";
+		String urlpath = "jar:" + new File(p.getName()).toURI().toURL() + "!/";
 		if(loadedJars.contains(p)) {
 			logger.debug("[ReLoad JAR] " + p);
 		} else {
