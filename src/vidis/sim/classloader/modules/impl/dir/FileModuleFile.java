@@ -5,13 +5,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.log4j.Logger;
-
 import vidis.sim.classloader.modules.impl.AModuleFile;
 
+/**
+ * a file module file; a local file msim
+ * @author Dominik
+ *
+ */
 public class FileModuleFile extends AModuleFile {
-	private static Logger logger = Logger.getLogger(FileModuleFile.class);
-
 	private File f;
 	public FileModuleFile(File file) {
 		f = file;

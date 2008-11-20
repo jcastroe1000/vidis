@@ -4,14 +4,17 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import vidis.sim.classloader.modules.impl.AModule;
 import vidis.sim.classloader.modules.impl.AModuleFile;
 
+/**
+ * this kind of module can be used to load
+ * local msim files; their classes MUST be already
+ * within the class-path in order to work
+ * @author Dominik
+ *
+ */
 public class DirectoryModule extends AModule {
-	private static Logger logger = Logger.getLogger(DirectoryModule.class);
-	
 	private File f;
 	public DirectoryModule(File file) {
 		f = file;
