@@ -1,7 +1,7 @@
 package vidis.data.mod;
 
-import vidis.sim.exceptions.ObstructInitCallException;
 import vidis.data.AUserNode;
+import vidis.data.exceptions.ObstructInitCallException;
 import vidis.data.sim.ISimNodeCon;
 
 /**

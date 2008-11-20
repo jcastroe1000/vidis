@@ -3,13 +3,13 @@ package vidis.data.sim;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
+import vidis.data.exceptions.ObstructInitCallException;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
 import vidis.data.mod.IUserPacket;
 import vidis.data.var.AVariable;
 import vidis.data.var.vars.DefaultVariable;
 import vidis.sim.Simulator;
-import vidis.sim.exceptions.ObstructInitCallException;
 import vidis.sim.exceptions.ObstructInitRuntimeCallException;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.ObjectEvent;

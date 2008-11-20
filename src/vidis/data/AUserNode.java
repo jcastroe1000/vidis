@@ -2,6 +2,7 @@ package vidis.data;
 
 import java.util.List;
 
+import vidis.data.exceptions.ObstructInitCallException;
 import vidis.data.mod.AUserComponent;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
@@ -9,7 +10,6 @@ import vidis.data.mod.IUserPacket;
 import vidis.data.sim.ISimNodeCon;
 import vidis.data.var.AVariable;
 import vidis.data.var.AVariable.COMMON_SCOPES;
-import vidis.sim.exceptions.ObstructInitCallException;
 
 /**
  * abstract user node represents a node by a user;

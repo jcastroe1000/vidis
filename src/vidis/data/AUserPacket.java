@@ -1,5 +1,6 @@
 package vidis.data;
 
+import vidis.data.exceptions.ObstructInitCallException;
 import vidis.data.mod.AUserComponent;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
@@ -7,7 +8,6 @@ import vidis.data.mod.IUserPacket;
 import vidis.data.sim.ISimPacketCon;
 import vidis.data.var.AVariable;
 import vidis.data.var.AVariable.COMMON_SCOPES;
-import vidis.sim.exceptions.ObstructInitCallException;
 
 /**
  * abstract user packet represents a packet by a user;

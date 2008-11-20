@@ -11,12 +11,12 @@ import javax.vecmath.Vector3d;
 
 import org.apache.log4j.Logger;
 
+import vidis.data.exceptions.ObstructInitCallException;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
 import vidis.data.mod.IUserPacket;
 import vidis.data.var.AVariable;
 import vidis.sim.Simulator;
-import vidis.sim.exceptions.ObstructInitCallException;
 import vidis.sim.exceptions.ObstructInitRuntimeCallException;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.ObjectEvent;

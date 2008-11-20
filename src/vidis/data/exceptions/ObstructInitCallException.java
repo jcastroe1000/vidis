@@ -1,4 +1,4 @@
-package vidis.sim.exceptions;
+package vidis.data.exceptions;
 
 import java.lang.Exception;
 
