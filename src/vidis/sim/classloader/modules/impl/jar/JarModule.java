@@ -8,6 +8,8 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -53,6 +55,29 @@ public class JarModule extends AModule implements IModuleComponent {
 
 	@Override
 	public String getName() {
+		// test if we may find a module name in the manifest
+		try {
+			for(Entry<String,Attributes> es : f.getManifest().getEntries().entrySet()) {
+//				System.err.println(es.getKey() + ":"+ es.getValue().size() + ": ");
+				if(es.getKey().equals("Module")) {
+					// got module information
+					for(Entry<Object, Object> e : es.getValue().entrySet()) {
+						if(e.getKey().equals(new Attributes.Name("Module-Name"))) {
+							return e.getValue().toString() + " (" + ff.getName() + ")";
+						}
+					}
+				}
+			}
+//			Attributes mod = f.getManifest().getEntries().get("Module");
+//			if(mod != null) {
+//				if(mod.containsKey("Module-Name")) {
+//					return mod.getValue("Module-Name");
+//				}
+//			} else {
+//				System.err.println("module not found");
+//			}
+		} catch (IOException e) {
+		}
 		return ff.getName();
 	}
 }
