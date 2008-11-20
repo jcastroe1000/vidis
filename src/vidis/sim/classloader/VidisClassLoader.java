@@ -4,13 +4,21 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.jar.JarFile;
 
 import org.apache.log4j.Logger;
 
+/**
+ * the vidis class loader
+ * 
+ * basically this class is the concrete implementation of
+ * our class loader to load module files, not only from jar
+ * archives
+ * @author Dominik
+ *
+ */
 public class VidisClassLoader extends URLClassLoader {
 	private static Logger logger = Logger.getLogger(VidisClassLoader.class);
 	
