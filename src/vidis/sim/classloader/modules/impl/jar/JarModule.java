@@ -1,5 +1,6 @@
 package vidis.sim.classloader.modules.impl.jar;
 
+import java.io.File;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,9 +17,11 @@ public class JarModule extends AModule implements IModuleComponent {
 	private static Logger logger = Logger.getLogger(JarModule.class);
 	
 	private JarFile f;
+	private File ff;
 	
 	public JarModule(JarFile file) {
 		f = file;
+		ff = new File(f.getName());
 	}
 
 	@Override
@@ -38,6 +41,6 @@ public class JarModule extends AModule implements IModuleComponent {
 
 	@Override
 	public String getName() {
-		return f.getName();
+		return ff.getName();
 	}
 }

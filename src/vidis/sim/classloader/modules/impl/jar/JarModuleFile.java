@@ -1,5 +1,6 @@
 package vidis.sim.classloader.modules.impl.jar;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.jar.JarEntry;
@@ -14,6 +15,8 @@ public class JarModuleFile extends AModuleFile {
 	
 	private JarFile f;
 	private JarEntry e;
+	
+	private File ee;
 
 	public JarModuleFile(JarFile f, JarEntry e) {
 		this.f = f;
