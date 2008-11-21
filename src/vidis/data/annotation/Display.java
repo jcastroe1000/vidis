@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * 
  * PLEASE NOTE: THIS CLASS IS DEPRECATED AND SHOULD NO MORE USED!
  * 				IT WILL BE REMOVED SOON!
- * a so a schaﬂ
+ * a so a schas
  * 
  * @author Dominik
  * @see DisplayType

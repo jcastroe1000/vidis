@@ -126,6 +126,10 @@
 		</jar>
 	</target>
 	
+	<target name="rebuild" depends="clean-bin,compile" description="Do a full rebuild of the project; cleans build-directory and compiles.">
+		
+	</target>
+	
 	<!-- target compile -->
 	<target name="compile" depends="init-compile">
 		<!-- debug wenn fertig auf OFF -->
@@ -133,7 +137,11 @@
 		<javac fork="false" srcdir="${vidis.src}" destdir="${vidis.bin}" classpathref="vidis.classpath"
 				debug="true"
 				optimize="false"
-		/>
+		>
+			<!-- compiler flags to show/hide deprecation,unchecked information -->
+			<!--<compilerarg line="-Xlint:deprecation -Xlint:unchecked"/>-->
+			<compilerarg line="-Xlint:deprecation" />
+		</javac>
 		<echo message="OK" />
 	</target>
         
