@@ -97,7 +97,7 @@ public class Button extends BasicGuiContainer {
 		gl.glEnd();
 		
 		// text
-		Rectangle2D r = textRenderer.getBounds( text );
+		Rectangle2D r = textRenderer.getBounds( "Apdq[]" );
 		float scale = 0.01f;
 		
 		double factor = 0.7;

@@ -1,7 +1,5 @@
 package vidis.ui.model.impl.guielements.popupWindows;
 
-import java.io.File;
-
 import org.apache.log4j.Logger;
 
 import vidis.sim.classloader.modules.impl.AModule;

@@ -59,7 +59,6 @@ public class TreeElement<T> extends BasicGuiContainer {
 					expand();
 				}
 				root.clickedOn(TreeElement.this);
-				root.refresh();
 			}
 		};
 		my.setBounds(1, 1, 7, 18);

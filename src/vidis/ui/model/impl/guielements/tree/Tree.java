@@ -23,6 +23,7 @@ public abstract class Tree<T> extends TreeElement<T> {
 		return scrollpane;
 	}
 	public void refresh() {
+		// TODO XXX this is the strange kack-ab bug
 		scrollpane.removeAllChilds();
 		super.refresh(0);
 	}

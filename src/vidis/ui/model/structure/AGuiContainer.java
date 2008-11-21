@@ -154,12 +154,9 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 			break;
 		}
 		
-		
 		if (forward)
 		for (IGuiContainer c : childs) {
-			if ( c.isVisible() ) {
-				c.fireEvent( e );
-			}
+			c.fireEvent( e );
 		}
 	}
 	
