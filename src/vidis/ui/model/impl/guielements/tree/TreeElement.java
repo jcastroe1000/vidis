@@ -101,5 +101,8 @@ public class TreeElement<T> extends BasicGuiContainer {
 	}
 	public void collapse() {
 		expanded = false;
+		for(TreeElement<T> c : childs) {
+			c.collapse();
+		}
 	}
 }
