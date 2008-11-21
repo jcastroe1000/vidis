@@ -57,6 +57,13 @@ public class JarModule extends AModule implements IModuleComponent {
 	public String getName() {
 		// test if we may find a module name in the manifest
 		try {
+			// check mainlevel
+			for(Entry<Object,Object> e : f.getManifest().getMainAttributes().entrySet()) {
+				if(e.getKey().equals(new Attributes.Name("Module-Name"))) {
+					return e.getValue().toString() + " (" + ff.getName() + ")";
+				}
+			}
+			// check attributes
 			for(Entry<String,Attributes> es : f.getManifest().getEntries().entrySet()) {
 //				System.err.println(es.getKey() + ":"+ es.getValue().size() + ": ");
 				if(es.getKey().equals("Module")) {
