@@ -131,9 +131,13 @@ public class SceneController extends AController implements GLEventListener {
 			break;
 		case IVidisEvent.MouseClickedEvent:
 		case IVidisEvent.MouseMovedEvent:
+			try {
 			if ( ((AMouseEvent)event).rayCalculated ) {
 //				logger.warn("handling Mouse event");
 				handleMouseEvent( (AMouseEvent)event );
+			}
+			} catch(Exception e) {
+				logger.error(e);
 			}
 			break;
 		case IVidisEvent.StartNodeCapturing:

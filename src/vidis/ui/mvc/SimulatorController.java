@@ -63,24 +63,31 @@ public class SimulatorController extends AController {
 				// now pick a file
 				AModuleFile f = null;
 				try {
-					f = new FileModuleFile((File) ((VidisEvent)event).getData());
-				} catch(ClassCastException e) {
 					f = (AModuleFile) ((VidisEvent)event).getData();
+				} catch(ClassCastException e) {
+					logger.error("catched and resolved exception; older versions may use java.util.File, so let's try fallback.", e);
+					try {
+						f = new FileModuleFile((File) ((VidisEvent)event).getData());
+					} catch(ClassCastException e2) {
+						logger.error("catched BUT COULD NOT RECOVER: ",e2);
+					}
 				} finally {
-//					System.err.println("Loading MSIM: " + f);
-					// stop simulator
-					if(!Simulator.getInstance().getPlayer().isPaused())
-						Simulator.getInstance().getPlayer().pause();
-					Simulator.getInstance().getPlayer().stop();
-					
-					// load file
-					Simulator.getInstance().importSimFile(f);
-					
-					// reset detail level
-					Configuration.DETAIL_LEVEL = 0.0;
-					
-					// apply a nice layout
-					Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGrid );
+					if(f != null) {
+	//					System.err.println("Loading MSIM: " + f);
+						// stop simulator
+						if(!Simulator.getInstance().getPlayer().isPaused())
+							Simulator.getInstance().getPlayer().pause();
+						Simulator.getInstance().getPlayer().stop();
+						
+						// load file
+						Simulator.getInstance().importSimFile(f);
+						
+						// reset detail level
+						Configuration.DETAIL_LEVEL = 0.0;
+						
+						// apply a nice layout
+						Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGrid );
+					}
 				}
 				
 //				if ( f != null && f.exists() && f.isFile()) {

@@ -139,8 +139,7 @@
 				optimize="false"
 		>
 			<!-- compiler flags to show/hide deprecation,unchecked information -->
-			<!--<compilerarg line="-Xlint:deprecation -Xlint:unchecked"/>-->
-			<compilerarg line="-Xlint:deprecation" />
+			<compilerarg line=" -Xlint:deprecation -Xlint:unchecked" />
 		</javac>
 		<echo message="OK" />
 	</target>

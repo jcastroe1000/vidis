@@ -58,8 +58,11 @@ public class CameraController extends AController{
 			break;
 		case IVidisEvent.MouseClickedEvent:
 		case IVidisEvent.MouseMovedEvent:
+			try {
 			if ( ((AMouseEvent)event).rayCalculated == false && ((AMouseEvent)event).forwardTo3D == true ) {
 				defaultCamera.fireEvent( event );
+			}} catch(Exception e) {
+				logger.error(e);
 			}
 			break;
 		}
