@@ -569,6 +569,7 @@ public class Link extends ASimObject {
 
 	@Override
 	public void renderObjectText(GL gl) {
+		textRenderer.setColor( Color.black );
 		
 		
 	}

@@ -104,7 +104,7 @@ public class Node extends ASimObject {
 //			textRenderer.draw3D( text, 0f, 0f, 0f, 1f );
 //			textRenderer.end3DRendering();
 //		gl.glPopMatrix();
-		
+		textRenderer.setColor( Color.black );
 		
 		text = "test";
 		try {

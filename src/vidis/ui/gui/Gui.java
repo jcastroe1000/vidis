@@ -172,16 +172,6 @@ public class Gui extends AEventHandler {
 //		loadButton.setLayout(new PercentMarginLayout(-0.1,-0.1,-0.1,-0.1,-0.8,-0.8));
 		loadButton.setText("Load");
 		
-		AScissorContainer st = new AScissorContainer() {
-			@Override
-			protected void renderScissoredContent(GL gl) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-		st.setLayout(new PercentMarginLayout(-0.2,-0.7,-0.8,-0.3,-0.1,-0.1) );
-		mainContainer.addChild( st );
-		
 		Button resetButton = new Button() {
 			@Override
 			public void onClick() {

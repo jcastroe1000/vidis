@@ -31,17 +31,6 @@ public class BasicGuiContainer extends AGuiContainer {
 		return opaque;
 	}
 	
-	private boolean visible = true;
-
-	public void setVisible( boolean visible ) {
-		this.visible = visible;
-	}
-	
-	public boolean isVisible() {
-		return this.visible;
-	}
-	
-	
 	protected synchronized Color getColor() {
 		if ( color == null ) {
 			color = color1;

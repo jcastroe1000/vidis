@@ -52,7 +52,8 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	protected void requireTextRenderer() {
 		if ( textRenderer == null ) {
 			try {
-				textRenderer = new TextRenderer( ResourceManager.getFont( ResourceManager.FONT_ARIAL, 130 ) );
+				textRenderer = new TextRenderer( ResourceManager.getFont( ResourceManager.FONT_VERDANA, 50 ) );
+				textRenderer.setSmoothing( true );
 				textH = textRenderer.getBounds("pb[{").getHeight();
 			}
 			catch ( Exception e ) {
@@ -202,6 +203,14 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 			Point2d point = e.guiCoords;
 			double myX = getAbsoluteX();
 			double myY = getAbsoluteY();
+			// cleanup
+			Set<IGuiContainer> toRemove = new HashSet<IGuiContainer>();
+			for ( IGuiContainer g : underMouse ) {
+				if ( !g.isVisible() ) {
+					toRemove.add( g );
+				}
+			}
+			underMouse.removeAll( toRemove );
 			if ( isPointWithinRect( point, myX, myY, getWidth(), getHeight() ) ) {
 				if ( ! underMouse.contains(this) ) {
 					underMouse.add( this );
@@ -220,7 +229,9 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 					c.fireEvent( e );
 				}
 			}
-			
+			// forward to 3d
+			logger.info( "FORWARD TO 3D: parent="+parent+", underMouse.contains="+underMouse.contains( this )+
+					", underMouse.size="+ underMouse.size());
 			if ( parent == null && underMouse.contains( this ) && underMouse.size() == 1 ) {
 				e.forwardTo3D = true;
 				Dispatcher.forwardEvent( e );
@@ -396,4 +407,18 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	public boolean isUseScissorTest() {
 		return useScissorTest;
 	}
+	
+	private boolean visible = true;
+
+	public void setVisible( boolean visible ) {
+		this.visible = visible;
+		for ( IGuiContainer c : childs ) {
+			c.setVisible( visible );
+		}
+	}
+	
+	public boolean isVisible() {
+		return this.visible;
+	}
+	
 }

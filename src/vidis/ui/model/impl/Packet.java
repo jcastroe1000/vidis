@@ -122,6 +122,8 @@ public class Packet extends ASimObject {
 	@Override
 	public void renderObjectText(GL gl) {
 		String text = "";
+		textRenderer.setColor( Color.black );
+		
 		try {
 			// add text
 			text = getVariableById(AVariable.COMMON_IDENTIFIERS.NAME).getData().toString();

@@ -185,6 +185,7 @@ public class ResourceManager {
 	
 	private static Font createFont(String filename) throws FontFormatException, IOException {
 		Font font = Font.createFont(Font.TRUETYPE_FONT, new File(dataPath + pathSeperator + "resources" + pathSeperator + "fonts" + pathSeperator + filename));
+		font = font.deriveFont( Font.BOLD );
 		return font;
 	}
 	

@@ -302,6 +302,8 @@ public class SceneController extends AController implements GLEventListener {
 	}
 
 	private void draw3DText( GL gl ) {
+		boolean depthTest = gl.glIsEnabled( GL.GL_DEPTH_TEST );
+		gl.glDisable( GL.GL_DEPTH_TEST );
 		gl.glPushMatrix();
 		for ( IVisObject o : objects ) {
 			if ( o.isTextRenderable() ) {
@@ -309,6 +311,9 @@ public class SceneController extends AController implements GLEventListener {
 			}
 		}
 		gl.glPopMatrix();
+		if ( depthTest ) {
+			gl.glEnable( GL.GL_DEPTH_TEST );
+		}
 	}
 	
 	private void drawModel( GL gl, ICamera c ) {
