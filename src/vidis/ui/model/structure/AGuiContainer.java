@@ -230,8 +230,6 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 				}
 			}
 			// forward to 3d
-			logger.info( "FORWARD TO 3D: parent="+parent+", underMouse.contains="+underMouse.contains( this )+
-					", underMouse.size="+ underMouse.size());
 			if ( parent == null && underMouse.contains( this ) && underMouse.size() == 1 ) {
 				e.forwardTo3D = true;
 				Dispatcher.forwardEvent( e );

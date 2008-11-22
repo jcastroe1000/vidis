@@ -74,6 +74,7 @@ public class GroupDisplay extends Label {
 	
 	public void addContent( BasicGuiContainer d ) {
 		this.content.add( d );
+		d.setVisible( getShowContent() );
 	}
 	public void removeContent( BasicGuiContainer d ) {
 		this.content.remove( d );
