@@ -38,12 +38,15 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	private Color color1 = Color.GREEN;
 	private Color color2 = Color.BLACK;
 	
+	private boolean highlighted = false;
+	
 	public void setColor1( Color color ) {
 		this.color1 = color;
 	}
 	public void setColor2( Color color ) {
 		this.color2 = color;
 	}
+	
 	
 	public Color getColor1() {
 		return this.color1;
@@ -199,9 +202,15 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	}
 	
 	
+	public boolean isHighlighted() {
+		return highlighted;
+	}
+	public void setHighlighted(boolean highlighted) {
+		this.highlighted = highlighted;
+	}
 	protected Color getVariableColor1() {
 		Color retVal = getVariableColor();
-		if ( isMouseOver() ) {
+		if ( isHighlighted() ) {
 			retVal = onMouseOverModifier( retVal );
 		}
 		return retVal;
@@ -211,7 +220,7 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 		Color retVal = getVariableColor();
 		// FIXME choose right paramters
 		retVal = ColorGenerator.nearByColor( retVal, 12, 13, -14 );
-		if ( isMouseOver() ) {
+		if ( isHighlighted() ) {
 			retVal = onMouseOverModifier( retVal );
 		}
 		return retVal;

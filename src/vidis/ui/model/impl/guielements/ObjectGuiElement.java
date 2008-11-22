@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 
 import vidis.data.var.IVariableContainer;
 import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.MouseMovedEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.Node;
 import vidis.ui.model.impl.guielements.variableDisplays.CompositeScrollPane;
@@ -30,6 +31,7 @@ public abstract class ObjectGuiElement extends BasicGuiContainer {
 		this.color1 = Color.gray;
 		this.color2 = Color.gray.brighter();
 		this.setOpaque(true);
+		
 		
 		top = new BasicGuiContainer() {
 			@Override
@@ -81,8 +83,15 @@ public abstract class ObjectGuiElement extends BasicGuiContainer {
 			
 		});
 		this.addChild( scrollPane );
+		
 	}
 
+	@Override
+	public void setHighlighted( boolean highlighted ) {
+		top.setHighlighted( highlighted );
+		super.setHighlighted( highlighted );
+	}
+	
 	@Override
 	public void renderContainer(GL gl) {
 		requireTextRenderer();

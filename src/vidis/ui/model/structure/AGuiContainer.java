@@ -46,7 +46,7 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	public boolean isUseScissorTestNow() {
 		return useScissorTestNow;
 	}
-
+	
 	protected double textH;
 	
 	protected void requireTextRenderer() {

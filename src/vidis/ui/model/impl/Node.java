@@ -9,6 +9,7 @@ import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.ui.config.Configuration;
 import vidis.ui.events.IVidisEvent;
+import vidis.ui.events.MouseMovedEvent;
 import vidis.ui.model.impl.guielements.ObjectGuiElement;
 import vidis.ui.model.impl.guielements.variableDisplays.CompositeScrollPane;
 import vidis.ui.model.structure.ASimObject;
@@ -16,9 +17,6 @@ import vidis.ui.model.structure.ASimObject;
 public class Node extends ASimObject {
 	
 	private class NodeGuiElement extends ObjectGuiElement {
-		
-		
-		
 		//private static Logger logger = Logger.getLogger(NodeGuiElement.class);
 		
 		
@@ -42,6 +40,17 @@ public class Node extends ASimObject {
 			renderObjectText( gl, 0.01 );
 		};
 		
+		@Override
+		protected synchronized void onMouseEnter(MouseMovedEvent e) {
+			Node.this.setHighlighted( true );
+			super.onMouseEnter(e);
+		}
+		
+		@Override
+		protected synchronized void onMouseExit(MouseMovedEvent e) {
+			Node.this.setHighlighted( false );
+			super.onMouseExit(e);
+		}
 
 	}
 	
@@ -165,12 +174,16 @@ public class Node extends ASimObject {
 	private boolean mouse = false;
 	@Override
 	public void onMouseIn() {
+		setHighlighted( true );
 		mouse = true;
+		((NodeGuiElement)guiObj).setHighlighted( true );
 	}
 
 	@Override
 	public void onMouseOut() {
+		setHighlighted( false );
 		mouse = false;
+		((NodeGuiElement)guiObj).setHighlighted( false );
 	}
 
 	public String getId() {

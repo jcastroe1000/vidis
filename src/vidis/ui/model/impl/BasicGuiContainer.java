@@ -19,6 +19,10 @@ public class BasicGuiContainer extends AGuiContainer {
 	
 	private boolean opaque = true;
 	
+	// determines wheter color1 or color2 is used
+	private boolean highlighted = false;
+
+	
 	public void setOpaque( boolean value ) {
 		this.opaque = value;
 	}
@@ -112,17 +116,27 @@ public class BasicGuiContainer extends AGuiContainer {
 //			gl.glPopMatrix();
 		gl.glPopMatrix();
 	}
+	private void updateColor() {
+		if ( isHighlighted() ) {
+			color = color2;
+		}
+		else {
+			color = color1;
+		}
+	}
+	
 	@Override
 	protected synchronized void onMouseEnter( MouseMovedEvent e ) {
 		logger.debug( "onMouseEnter() on " + this );
-		color = color2;
+		setHighlighted( true );
+		updateColor();
 	}
 	@Override
 	protected synchronized void onMouseExit( MouseMovedEvent e ) {
 		logger.debug( "onMouseExit() on " + this );
-		color = color1;
+		setHighlighted( false );
+		updateColor();
 	}
-	
 	
 	private String name;
 	public void setName( String name ) {
@@ -160,6 +174,15 @@ public class BasicGuiContainer extends AGuiContainer {
 	public void renderText(GL gl) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public boolean isHighlighted() {
+		return highlighted;
+	}
+
+	public void setHighlighted(boolean highlighted) {
+		this.highlighted = highlighted;
+		updateColor();
 	}
 
 }
