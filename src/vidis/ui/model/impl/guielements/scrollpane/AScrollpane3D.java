@@ -9,6 +9,7 @@ import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
+import vidis.ui.model.impl.AScissorContainer;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.guielements.slider.VerticalSlider3D;
 import vidis.ui.model.structure.IGuiContainer;
@@ -76,8 +77,11 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 						sum += childs.get(i).getHeight();
 						sum += padding;
 					}
-					if ( sum > maxHeight ) {
-						return Double.MAX_VALUE;
+					// when no scissor test is available omit the last elements
+					if ( ! AScrollpane3D.this.isUseScissorTestNow() ) {
+						if ( sum > maxHeight ) {
+							return Double.MAX_VALUE;
+						}
 					}
 				}
 				return sum - childs.get( myIndex ).getHeight();
@@ -95,8 +99,8 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 	
 	
 	public AScrollpane3D() {
+		setUseScissorTest( true );
 		childs = new ArrayList<IGuiContainer>();
-		
 		setOpaque( false );
 		
 		slider = new VerticalSlider3D(0, 1); // initially 0,1; increment later as the elements count increases
@@ -259,7 +263,6 @@ public abstract class AScrollpane3D extends BasicGuiContainer {
 		return s;
 	}
 	
-	@Override
 	public void renderContainer(GL gl) {
 		fixSliderMinMax();
 		super.renderContainer(gl);

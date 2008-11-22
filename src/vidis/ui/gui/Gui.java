@@ -21,6 +21,7 @@ import vidis.ui.model.impl.Label;
 import vidis.ui.model.impl.NodeField;
 import vidis.ui.model.impl.PacketField;
 import vidis.ui.model.impl.PercentMarginLayout;
+import vidis.ui.model.impl.AScissorContainer;
 import vidis.ui.model.impl.TextField;
 import vidis.ui.model.impl.guielements.popupWindows.ApplyLayoutPopupWindow;
 import vidis.ui.model.impl.guielements.popupWindows.OpenMSIMFilePopupWindow_tree;
@@ -103,7 +104,6 @@ public class Gui extends AEventHandler {
 		logger.debug("initializeControls()");
 		BasicGuiContainer container1 = new BasicGuiContainer();
 		container1.setLayout(new PercentMarginLayout(1,0.9,-0.9,1,-0.1,-0.1));
-		// FIXME something does not work with play and load button; if click on load, play is clicked too but not vice versa
 		Button playButton = new Button() {
 			private boolean paused = false;
 			@Override
@@ -118,7 +118,7 @@ public class Gui extends AEventHandler {
 				super.renderContainer(gl);
 			}
 			@Override
-			protected void onMouseClicked( MouseClickedEvent e ) {
+			public void onClick() {
 				Dispatcher.forwardEvent( IVidisEvent.SimulatorPlay );
 			}
 		};
@@ -158,7 +158,7 @@ public class Gui extends AEventHandler {
 //				}
 //			}
 			@Override
-			protected void onMouseClicked(MouseClickedEvent e) {
+			public void onClick() {
 				if ( OpenMSIMFilePopupWindow_tree.getInstance().isVisible() ) {
 					OpenMSIMFilePopupWindow_tree.getInstance().setVisible( false );
 				}
@@ -172,9 +172,19 @@ public class Gui extends AEventHandler {
 //		loadButton.setLayout(new PercentMarginLayout(-0.1,-0.1,-0.1,-0.1,-0.8,-0.8));
 		loadButton.setText("Load");
 		
+		AScissorContainer st = new AScissorContainer() {
+			@Override
+			protected void renderScissoredContent(GL gl) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		st.setLayout(new PercentMarginLayout(-0.2,-0.7,-0.8,-0.3,-0.1,-0.1) );
+		mainContainer.addChild( st );
+		
 		Button resetButton = new Button() {
 			@Override
-			protected void onMouseClicked(MouseClickedEvent e) {
+			public void onClick() {
 				Dispatcher.forwardEvent( IVidisEvent.SimulatorReload );
 			}
 		};
@@ -186,7 +196,7 @@ public class Gui extends AEventHandler {
 		ApplyLayoutPopupWindow.getInstance().setVisible(false);
 		Button layoutButton = new Button() {
 			@Override
-			protected void onMouseClicked(MouseClickedEvent e) {
+			public void onClick() {
 //				Dispatcher.forwardEvent( IVidisEvent.SimulatorReload );
 				if ( ApplyLayoutPopupWindow.getInstance().isVisible() ) {
 					ApplyLayoutPopupWindow.getInstance().setVisible( false );

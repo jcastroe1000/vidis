@@ -1,13 +1,14 @@
 package vidis.ui.model.impl;
 
 import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
+import java.awt.event.InputEvent;
 
 import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
+import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.MouseMovedEvent;
 import vidis.ui.events.MousePressedEvent;
 import vidis.ui.events.MouseReleasedEvent;
 
@@ -25,9 +26,54 @@ public class Button extends BasicGuiContainer {
 	
 	private Color textColor = Color.white;
 	
+	private Label l;
+	
 	public Button() {
+		setUseScissorTest( true );
 		setColor1( Color.gray );
 		setColor2( Color.gray.darker() );
+		
+		l = new Label( text ) {
+			@Override
+			protected void onMouseClicked(MouseClickedEvent e) {
+				Button.this.onMouseClicked(e);
+			}
+			@Override
+			protected synchronized void onMouseEnter( MouseMovedEvent e ) {
+				Button.this.onMouseEnter( e );
+			}
+			@Override
+			protected synchronized void onMouseExit( MouseMovedEvent e ) {
+				Button.this.onMouseExit( e );
+			}
+			@Override
+			protected void onMousePressed(MousePressedEvent e) {
+				Button.this.onMousePressed(e);
+			}
+			@Override
+			protected void onMouseReleased(MouseReleasedEvent e) {
+				Button.this.onMouseReleased(e);
+			}
+		};
+		l.setLayout( new PercentMarginLayout( 0, 0, 0, 0, -1, -1 ) {
+			@Override
+			public double getX() {
+				if ( pressed ) {
+					double border = getHeight() * borderPercent;
+					return super.getX() + border/2d;
+				}
+				return super.getX();
+			}
+			@Override
+			public double getY() {
+				if ( pressed ) {
+					double border = getHeight() * borderPercent;
+					return super.getY() - border/2d;
+				}
+				return super.getY();
+			}
+		});
+		this.addChild( l );
 	}
 	
 	@Override
@@ -97,29 +143,29 @@ public class Button extends BasicGuiContainer {
 		gl.glEnd();
 		
 		// text
-		Rectangle2D r = textRenderer.getBounds( "Apdq[]" );
-		float scale = 0.01f;
-		
-		double factor = 0.7;
-		double fontScaleWidth = (w * factor) / (r.getWidth() * scale);
-		double fontScaleHeight = (h * factor) / (r.getHeight() * scale);
-		double fontScale = fontScaleHeight;
-		
-		gl.glPushMatrix();
-			
-		//gl.glScaled( fontScale, fontScale, 1);
-		if ( pressed ) {
-				gl.glTranslated( border/2d, -border/2d, 0 );
-			}
-			textRenderer.setColor( textColor );
-			textRenderer.begin3DRendering();
-			textRenderer.draw3D( text, 
-					(float) (w / 2f - r.getWidth() * scale * fontScale / 2f), 
-					(float) (h / 2f - r.getHeight() * scale * fontScale / 2f),
-					0.5f,
-					(float) (scale * fontScale) );
-			textRenderer.end3DRendering();
-		gl.glPopMatrix();
+//		Rectangle2D r = textRenderer.getBounds( "Apdq[]" );
+//		float scale = 0.01f;
+//		
+//		double factor = 0.7;
+//		double fontScaleWidth = (w * factor) / (r.getWidth() * scale);
+//		double fontScaleHeight = (h * factor) / (r.getHeight() * scale);
+//		double fontScale = fontScaleHeight;
+//		
+//		gl.glPushMatrix();
+//			
+//		//gl.glScaled( fontScale, fontScale, 1);
+//		if ( pressed ) {
+//				gl.glTranslated( border/2d, -border/2d, 0 );
+//			}
+//			textRenderer.setColor( textColor );
+//			textRenderer.begin3DRendering();
+//			textRenderer.draw3D( text, 
+//					(float) (w / 2f - r.getWidth() * scale * fontScale / 2f), 
+//					(float) (h / 2f - r.getHeight() * scale * fontScale / 2f),
+//					0.5f,
+//					(float) (scale * fontScale) );
+//			textRenderer.end3DRendering();
+//		gl.glPopMatrix();
 	}
 	
 	private void useColor( GL gl, Color c ) {
@@ -133,9 +179,29 @@ public class Button extends BasicGuiContainer {
 	@Override
 	protected void onMouseReleased(MouseReleasedEvent e) {
 		pressed = false;
+		onClick();
+	}
+	
+	@Override
+	protected synchronized void onMouseExit( MouseMovedEvent e ) {
+		pressed = false;
+		super.onMouseExit( e );
+	}
+	
+	@Override
+	protected synchronized void onMouseEnter( MouseMovedEvent e ) {
+		if ( (e.mouseEvent.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) == InputEvent.BUTTON1_DOWN_MASK ) {
+			pressed = true;
+		}
+		super.onMouseEnter( e );
 	}
 	
 	public void setText( String text ) {
 		this.text = text;
+		l.setText(text);
+	}
+	
+	public void onClick() {
+		
 	}
 }

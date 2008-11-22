@@ -10,6 +10,7 @@ import javax.media.opengl.GL;
 import org.apache.log4j.Logger;
 
 import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.MouseMovedEvent;
 import vidis.ui.events.MousePressedEvent;
 import vidis.ui.events.MouseReleasedEvent;
 
@@ -192,12 +193,12 @@ public class CheckBox extends BasicGuiContainer {
 	}
 	
 	@Override
-	protected void onMouseEnter() {
+	protected void onMouseEnter( MouseMovedEvent e ) {
 		textColor = Color.gray;
 	}
 	
 	@Override
-	protected void onMouseExit() {
+	protected void onMouseExit( MouseMovedEvent e ) {
 		textColor = Color.white;
 	}
 }

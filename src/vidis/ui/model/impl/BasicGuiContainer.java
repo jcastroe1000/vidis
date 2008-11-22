@@ -7,6 +7,7 @@ import javax.media.opengl.GL;
 import org.apache.log4j.Logger;
 
 import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.MouseMovedEvent;
 import vidis.ui.events.MousePressedEvent;
 import vidis.ui.events.MouseReleasedEvent;
 import vidis.ui.model.structure.AGuiContainer;
@@ -112,12 +113,12 @@ public class BasicGuiContainer extends AGuiContainer {
 		gl.glPopMatrix();
 	}
 	@Override
-	protected synchronized void onMouseEnter() {
+	protected synchronized void onMouseEnter( MouseMovedEvent e ) {
 		logger.debug( "onMouseEnter() on " + this );
 		color = color2;
 	}
 	@Override
-	protected synchronized void onMouseExit() {
+	protected synchronized void onMouseExit( MouseMovedEvent e ) {
 		logger.debug( "onMouseExit() on " + this );
 		color = color1;
 	}

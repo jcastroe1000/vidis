@@ -7,6 +7,7 @@ import java.nio.IntBuffer;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 import javax.vecmath.Point2d;
+import javax.vecmath.Point2i;
 
 import org.apache.log4j.Logger;
 
@@ -135,7 +136,7 @@ public class GuiCamera extends AEventHandler implements ICamera {
 //		gui.fireEvent( m );
 //	}
 	
-	private Point2d convert2Dto3D( int x, int y ) {
+	private static Point2d convert2Dto3D( int x, int y ) {
 //		double xrel = (double) x / (double) target.getWidth();
 //		double yrel = (double) y / (double) target.getHeight();
 //		
@@ -144,7 +145,9 @@ public class GuiCamera extends AEventHandler implements ICamera {
 		
 		return new Point2d( x / 10d, y / 10d);
 	}
-	
+	public static Point2i convert3Dto2D( Point2d p ) {
+		return new Point2i( (int) Math.round(p.x * 10d), (int) Math.round(p.y * 10d) );
+	}
 	public void update() {
 		// nothing to update - i think
 		

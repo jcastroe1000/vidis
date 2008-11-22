@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.media.opengl.GL;
 import javax.vecmath.Point2d;
+import javax.vecmath.Point2i;
 
 import org.apache.log4j.Logger;
 
@@ -17,6 +18,7 @@ import vidis.ui.events.MouseMovedEvent;
 import vidis.ui.events.MousePressedEvent;
 import vidis.ui.events.MouseReleasedEvent;
 import vidis.ui.mvc.api.Dispatcher;
+import vidis.ui.vis.camera.GuiCamera;
 import vidis.util.ResourceManager;
 
 import com.sun.opengl.util.j2d.TextRenderer;
@@ -34,6 +36,17 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	private double width;
 	private double x;
 	private double y;
+	
+	/**
+	 * only the first object in the hierarchy will get the scissor test
+	 * it will be disabled for all its child's
+	 */
+	private boolean useScissorTest = false;
+	private boolean useScissorTestNow = false;
+	public boolean isUseScissorTestNow() {
+		return useScissorTestNow;
+	}
+
 	protected double textH;
 	
 	protected void requireTextRenderer() {
@@ -100,17 +113,34 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 		renderBox(gl, 0);
 	}
 	
+	protected double myZ;
 	public void renderBox(GL gl, double z) {
+		myZ = z;
 		gl.glPushMatrix();
 		gl.glTranslated(getX(), getY(), z);
 		renderContainer( gl );
 		gl.glPushMatrix();
 			try {
+				
+				useScissorTestNow = !gl.glIsEnabled(GL.GL_SCISSOR_TEST) && useScissorTest;
+				if ( useScissorTestNow ) {
+//					logger.info( "using scissortest...");
+					Point2i pos = GuiCamera.convert3Dto2D( new Point2d( getAbsoluteX(), getAbsoluteY() ));
+					Point2i hw = GuiCamera.convert3Dto2D( new Point2d( getWidth(), getHeight() ));
+//					logger.info( "from " + pos + " to "+ hw );
+					// set the scissor
+					gl.glScissor( pos.x, pos.y, hw.x, hw.y );
+					// draw the content
+					gl.glEnable( GL.GL_SCISSOR_TEST );
+				}
 				// render them
 				for ( IGuiContainer c : childs ) {
 					if ( c.isVisible() ) {
 						c.renderBox(gl, z + IGuiContainer.Z_OFFSET);
 					}
+				}
+				if ( useScissorTestNow ) {
+					gl.glDisable( GL.GL_SCISSOR_TEST );
 				}
 			} catch (ConcurrentModificationException e) {
 				// well, may happen but is not that severe
@@ -175,13 +205,13 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 			if ( isPointWithinRect( point, myX, myY, getWidth(), getHeight() ) ) {
 				if ( ! underMouse.contains(this) ) {
 					underMouse.add( this );
-					onMouseEnter();
+					onMouseEnter( e );
 				}
 			}
 			else {
 				if ( underMouse.contains( this ) ) {
 					underMouse.remove( this );
-					onMouseExit();
+					onMouseExit( e );
 				}
 			}
 			// forward to all childs
@@ -198,8 +228,8 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 		}
 	}
 	
-	protected abstract void onMouseEnter();
-	protected abstract void onMouseExit();
+	protected abstract void onMouseEnter( MouseMovedEvent e );
+	protected abstract void onMouseExit( MouseMovedEvent e );
 	
 	protected abstract void onMousePressed( MousePressedEvent e );
 	protected abstract void onMouseReleased( MouseReleasedEvent e );
@@ -357,5 +387,13 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	
 	public boolean isTextRenderable() {
 		return false;
+	}
+
+	public void setUseScissorTest(boolean useScissorTest) {
+		this.useScissorTest = useScissorTest;
+	}
+
+	public boolean isUseScissorTest() {
+		return useScissorTest;
 	}
 }

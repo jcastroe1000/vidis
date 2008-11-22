@@ -23,6 +23,8 @@ public class CompositeScrollPane extends AScrollpane3D implements IVariableChang
 	private Map<String, GroupDisplay> nameSpacesVisibility;
 	
 	public CompositeScrollPane ( IVariableContainer vcontainer ) {
+		super();
+		setUseScissorTest( true );
 		mapVariableContainer = new HashMap<String, BasicGuiContainer>();
 		nameSpacesVisibility = new HashMap<String, GroupDisplay>();
 		this.vcontainer = vcontainer;

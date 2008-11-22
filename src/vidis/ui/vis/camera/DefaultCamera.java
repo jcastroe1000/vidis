@@ -63,7 +63,7 @@ public class DefaultCamera extends AEventHandler implements ICamera {
 		this.zoom = 1.0;
 	}
 	public void init(GL gl) {
-		gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
+		gl.glClearColor(0.9f, 0.9f, 0.9f, 1f);
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 		gl.glEnable(GL.GL_LINE_SMOOTH);
 		gl.glEnable(GL.GL_BLEND);
