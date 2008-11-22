@@ -18,7 +18,6 @@ public class Tuple3Display extends Display {
 	public Tuple3Display ( AVariable v ) {
 		super(v);
 		this.setText( "Label" );
-		this.setTextColor( Color.red );
 	}
 	
 //	@Override

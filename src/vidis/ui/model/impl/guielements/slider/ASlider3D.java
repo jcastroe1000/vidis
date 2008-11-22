@@ -26,6 +26,8 @@ public class ASlider3D extends BasicGuiContainer {
 	public ASlider3D(int min, int max) {
 		super();
 		
+	
+		
 		setMin(min);
 		setMax(max);
 		
@@ -180,6 +182,10 @@ public class ASlider3D extends BasicGuiContainer {
 			}
 			
 		});
+		
+		
+		setColor1( Color.DARK_GRAY );
+		setColor2( Color.black );
 		
 		this.setName( "PARENT" );
 		

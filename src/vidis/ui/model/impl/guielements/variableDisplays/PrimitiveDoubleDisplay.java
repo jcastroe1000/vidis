@@ -18,7 +18,6 @@ public class PrimitiveDoubleDisplay extends Display {
 	public PrimitiveDoubleDisplay ( AVariable v) {
 		super(v);
 		this.setText( "Label" );
-		this.setTextColor( Color.red );
 	}
 	
 //	@Override

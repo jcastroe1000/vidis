@@ -14,7 +14,6 @@ public class StringDisplay extends Display {
 	public StringDisplay ( AVariable v) {
 		super(v);
 		this.setText( "Label" );
-		this.setTextColor( Color.red );
 	}
 	
 //	@Override

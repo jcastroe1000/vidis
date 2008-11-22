@@ -18,7 +18,6 @@ public class PrimitiveFloatDisplay extends Display {
 	public PrimitiveFloatDisplay ( AVariable v) {
 		super(v);
 		this.setText( "Label" );
-		this.setTextColor( Color.red );
 	}
 	
 //	@Override

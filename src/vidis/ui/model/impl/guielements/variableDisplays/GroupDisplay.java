@@ -27,7 +27,9 @@ public class GroupDisplay extends Label {
 	
 	private GroupDisplay () {
 		this.setText( "> namespace" );
-		this.setTextColor( Color.red );
+		this.setTextColor( Color.WHITE );
+		this.setBackColor( Color.BLACK );
+		this.setOpaque( true );
 	}
 	
 	private Set<BasicGuiContainer> content;

@@ -27,6 +27,10 @@ public class BasicGuiContainer extends AGuiContainer {
 		this.opaque = value;
 	}
 	
+	public boolean isOpaque() {
+		return opaque;
+	}
+	
 	private boolean visible = true;
 
 	public void setVisible( boolean visible ) {

@@ -1,5 +1,6 @@
 package vidis.ui.model.impl.guielements.variableDisplays;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +35,9 @@ public class CompositeScrollPane extends AScrollpane3D implements IVariableChang
 
 	private BasicGuiContainer createNewDisplay( String id ) {
 		AVariable var = this.vcontainer.getVariableById( id );
-		return DisplayRegistry.createDisplay( var );
+		Display ret = DisplayRegistry.createDisplay( var );
+		ret.setOpaque( false );
+		return ret;
 	}
 	
 	public void variableAdded(String id) {
@@ -56,6 +59,7 @@ public class CompositeScrollPane extends AScrollpane3D implements IVariableChang
 				String ns = AVariable.getNamespace( id );
 				if ( !nameSpacesVisibility.containsKey( ns ) ) {
 					GroupDisplay gd = new GroupDisplay( ns, true );
+					gd.setBackColor( Color.black );
 					gd.addContent( mapVariableContainer.get( id ) );
 					nameSpacesVisibility.put( ns, gd );
 				}

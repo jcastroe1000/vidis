@@ -14,7 +14,6 @@ public class MapDisplay extends Display {
 	public MapDisplay ( AVariable v ) {
 		super(v);
 		this.setText( "Label" );
-		this.setTextColor( Color.red );
 	}
 	
 //	@Override

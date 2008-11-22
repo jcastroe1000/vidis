@@ -18,7 +18,6 @@ public class PrimitiveIntDisplay extends Display {
 	public PrimitiveIntDisplay ( AVariable v) {
 		super(v);
 		this.setText( "Label" );
-		this.setTextColor( Color.red );
 	}
 	
 //	@Override

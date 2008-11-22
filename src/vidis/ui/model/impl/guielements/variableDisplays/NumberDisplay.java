@@ -18,7 +18,6 @@ public class NumberDisplay extends Display {
 	public NumberDisplay ( AVariable v) {
 		super(v);
 		this.setText( "Label" );
-		this.setTextColor( Color.red );
 	}
 	
 //	@Override

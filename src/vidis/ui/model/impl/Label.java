@@ -37,6 +37,16 @@ public class Label extends BasicGuiContainer {
 	// background
 	private Color backColor = Color.white;
 	
+	public Color getBackColor() {
+		return backColor;
+	}
+
+	public void setBackColor(Color backColor) {
+		this.backColor = backColor;
+		setColor1( backColor );
+		setColor2( backColor.darker() );
+	}
+
 	public Label() {
 		setColor1( backColor );
 		setColor2( backColor.darker() );
@@ -50,6 +60,9 @@ public class Label extends BasicGuiContainer {
 	@Override
 	public void renderContainer(GL gl) {
 		if ( isVisible() ) {
+			if ( this.isOpaque() ) {
+				super.renderContainer(gl);
+			}
 			double h = getHeight();
 			double border = h * borderPercent;
 	
@@ -78,7 +91,6 @@ public class Label extends BasicGuiContainer {
 						(float) (scale * fontScale) );
 				textRenderer.end3DRendering();
 			gl.glPopMatrix();
-//			super.renderContainer(gl);
 		}
 	}
 	

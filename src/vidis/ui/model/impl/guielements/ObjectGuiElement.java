@@ -28,10 +28,9 @@ public abstract class ObjectGuiElement extends BasicGuiContainer {
 	}
 	
 	public void init() {
-		this.color1 = Color.gray;
-		this.color2 = Color.gray.brighter();
+		setColor1( Color.white );
+		setColor2( Color.white );
 		this.setOpaque(true);
-		
 		
 		top = new BasicGuiContainer() {
 			@Override
@@ -51,6 +50,8 @@ public abstract class ObjectGuiElement extends BasicGuiContainer {
 				ObjectGuiElement.this.onMouseClicked(e);
 			}
 		};
+		top.setColor1( Color.DARK_GRAY );
+		top.setColor2( Color.black );
 		top.setOpaque( true );
 		this.addChild( top );
 		

@@ -18,7 +18,6 @@ public class PrimitiveLongDisplay extends Display {
 	public PrimitiveLongDisplay ( AVariable v) {
 		super(v);
 		this.setText( "Label" );
-		this.setTextColor( Color.red );
 	}
 	
 //	@Override

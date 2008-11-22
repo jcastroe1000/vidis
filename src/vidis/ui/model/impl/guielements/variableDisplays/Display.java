@@ -9,6 +9,7 @@ public abstract class Display extends Label {
 	
 	public Display( AVariable var ) {
 		this.var = var;
+		
 	}
 	
 	public AVariable getVariable() {

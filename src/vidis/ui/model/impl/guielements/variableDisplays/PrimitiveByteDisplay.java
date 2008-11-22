@@ -14,7 +14,6 @@ public class PrimitiveByteDisplay extends Display {
 	public PrimitiveByteDisplay ( AVariable v) {
 		super(v);
 		this.setText( "Label" );
-		this.setTextColor( Color.red );
 	}
 	
 //	@Override
