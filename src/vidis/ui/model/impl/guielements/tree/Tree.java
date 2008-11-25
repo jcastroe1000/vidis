@@ -1,12 +1,10 @@
 package vidis.ui.model.impl.guielements.tree;
 
-import org.apache.log4j.Logger;
-
 import vidis.ui.model.impl.guielements.scrollpane.ScrollPane3D;
 import vidis.ui.model.structure.AGuiContainer;
 
 public abstract class Tree<T> extends TreeElement<T> {
-	private static Logger logger = Logger.getLogger(Tree.class);
+//	private static Logger logger = Logger.getLogger(Tree.class);
 	public Tree(String name, T obj) {
 		super(name, obj);
 		root = this;

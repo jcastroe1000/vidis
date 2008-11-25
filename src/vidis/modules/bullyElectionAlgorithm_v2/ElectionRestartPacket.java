@@ -1,6 +1,8 @@
 package vidis.modules.bullyElectionAlgorithm_v2;
 
+import vidis.data.annotation.ColorType;
 import vidis.data.annotation.Display;
+import vidis.data.annotation.DisplayColor;
 
 public class ElectionRestartPacket extends ABullyPacket {
 
@@ -13,6 +15,9 @@ public class ElectionRestartPacket extends ABullyPacket {
     public String getBullyId() {
     	return id;
     }
+    
+    @DisplayColor
+    public ColorType color = ColorType.BLUE;
     
     @Display ( name="name" )
     public String toString() {

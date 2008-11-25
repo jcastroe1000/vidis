@@ -60,6 +60,8 @@ public class BullyElectionAlgorithmNode extends AUserNode {
     @Display(name="Start election!")
     public void start() {
 //    	restart();
+    	// set me as bully
+    	this.bully = getBullyId();
     	// now propagate election packet
     	for(IUserLink l : getConnectedLinks()) {
     		sendMy(new ElectionPacket(getBullyId()), l, null);
@@ -73,6 +75,8 @@ public class BullyElectionAlgorithmNode extends AUserNode {
 	    	for(IUserLink l : getConnectedLinks()) {
 	    		sendMy(new PingPacket(getBully(), getBullyId()), l, null);
 	    	}
+    	} else {
+    		start();
     	}
     }
     
@@ -82,6 +86,7 @@ public class BullyElectionAlgorithmNode extends AUserNode {
     }
     
     private void sendMy(ABullyPacket p, IUserLink l, Integer hops) {
+    	long wait = (int)(Math.random()*2 + 0);
     	if(enabled == false) {
     		return;
     	}
@@ -89,7 +94,7 @@ public class BullyElectionAlgorithmNode extends AUserNode {
     		p.setHops(hops-1);
     	}
     	if(p.getHops() > 0)
-    		send(p, l);
+    		send(p, l, wait);
     	// timeouted
     }
     
@@ -142,9 +147,9 @@ public class BullyElectionAlgorithmNode extends AUserNode {
     
     private void propagateBully(String bully, IUserLink notToThisOne, Integer hops) {
     	for(IUserLink l : getConnectedLinks()) {
-//    		if(notToThisOne != null && !l.equals(notToThisOne)) {
+    		if(notToThisOne != null && !l.equals(notToThisOne)) {
     			sendMy(new ElectionPacket(bully), l, hops);
-//    		}
+    		}
     	}
     }
     

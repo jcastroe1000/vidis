@@ -3,14 +3,12 @@ package vidis.ui.model.impl.guielements.tree;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.Label;
 
 public class TreeElement<T> extends BasicGuiContainer {
-	private static Logger logger = Logger.getLogger(TreeElement.class);
+//	private static Logger logger = Logger.getLogger(TreeElement.class);
 	
 	protected List<TreeElement<T>> childs;
 	protected String display;
@@ -66,6 +64,7 @@ public class TreeElement<T> extends BasicGuiContainer {
 					root.refresh();
 				}
 			};
+			my.setOpaque(false);
 			my.setBounds(1, 1, 7, 18);
 		}
 		if(my != null) {

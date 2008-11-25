@@ -1,6 +1,8 @@
 package vidis.modules.bullyElectionAlgorithm_v2;
 
+import vidis.data.annotation.ColorType;
 import vidis.data.annotation.Display;
+import vidis.data.annotation.DisplayColor;
 
 public class PingPacket extends ABullyPacket {
 
@@ -19,6 +21,9 @@ public class PingPacket extends ABullyPacket {
     public String getSenderId() {
     	return senderId;
     }
+    
+    @DisplayColor
+    public ColorType color = ColorType.ORANGE;
     
     @Display ( name="name" )
     public String toString() {
