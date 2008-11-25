@@ -1,7 +1,9 @@
 package vidis.modules.bullyElectionAlgorithm_v2;
 
 import vidis.data.AUserNode;
+import vidis.data.annotation.ColorType;
 import vidis.data.annotation.Display;
+import vidis.data.annotation.DisplayColor;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserPacket;
 
@@ -140,9 +142,9 @@ public class BullyElectionAlgorithmNode extends AUserNode {
     
     private void propagateBully(String bully, IUserLink notToThisOne, Integer hops) {
     	for(IUserLink l : getConnectedLinks()) {
-    		if(notToThisOne != null && !l.equals(notToThisOne)) {
+//    		if(notToThisOne != null && !l.equals(notToThisOne)) {
     			sendMy(new ElectionPacket(bully), l, hops);
-    		}
+//    		}
     	}
     }
     
@@ -158,7 +160,7 @@ public class BullyElectionAlgorithmNode extends AUserNode {
 	    		} else {
 	    			// the bully we have is smaller, accept new bully
 	    			bully = p.getBullyId();
-	    			// forward everybody but sender
+	    			// forward everybody AND sender
 	    			propagateBully(bully, p.getLinkToSource(), p.getHops());
 	    		}
     		}
@@ -203,10 +205,26 @@ public class BullyElectionAlgorithmNode extends AUserNode {
     	return getId();
     }
     
+    public boolean amIBully() {
+    	return gotBully() && bully.equals(getBullyId());
+    }
+    
+    @DisplayColor
+    public ColorType getNodeColor() {
+    	if(!enabled)
+    		return ColorType.RED;
+    	else if(checkTimeout > 0)
+    		return ColorType.ORANGE_LIGHT;
+    	else if(amIBully())
+    		return ColorType.GREEN;
+    	else
+    		return ColorType.GREY;
+    }
+    
     @Display ( name="name" )
     public String toString() {
     	String out = "{"+ getBullyId() +"}";
-    	if ( bully != null ) {
+    	if ( gotBully() ) {
 	    	if(bully.equals(getBullyId()))
 	    		out += "-Bully=ME!";
 	    	else {
