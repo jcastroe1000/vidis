@@ -1,21 +1,25 @@
 package vidis.ui.mvc;
 
 
+import java.awt.dnd.MouseDragGestureRecognizer;
+
 import org.apache.log4j.Logger;
 
 import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.CameraEvent;
 import vidis.ui.events.IVidisEvent;
+import vidis.ui.events.MouseMovedEvent;
 import vidis.ui.mvc.api.AController;
 import vidis.ui.mvc.api.Dispatcher;
 import vidis.ui.vis.camera.DefaultCamera;
+import vidis.ui.vis.camera.FreeLookCamera;
 
 
 public class CameraController extends AController{
 
 	private static Logger logger = Logger.getLogger( CameraController.class );
 	
-	private DefaultCamera defaultCamera;
+	private FreeLookCamera defaultCamera;
 	
 	public CameraController() {
 		logger.debug( "Constructor()" );
@@ -34,7 +38,9 @@ public class CameraController extends AController{
 						IVidisEvent.ZoomOut);
 		
 		registerEvent(	IVidisEvent.MouseClickedEvent,
-						IVidisEvent.MouseMovedEvent );
+						IVidisEvent.MouseMovedEvent, 
+						IVidisEvent.MousePressedEvent,
+						IVidisEvent.MouseReleasedEvent );
 	}
 	
 	@Override
@@ -58,9 +64,13 @@ public class CameraController extends AController{
 			break;
 		case IVidisEvent.MouseClickedEvent:
 		case IVidisEvent.MouseMovedEvent:
+		case IVidisEvent.MousePressedEvent:
+		case IVidisEvent.MouseReleasedEvent:
 			try {
 			if ( ((AMouseEvent)event).rayCalculated == false && ((AMouseEvent)event).forwardTo3D == true ) {
-				defaultCamera.fireEvent( event );
+				if ( !(event instanceof MouseMovedEvent && ((AMouseEvent)event).mouseEvent.getPoint().equals( defaultCamera.getMouseDownPoint() ))) {
+					defaultCamera.fireEvent( event );
+				}
 			}} catch(Exception e) {
 				logger.error(e);
 			}
@@ -69,7 +79,7 @@ public class CameraController extends AController{
 	}
 	
 	private void initialize() {
-		defaultCamera = new DefaultCamera();
+		defaultCamera = new FreeLookCamera();
 		Dispatcher.forwardEvent( new CameraEvent( IVidisEvent.CameraRegister, defaultCamera ) );
 	}
 	
