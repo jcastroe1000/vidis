@@ -27,8 +27,9 @@ public class FrameContainer extends Frame {
 		setBounds(100, 100, 400, 300);
 		
 		setLayout( new FlowLayout() );
-		
-		add( new Label( "loading..." ) );
+		Label l = new Label( "loading..." );
+		l.setFocusable(false);
+		add( l );
 		
 		setVisible( true );	
 		this.addWindowListener( new WindowListener() {
@@ -62,6 +63,8 @@ public class FrameContainer extends Frame {
 		removeAll();
 		setLayout( new BorderLayout() );
 		add( glCanvas, BorderLayout.CENTER );
+		glCanvas.setFocusable( true );
+		this.setFocusable( false );
 	}
 	
 	public void fullscreen(){

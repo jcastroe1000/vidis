@@ -85,6 +85,7 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 		this.position = new Vector3d( 0, 10, -10 );
 		this.lookDir = new Vector3d( 0, 0, 0 );
 		this.lookDir.sub( this.position );
+		this.lookDir.normalize();
 	}
 	public void init(GL gl) {
 		gl.glClearColor(0.9f, 0.9f, 0.9f, 1f);
