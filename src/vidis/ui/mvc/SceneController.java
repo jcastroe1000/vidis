@@ -322,9 +322,6 @@ public class SceneController extends AController implements GLEventListener {
 			
 			ShaderFactory.removeAllPrograms(gl);
 			
-			// FIXME just for debug, remove later
-			new Axis().render(gl);
-			
 			gl.glPushMatrix();
 			for ( IVisObject o : objects ) {
 				if ( o instanceof IGuiContainer ) {
