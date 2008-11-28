@@ -10,6 +10,7 @@ import vidis.data.mod.IUserPacket;
 public class BullyElectionAlgorithmNode extends AUserNode {
     public String bully = null;
     public int checkTimeout = -1;
+    public int startTimeout = -1;
     public boolean enabled = true;
 
     public boolean gotBully() {
@@ -36,9 +37,16 @@ public class BullyElectionAlgorithmNode extends AUserNode {
     		checkTimeout = -1;
     		// got no pong from the bully in time, restart election
     		restart();
-    		start();
+    		startTimeout  = 60;
     	} else {
     		// no timeout
+    	}
+    	
+    	if(startTimeout > 0) {
+    		startTimeout--;
+    	} else if(startTimeout == 0) {
+    		startTimeout = -1;
+    		start();
     	}
     	
 //    	// default action, check from time to time
@@ -220,6 +228,8 @@ public class BullyElectionAlgorithmNode extends AUserNode {
     		return ColorType.RED;
     	else if(checkTimeout > 0)
     		return ColorType.ORANGE_LIGHT;
+    	else if(startTimeout > 0)
+    		return ColorType.ORANGE;
     	else if(amIBully())
     		return ColorType.GREEN;
     	else
@@ -240,6 +250,9 @@ public class BullyElectionAlgorithmNode extends AUserNode {
     	}
     	if(checkTimeout > -1) {
 			out+="-CHECK="+checkTimeout;
+		}
+    	if(startTimeout > -1) {
+			out+="-STARTIN="+startTimeout;
 		}
     	if(!enabled)
     		out+="-DISABLED";
