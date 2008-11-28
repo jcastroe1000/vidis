@@ -47,6 +47,8 @@ public class Configuration {
 	 * jogl path for vidis
 	 */
 	public static final String JOGL_PATH = LIBRARY_PATH + File.separatorChar + JOGL_VERSION;
+
+	public static final double GRID_STEP = 2.0;
 	
 	/**
 	 * just display wireframe

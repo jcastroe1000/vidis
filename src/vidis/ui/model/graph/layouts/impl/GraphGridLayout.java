@@ -11,6 +11,7 @@ import javax.vecmath.Vector2d;
 import org.apache.log4j.Logger;
 
 import vidis.data.sim.SimNode;
+import vidis.ui.config.Configuration;
 import vidis.ui.model.graph.layouts.AGraphLayout;
 import vidis.ui.model.graph.layouts.GraphLayout;
 
@@ -25,12 +26,12 @@ public class GraphGridLayout extends AGraphLayout {
 	private static Logger logger = Logger.getLogger( GraphGridLayout.class );
 	
 	private static GraphLayout instance = null;
-	private final double xMin = 2;
-	private final double xMax = 10;
+	private final double xMin = Configuration.GRID_STEP;
+	private final double xMax = Configuration.GRID_STEP;
 	private final double yMin = 0;
 	private final double yMax = 0;
-	private final double zMin = 2;
-	private final double zMax = 10;
+	private final double zMin = Configuration.GRID_STEP;
+	private final double zMax = Configuration.GRID_STEP;
 	private double x;
 	private double y;
 	private double z;
@@ -134,6 +135,6 @@ public class GraphGridLayout extends AGraphLayout {
 			Point3d p = generatePoint();
 			setPosition(nodesList.get(i), p);
 		}
-		GraphCenterLayout.getInstance().apply(nodesList);
+//		GraphCenterLayout.getInstance().apply(nodesList);
 	}
 }
