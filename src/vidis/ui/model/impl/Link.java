@@ -199,6 +199,19 @@ public class Link extends ASimObject {
 
 		gl.glCallList( displayListId );
 		
+		// border
+		gl.glPushMatrix();
+		//gl.glEnable(GL.GL_BLEND);
+		
+		Color old = getVariableColor1();
+		setColors( new Color(0f, 0f, 0f, 1f ), new Color( 1f, 1f, 1f, 0.5f) );
+		useMaterial(gl);
+		gl.glScaled(1.2, 1.2, 1.2);
+		gl.glCallList( displayListId );
+		//gl.glDisable(GL.GL_BLEND);
+		
+		gl.glPopMatrix();
+		
 //		gl.glMap1d( GL.GL_MAP1_VERTEX_3, 0, 1, 3, 3, linesControlPoints.array(), 0 );
 //		gl.glEnable( GL.GL_MAP1_VERTEX_3 );
 //		

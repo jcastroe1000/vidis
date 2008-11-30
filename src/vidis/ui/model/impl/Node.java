@@ -129,14 +129,30 @@ public class Node extends ASimObject {
 	
 	@Override
 	public void renderObject(GL gl) {
+		
+		// render node
 		setColors( getVariableColor1(), getVariableColor2() );
 		useColor( gl, getVariableColor1() );
 		useMaterial(gl);
 		if ( displayListId == -1 || lastDetailLevel  != Configuration.DETAIL_LEVEL ) {
 			preRenderObject(gl);
 		}
-		
 		gl.glCallList( displayListId );
+		
+		
+		// render highlight
+		if ( isHighlighted() ) {
+			gl.glPushMatrix();
+			//gl.glEnable(GL.GL_BLEND);
+			Color old = getVariableColor1();
+			setColors( new Color(old.getRed() / 255f, old.getGreen() / 255f, old.getBlue() /255f,0.1f), new Color( 1f, 1f, 1f, 0.5f) );
+			useMaterial(gl);
+			gl.glScaled(1.2, 1.2, 1.2);
+			gl.glCallList( displayListId );
+			//gl.glDisable(GL.GL_BLEND);
+			
+			gl.glPopMatrix();
+		}
 	}
 	
 	public void preRenderObject(GL gl) {

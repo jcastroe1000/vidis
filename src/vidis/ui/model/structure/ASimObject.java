@@ -210,9 +210,9 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	}
 	protected Color getVariableColor1() {
 		Color retVal = getVariableColor();
-		if ( isHighlighted() ) {
-			retVal = onMouseOverModifier( retVal );
-		}
+//		if ( isHighlighted() ) {
+//			retVal = onMouseOverModifier( retVal );
+//		}
 		return retVal;
 	}
 	
