@@ -1,7 +1,9 @@
 package vidis.ui.model.structure;
 
+import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.media.opengl.GL;
@@ -297,13 +299,17 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 				// forward to childs
 				boolean childFound = false;
 				try {
+					List<IGuiContainer> toFire = new ArrayList<IGuiContainer>();
 					for ( IGuiContainer c : childs ) {
 						if ( c.isPointInContainer( point ) ) {
 							if ( c.isVisible() ) {
-								c.fireEvent( e );
+								toFire.add( c );
 								childFound = true;
 							}
 						}
+					}
+					for ( IGuiContainer c : toFire ) {
+						c.fireEvent(e);
 					}
 				} catch ( ConcurrentModificationException ex) {
 					logger.error("I introduced this bug with adding elements within onClick events.", ex);

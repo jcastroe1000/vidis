@@ -11,6 +11,8 @@ import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.events.MouseMovedEvent;
 import vidis.ui.events.MousePressedEvent;
 import vidis.ui.events.MouseReleasedEvent;
+import vidis.ui.model.structure.IGuiContainer;
+import vidis.ui.model.structure.ILayout;
 
 public class Button extends BasicGuiContainer {
 	private static Logger logger = Logger.getLogger(Button.class);

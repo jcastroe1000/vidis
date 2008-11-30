@@ -11,6 +11,7 @@ import vidis.ui.config.Configuration;
 import vidis.ui.events.AEventHandler;
 import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.IVidisEvent;
+import vidis.ui.events.VidisEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.BasicMarginLayout;
 import vidis.ui.model.impl.Button;
@@ -40,6 +41,10 @@ public class Gui extends AEventHandler {
 	
 	private AScrollpane3D slider = new ScrollPane3D();
 	
+	private Menu menu;
+	
+	
+	
 	public Gui() {
 		logger.debug("Constructor()");
 		mainContainer = new BasicGuiContainer();
@@ -47,6 +52,50 @@ public class Gui extends AEventHandler {
 		mainContainer.setName("mainContainer");
 		initializeRightPanel();
 		initializeControls();
+		initializeMenu();
+	}
+	
+	private MenuAction createEventRunnable( final int event ) {
+		return new MenuAction() {
+			@Override
+			public void execute(Menu menu, MenuItem item) {
+				Dispatcher.forwardEvent(event);
+			}
+		};
+	}
+	private void initializeMenu() {
+		final MenuItem menu = new MenuItem( null, "Menu", null );
+		MenuItem playPause = new MenuItem( menu, "Play", createEventRunnable(IVidisEvent.SimulatorPlay) );
+		MenuItem layout = new MenuItem( menu, "Layout", null );
+		MenuItem l1 = new MenuItem( layout, "Electric Spring Layout", createEventRunnable(IVidisEvent.LayoutApplyGraphElectricSpring) );
+		MenuItem l2 = new MenuItem( layout, "Grid Layout", createEventRunnable(IVidisEvent.LayoutApplyGrid) );
+		MenuItem l3 = new MenuItem( layout, "Spiral Layout", createEventRunnable(IVidisEvent.LayoutApplySpiral) );
+		MenuItem l4 = new MenuItem( layout, "Random Layout", createEventRunnable(IVidisEvent.LayoutApplyRandom) );
+		MenuItem reset = new MenuItem( menu, "Reset", createEventRunnable(IVidisEvent.SimulatorReload) );
+		MenuItem load = new MenuItem( menu, "Load", new MenuAction() {
+			@Override
+			public void execute(Menu menu, MenuItem item) {
+				if ( OpenMSIMFilePopupWindow_tree.getInstance().isVisible() ) {
+					OpenMSIMFilePopupWindow_tree.getInstance().setVisible( false );
+				}
+				else {
+					OpenMSIMFilePopupWindow_tree.getInstance().setVisible( true );
+				}
+			}
+		});
+		MenuItem test = new MenuItem( menu, "Test Runtime Add", new MenuAction() {
+			@Override
+			public void execute(Menu xmenu, MenuItem item) {
+				MenuItem test = new MenuItem( menu, "Test "+xmenu.getParent().getChilds().size(), null );
+				xmenu.addChild( test.content );
+				test.setMenu(xmenu);
+				xmenu.update();
+//				xmenu.fireEvent(new VidisEvent(IVidisEvent.GuiResizeEvent, null ) );
+			}
+		});
+		this.menu = new Menu( menu );
+		this.menu.update();
+		mainContainer.addChild( this.menu );
 	}
 	
 	private void initializeRightPanel() {
@@ -102,34 +151,34 @@ public class Gui extends AEventHandler {
 		logger.debug("initializeControls()");
 		BasicGuiContainer container1 = new BasicGuiContainer();
 		container1.setLayout(new PercentMarginLayout(1,0.9,-0.9,1,-0.1,-0.1));
-		Button playButton = new Button() {
-			private boolean paused = false;
-			@Override
-			public void renderContainer(GL gl) {
-				if(Simulator.getInstance().getPlayer().isPaused() && !paused) {
-					paused = true;
-					setText("Play");
-				} else if (!Simulator.getInstance().getPlayer().isPaused() && paused) {
-					paused = false;
-					setText("Pause");
-				}
-				super.renderContainer(gl);
-			}
-			@Override
-			public void onClick() {
-				Dispatcher.forwardEvent( IVidisEvent.SimulatorPlay );
-			}
-		};
-		playButton.setName("PLAY BUTTON");
-		playButton.setLayout(new PercentMarginLayout(1,0.9,-0.9,1,-0.1,-0.1));
-		//playButton.setLayout(new PercentMarginLayout(-0.1,0.9,-0.1,-0.1,-0.8,-0.8));
-		playButton.setText("Play");
+//		Button playButton = new Button() {
+//			private boolean paused = false;
+//			@Override
+//			public void renderContainer(GL gl) {
+//				if(Simulator.getInstance().getPlayer().isPaused() && !paused) {
+//					paused = true;
+//					setText("Play");
+//				} else if (!Simulator.getInstance().getPlayer().isPaused() && paused) {
+//					paused = false;
+//					setText("Pause");
+//				}
+//				super.renderContainer(gl);
+//			}
+//			@Override
+//			public void onClick() {
+//				Dispatcher.forwardEvent( IVidisEvent.SimulatorPlay );
+//			}
+//		};
+//		playButton.setName("PLAY BUTTON");
+//		playButton.setLayout(new PercentMarginLayout(1,0.9,-0.9,1,-0.1,-0.1));
+//		//playButton.setLayout(new PercentMarginLayout(-0.1,0.9,-0.1,-0.1,-0.8,-0.8));
+//		playButton.setText("Play");
 
 		BasicGuiContainer container2 = new BasicGuiContainer();
 		container2.setLayout(new PercentMarginLayout(-0.2,0.9,-0.8,1,-0.1,-0.1));
 		mainContainer.addChild( OpenMSIMFilePopupWindow_tree.getInstance() );
 		OpenMSIMFilePopupWindow_tree.getInstance().setVisible( false );
-		Button loadButton = new Button() {
+//		Button loadButton = new Button() {
 //			private File selectedFile = null;
 //			JFileChooser x = new JFileChooser( new File( Configuration.MODULE_PATH )) {
 //				private static final long serialVersionUID = 1L;
@@ -155,62 +204,62 @@ public class Gui extends AEventHandler {
 //					Dispatcher.forwardEvent( ve );
 //				}
 //			}
-			@Override
-			public void onClick() {
-				if ( OpenMSIMFilePopupWindow_tree.getInstance().isVisible() ) {
-					OpenMSIMFilePopupWindow_tree.getInstance().setVisible( false );
-				}
-				else {
-					OpenMSIMFilePopupWindow_tree.getInstance().setVisible( true );
-				}
-			}
-		};
-		loadButton.setLayout(new PercentMarginLayout(-0.2,0.9,-0.8,1,-0.1,-0.1));
-		loadButton.setName("LOAD BUTTON");
-//		loadButton.setLayout(new PercentMarginLayout(-0.1,-0.1,-0.1,-0.1,-0.8,-0.8));
-		loadButton.setText("Load");
-		
-		Button resetButton = new Button() {
-			@Override
-			public void onClick() {
-				Dispatcher.forwardEvent( IVidisEvent.SimulatorReload );
-			}
-		};
-		resetButton.setLayout(new PercentMarginLayout(-0.4,0.9,-0.6,1,-0.1,-0.1));
-		resetButton.setName("RESET BUTTON");
-//		loadButton.setLayout(new PercentMarginLayout(-0.1,-0.1,-0.1,-0.1,-0.8,-0.8));
-		resetButton.setText("Reset");
+//			@Override
+//			public void onClick() {
+//				if ( OpenMSIMFilePopupWindow_tree.getInstance().isVisible() ) {
+//					OpenMSIMFilePopupWindow_tree.getInstance().setVisible( false );
+//				}
+//				else {
+//					OpenMSIMFilePopupWindow_tree.getInstance().setVisible( true );
+//				}
+//			}
+//		};
+//		loadButton.setLayout(new PercentMarginLayout(-0.2,0.9,-0.8,1,-0.1,-0.1));
+//		loadButton.setName("LOAD BUTTON");
+////		loadButton.setLayout(new PercentMarginLayout(-0.1,-0.1,-0.1,-0.1,-0.8,-0.8));
+//		loadButton.setText("Load");
+//		
+//		Button resetButton = new Button() {
+//			@Override
+//			public void onClick() {
+//				Dispatcher.forwardEvent( IVidisEvent.SimulatorReload );
+//			}
+//		};
+//		resetButton.setLayout(new PercentMarginLayout(-0.4,0.9,-0.6,1,-0.1,-0.1));
+//		resetButton.setName("RESET BUTTON");
+////		loadButton.setLayout(new PercentMarginLayout(-0.1,-0.1,-0.1,-0.1,-0.8,-0.8));
+//		resetButton.setText("Reset");
 		mainContainer.addChild(ApplyLayoutPopupWindow.getInstance());
 		ApplyLayoutPopupWindow.getInstance().setVisible(false);
-		Button layoutButton = new Button() {
-			@Override
-			public void onClick() {
-//				Dispatcher.forwardEvent( IVidisEvent.SimulatorReload );
-				if ( ApplyLayoutPopupWindow.getInstance().isVisible() ) {
-					ApplyLayoutPopupWindow.getInstance().setVisible( false );
-				}
-				else {
-					ApplyLayoutPopupWindow.getInstance().setVisible(true);
-				}
-			}
-		};
-		layoutButton.setLayout(new PercentMarginLayout(-0.6,0.9,-0.6,1,-0.1,-0.1));
-		layoutButton.setName("LAYOUT BUTTON");
-//		loadButton.setLayout(new PercentMarginLayout(-0.1,-0.1,-0.1,-0.1,-0.8,-0.8));
-		layoutButton.setText("Layout");
+//		Button layoutButton = new Button() {
+//			@Override
+//			public void onClick() {
+////				Dispatcher.forwardEvent( IVidisEvent.SimulatorReload );
+//				if ( ApplyLayoutPopupWindow.getInstance().isVisible() ) {
+//					ApplyLayoutPopupWindow.getInstance().setVisible( false );
+//				}
+//				else {
+//					ApplyLayoutPopupWindow.getInstance().setVisible(true);
+//				}
+//			}
+//		};
+//		layoutButton.setLayout(new PercentMarginLayout(-0.6,0.9,-0.6,1,-0.1,-0.1));
+//		layoutButton.setName("LAYOUT BUTTON");
+////		loadButton.setLayout(new PercentMarginLayout(-0.1,-0.1,-0.1,-0.1,-0.8,-0.8));
+//		layoutButton.setText("Layout");
 		
 		
-		mainContainer.addChild(playButton);
+//		mainContainer.addChild(playButton);
 		//container1.addChild(playButton);
-		mainContainer.addChild(loadButton);
+//		mainContainer.addChild(loadButton);
 		//container2.addChild(loadButton);
-		mainContainer.addChild(resetButton);
-		mainContainer.addChild(layoutButton);
+//		mainContainer.addChild(resetButton);
+//		mainContainer.addChild(layoutButton);
 		
 		fps = new Label();
 		fps.setName("FPS");
 		fps.setLayout(new BasicMarginLayout(0, -1, -1, 0, 1.5, 6 ));
-		fps.setTextColor( Color.white );
+		fps.setTextColor( Color.black );
 		fps.setText("0fps");
 		mainContainer.addChild(fps);
 	}
@@ -250,6 +299,9 @@ public class Gui extends AEventHandler {
 		slider.addChild( data );
 	}
 	
+	public void playPressed() {
+		Dispatcher.forwardEvent( IVidisEvent.SimulatorPlay );
+	}
 	
 }
 

@@ -35,7 +35,7 @@ public class Link extends ASimObject {
 	DoubleBuffer surfaceControlPointsLeftDown = DoubleBuffer.allocate( 3 * 4 * 3 );
 	DoubleBuffer surfaceControlPointsRightUp = DoubleBuffer.allocate( 3 * 4 * 3 );
 	DoubleBuffer surfaceControlPointsLeftUp = DoubleBuffer.allocate( 3 * 4 * 3 );
-	
+
 //	DoubleBuffer linesControlPoints = DoubleBuffer.allocate( 3 * 3 * 5 ); // 3 doubles per point, 3 points per line, 5 lines
 //	DoubleBuffer lineControlPoints = DoubleBuffer.allocate( 3 * 3 ); // 3 doubles per point, 3 points
 //	
@@ -51,6 +51,7 @@ public class Link extends ASimObject {
 	private Vector3d right = null;
 	
 	private int displayListId = -1;
+	private int displayListId2 = -1;
 
 	// kappa
 	private static double kappa = 4d * ( Math.sqrt( 2d ) - 1d ) / 3d;
@@ -99,13 +100,12 @@ public class Link extends ASimObject {
 				knownPointA = new Point3d( posA );
 				knownPointB = new Point3d( posB );
 				
-				calculateControlPoints( knownPointA, knownPointB );
-				preRenderObject( gl );
+				preRenderObject( gl,  knownPointA, knownPointB );
 			}
 			
-			Link.useShaderProgram(gl);
+			
 			renderObject(gl);
-			ShaderFactory.removeAllPrograms(gl);
+			
 		}
 		catch ( Exception e ) {
 //			logger.warn( e.getMessage(), e );
@@ -183,6 +183,8 @@ public class Link extends ASimObject {
 		setColors( getVariableColor1(), getVariableColor2() );
 		useColor( gl, getVariableColor1() );
 		useMaterial(gl);
+		
+		// data for link vertex shader
 		for( int i=0; i<9; i++) {
 			if(packets.size() > i) {
 				Packet p = packets.get(i);
@@ -196,21 +198,74 @@ public class Link extends ASimObject {
 				linkProgram.getVariableByName("packet"+i).setValue(new Vector3d(100,100,100), gl);
 			}
 		}
-
+		
+		// silhouette edges using fixed functionality pipeline
+		
+		gl.glEnable( GL.GL_CULL_FACE );
+		
+		// Draw fron-facing polygons
+		gl.glPolygonMode( GL.GL_FRONT, GL.GL_FILL );
+		gl.glDepthFunc( GL.GL_LESS );
+		gl.glCullFace( GL.GL_BACK );
+		Link.useShaderProgram(gl);
 		gl.glCallList( displayListId );
+		ShaderFactory.removeAllPrograms(gl);
 		
-		// border
-		gl.glPushMatrix();
-		//gl.glEnable(GL.GL_BLEND);
+		// Draw back-facing polygons as black lines
+		gl.glLineWidth( 5.0f );
+		gl.glPolygonMode( GL.GL_BACK, GL.GL_FILL );
+		gl.glDepthFunc( GL.GL_LEQUAL );
+		gl.glCullFace( GL.GL_FRONT );
+		gl.glColor3d( 0, 0, 0 );
+		gl.glDisable( GL.GL_LIGHTING );
+		gl.glDisable( GL.GL_BLEND );
+		gl.glCallList( displayListId2 );
+		gl.glEnable( GL.GL_BLEND );
+		gl.glEnable( GL.GL_LIGHTING );
 		
-		Color old = getVariableColor1();
-		setColors( new Color(0f, 0f, 0f, 1f ), new Color( 1f, 1f, 1f, 0.5f) );
-		useMaterial(gl);
-		gl.glScaled(1.2, 1.2, 1.2);
-		gl.glCallList( displayListId );
-		//gl.glDisable(GL.GL_BLEND);
 		
-		gl.glPopMatrix();
+		
+//		Link.useShaderProgram(gl);
+//		gl.glCallList( displayListId );
+//		
+//		
+//		// border
+//		// clear stencil to zeros
+//		gl.glClearStencil( 0 );
+//		gl.glClear( GL.GL_STENCIL_BUFFER_BIT );
+//		gl.glDisable( GL.GL_BLEND );
+//		gl.glDisable( GL.GL_DEPTH_TEST );
+//		
+//		gl.glEnable(GL.GL_STENCIL_TEST);						// Enable Stencil Buffer For "marking" The Floor
+//		gl.glStencilFunc(GL.GL_ALWAYS, 1, 1);						// Always Passes, 1 Bit Plane, 1 As Mask
+//		gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_REPLACE);	
+//		
+//		// draw the link to the stencil buffer
+//		gl.glColorMask(false,false,false,false);
+//		gl.glCallList( displayListId );
+//		
+//		
+//		gl.glEnable( GL.GL_DEPTH_TEST );
+//		//gl.glEnable(GL.GL_BLEND);
+//		
+//		Color old = getVariableColor1();
+//
+//		
+//		gl.glStencilFunc(GL.GL_NOTEQUAL, 1, 1);						// We Draw Only Where The Stencil Is 1
+//		gl.glColorMask(true,true,true,true);
+//		// (I.E. Where The Floor Was Drawn)
+//		gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_KEEP);					// Don't Change The Stencil Buffer
+//		
+//		gl.glPushMatrix();
+//		setColors( new Color(0f, 0f, 0f ), new Color( 1f, 1f, 1f, 0.5f) );
+//		useMaterial(gl);
+//		gl.glCallList( displayListId2 );
+//		gl.glPopMatrix();
+//		gl.glEnable(GL.GL_BLEND);
+//		
+//		gl.glDisable( GL.GL_STENCIL_TEST );
+//		
+//		ShaderFactory.removeAllPrograms(gl);
 		
 //		gl.glMap1d( GL.GL_MAP1_VERTEX_3, 0, 1, 3, 3, linesControlPoints.array(), 0 );
 //		gl.glEnable( GL.GL_MAP1_VERTEX_3 );
@@ -257,16 +312,28 @@ public class Link extends ASimObject {
 		
 	}
 	
-	private void preRenderObject( GL gl ) {
+	private void preRenderObject( GL gl, Point3d pointA, Point3d pointB) {
 		requireTextRenderer();
 		if ( displayListId != -1 ) {
 			gl.glDeleteLists(displayListId, 1);
+			gl.glDeleteLists( displayListId2, 1 );
 			displayListId = -1;
+			displayListId2 = -1;
 		}
 		if ( displayListId == -1 ) {
 			displayListId = gl.glGenLists(1);
+			displayListId2 = gl.glGenLists(1);
 		}
+		calculateControlPoints(pointA, pointB, radius);
 		gl.glNewList( displayListId, GL.GL_COMPILE );
+			gl.glEnable( GL.GL_MAP2_VERTEX_3 );
+			drawBuffer( gl, surfaceControlPointsLeftDown );
+			drawBuffer( gl, surfaceControlPointsLeftUp );
+			drawBuffer( gl, surfaceControlPointsRightDown );
+			drawBuffer( gl, surfaceControlPointsRightUp );
+		gl.glEndList();
+		calculateControlPoints(pointA, pointB, radius*1.1d);
+		gl.glNewList( displayListId2, GL.GL_COMPILE );
 			gl.glEnable( GL.GL_MAP2_VERTEX_3 );
 			drawBuffer( gl, surfaceControlPointsLeftDown );
 			drawBuffer( gl, surfaceControlPointsLeftUp );
@@ -292,7 +359,7 @@ public class Link extends ASimObject {
 		gl.glPopMatrix();
 	}
 	
-	private void calculateControlPoints( Point3d pointA, Point3d pointB) {
+	private void calculateControlPoints( Point3d pointA, Point3d pointB, double radius ) {
 		// clean cache
 		surfaceControlPointsLeftDown.clear();
 		surfaceControlPointsLeftUp.clear();
@@ -323,7 +390,6 @@ public class Link extends ASimObject {
 			// calculate control points
 			
 			double radius_ = Math.sqrt( Math.pow( radius, 2 )/ 2d );
-			
 			
 			Vector3d tmp = new Vector3d();
 			// base points
