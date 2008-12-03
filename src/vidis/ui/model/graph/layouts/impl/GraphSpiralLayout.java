@@ -92,11 +92,30 @@ public class GraphSpiralLayout extends AGraphLayout {
 	}
 	
 	public void apply(Collection<SimNode> nodes) throws Exception {
+		// reset stuff
 		points.clear();
+		oldNodes.clear();
+		// call relayout
+		relayout(nodes);
+		// apply center layout
+		GraphCenterLayout.getInstance().apply(nodes);
+	}
+	
+	private void apply(SimNode s) {
+		setPosition(s, nextNodePoint3d());
+		oldNodes.add(s);
+	}
+	
+	public void relayout(Collection<SimNode> nodes) throws Exception {
 		List<SimNode> nodesList = new ArrayList<SimNode>(nodes);
 		for(int i=0; i<nodesList.size(); i++) {
-			setPosition(nodesList.get(i), nextNodePoint3d());
+			SimNode s = nodesList.get(i);
+			if(oldNodes.contains(s)) {
+				// already has a position
+			} else {
+				// get a new one for it
+				apply(s);
+			}
 		}
-		GraphCenterLayout.getInstance().apply(nodesList);
 	}
 }

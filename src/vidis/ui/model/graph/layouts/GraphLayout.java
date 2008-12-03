@@ -24,6 +24,13 @@ public interface GraphLayout {
 	public void apply(Collection<SimNode> nodes) throws Exception;
 	
 	/**
+	 * should be called if some nodes were removed or added
+	 * @param nodes all nodes
+	 * @throws Exception thrown upon error
+	 */
+	public void relayout(Collection<SimNode> nodes) throws Exception;
+	
+	/**
 	 * the smaller the value, the more "dense" all points will be
 	 * @param density the density to set (double [0..1])
 	 */

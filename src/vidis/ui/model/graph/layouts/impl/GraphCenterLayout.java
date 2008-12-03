@@ -2,12 +2,9 @@ package vidis.ui.model.graph.layouts.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.vecmath.Point3d;
-import javax.vecmath.Tuple3d;
-import javax.vecmath.Vector2d;
 
 import org.apache.log4j.Logger;
 
@@ -75,7 +72,16 @@ public class GraphCenterLayout extends AGraphLayout {
 		}
 	}
 	
+	/**
+	 * does the same as apply(nodes)
+	 */
+	public void relayout(Collection<SimNode> nodes) throws Exception {
+		logger.debug("relayout()");
+		apply(nodes);
+	}
+	
 	public void apply(Collection<SimNode> nodes) throws Exception {
+		logger.debug("apply()");
 		List<SimNode> nodesList = new ArrayList<SimNode>(nodes);
 		Point3d centerPoint = calculateCenterPoint(nodesList);
 		// now subtract the offset between centerPoint and 0,0,0 from each nodes position

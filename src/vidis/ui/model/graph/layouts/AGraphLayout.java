@@ -1,12 +1,15 @@
 package vidis.ui.model.graph.layouts;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.vecmath.Point3d;
 
 import vidis.data.sim.SimNode;
 import vidis.data.var.AVariable;
 import vidis.data.var.vars.DefaultVariable;
-import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
 import vidis.ui.model.graph.layouts.impl.GraphCenterLayout;
+import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
 import vidis.ui.model.graph.layouts.impl.GraphRandomLayout;
 import vidis.ui.model.graph.layouts.impl.GraphSpiralLayout;
 
@@ -16,6 +19,8 @@ import vidis.ui.model.graph.layouts.impl.GraphSpiralLayout;
  *
  */
 public abstract class AGraphLayout implements GraphLayout {
+	protected List<SimNode> oldNodes = new LinkedList<SimNode>();
+	
 	public static void setNodeDensityToAll(double density) {
 		GraphElectricSpringLayout.getInstance().setNodeDensity(density);
 		GraphCenterLayout.getInstance().setNodeDensity(density);

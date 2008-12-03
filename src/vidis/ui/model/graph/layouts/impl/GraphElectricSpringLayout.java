@@ -71,17 +71,8 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 		pingFactor = density *(pingFactorMax - pingFactorMin) + pingFactorMin;
 	}
 	
-	/**
-	 * apply the graph layout to the nodes;
-	 * 
-	 * IMPORTANT: FOR THIS ALGORITHM TO WORK CORRECTLY THE CONNECTIONS (LINKS) MUST BE ESTABLISHED PRIOR!
-	 * @param nodes the list of all nodes
-	 */
-	public void apply(Collection<SimNode> nodes) throws Exception {
+	public void relayout(Collection<SimNode> nodes) throws Exception {
 		List<SimNode> nodesList = new ArrayList<SimNode>(nodes);
-		
-		// init position vars if not available
-		GraphRandomLayout.getInstance().apply(nodes);
 		
 		// init graph
 		WeightedGraph graph = new WeightedGraphImpl( false );
@@ -111,7 +102,24 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 		}
 		apply_electricSpringAlgorithm(graph, nodesList, vertices);
 		
+		oldNodes.addAll(nodes);
+		
 		GraphCenterLayout.getInstance().apply(nodesList);
+	}
+	
+	/**
+	 * apply the graph layout to the nodes;
+	 * 
+	 * IMPORTANT: FOR THIS ALGORITHM TO WORK CORRECTLY THE CONNECTIONS (LINKS) MUST BE ESTABLISHED PRIOR!
+	 * @param nodes the list of all nodes
+	 */
+	public void apply(Collection<SimNode> nodes) throws Exception {
+		oldNodes.clear();
+		
+		// init position vars if not available
+		GraphRandomLayout.getInstance().apply(nodes);
+		
+		relayout(nodes);
 	}
 	
 	private void apply_electricSpringAlgorithm(WeightedGraph graph, List<SimNode> nodes, Map<SimNode, Vertex> vertices) {

@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.vecmath.Point3d;
-import javax.vecmath.Vector2d;
 
 import org.apache.log4j.Logger;
 
@@ -28,12 +27,9 @@ public class GraphGridLayout extends AGraphLayout {
 	private static GraphLayout instance = null;
 	private final double xMin = Configuration.GRID_STEP;
 	private final double xMax = Configuration.GRID_STEP;
-	private final double yMin = 0;
-	private final double yMax = 0;
 	private final double zMin = Configuration.GRID_STEP;
 	private final double zMax = Configuration.GRID_STEP;
 	private double x;
-	private double y;
 	private double z;
 	
 	private List<Point3d> points;
@@ -53,7 +49,6 @@ public class GraphGridLayout extends AGraphLayout {
 		density = Math.max(0.0, density);
 		density = Math.min(1.0, density);
 		x = density * (xMax - xMin) + xMin;
-		y = density * (yMax - yMin) + yMin;
 		z = density * (zMax - zMin) + zMin;
 	}
 	
@@ -129,12 +124,29 @@ public class GraphGridLayout extends AGraphLayout {
 	public void apply(Collection<SimNode> nodes) throws Exception {
 		state = State.DOWN;
 		points.clear();
+		oldNodes.clear();
+		relayout(nodes);
+//		GraphCenterLayout.getInstance().apply(nodesList);
+	}
+	
+	public void relayout(Collection<SimNode> nodes) throws Exception {
 		List<SimNode> nodesList = new ArrayList<SimNode>(nodes);
 		for(int i=0; i<nodesList.size(); i++) {
+			apply(nodesList.get(i));
+		}
+	}
+	
+	private void apply(SimNode s) {
+		if(oldNodes.contains(s)) {
+			// got to do nothing
+			logger.debug("doing nothing for node: " + s);
+		} else {
+			logger.debug("apply new layout for node: " + s);
 			// pick random point of the pool
 			Point3d p = generatePoint();
-			setPosition(nodesList.get(i), p);
+			setPosition(s, p);
+			// and now add it to the old nodes
+			oldNodes.add(s);
 		}
-//		GraphCenterLayout.getInstance().apply(nodesList);
 	}
 }

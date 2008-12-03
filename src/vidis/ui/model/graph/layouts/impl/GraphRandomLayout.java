@@ -54,16 +54,34 @@ public class GraphRandomLayout extends AGraphLayout {
 	
 	public void apply(Collection<SimNode> nodes) throws Exception {
 		logger.debug("generate positions in {["+xMin+".."+xMax+"],["+yMin+".."+yMax+"],["+zMin+".."+zMax+"]}");
+		oldNodes.clear();
 		List<SimNode> nodesList = new ArrayList<SimNode>(nodes);
 		for(int i=0; i<nodesList.size(); i++) {
-			Point3d random = new Point3d();
-			random.x = Math.random()*xMax + xMin;
-			random.y = Math.random()*yMax + yMin;
-			random.z = Math.random()*zMax + zMin;
-			SimNode node = nodesList.get(i);
-			setPosition(node, random);
+			positionNode(nodesList.get(i));
 		}
 		GraphCenterLayout.getInstance().apply(nodesList);
+	}
+	
+	public void relayout(Collection<SimNode> nodes) throws Exception {
+		List<SimNode> nodesList = new ArrayList<SimNode>(nodes);
+		for(int i=0; i<nodesList.size(); i++) {
+			SimNode s = nodesList.get(i);
+			if(oldNodes.contains(s)) {
+				// do nothing
+			} else {
+				// get a nice new position for it
+				positionNode(s);
+			}
+		}
+	}
+	
+	private void positionNode(SimNode node) {
+		Point3d random = new Point3d();
+		random.x = Math.random()*xMax + xMin;
+		random.y = Math.random()*yMax + yMin;
+		random.z = Math.random()*zMax + zMin;
+		setPosition(node, random);
+		oldNodes.add(node);
 	}
 
 	public void setNodeDensity(double density) {
