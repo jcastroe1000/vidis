@@ -9,6 +9,12 @@ import vidis.data.annotation.DisplayColor;
 public abstract class APacket extends AUserPacket {
 	private static Logger logger = Logger.getLogger(APacket.class);
 	
+	private double id;
+	
+	public APacket() {
+		id = Math.random() * Double.MAX_VALUE;
+	}
+	
 	protected enum PacketType {
 		ATTACK(ColorType.GREEN),
 		RETREAT(ColorType.RED);
@@ -25,6 +31,10 @@ public abstract class APacket extends AUserPacket {
 	@DisplayColor
 	public ColorType getColor() {
 		return getPacketType().getColor();
+	}
+	
+	public double getId() {
+		return id;
 	}
 	
 	protected abstract PacketType getPacketType();

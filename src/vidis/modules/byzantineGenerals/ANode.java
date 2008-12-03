@@ -1,5 +1,8 @@
 package vidis.modules.byzantineGenerals;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 
 import vidis.data.AUserNode;
@@ -48,12 +51,17 @@ public abstract class ANode extends AUserNode {
 		sendRetreatPacket(null);
 	}
 	
+	protected void mySend(APacket p, IUserLink l) {
+		alreadySeen.put(p.getId(), true);
+		send(p, l);
+	}
+	
 	protected void sendAttackPacket(IUserLink notToThisSource) {
 		for(IUserLink l : getConnectedLinks()) {
 			if(l.equals(notToThisSource)) {
 				// do not send
 			} else {
-				send(new AttackPacket(), l);
+				mySend(new AttackPacket(), l);
 			}
 		}
 	}
@@ -62,37 +70,48 @@ public abstract class ANode extends AUserNode {
 			if(l.equals(notToThisSource)) {
 				// do not send
 			} else {
-				send(new RetreatPacket(), l);
+				mySend(new RetreatPacket(), l);
 			}
 		}
 	}
 	
+	private Map<Double, Boolean> alreadySeen = new HashMap<Double, Boolean>();
+	
+	private boolean alreadySeen(double id) {
+		return alreadySeen.containsKey(id);
+	}
+	
 	protected void receive(APacket p) {
-		switch(getNodeType()) {
-			case GOOD:
-				// propagate correct message
-				if(p.getPacketType().equals(PacketType.ATTACK)) {
-					sendAttackPacket(p.getLinkToSource());
-				} else if(p.getPacketType().equals(PacketType.RETREAT)) {
-					sendRetreatPacket(p.getLinkToSource());
-				}
-				break;
-			case BAD:
-				// propagate bad message
-				if(p.getPacketType().equals(PacketType.ATTACK)) {
-					sendRetreatPacket(p.getLinkToSource());
-				} else if(p.getPacketType().equals(PacketType.RETREAT)) {
-					sendAttackPacket(p.getLinkToSource());
-				}
-				break;
-			case DONTKNOW:
-				// propagate random (good/bad) message
-				if(Math.random() < 0.5) {
-					sendRetreatPacket(p.getLinkToSource());
-				} else {
-					sendAttackPacket(p.getLinkToSource());
-				}
-				break;
+		if(alreadySeen(p.getId())) {
+			// already seen this packet, do not query anymore
+		} else {
+			alreadySeen.put(p.getId(), true);
+			switch(getNodeType()) {
+				case GOOD:
+					// propagate correct message
+					if(p.getPacketType().equals(PacketType.ATTACK)) {
+						sendAttackPacket(p.getLinkToSource());
+					} else if(p.getPacketType().equals(PacketType.RETREAT)) {
+						sendRetreatPacket(p.getLinkToSource());
+					}
+					break;
+				case BAD:
+					// propagate bad message
+					if(p.getPacketType().equals(PacketType.ATTACK)) {
+						sendRetreatPacket(p.getLinkToSource());
+					} else if(p.getPacketType().equals(PacketType.RETREAT)) {
+						sendAttackPacket(p.getLinkToSource());
+					}
+					break;
+				case DONTKNOW:
+					// propagate random (good/bad) message
+					if(Math.random() < 0.5) {
+						sendRetreatPacket(p.getLinkToSource());
+					} else {
+						sendAttackPacket(p.getLinkToSource());
+					}
+					break;
+			}
 		}
 	}
 
