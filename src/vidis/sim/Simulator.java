@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.log4j.Logger;
+
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
 import vidis.data.sim.AComponent;
@@ -28,7 +30,6 @@ import vidis.sim.xml.modules.dataStructure.DocumentData;
 import vidis.sim.xml.modules.dataStructure.DocumentDataConnection;
 import vidis.sim.xml.modules.dataStructure.DocumentDataLink;
 import vidis.ui.model.graph.layouts.AGraphLayout;
-import vidis.ui.model.graph.layouts.impl.GraphSpiralLayout;
 
 public class Simulator {
 	private static class SimulatorData implements Serializable {
@@ -91,7 +92,11 @@ public class Simulator {
 	private long lastTime;
 	private List<Long> lastTimes = new LinkedList<Long>();
 	/* --------------------------------------- */
+	
+	/* -- logger -- */
+	private static final Logger logger = Logger.getLogger(Simulator.class);
 
+	/* -- simulator stuff -- */
 	private static Simulator instance;
 
 	private SimulatorData data;
@@ -104,8 +109,6 @@ public class Simulator {
 		player = new Player();
 		player.startWorker();
 		data = new SimulatorData();
-		// TODO remove when everything works
-		// DebugJoe.watchObject(lastTimes);
 	}
 
 	public static final boolean configIsEnable3D() {
@@ -232,23 +235,6 @@ public class Simulator {
 
 		// connect nodes via links
 		generateSimNode_SimLink_connections(nodes, links, reader.getDocument());
-		
-		
-		// for (String id_1 : links.keySet()) {
-		// SimLink l_1 = links.get(id_1);
-		// if (l_1.getNodeA() != null && l_1.getNodeB() != null) {
-		// for (String id_2 : links.keySet()) {
-		// if (!id_2.equals(id_1)) {
-		// SimLink l_2 = links.get(id_2);
-		// if (l_2.getNodeA() != null && l_2.getNodeB() != null) {
-		// // both links are connected, now test collission
-		// // Logger.output(this, "" + l_1 + "/" + l_2 + " => " +
-		// // SafeGenerator.detectCollision(l_1, l_2));
-		// }
-		// }
-		// }
-		// }
-		// }
 	}
 
 	private void generateSimNode_SimLink_connections(Map<String, SimNode> nodes, Map<String, SimLink> links, DocumentData document) {
@@ -260,7 +246,8 @@ public class Simulator {
 				SimNode nodeA = nodes.get(documentConnection.getNodeA().getId());
 				SimNode nodeB = nodes.get(documentConnection.getNodeB().getId());
 				if(link.isConnected()) {
-					System.err.println("TRYING TO MULTIPLE CONNECT THIS LINK: " + link + " TO ("+nodeA+","+nodeB+") IS ALREADY CONNECTED! PLEASE WATCH YOUR CONFIGURATION!");
+//					System.err.println("TRYING TO MULTIPLE CONNECT THIS LINK: " + link + " TO ("+nodeA+","+nodeB+") IS ALREADY CONNECTED! PLEASE WATCH YOUR CONFIGURATION!");
+					logger.error("TRYING TO MULTIPLE CONNECT THIS LINK: " + link + " TO ("+nodeA+","+nodeB+") IS ALREADY CONNECTED! PLEASE WATCH YOUR CONFIGURATION!");
 				} else {
 					link.connect(nodeA, nodeB);
 					// register a connected link only
@@ -310,7 +297,7 @@ public class Simulator {
 						// register instance to simulator
 						links.put(documentLink.getId(), sim);
 					} else {
-						// TODO throw exception, error handling, whatever
+						logger.error("CANNOT INSTANTIATE A LINK THAT DOES NOT IMPLEMENT " + IUserLink.class);
 					}
 				}
 			} catch (ClassNotFoundException e) {
@@ -369,12 +356,6 @@ public class Simulator {
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
 			}
-		}
-		try {
-			GraphSpiralLayout.getInstance().apply(nodes.values());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 	
