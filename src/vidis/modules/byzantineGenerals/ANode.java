@@ -56,19 +56,27 @@ public abstract class ANode extends AUserNode {
 		send(p, l);
 	}
 	
-	protected void sendAttackPacket(IUserLink notToThisSource) {
+	protected void sendAttackPacket(APacket notToThisSource) {
 		for(IUserLink l : getConnectedLinks()) {
-			if(l.equals(notToThisSource)) {
-				// do not send
+			if(notToThisSource != null) {
+				if(l.equals(notToThisSource.getLinkToSource())) {
+					// do not send
+				} else {
+					mySend(new AttackPacket(notToThisSource.getId()), l);
+				}
 			} else {
 				mySend(new AttackPacket(), l);
 			}
 		}
 	}
-	protected void sendRetreatPacket(IUserLink notToThisSource) {
+	protected void sendRetreatPacket(APacket notToThisSource) {
 		for(IUserLink l : getConnectedLinks()) {
-			if(l.equals(notToThisSource)) {
-				// do not send
+			if(notToThisSource != null) {
+				if(l.equals(notToThisSource.getLinkToSource())) {
+					// do not send
+				} else {
+					mySend(new RetreatPacket(notToThisSource.getId()), l);
+				}
 			} else {
 				mySend(new RetreatPacket(), l);
 			}
@@ -90,25 +98,25 @@ public abstract class ANode extends AUserNode {
 				case GOOD:
 					// propagate correct message
 					if(p.getPacketType().equals(PacketType.ATTACK)) {
-						sendAttackPacket(p.getLinkToSource());
+						sendAttackPacket(p);
 					} else if(p.getPacketType().equals(PacketType.RETREAT)) {
-						sendRetreatPacket(p.getLinkToSource());
+						sendRetreatPacket(p);
 					}
 					break;
 				case BAD:
 					// propagate bad message
 					if(p.getPacketType().equals(PacketType.ATTACK)) {
-						sendRetreatPacket(p.getLinkToSource());
+						sendRetreatPacket(p);
 					} else if(p.getPacketType().equals(PacketType.RETREAT)) {
-						sendAttackPacket(p.getLinkToSource());
+						sendAttackPacket(p);
 					}
 					break;
 				case DONTKNOW:
 					// propagate random (good/bad) message
 					if(Math.random() < 0.5) {
-						sendRetreatPacket(p.getLinkToSource());
+						sendRetreatPacket(p);
 					} else {
-						sendAttackPacket(p.getLinkToSource());
+						sendAttackPacket(p);
 					}
 					break;
 			}

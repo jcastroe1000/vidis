@@ -15,6 +15,10 @@ public abstract class APacket extends AUserPacket {
 		id = Math.random() * Double.MAX_VALUE;
 	}
 	
+	public APacket(double id) {
+		this.id = id;
+	}
+	
 	protected enum PacketType {
 		ATTACK(ColorType.GREEN),
 		RETREAT(ColorType.RED);
