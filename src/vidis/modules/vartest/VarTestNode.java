@@ -24,6 +24,10 @@ import vidis.data.mod.IUserPacket;
 @ComponentColor(color=ColorType.BLUE)
 public class VarTestNode extends AUserNode {
 	
+	@Display(name="spawn&connect a node")
+	public void mySpawn() {
+		spawnNewNode().connect(this, DefaultLink.class, 5);
+	}
 	@Display(name="connect to specific node")
 	public void myConnect(IUserNode n) {
 		connect(n, DefaultLink.class, 5);

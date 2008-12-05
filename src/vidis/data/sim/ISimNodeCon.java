@@ -49,4 +49,9 @@ public interface ISimNodeCon extends IAComponentCon {
 	 * @param delay the delay of the link class
 	 */
 	public void connect(IUserNode n, Class<? extends IUserLink> lclazz, long delay);
+	
+	/**
+	 * Spawns a new node.
+	 */
+	public IUserNode spawnNewNode();
 }

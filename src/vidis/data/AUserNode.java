@@ -83,6 +83,10 @@ public abstract class AUserNode extends AUserComponent implements IUserNode {
     	simulatorComponent.connect(n, lclazz, delay);
     }
     
+    public final IUserNode spawnNewNode() {
+    	return simulatorComponent.spawnNewNode();
+    }
+    
     public final void disconnect(IUserNode n) {
     	IUserLink l = null;
     	for(IUserLink ltmp : getConnectedLinks()) {

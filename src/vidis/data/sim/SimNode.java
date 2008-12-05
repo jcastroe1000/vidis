@@ -302,4 +302,18 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 		}
 		return false;
 	}
+	
+	public IUserNode spawnNewNode() {
+		SimNode n;
+		try {
+			n = new SimNode(getUserLogic().getClass().newInstance());
+			Simulator.getInstance().registerComponent(n);
+			return n.getUserLogic();
+		} catch (InstantiationException e) {
+			logger.error(e);
+		} catch (IllegalAccessException e) {
+			logger.error(e);
+		}
+		return null;
+	}
 }
