@@ -37,4 +37,9 @@ public interface IUserLink extends IUserComponent {
 	 * @return a long representing the delay in simulation steps
 	 */
 	public long getDelay();
+
+	/**
+	 * Disconnects both nodes attached to this link and destroys this link.
+	 */
+	public void disconnect();
 }

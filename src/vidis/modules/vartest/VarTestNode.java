@@ -10,6 +10,9 @@ import vidis.data.annotation.ComponentColor;
 import vidis.data.annotation.ComponentInfo;
 import vidis.data.annotation.Display;
 import vidis.data.annotation.DisplayColor;
+import vidis.data.commonComponents.DefaultLink;
+import vidis.data.mod.IUserLink;
+import vidis.data.mod.IUserNode;
 import vidis.data.mod.IUserPacket;
 
 /**
@@ -20,6 +23,20 @@ import vidis.data.mod.IUserPacket;
 @ComponentInfo(name = "VarTestNode")
 @ComponentColor(color=ColorType.BLUE)
 public class VarTestNode extends AUserNode {
+	
+	@Display(name="connect to specific node")
+	public void myConnect(IUserNode n) {
+		connect(n, DefaultLink.class, 5);
+	}
+	@Display(name="disconnect from specific node")
+	public void myDisconnect(IUserNode o) {
+		disconnect(o);
+	}
+	@Display(name="disconnect from all")
+	public void myDisconnect() {
+		for(IUserLink l : getConnectedLinks())
+			disconnect(l.getOtherNode(this));
+	}
 
     public void receive(IUserPacket packet) {
 	// TODO Auto-generated method stub

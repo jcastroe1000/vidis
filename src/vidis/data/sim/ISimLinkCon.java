@@ -53,4 +53,9 @@ public interface ISimLinkCon extends IAComponentCon {
 	 * @return the string unique identifier
 	 */
 	public String getId();
+
+	/**
+	 * Disconnects this link.
+	 */
+	public void disconnect();
 }

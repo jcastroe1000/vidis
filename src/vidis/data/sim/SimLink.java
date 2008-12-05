@@ -431,4 +431,11 @@ public class SimLink extends AComponent implements ISimLinkCon {
 	public String getId() {
     	return getVariableById(AVariable.COMMON_IDENTIFIERS.ID).getData().toString();
     }
+	
+	public void disconnect() {
+		getNodeASim().removeConnection(this);
+		getNodeBSim().removeConnection(this);
+		kill();
+		Simulator.getInstance().unregisterObject(this);
+	}
 }

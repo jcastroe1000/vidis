@@ -46,4 +46,28 @@ public interface IUserNode extends IUserComponent {
 	 * </p>
 	 */
 	public void init();
+	
+	/**
+	 * Connects this node to the specified node.
+	 * 
+	 * <p>
+	 * This function creates a new link instance of the specified
+	 * class with the specified delay and connects this node with the
+	 * specified node using the new link instance.
+	 * </p>
+	 * 
+	 * @param n the node to connect to
+	 * @param lclazz the class that should be used as link
+	 * @param delay the delay of the connection
+	 */
+	public void connect(IUserNode n, Class<? extends IUserLink> lclazz, long delay);
+	
+	/**
+	 * Disconnects this node from the specified node if a connection exists.
+	 * <p>
+	 * <i>If no connection exists, this function does nothing.</i>
+	 * </p>
+	 * @param n the node to disconnect from
+	 */
+	public void disconnect(IUserNode n);
 }

@@ -14,6 +14,7 @@ import vidis.data.mod.IUserNode;
 import vidis.data.mod.IUserPacket;
 import vidis.data.var.AVariable;
 import vidis.data.var.vars.DefaultVariable;
+import vidis.sim.Simulator;
 import vidis.sim.exceptions.ObstructInitRuntimeCallException;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.ObjectEvent;
@@ -232,6 +233,29 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
     public void addConnection(SimLink link) {
     	links.put(link.getUserLogic(), link);
     }
+    
+    public void removeConnection(SimLink simLink) {
+    	links.remove(simLink.getUserLogic());
+	}
+    
+    public void connect(IUserNode n, Class<? extends IUserLink> lclazz, long delay) {
+    	// TODO connect this one
+			for(AComponent c : Simulator.getInstance().getSimulatorComponents()) {
+				if(c.getUserLogic().equals(n)) {
+					try {
+						SimLink s = new SimLink(lclazz.newInstance(), delay);
+						s.connect(this, (SimNode)c);
+						Simulator.getInstance().registerComponent(s);
+					} catch (InstantiationException e) {
+						logger.error(e);
+					} catch (IllegalAccessException e) {
+						logger.error(e);
+					} catch (ClassCastException e) {
+						logger.error(e);
+					}
+				}
+			}
+    }
 
     @Override
     public int hashCode() {
@@ -278,5 +302,4 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 		}
 		return false;
 	}
-    
 }

@@ -376,8 +376,11 @@ public class Simulator {
 		return data.components;
 	}
 
-	private void registerComponent(AComponent component) {
+	public void registerComponent(AComponent component) {
 		data.registerComponent(component);
+	}
+	public void unregisterObject(AComponent component) {
+		data.unregisterComponent(component);
 	}
 
 	public long getNow() {

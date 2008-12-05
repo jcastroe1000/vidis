@@ -73,6 +73,10 @@ public abstract class AUserLink extends AUserComponent implements IUserLink {
 		    // nothing
 		}
     }
+    
+    public final void disconnect() {
+    	simulatorComponent.disconnect();
+    }
 
     public final void sleep(int steps) {
 		try {

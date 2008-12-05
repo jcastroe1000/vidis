@@ -3,6 +3,7 @@ package vidis.data.sim;
 import java.util.List;
 
 import vidis.data.mod.IUserLink;
+import vidis.data.mod.IUserNode;
 import vidis.data.mod.IUserPacket;
 
 /**
@@ -40,4 +41,12 @@ public interface ISimNodeCon extends IAComponentCon {
 	 * @return string
 	 */
 	public String getId();
+
+	/**
+	 * Connects this node to another node.
+	 * @param n the node to connect to
+	 * @param lclazz the link class to use
+	 * @param delay the delay of the link class
+	 */
+	public void connect(IUserNode n, Class<? extends IUserLink> lclazz, long delay);
 }

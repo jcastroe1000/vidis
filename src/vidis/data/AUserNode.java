@@ -79,6 +79,25 @@ public abstract class AUserNode extends AUserComponent implements IUserNode {
 		}
     }
     
+    public final void connect(IUserNode n, Class<? extends IUserLink> lclazz, long delay) {
+    	simulatorComponent.connect(n, lclazz, delay);
+    }
+    
+    public final void disconnect(IUserNode n) {
+    	IUserLink l = null;
+    	for(IUserLink ltmp : getConnectedLinks()) {
+    		if(ltmp.getOtherNode(this).equals(n)) {
+    			l = ltmp;
+    		}
+    	}
+    	if(l != null) {
+    		// fine, we're connected, disconnect
+    		l.disconnect();
+    	} else {
+    		// fine, take no action
+    	}
+    }
+    
     protected String getId() {
     	return simulatorComponent.getId();
     }
