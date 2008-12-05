@@ -94,6 +94,8 @@ public class Gui extends AEventHandler {
 			}
 		});
 		this.menu = new Menu( menu );
+		menu.setExpanded( false );
+		layout.setExpanded( false );
 		this.menu.update();
 		mainContainer.addChild( this.menu );
 	}

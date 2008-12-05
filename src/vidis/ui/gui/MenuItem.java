@@ -110,6 +110,7 @@ public class MenuItem {
 
 	public void setExpanded(boolean expanded) {
 		this.expanded = expanded;
+		this.menu.update();
 	}
 
 	public boolean isExpanded() {
