@@ -1,7 +1,12 @@
 package vidis.modules.byzantineGenerals;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
@@ -52,30 +57,32 @@ public abstract class ANode extends AUserNode {
 	}
 	
 	protected void mySend(APacket p, IUserLink l) {
-		alreadySeen.put(p.getId(), true);
+		if(!alreadySeen(p.getId()))
+			alreadySeen.put(p.getId(), new HashSet<APacket>());
+		alreadySeen.get(p.getId()).add(p);
 		send(p, l);
 	}
 	
-	protected void sendAttackPacket(APacket notToThisSource) {
+	protected void sendAttackPacket(APacket sourcePacket) {
 		for(IUserLink l : getConnectedLinks()) {
-			if(notToThisSource != null) {
-				if(l.equals(notToThisSource.getLinkToSource())) {
+			if(sourcePacket != null) {
+				if(l.equals(sourcePacket.getLinkToSource())) {
 					// do not send
 				} else {
-					mySend(new AttackPacket(notToThisSource.getId()), l);
+					mySend(new AttackPacket(sourcePacket.getId()), l);
 				}
 			} else {
 				mySend(new AttackPacket(), l);
 			}
 		}
 	}
-	protected void sendRetreatPacket(APacket notToThisSource) {
+	protected void sendRetreatPacket(APacket sourcePacket) {
 		for(IUserLink l : getConnectedLinks()) {
-			if(notToThisSource != null) {
-				if(l.equals(notToThisSource.getLinkToSource())) {
+			if(sourcePacket != null) {
+				if(l.equals(sourcePacket.getLinkToSource())) {
 					// do not send
 				} else {
-					mySend(new RetreatPacket(notToThisSource.getId()), l);
+					mySend(new RetreatPacket(sourcePacket.getId()), l);
 				}
 			} else {
 				mySend(new RetreatPacket(), l);
@@ -83,17 +90,134 @@ public abstract class ANode extends AUserNode {
 		}
 	}
 	
-	private Map<Double, Boolean> alreadySeen = new HashMap<Double, Boolean>();
+	private Map<Integer, Set<APacket>> alreadySeen = new HashMap<Integer, Set<APacket>>();
 	
-	private boolean alreadySeen(double id) {
+	private boolean alreadySeen(int id) {
 		return alreadySeen.containsKey(id);
 	}
 	
+	/**
+	 * retrieve attacks (where enough votes exist and we decide for attack)
+	 * @return a list of the attack ids
+	 */
+	@Display(name="Attacks")
+	public List<Integer> getAttackIds() {
+		List<Integer> ids = new LinkedList<Integer>();
+		for(Entry<Integer, Set<APacket>> e : alreadySeen.entrySet()) {
+			int attacks = 0;
+			int retreats = 0;
+			if(e.getValue().size() == getConnectedLinks().size()) {
+				// we can make a decision on this
+				for(APacket p : e.getValue()) {
+					switch(p.getPacketType()) {
+						case ATTACK:
+							attacks++;
+							break;
+						case RETREAT:
+							retreats++;
+							break;
+					}
+				}
+				if(attacks > retreats) {
+					ids.add(e.getKey());
+				} else if(attacks < retreats) {
+					
+				} else {
+					// don't know
+				}
+			}
+		}
+		return ids;
+	}
+	/**
+	 * retrieve retreats (where enough votes exist and we decide for retreat)
+	 * @return a list of the attack ids
+	 */
+	@Display(name="Retreats")
+	public List<Integer> getRetreatIds() {
+		List<Integer> ids = new LinkedList<Integer>();
+		for(Entry<Integer, Set<APacket>> e : alreadySeen.entrySet()) {
+			int attacks = 0;
+			int retreats = 0;
+			if(e.getValue().size() == getConnectedLinks().size()) {
+				// we can make a decision on this
+				for(APacket p : e.getValue()) {
+					switch(p.getPacketType()) {
+						case ATTACK:
+							attacks++;
+							break;
+						case RETREAT:
+							retreats++;
+							break;
+					}
+				}
+				if(attacks > retreats) {
+					
+				} else if(attacks < retreats) {
+					ids.add(e.getKey());
+				} else {
+					// don't know
+				}
+			}
+		}
+		return ids;
+	}
+	/**
+	 * retrieve clashing ids (where enough votes exist and we CANNOT decide for attack OR retreat)
+	 * @return a list of the clashing ids
+	 */
+	@Display(name="Clashing")
+	public List<Integer> getClashingIds() {
+		List<Integer> ids = new LinkedList<Integer>();
+		for(Entry<Integer, Set<APacket>> e : alreadySeen.entrySet()) {
+			int attacks = 0;
+			int retreats = 0;
+			if(e.getValue().size() == getConnectedLinks().size()) {
+				// we can make a decision on this
+				for(APacket p : e.getValue()) {
+					switch(p.getPacketType()) {
+						case ATTACK:
+							attacks++;
+							break;
+						case RETREAT:
+							retreats++;
+							break;
+					}
+				}
+				if(attacks > retreats) {
+					
+				} else if(attacks < retreats) {
+					
+				} else {
+					// don't know
+					ids.add(e.getKey());
+				}
+			}
+		}
+		return ids;
+	}
+	/**
+	 * retrieve yet unknown ids (where we have not enough votes to decide something)
+	 * @return a list of the unknown ids
+	 */
+	@Display(name="Unknowns")
+	public List<Integer> getYetUnknownIds() {
+		List<Integer> ids = new LinkedList<Integer>();
+		for(Entry<Integer, Set<APacket>> e : alreadySeen.entrySet()) {
+			if(e.getValue().size() == getConnectedLinks().size()) {
+				
+			} else {
+				ids.add(e.getKey());
+			}
+		}
+		return ids;
+	}
+	
 	protected void receive(APacket p) {
-		if(alreadySeen(p.getId())) {
-			// already seen this packet, do not query anymore
-		} else {
-			alreadySeen.put(p.getId(), true);
+		if(! alreadySeen(p.getId())) {
+			// remember packet
+			alreadySeen.put(p.getId(), new HashSet<APacket>());
+			// forward on conditional
 			switch(getNodeType()) {
 				case GOOD:
 					// propagate correct message
@@ -120,6 +244,11 @@ public abstract class ANode extends AUserNode {
 					}
 					break;
 			}
+		}
+		// inited correctly
+		{
+			// put packet came from to the alreadySeen's
+			alreadySeen.get(p.getId()).add(p);
 		}
 	}
 

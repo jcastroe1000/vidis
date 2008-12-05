@@ -8,7 +8,7 @@ public class AttackPacket extends APacket {
 	public AttackPacket() {
 		super();
 	}
-	public AttackPacket(double id) {
+	public AttackPacket(int id) {
 		super(id);
 	}
 

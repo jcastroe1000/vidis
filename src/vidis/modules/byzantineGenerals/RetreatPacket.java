@@ -8,7 +8,7 @@ public class RetreatPacket extends APacket {
 	public RetreatPacket() {
 		super();
 	}
-	public RetreatPacket(double id) {
+	public RetreatPacket(int id) {
 		super(id);
 	}
 

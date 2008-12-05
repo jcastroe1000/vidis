@@ -9,13 +9,13 @@ import vidis.data.annotation.DisplayColor;
 public abstract class APacket extends AUserPacket {
 	private static Logger logger = Logger.getLogger(APacket.class);
 	
-	private double id;
+	private int id;
 	
 	public APacket() {
-		id = Math.random() * Double.MAX_VALUE;
+		id = (int)(Math.random() * Double.MAX_VALUE);
 	}
 	
-	public APacket(double id) {
+	public APacket(int id) {
 		this.id = id;
 	}
 	
@@ -37,7 +37,7 @@ public abstract class APacket extends AUserPacket {
 		return getPacketType().getColor();
 	}
 	
-	public double getId() {
+	public int getId() {
 		return id;
 	}
 	
