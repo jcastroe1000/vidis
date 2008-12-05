@@ -17,23 +17,24 @@ import vidis.data.sim.ISimPacketCon;
 public interface IUserPacket extends IUserComponent {
 
 	/**
-	 * initializing function called by the API
-	 * 
-	 * DO NOT CALL THIS FUNCTION ON YOUR OWN!
+	 * Is called by the API during initialization.
+	 * <p>
+	 * <strong>DO NOT CALL THIS FUNCTION ON YOUR OWN!</strong>
+	 * </p>
 	 * @param simulatorComponent the simulator component that represents this object in the API
 	 * @throws ObstructInitCallException thrown if you call this function
 	 */
 	public void init(ISimPacketCon simulatorComponent) throws ObstructInitCallException;
 
 	/**
-	 * get the source of this packet
+	 * Retrieves the source node of this packet.
 	 * @return the module user node who sent this packet
 	 */
 	public IUserNode getSource();
 	
 	/**
-	 * get the link to the source of this packet
-	 * @return the module user link to the node, who sent this packet
+	 * Retrieves the link to the source node of this packet.
+	 * @return the module user link to the node who sent this packet
 	 */
 	public IUserLink getLinkToSource();
 }

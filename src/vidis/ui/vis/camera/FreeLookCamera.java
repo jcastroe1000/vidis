@@ -96,6 +96,11 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 		gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_DONT_CARE);
 		gl.glEnable( GL.GL_DEPTH_TEST );
 		gl.glEnable( GL.GL_LIGHTING );
+		gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
+		gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
+		gl.glHint(GL.GL_POLYGON_SMOOTH_HINT, GL.GL_NICEST);
+		gl.glHint(GL.GL_POINT_SMOOTH_HINT, GL.GL_NICEST);
+		
 		gl.glViewport((int)target.getX(), (int)target.getY(), (int)target.getWidth(), (int)target.getHeight());
 	
 		

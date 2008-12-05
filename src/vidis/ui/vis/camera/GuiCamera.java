@@ -55,8 +55,12 @@ public class GuiCamera extends AEventHandler implements ICamera {
 	    gl.glEnable(GL.GL_LINE_SMOOTH);
 	    gl.glEnable(GL.GL_BLEND);
 	    gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-	    gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_DONT_CARE);
+//	    gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_DONT_CARE);
 		gl.glDisable( GL.GL_LIGHTING );
+		gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
+		gl.glHint(GL.GL_POLYGON_SMOOTH_HINT, GL.GL_NICEST);
+		gl.glHint(GL.GL_POINT_SMOOTH_HINT, GL.GL_NICEST);
+		
 		gl.glViewport((int)target.getX(), (int)target.getY(), (int)target.getWidth(), (int)target.getHeight());
 		
 	}

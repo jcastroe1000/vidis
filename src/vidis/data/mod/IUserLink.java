@@ -18,24 +18,23 @@ import vidis.data.sim.ISimLinkCon;
 public interface IUserLink extends IUserComponent {
 
 	/**
-	 * initializing function called by the API
-	 * 
-	 * DO NOT CALL THIS FUNCTION ON YOUR OWN!
+	 * This one is the initializing function called by the API.
+	 * <p><strong>DO NOT CALL THIS FUNCTION ON YOUR OWN!</strong></p>
 	 * @param simulatorComponent the simulator component that represents this object in the API
 	 * @throws ObstructInitCallException thrown if you call this function
 	 */
 	public void init(ISimLinkCon simulatorComponent) throws ObstructInitCallException;
 
 	/**
-	 * retrieve the node connected to this link
-	 * @param me simply tell who you are
+	 * Retrieve the node connected to this link.
+	 * @param me simply tell who you are (usually IUserNode.this)
 	 * @return the user node at the other end; if you are not on this link you get NULL
 	 */
 	public IUserNode getOtherNode(IUserNode me);
 	
 	/**
-	 * retrieve delay of this link
-	 * @return long
+	 * Retrieve delay of this link.
+	 * @return a long representing the delay in simulation steps
 	 */
 	public long getDelay();
 }

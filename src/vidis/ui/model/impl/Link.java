@@ -180,8 +180,10 @@ public class Link extends ASimObject {
 	
 	@Override
 	public void renderObject(GL gl) {
-		setColors( getVariableColor1(), getVariableColor2() );
+//		setColors( getVariableColor1(), getVariableColor2() );
+		setColors( new Color( 0f, 0f, 0f, 1f ), getVariableColor2() );
 		useColor( gl, getVariableColor1() );
+		
 		useMaterial(gl);
 		
 		// data for link vertex shader
@@ -199,73 +201,11 @@ public class Link extends ASimObject {
 			}
 		}
 		
-		// silhouette edges using fixed functionality pipeline
-		
-		gl.glEnable( GL.GL_CULL_FACE );
-		
-		// Draw fron-facing polygons
-		gl.glPolygonMode( GL.GL_FRONT, GL.GL_FILL );
-		gl.glDepthFunc( GL.GL_LESS );
-		gl.glCullFace( GL.GL_BACK );
-		Link.useShaderProgram(gl);
-		gl.glCallList( displayListId );
-		ShaderFactory.removeAllPrograms(gl);
-		
-		// Draw back-facing polygons as black lines
-		gl.glLineWidth( 5.0f );
-		gl.glPolygonMode( GL.GL_BACK, GL.GL_FILL );
-		gl.glDepthFunc( GL.GL_LEQUAL );
-		gl.glCullFace( GL.GL_FRONT );
-		gl.glColor3d( 0, 0, 0 );
-		gl.glDisable( GL.GL_LIGHTING );
-		gl.glDisable( GL.GL_BLEND );
-		gl.glCallList( displayListId2 );
-		gl.glEnable( GL.GL_BLEND );
-		gl.glEnable( GL.GL_LIGHTING );
+		silhouetteFrontBackFace(gl);
 		
 		
 		
-//		Link.useShaderProgram(gl);
-//		gl.glCallList( displayListId );
-//		
-//		
-//		// border
-//		// clear stencil to zeros
-//		gl.glClearStencil( 0 );
-//		gl.glClear( GL.GL_STENCIL_BUFFER_BIT );
-//		gl.glDisable( GL.GL_BLEND );
-//		gl.glDisable( GL.GL_DEPTH_TEST );
-//		
-//		gl.glEnable(GL.GL_STENCIL_TEST);						// Enable Stencil Buffer For "marking" The Floor
-//		gl.glStencilFunc(GL.GL_ALWAYS, 1, 1);						// Always Passes, 1 Bit Plane, 1 As Mask
-//		gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_REPLACE);	
-//		
-//		// draw the link to the stencil buffer
-//		gl.glColorMask(false,false,false,false);
-//		gl.glCallList( displayListId );
-//		
-//		
-//		gl.glEnable( GL.GL_DEPTH_TEST );
-//		//gl.glEnable(GL.GL_BLEND);
-//		
-//		Color old = getVariableColor1();
-//
-//		
-//		gl.glStencilFunc(GL.GL_NOTEQUAL, 1, 1);						// We Draw Only Where The Stencil Is 1
-//		gl.glColorMask(true,true,true,true);
-//		// (I.E. Where The Floor Was Drawn)
-//		gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_KEEP);					// Don't Change The Stencil Buffer
-//		
-//		gl.glPushMatrix();
-//		setColors( new Color(0f, 0f, 0f ), new Color( 1f, 1f, 1f, 0.5f) );
-//		useMaterial(gl);
-//		gl.glCallList( displayListId2 );
-//		gl.glPopMatrix();
-//		gl.glEnable(GL.GL_BLEND);
-//		
-//		gl.glDisable( GL.GL_STENCIL_TEST );
-//		
-//		ShaderFactory.removeAllPrograms(gl);
+//		silhouetteStencil(gl);
 		
 //		gl.glMap1d( GL.GL_MAP1_VERTEX_3, 0, 1, 3, 3, linesControlPoints.array(), 0 );
 //		gl.glEnable( GL.GL_MAP1_VERTEX_3 );
@@ -310,6 +250,76 @@ public class Link extends ASimObject {
 		
 	
 		
+	}
+
+	private void silhouetteStencil(GL gl) {
+		Link.useShaderProgram(gl);
+		gl.glCallList( displayListId );
+		
+		
+		// border
+		// clear stencil to zeros
+		gl.glClearStencil( 0 );
+		gl.glClear( GL.GL_STENCIL_BUFFER_BIT );
+		gl.glDisable( GL.GL_BLEND );
+		gl.glDisable( GL.GL_DEPTH_TEST );
+		
+		gl.glEnable(GL.GL_STENCIL_TEST);						// Enable Stencil Buffer For "marking" The Floor
+		gl.glStencilFunc(GL.GL_ALWAYS, 1, 1);						// Always Passes, 1 Bit Plane, 1 As Mask
+		gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_REPLACE);	
+		
+		// draw the link to the stencil buffer
+		gl.glColorMask(false,false,false,false);
+		gl.glCallList( displayListId );
+		
+		
+		gl.glEnable( GL.GL_DEPTH_TEST );
+		//gl.glEnable(GL.GL_BLEND);
+		
+		Color old = getVariableColor1();
+
+		
+		gl.glStencilFunc(GL.GL_NOTEQUAL, 1, 1);						// We Draw Only Where The Stencil Is 1
+		gl.glColorMask(true,true,true,true);
+		// (I.E. Where The Floor Was Drawn)
+		gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_KEEP);					// Don't Change The Stencil Buffer
+		
+		gl.glPushMatrix();
+		setColors( new Color(0f, 0f, 0f ), new Color( 1f, 1f, 1f, 0.5f) );
+		useMaterial(gl);
+		gl.glCallList( displayListId2 );
+		gl.glPopMatrix();
+		gl.glEnable(GL.GL_BLEND);
+		
+		gl.glDisable( GL.GL_STENCIL_TEST );
+		
+		ShaderFactory.removeAllPrograms(gl);
+	}
+
+	private void silhouetteFrontBackFace(GL gl) {
+		// silhouette edges using fixed functionality pipeline
+		
+		gl.glEnable( GL.GL_CULL_FACE );
+		
+		// Draw fron-facing polygons
+		gl.glPolygonMode( GL.GL_FRONT, GL.GL_FILL );
+		gl.glDepthFunc( GL.GL_LESS );
+		gl.glCullFace( GL.GL_BACK );
+		Link.useShaderProgram(gl);
+		gl.glCallList( displayListId );
+		ShaderFactory.removeAllPrograms(gl);
+		
+		// Draw back-facing polygons as black lines
+		gl.glLineWidth( 5.0f );
+		gl.glPolygonMode( GL.GL_BACK, GL.GL_FILL );
+		gl.glDepthFunc( GL.GL_LEQUAL );
+		gl.glCullFace( GL.GL_FRONT );
+		gl.glColor3d( 0, 0, 0 );
+		gl.glDisable( GL.GL_LIGHTING );
+		gl.glDisable( GL.GL_BLEND );
+		gl.glCallList( displayListId2 );
+		gl.glEnable( GL.GL_BLEND );
+		gl.glEnable( GL.GL_LIGHTING );
 	}
 	
 	private void preRenderObject( GL gl, Point3d pointA, Point3d pointB) {
@@ -659,7 +669,7 @@ public class Link extends ASimObject {
 
 	@Override
 	protected Color getDefaultColor() {
-		return Color.blue;
+		return Color.BLACK;
 	}
 
 	@Override

@@ -64,7 +64,7 @@ public abstract class ANode extends AUserNode {
 	}
 	
 	protected void sendAttackPacket(APacket sourcePacket) {
-		int id = (int)(Math.random() * Integer.MAX_VALUE);
+		int id = (int)(Math.random() * (double)Integer.MAX_VALUE);
 		for(IUserLink l : getConnectedLinks()) {
 			if(sourcePacket != null) {
 				if(l.equals(sourcePacket.getLinkToSource())) {
@@ -78,7 +78,7 @@ public abstract class ANode extends AUserNode {
 		}
 	}
 	protected void sendRetreatPacket(APacket sourcePacket) {
-		int id = (int)(Math.random() * Integer.MAX_VALUE);
+		int id = (int)(Math.random() * (double)Integer.MAX_VALUE);
 		for(IUserLink l : getConnectedLinks()) {
 			if(sourcePacket != null) {
 				if(l.equals(sourcePacket.getLinkToSource())) {

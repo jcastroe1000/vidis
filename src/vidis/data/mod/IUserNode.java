@@ -17,31 +17,33 @@ import vidis.data.sim.ISimNodeCon;
 public interface IUserNode extends IUserComponent {
 
 	/**
-	 * initializing function called by the API
-	 * 
-	 * DO NOT CALL THIS FUNCTION ON YOUR OWN!
-	 * 
-	 * DO NO ANNOTATE THIS METHOD
+	 * Is the initializing function called by the API.
+	 * <p><strong>DO NOT CALL THIS FUNCTION ON YOUR OWN!</strong></p>
+	 * <p><strong>DO NOT ANNOTATE THIS METHOD</strong></p>
 	 * @param simulatorComponent the simulator component that represents this object in the API
 	 * @throws ObstructInitCallException thrown if you call this function
 	 */
 	public void init(ISimNodeCon simulatorComponent) throws ObstructInitCallException;
 
 	/**
-	 * receive a packet
+	 * Is called when a packet arrives.
 	 * 
-	 * DO NO ANNOTATE THIS METHOD
+	 * <p>You'll have to implement this function.
+	 * <p><strong>DO NO ANNOTATE THIS METHOD</strong></p>
+	 * </p>
 	 * @param packet the packet the user receives
 	 */
 	public void receive(IUserPacket packet);
 	
 	/**
-	 * this function will be executed upon the first simulation step
-	 * 
-	 * here you can put all possible initialize operations like:
-	 * 		* send messages
-	 * 		* check variables from msim file
-	 * 		* ...
+	 * Is executed upon the first simulation step.
+	 * <p>here you can put all possible initialize operations like:
+	 * <ul>
+	 * 		<li>send messages</li>
+	 * 		<li>check variables from msim file</li>
+	 * 		<li>...</li>
+	 * </ul>
+	 * </p>
 	 */
 	public void init();
 }

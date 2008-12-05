@@ -3,17 +3,20 @@ package vidis.data.mod;
 import vidis.data.var.AVariable;
 
 /**
- * basic module component interface that all user implemented modules must implement
+ * Basic module component interface that all user implemented modules must implement.
+ * <p>
+ * The function {@link #execute()} is called by the simulator at each simulation step.
+ * </p>
  * @author Dominik
  *
  */
 public interface IUserComponent {
     /**
-     * This function can be used to retrieve a user-scope set variable from
-     * the Simulator.
-     * 
-     * If you specified a variable in the .msim configuration file you will
-     * retrieve it here as a String
+     * Retrieves a user-scope set variable from the Simulator.
+     * <p>
+     * <i>Hint: If you specified a variable in the .msim configuration file you will
+     * retrieve it here as a String</i>
+     * </p>
      * @param <T> generic return type
      * @param clazz the expected return class-type
      * @param identifier the identifier of the requested variable
@@ -25,31 +28,38 @@ public interface IUserComponent {
 	    throws NullPointerException, ClassCastException;
 
     /**
-     * checks if a variable exists in the user-scope
+     * Checks if a variable exists in the user-scope.
      * @param identifier the identifier of the variable
      * @return true or false
      */
     public boolean hasVariable(String identifier);
 
     /**
-     * this function is executed on each simulation step
-     * 
-     * NOTE: it is impossible to tell which of the components executes first!
-     * NOTE2: do NOT use Thread.sleep() or something like that - it will only hang the simulator
-     * NOTE3: use built-in sleep() and interrupt() functions!
+     * Is executed on each simulation step.
+     * <p>
+     * <ul>
+     * <li>Hint: it is impossible to tell which of the components executes first!</li>
+     * <li>Hint: do NOT use Thread.sleep() or something like that - it will only hang the simulator</li>
+     * <li>Hint: use built-in sleep() and interrupt() functions!</li>
+     * </ul>
+     * </p>
      */
     public void execute();
 
     /**
-     * let this user component sleep for some time
+     * Causes this user component to sleep for some execution steps.
      * @param steps simulator steps to sleep
      */
     public void sleep(int steps);
 
     /**
-     * interrupt a sleep of this component
-     * 
-     * if component does not sleep, no action is made
+     * Interrupts a previously called sleep of this component.
+     * <p>
+     * <i>
+     * Hint: if this component does not sleep, no action is done.
+     * </i>
+     * </p>
+     * @see #sleep(int)
      */
     public void interrupt();
     
