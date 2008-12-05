@@ -17,6 +17,7 @@ import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.JobAppend;
 import vidis.ui.events.VidisEvent;
 import vidis.ui.events.jobs.ALayoutJob;
+import vidis.ui.events.jobs.ARelayoutJob;
 import vidis.ui.model.graph.layouts.GraphLayout;
 import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
 import vidis.ui.model.graph.layouts.impl.GraphGridLayout;
@@ -30,6 +31,8 @@ public class SimulatorController extends AController {
 	private static Logger logger = Logger.getLogger( SimulatorController.class );
 
 	private Simulator sim = Simulator.getInstance();
+
+	private GraphLayout lastLayout = null;
 	
 	public SimulatorController() {
 		logger.debug( "Constructor()" );
@@ -44,7 +47,8 @@ public class SimulatorController extends AController {
 				IVidisEvent.LayoutApplyGraphElectricSpring, 
 				IVidisEvent.LayoutApplyRandom,
 				IVidisEvent.LayoutApplySpiral,
-				IVidisEvent.LayoutApplyGrid
+				IVidisEvent.LayoutApplyGrid,
+				IVidisEvent.LayoutReLayout
 		);
 	}
 	
@@ -105,7 +109,20 @@ public class SimulatorController extends AController {
 			sim.reload();
 			Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGrid );
 			break;
+		case IVidisEvent.LayoutReLayout:
+			Dispatcher.forwardEvent(
+					new JobAppend( new ARelayoutJob() {
+						public GraphLayout getLayout() {
+							return SimulatorController.this.lastLayout;
+						}
+						public Collection<SimNode> getNodes() {
+							return SimulatorController.this.getNodes();
+						}
+					})
+					);
+			break;
 		case IVidisEvent.LayoutApplyGraphElectricSpring:
+			lastLayout  = GraphElectricSpringLayout.getInstance();
 			Dispatcher.forwardEvent( new JobAppend (new ALayoutJob() {
 				public GraphLayout getLayout() {
 					return GraphElectricSpringLayout.getInstance();
@@ -117,6 +134,7 @@ public class SimulatorController extends AController {
 			break;
 		case IVidisEvent.LayoutApplyRandom:
 			try {
+				lastLayout  = GraphRandomLayout.getInstance();
 				Dispatcher.forwardEvent( new JobAppend (new ALayoutJob() {
 					public GraphLayout getLayout() {
 						return GraphRandomLayout.getInstance();
@@ -131,6 +149,7 @@ public class SimulatorController extends AController {
 			break;
 		case IVidisEvent.LayoutApplySpiral:
 			try {
+				lastLayout  = GraphSpiralLayout.getInstance();
 				Dispatcher.forwardEvent( new JobAppend (new ALayoutJob() {
 					public GraphLayout getLayout() {
 						return GraphSpiralLayout.getInstance();
@@ -145,6 +164,7 @@ public class SimulatorController extends AController {
 			break;
 		case IVidisEvent.LayoutApplyGrid:
 			try {
+				lastLayout  = GraphGridLayout.getInstance();
 				Dispatcher.forwardEvent( new JobAppend (new ALayoutJob() {
 					public GraphLayout getLayout() {
 						return GraphGridLayout.getInstance();

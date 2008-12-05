@@ -59,6 +59,7 @@ public interface IVidisEvent {
 	public final int LayoutApplyRandom = 5011;
 	public final int LayoutApplySpiral = 5012;
 	public final int LayoutApplyGrid = 5013;
+	public final int LayoutReLayout = 5014;
 	
 	public final int AppendJob = 6000;
 }

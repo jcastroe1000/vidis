@@ -240,12 +240,14 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
     
     public void connect(IUserNode n, Class<? extends IUserLink> lclazz, long delay) {
     	// TODO connect this one
-			for(AComponent c : Simulator.getInstance().getSimulatorComponents()) {
+			for(int i=0; i<Simulator.getInstance().getSimulatorComponents().size(); i++) {
+				AComponent c = Simulator.getInstance().getSimulatorComponents().get(i);
 				if(c.getUserLogic().equals(n)) {
 					try {
 						SimLink s = new SimLink(lclazz.newInstance(), delay);
 						s.connect(this, (SimNode)c);
 						Simulator.getInstance().registerComponent(s);
+						break;
 					} catch (InstantiationException e) {
 						logger.error(e);
 					} catch (IllegalAccessException e) {
@@ -307,7 +309,9 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 		SimNode n;
 		try {
 			n = new SimNode(getUserLogic().getClass().newInstance());
+			n.registerVariable( new DefaultVariable(AVariable.COMMON_IDENTIFIERS.ID, "spawn_"+Math.random()));
 			Simulator.getInstance().registerComponent(n);
+			Dispatcher.forwardEvent( IVidisEvent.LayoutReLayout );
 			return n.getUserLogic();
 		} catch (InstantiationException e) {
 			logger.error(e);
