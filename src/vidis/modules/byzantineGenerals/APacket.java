@@ -11,10 +11,6 @@ public abstract class APacket extends AUserPacket {
 	
 	private int id;
 	
-	public APacket() {
-		id = (int)(Math.random() * Double.MAX_VALUE);
-	}
-	
 	public APacket(int id) {
 		this.id = id;
 	}

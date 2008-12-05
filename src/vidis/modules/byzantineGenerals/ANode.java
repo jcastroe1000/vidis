@@ -64,6 +64,7 @@ public abstract class ANode extends AUserNode {
 	}
 	
 	protected void sendAttackPacket(APacket sourcePacket) {
+		int id = (int)(Math.random() * Integer.MAX_VALUE);
 		for(IUserLink l : getConnectedLinks()) {
 			if(sourcePacket != null) {
 				if(l.equals(sourcePacket.getLinkToSource())) {
@@ -72,11 +73,12 @@ public abstract class ANode extends AUserNode {
 					mySend(new AttackPacket(sourcePacket.getId()), l);
 				}
 			} else {
-				mySend(new AttackPacket(), l);
+				mySend(new AttackPacket(id), l);
 			}
 		}
 	}
 	protected void sendRetreatPacket(APacket sourcePacket) {
+		int id = (int)(Math.random() * Integer.MAX_VALUE);
 		for(IUserLink l : getConnectedLinks()) {
 			if(sourcePacket != null) {
 				if(l.equals(sourcePacket.getLinkToSource())) {
@@ -85,7 +87,7 @@ public abstract class ANode extends AUserNode {
 					mySend(new RetreatPacket(sourcePacket.getId()), l);
 				}
 			} else {
-				mySend(new RetreatPacket(), l);
+				mySend(new RetreatPacket(id), l);
 			}
 		}
 	}
