@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.Button;
-import vidis.ui.model.impl.CheckBox;
 import vidis.ui.model.structure.IGuiContainer;
 import vidis.ui.model.structure.ILayout;
 
@@ -26,7 +25,7 @@ public class MenuItem {
 			return offset;
 		}
 		public double getY() {
-			return index * 1.7;
+			return index * 1.7 - 1.7;
 		}
 		public void layout() {
 		}
@@ -43,6 +42,18 @@ public class MenuItem {
 	private List<MenuItem> childs;
 	
 	BasicGuiContainer content;
+	
+	public MenuItem( MenuItem parent ) {
+		// spacer
+		this.content = new BasicGuiContainer();
+		this.content.setOpaque( false );
+		this.content.setLayout( new MenuItemLayout() );
+		this.parent = parent;
+		if ( parent != null ) {
+			parent.addChild( this );
+		}
+		this.childs = new ArrayList<MenuItem>();
+	}
 	
 	public MenuItem( MenuItem parent, String text, MenuAction x ) {
 		this.menuAction = x;
@@ -123,6 +134,10 @@ public class MenuItem {
 
 	public void setMenu(Menu menu) {
 		this.menu = menu;
+	}
+
+	public void removeChild(MenuItem m) {
+		this.childs.remove( m );
 	}
 
 

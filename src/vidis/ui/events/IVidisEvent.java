@@ -54,6 +54,7 @@ public interface IVidisEvent {
 	
 	public final int FPS 			= 10001;
 	public final int ShowGuiContainer = 238472389;
+	public final int SelectASimObject = 213121232;
 	
 	public final int LayoutApplyGraphElectricSpring = 5010;
 	public final int LayoutApplyRandom = 5011;
@@ -62,4 +63,5 @@ public interface IVidisEvent {
 	public final int LayoutReLayout = 5014;
 	
 	public final int AppendJob = 6000;
+	
 }

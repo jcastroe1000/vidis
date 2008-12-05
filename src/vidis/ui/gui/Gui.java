@@ -26,6 +26,7 @@ import vidis.ui.model.impl.guielements.popupWindows.ApplyLayoutPopupWindow;
 import vidis.ui.model.impl.guielements.popupWindows.OpenMSIMFilePopupWindow_tree;
 import vidis.ui.model.impl.guielements.scrollpane.AScrollpane3D;
 import vidis.ui.model.impl.guielements.scrollpane.ScrollPane3D;
+import vidis.ui.model.structure.ASimObject;
 import vidis.ui.model.structure.IGuiContainer;
 import vidis.ui.model.structure.IVisObject;
 import vidis.ui.mvc.api.Dispatcher;
@@ -64,7 +65,8 @@ public class Gui extends AEventHandler {
 		};
 	}
 	private void initializeMenu() {
-		final MenuItem menu = new MenuItem( null, "Menu", null );
+		MenuItem root = new MenuItem( null, "root", null );
+		final MenuItem menu = new MenuItem( root, "Menu", null );
 		MenuItem playPause = new MenuItem( menu, "Play", createEventRunnable(IVidisEvent.SimulatorPlay) );
 		MenuItem layout = new MenuItem( menu, "Layout", null );
 		MenuItem l1 = new MenuItem( layout, "Electric Spring Layout", createEventRunnable(IVidisEvent.LayoutApplyGraphElectricSpring) );
@@ -83,17 +85,18 @@ public class Gui extends AEventHandler {
 				}
 			}
 		});
-		MenuItem test = new MenuItem( menu, "Test Runtime Add", new MenuAction() {
-			@Override
-			public void execute(Menu xmenu, MenuItem item) {
-				MenuItem test = new MenuItem( menu, "Test "+xmenu.getParent().getChilds().size(), null );
-				xmenu.addChild( test.content );
-				test.setMenu(xmenu);
-				xmenu.update();
-//				xmenu.fireEvent(new VidisEvent(IVidisEvent.GuiResizeEvent, null ) );
-			}
-		});
-		this.menu = new Menu( menu );
+		MenuItem spacer = new MenuItem( root );
+//		MenuItem test = new MenuItem( menu, "Test Runtime Add", new MenuAction() {
+//			@Override
+//			public void execute(Menu xmenu, MenuItem item) {
+//				MenuItem test = new MenuItem( menu, "Test "+xmenu.getParent().getChilds().size(), null );
+//				xmenu.addChild( test.content );
+//				test.setMenu(xmenu);
+//				xmenu.update();
+////				xmenu.fireEvent(new VidisEvent(IVidisEvent.GuiResizeEvent, null ) );
+//			}
+//		});
+		this.menu = new Menu( root );
 		menu.setExpanded( false );
 		layout.setExpanded( false );
 		this.menu.update();
@@ -303,6 +306,10 @@ public class Gui extends AEventHandler {
 	
 	public void playPressed() {
 		Dispatcher.forwardEvent( IVidisEvent.SimulatorPlay );
+	}
+	
+	public void setSelection( ASimObject object ) {
+		menu.setSelection( object );
 	}
 	
 }

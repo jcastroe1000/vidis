@@ -8,6 +8,7 @@ import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.ObjectEvent;
 import vidis.ui.events.VidisEvent;
 import vidis.ui.gui.Gui;
+import vidis.ui.model.structure.ASimObject;
 import vidis.ui.model.structure.IGuiContainer;
 import vidis.ui.mvc.api.AController;
 import vidis.ui.mvc.api.Dispatcher;
@@ -32,6 +33,8 @@ public class GuiController extends AController {
 		registerEvent( IVidisEvent.FPS );
 		
 		registerEvent( IVidisEvent.ShowGuiContainer );
+		
+		registerEvent( IVidisEvent.SelectASimObject );
 	}
 	
 	@Override
@@ -43,6 +46,10 @@ public class GuiController extends AController {
 			break;
 		case IVidisEvent.ShowGuiContainer:
 			gui.addContainer( (IGuiContainer) ((VidisEvent)event).getData() );
+			break;
+		case IVidisEvent.SelectASimObject:
+			logger.error("Selected  " + ((VidisEvent<ASimObject>)event).getData() );
+			gui.setSelection( ((VidisEvent<ASimObject>)event).getData() );
 			break;
 		
 		case IVidisEvent.MouseClickedEvent:

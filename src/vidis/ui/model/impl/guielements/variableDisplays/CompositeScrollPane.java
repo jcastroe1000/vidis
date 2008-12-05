@@ -9,8 +9,6 @@ import org.apache.log4j.Logger;
 import vidis.data.var.AVariable;
 import vidis.data.var.IVariableChangeListener;
 import vidis.data.var.IVariableContainer;
-import vidis.data.var.vars.DefaultVariable;
-import vidis.data.var.vars.FieldVariable;
 import vidis.data.var.vars.MethodVariable;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.guielements.scrollpane.AScrollpane3D;
@@ -44,10 +42,13 @@ public class CompositeScrollPane extends AScrollpane3D implements IVariableChang
 		if( mapVariableContainer.containsKey(id) ) {
 			// do nothing dude
 		} else {
-			BasicGuiContainer varContainer = createNewDisplay( id );
-			mapVariableContainer.put( id, varContainer );
-//			this.addChild( varContainer );
-			sortVariables();
+			AVariable var = this.vcontainer.getVariableById(id);
+			if ( !var.getVariableType().equals( MethodVariable.class ) && !var.getDataType().equals( Void.TYPE ) ) {
+				BasicGuiContainer varContainer = createNewDisplay( id );
+				mapVariableContainer.put( id, varContainer );
+	//			this.addChild( varContainer );
+				sortVariables();
+			}
 		}
 		
 	}

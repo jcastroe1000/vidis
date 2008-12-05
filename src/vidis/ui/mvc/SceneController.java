@@ -44,6 +44,7 @@ import vidis.ui.vis.camera.GuiCamera;
 import vidis.ui.vis.camera.ICamera;
 import vidis.ui.vis.objects.Axis;
 import vidis.ui.vis.objects.Grid;
+import vidis.ui.vis.objects.Selector;
 import vidis.ui.vis.shader.ShaderFactory;
 
 import com.sun.opengl.util.Animator;
@@ -55,6 +56,7 @@ public class SceneController extends AController implements GLEventListener {
 	
 	private List<ICamera> cameras = new LinkedList<ICamera>();
 	
+	private Selector selector = new Selector();
 	
 	private List<IVisObject> objects = Collections.synchronizedList( new LinkedList<IVisObject>() );
 	private List<IVisObject> objectsToDel = Collections.synchronizedList( new ArrayList<IVisObject>() );
@@ -98,6 +100,7 @@ public class SceneController extends AController implements GLEventListener {
 		registerEvent( IVidisEvent.StartNodeCapturing,
 					   IVidisEvent.StartPacketCapturing );
 		
+		registerEvent( IVidisEvent.SelectASimObject );
 	}
 	
 	@Override
@@ -117,6 +120,9 @@ public class SceneController extends AController implements GLEventListener {
 			Dispatcher.forwardEvent( new VidisEvent<GLCanvas>( IVidisEvent.RegisterCanvas, canvas ) );
 			
 			break;
+		case IVidisEvent.SelectASimObject:
+			selector.setSelectedObject( ((VidisEvent<ASimObject>)event).getData() );
+			break;
 		case IVidisEvent.CameraRegister:
 			registerCamera( ((CameraEvent)event).getCamera() );
 			break;
@@ -127,7 +133,12 @@ public class SceneController extends AController implements GLEventListener {
 			registerObject( ((ObjectEvent)event).getObject() );
 			break;
 		case IVidisEvent.ObjectUnregister:
-			unregisterObject( ((ObjectEvent)event).getObject() );
+			IVisObject o = ((ObjectEvent)event).getObject();
+			if ( o.equals( selector.getSelectedObject() ) ) {
+				selector.resetSelection();
+			}
+			unregisterObject( o );
+			
 			break;
 		case IVidisEvent.MouseClickedEvent:
 		case IVidisEvent.MouseMovedEvent:
@@ -187,6 +198,7 @@ public class SceneController extends AController implements GLEventListener {
 		
 		registerObject( new Grid() );
 		registerObject( new Axis() );
+		registerObject( selector );
 	}
 	
 	
@@ -219,9 +231,6 @@ public class SceneController extends AController implements GLEventListener {
 		
 		// do thedateObjects(); update thing
 		updateObjects();
-		
-		
-		
 		
 		final GL gl = drawable.getGL();
 		
@@ -508,7 +517,7 @@ public class SceneController extends AController implements GLEventListener {
 		}
 		if ( nearestObject != null ) {
 			if ( e instanceof MouseClickedEvent ) {
-				nearestObject.hit();
+				nearestObject.onClick();
 				if ( nearestObject instanceof Node ) {
 					if ( nodeCapturingSource != null ) {
 						nodeCapturingSource.setNode( (Node) nearestObject );

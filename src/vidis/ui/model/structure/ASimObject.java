@@ -157,17 +157,20 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	public abstract void renderObject( GL gl );
 	public abstract void renderObjectText( GL gl );
 	
-	protected IVariableContainer getVariableContainer() {
+	public IVariableContainer getVariableContainer() {
 		return obj;
 	}
 
 	/**
-	 * TEMP FUNCTION <DELME>
+	 * executes when object is clicked.
 	 */
-	public void hit() {
+	public void onClick() {
 		logger.info( this + " GOT HIT * " + guiObj );
 		// send gui show guiObj event
 		if ( guiObj != null ) {
+			VidisEvent<ASimObject> selectionEvent = new VidisEvent<ASimObject>( IVidisEvent.SelectASimObject, this );
+			Dispatcher.forwardEvent( selectionEvent );
+			
 			VidisEvent<IGuiContainer> next = new VidisEvent<IGuiContainer>( IVidisEvent.ShowGuiContainer, guiObj );
 			Dispatcher.forwardEvent( next );
 		}
