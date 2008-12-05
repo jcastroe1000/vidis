@@ -1,5 +1,6 @@
 package vidis.ui.model.structure;
 
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.HashSet;
@@ -24,6 +25,7 @@ import vidis.ui.vis.camera.GuiCamera;
 import vidis.util.ResourceManager;
 
 import com.sun.opengl.util.j2d.TextRenderer;
+import com.sun.opengl.util.j2d.TextRenderer.RenderDelegate;
 
 
 public abstract class AGuiContainer extends AEventHandler implements IGuiContainer {
@@ -31,7 +33,7 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	private static Logger logger = Logger.getLogger( AGuiContainer.class );	
 	
 	
-	protected TextRenderer textRenderer;
+	protected static TextRenderer textRenderer;
 	
 	protected ILayout layout = null;
 	private double height;
@@ -45,18 +47,28 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	 */
 	private boolean useScissorTest = false;
 	private boolean useScissorTestNow = false;
+	/**
+	 * is used to determine if this object has gained the scissortest ( also see {@link #useScissorTest} )
+	 * @return
+	 */
 	public boolean isUseScissorTestNow() {
 		return useScissorTestNow;
 	}
 	
-	protected double textH;
+	protected static double textH;
+	
+	/**
+	 * needs to be executed in a valid gl context
+	 */
+	protected static void initTextRenderer() {
+		textRenderer = new TextRenderer(new Font(ResourceManager.FONT_VERDANA, Font.BOLD, 36), true);
+		textH = textRenderer.getBounds( "pb[{" ).getHeight();
+	}
 	
 	protected void requireTextRenderer() {
 		if ( textRenderer == null ) {
 			try {
-				textRenderer = new TextRenderer( ResourceManager.getFont( ResourceManager.FONT_VERDANA, 50 ) );
-				textRenderer.setSmoothing( true );
-				textH = textRenderer.getBounds("pb[{").getHeight();
+				initTextRenderer();
 			}
 			catch ( Exception e ) {
 				logger.error( "error initializing TextRenderer", e );
