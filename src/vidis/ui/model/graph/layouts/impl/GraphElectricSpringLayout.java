@@ -72,6 +72,11 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 	}
 	
 	public void relayout(Collection<SimNode> nodes) throws Exception {
+		oldNodes.clear();
+		// init position vars if not available
+		GraphRandomLayout.getInstance().apply(nodes);
+		
+		// now do the job
 		List<SimNode> nodesList = new ArrayList<SimNode>(nodes);
 		
 		// init graph
@@ -114,11 +119,6 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 	 * @param nodes the list of all nodes
 	 */
 	public void apply(Collection<SimNode> nodes) throws Exception {
-		oldNodes.clear();
-		
-		// init position vars if not available
-		GraphRandomLayout.getInstance().apply(nodes);
-		
 		relayout(nodes);
 	}
 	
