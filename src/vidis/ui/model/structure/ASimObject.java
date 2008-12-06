@@ -233,4 +233,8 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 		return true;
 	}
 	
+	public IGuiContainer getOnScreenLabel() {
+		return null;
+	}
+	
 }

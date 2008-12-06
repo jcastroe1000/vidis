@@ -25,7 +25,6 @@ import vidis.ui.vis.camera.GuiCamera;
 import vidis.util.ResourceManager;
 
 import com.sun.opengl.util.j2d.TextRenderer;
-import com.sun.opengl.util.j2d.TextRenderer.RenderDelegate;
 
 
 public abstract class AGuiContainer extends AEventHandler implements IGuiContainer {

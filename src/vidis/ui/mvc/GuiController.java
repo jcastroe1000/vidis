@@ -10,6 +10,7 @@ import vidis.ui.events.VidisEvent;
 import vidis.ui.gui.Gui;
 import vidis.ui.model.structure.ASimObject;
 import vidis.ui.model.structure.IGuiContainer;
+import vidis.ui.model.structure.IVisObject;
 import vidis.ui.mvc.api.AController;
 import vidis.ui.mvc.api.Dispatcher;
 import vidis.ui.vis.camera.GuiCamera;
@@ -29,6 +30,9 @@ public class GuiController extends AController {
 				   IVidisEvent.MousePressedEvent,
 				   IVidisEvent.MouseReleasedEvent,
 				   IVidisEvent.MouseMovedEvent );
+		
+		registerEvent( 	IVidisEvent.ObjectRegister, 
+				   		IVidisEvent.ObjectUnregister );
 		
 		registerEvent( IVidisEvent.FPS );
 		
@@ -65,6 +69,30 @@ public class GuiController extends AController {
 			if(gui != null && gui.fps != null)
 				gui.fps.setText( String.format( "%4.1ffps", Double.parseDouble(fps) ) );
 			break;
+		case IVidisEvent.ObjectRegister:
+			logger.fatal( "OBJECT REGISTER EVENT IN GuiController" );
+//			gui.registerObject( ((ObjectEvent)event).getObject() );
+			IVisObject o = ((ObjectEvent)event).getObject();
+			if ( o instanceof ASimObject ) {
+				ASimObject o1 = (ASimObject) o;
+				if ( o1.getOnScreenLabel() != null ) {
+					ObjectEvent nextEvent = new ObjectEvent( IVidisEvent.ObjectRegister, o1.getOnScreenLabel() );
+					Dispatcher.forwardEvent( nextEvent );
+				}
+			}
+			break;
+		case IVidisEvent.ObjectUnregister:
+//			gui.unregisterObject( ((ObjectEvent)event).getObject() );
+			IVisObject o2 = ((ObjectEvent)event).getObject();
+			if ( o2 instanceof ASimObject ) {
+				ASimObject o3 = (ASimObject) o2;
+				if ( o3.getOnScreenLabel() != null ) {
+					ObjectEvent nextEvent = new ObjectEvent( IVidisEvent.ObjectUnregister, o3.getOnScreenLabel() );
+					Dispatcher.forwardEvent( nextEvent );
+				}
+			}
+			break;
+			
 		}
 	}
 	

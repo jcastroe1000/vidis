@@ -13,9 +13,20 @@ import vidis.ui.events.MouseMovedEvent;
 import vidis.ui.model.impl.guielements.ObjectGuiElement;
 import vidis.ui.model.impl.guielements.variableDisplays.CompositeScrollPane;
 import vidis.ui.model.structure.ASimObject;
+import vidis.ui.model.structure.IGuiContainer;
 
+/**
+ * Visual representation of a Node
+ * @author Christoph
+ *
+ */
 public class Node extends ASimObject {
 	
+	/**
+	 * The GUI Element that is used in the Right Panel
+	 * @author Christoph
+	 *
+	 */
 	private class NodeGuiElement extends ObjectGuiElement {
 		//private static Logger logger = Logger.getLogger(NodeGuiElement.class);
 		
@@ -36,9 +47,9 @@ public class Node extends ASimObject {
 			Node.this.renderObject(gl);
 		}
 
-		protected void renderText2( GL gl ) {
-			renderObjectText( gl, 0.01 );
-		};
+//		protected void renderText2( GL gl ) {
+//			renderObjectText( gl, 0.01 );
+//		};
 		
 		@Override
 		protected synchronized void onMouseEnter(MouseMovedEvent e) {
@@ -50,6 +61,30 @@ public class Node extends ASimObject {
 		protected synchronized void onMouseExit(MouseMovedEvent e) {
 			Node.this.setHighlighted( false );
 			super.onMouseExit(e);
+		}
+
+		@Override
+		protected String getHeaderLine1() {
+			String key = "user.header1";
+			AVariable v = fetchVariableContainer().getVariableById( key );
+			if ( v != null ) {
+				return (String) v.getData();
+			}
+			else {
+				return "No '"+key+"' variable set!";
+			}
+		}
+
+		@Override
+		protected String getHeaderLine2() {
+			String key = "user.header2";
+			AVariable v = fetchVariableContainer().getVariableById( key );
+			if ( v != null ) {
+				return (String) v.getData();
+			}
+			else {
+				return "No '"+key+"' variable set!";
+			}
 		}
 
 	}
@@ -212,6 +247,12 @@ public class Node extends ASimObject {
 		} catch (NullPointerException e) {
 			// may happen if not opened in the gui
 		}
+	}
+	
+	
+	@Override
+	public IGuiContainer getOnScreenLabel() {
+		return ((ObjectGuiElement)guiObj).getOnScreenLabel();
 	}
 
 }

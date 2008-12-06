@@ -9,7 +9,9 @@ import java.nio.IntBuffer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
+import javax.vecmath.Point2d;
 import javax.vecmath.Point3d;
+import javax.vecmath.Point4d;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector4d;
 
@@ -21,6 +23,7 @@ import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.StartEvent;
 import vidis.ui.events.StopEvent;
 import vidis.ui.mvc.api.Dispatcher;
+import vidis.util.Matrix4d;
 
 public class FreeLookCamera extends AEventHandler implements ICamera {
 	private static Logger logger = Logger.getLogger( FreeLookCamera.class );
@@ -113,6 +116,12 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 		center.add( lookDir );
 		glu.gluLookAt( position.x, position.y, position.z, center.x, center.y, center.z, 0, 1, 0);
 	}
+	public void updateMatrices( GL gl ) {
+		gl.glGetDoublev(GL.GL_MODELVIEW_MATRIX, model);
+		gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, proj);
+		gl.glGetIntegerv(GL.GL_VIEWPORT, view);
+	}
+	
 	public void applyViewMatrix(GL gl) {
 		//gl.glScaled(-1, 1, 1);
 		//double realX, realZ;
@@ -125,9 +134,7 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 		//gl.glRotated(Configuration.LOOK_ANGLE_X, 1, 0, 0);
 		//gl.glRotated(Configuration.LOOK_ANGLE_Y, 0, 1, 0);
 		// matrizen auslesen fuer click berechnung
-		gl.glGetDoublev(GL.GL_MODELVIEW_MATRIX, model);
-		gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, proj);
-		gl.glGetIntegerv(GL.GL_VIEWPORT, view);
+		updateMatrices(gl);
 		
 		gl.glColor3d( 1, 0, 0);
 //		gl.glBegin( GL.GL_LINES );
@@ -246,7 +253,7 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 					robot.mouseMove( mouseDownPoint.x, mouseDownPoint.y ); 
 					
 					calcNewDirVector( deltaX, deltaY );
-					logger.fatal( "delta=("+deltaX+", "+deltaY+")");
+//					logger.fatal( "delta=("+deltaX+", "+deltaY+")");
 				}
 				lastPoint = currPoint;
 			}
@@ -369,6 +376,57 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 //	}
 	Vector3d P1 = new Vector3d( 0,0,0 );
 	Vector3d P2 = new Vector3d( 1,1,1 );
+	
+	public Point2d calc2dfrom3d( Point4d pkt, GL gl ) {
+		gl.glGetDoublev(GL.GL_MODELVIEW_MATRIX, model);
+		gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, proj);
+		gl.glGetIntegerv(GL.GL_VIEWPORT, view);
+		// model is modelviewmatrix
+		// proj is projection matrix
+		// result = proj * model * pkt
+		/*
+	
+	v' = P x M x v
+
+	  where	P is the current projection matrix proj, M is the
+	  current modelview matrix model (both represented as 4x4
+	  matrices in column-major order) and 'x' represents matrix
+	  multiplication.
+
+	  The window coordinates are then computed as follows:
+
+	  winX = view(0) + view(2) * (v'(0) + 1) / 2
+
+	  winY = view(1) + view(3) * (v'(1) + 1) / 2
+
+	  winZ = (v'(2)	+ 1) / 2
+
+		 */
+		
+//		Matrix4d myModel = new Matrix4d( model );
+//		Matrix4d myProj = new Matrix4d( proj );
+//		
+//		Vector4d result = myProj.mul( pkt );
+//		
+//		double winx = target.getX() + target.getWidth() * ( result.getX() + 1 ) / 2;
+//		double winy = target.getY() + target.getHeight() * ( result.getZ() + 1 ) / 2;
+		
+		GLU glu = new GLU();
+			
+		DoubleBuffer result = DoubleBuffer.allocate(4);
+//		DoubleBuffer myView = DoubleBuffer.allocate(4);
+//		myView.put(target.getX());
+//		myView.put(target.getY());
+//		myView.put(target.getWidth());
+//		myView.put(target.getHeight());
+		
+		glu.gluProject(pkt.x, pkt.y, pkt.z, model, proj, view, result);
+		logger.fatal( result.array()[0] + ", " +result.array()[1] + ", " +result.array()[2] + ", " + result.array()[3] );
+//		logger.fatal( winx + ", " + winy );
+		logger.fatal( target );
+		return new Point2d( (result.array()[0] - target.width/ 2d) /10d, (result.array()[1] - target.height / 2d) /10d );
+	}
+	
 	
 	public Vector4d calc3DMousePoint( AMouseEvent e ) {
 		Point p = e.mouseEvent.getPoint();

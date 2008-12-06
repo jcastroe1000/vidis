@@ -15,7 +15,9 @@ import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLCapabilitiesChooser;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.GLEventListener;
+import javax.vecmath.Point2d;
 import javax.vecmath.Point3d;
+import javax.vecmath.Point4d;
 import javax.vecmath.Vector3d;
 
 import org.apache.log4j.Logger;
@@ -40,6 +42,7 @@ import vidis.ui.mvc.api.AController;
 import vidis.ui.mvc.api.Dispatcher;
 import vidis.ui.vis.Light;
 import vidis.ui.vis.camera.DefaultCamera;
+import vidis.ui.vis.camera.FreeLookCamera;
 import vidis.ui.vis.camera.GuiCamera;
 import vidis.ui.vis.camera.ICamera;
 import vidis.ui.vis.objects.Axis;
@@ -327,6 +330,7 @@ public class SceneController extends AController implements GLEventListener {
 	
 	private void drawModel( GL gl, ICamera c ) {
 		if ( c instanceof GuiCamera) {
+			
 			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_FILL );
 			
 			ShaderFactory.removeAllPrograms(gl);
@@ -340,6 +344,21 @@ public class SceneController extends AController implements GLEventListener {
 			gl.glPopMatrix();
 		}
 		else {
+			if ( c instanceof FreeLookCamera ) {
+				FreeLookCamera cam = (FreeLookCamera) c;
+				for ( IVisObject o : objects ) {
+					if ( (o instanceof Node) ) {
+						if ( ((Node) o).getOnScreenLabel() != null ) {
+							Point3d pkt = ((Node) o).getPosition();
+							Point4d pkt2 = new Point4d( pkt.x, pkt.y, pkt.z, 0 );
+							Point2d result = cam.calc2dfrom3d(pkt2, gl);
+							((Node) o).getOnScreenLabel().setX( result.x );
+							((Node) o).getOnScreenLabel().setY( result.y );
+						}
+					}
+				}
+			}
+			
 			if ( Configuration.DISPLAY_WIREFRAME ) {
 				gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
 			}

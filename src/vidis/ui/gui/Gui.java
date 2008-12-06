@@ -1,6 +1,8 @@
 package vidis.ui.gui;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.media.opengl.GL;
 
@@ -44,7 +46,8 @@ public class Gui extends AEventHandler {
 	
 	private Menu menu;
 	
-	
+	private List<IVisObject> objectsToRegister = new ArrayList<IVisObject>();
+	private List<IVisObject> objectsToUnregister = new ArrayList<IVisObject>();
 	
 	public Gui() {
 		logger.debug("Constructor()");
@@ -293,6 +296,9 @@ public class Gui extends AEventHandler {
 	}
 	
 	public void render( GL gl ) {
+		// first sync the objects, so that no object is changed while the gui is rendered
+		updateRegisteredObjects();
+		// then render the gui
 		mainContainer.render(gl);
 	}
 
@@ -312,5 +318,49 @@ public class Gui extends AEventHandler {
 		menu.setSelection( object );
 	}
 	
+	public void registerObject( IVisObject o ) {
+		objectsToRegister.add( o );
+	}
+	
+	public void unregisterObject( IVisObject o ) {
+		objectsToUnregister.add( o );
+	}
+	
+	private void updateRegisteredObjects() {
+		// add 
+		for ( IVisObject o : objectsToRegister ) {
+			if ( o instanceof ASimObject ) {
+				ASimObject o1 = (ASimObject) o;
+				IGuiContainer c = o1.getOnScreenLabel();
+				if ( c == null ) {
+					continue;
+				}
+				else {
+					if ( !mainContainer.getChilds().contains( c ) ) {
+						mainContainer.addChild( c );
+						logger.fatal( "adding object " + c + " to gui" );
+					}
+				}
+			}
+		}
+		objectsToRegister.clear();
+		// remove
+		for ( IVisObject o : objectsToUnregister ) {
+			if ( o instanceof ASimObject ) {
+				ASimObject o1 = (ASimObject) o;
+				IGuiContainer c = o1.getOnScreenLabel();
+				if ( c == null ) {
+					continue;
+				}
+				else {
+					if ( mainContainer.getChilds().contains( c ) ) {
+						mainContainer.removeChild( c );
+						logger.fatal( "removing object " + c + " from gui" );
+					}
+				}
+			}
+		}
+		objectsToUnregister.clear();
+	}
 }
 
