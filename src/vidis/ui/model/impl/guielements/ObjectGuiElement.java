@@ -40,7 +40,7 @@ public abstract class ObjectGuiElement extends BasicGuiContainer {
 			}
 			@Override
 			public double getWidth() {
-				return 20;
+				return 14;
 			}
 			@Override
 			protected void onMouseClicked(MouseClickedEvent e) {
