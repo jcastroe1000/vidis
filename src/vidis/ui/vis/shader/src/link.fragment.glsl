@@ -1,5 +1,6 @@
 varying vec3 normal;
 varying vec3 incom;
+uniform bool black;
 
 void myRefract(in vec3 incom, in vec3 normal, in float index_external, in float index_internal,
 				out vec3 reflection, out vec3 refraction,
@@ -35,7 +36,7 @@ void main() {
 	reflection_ray = (gl_ModelViewMatrix * vec4(reflection_ray,0.0)).xyz;
 
 
-	vec4 reflect_color = vec4( (gl_Color * 0.5).xyz, 0.3);
+	vec4 reflect_color = vec4( (gl_Color * 0.5).xyz, 0.01);
 	vec4 refract_color = vec4( gl_Color.xyz, 0.3 );
 	
 	fresnel_T = fresnel_T * 0.5;	
@@ -44,5 +45,9 @@ void main() {
 	gl_FragColor =
 		  reflect_color * fresnel_R +
 		  refract_color * fresnel_T;
+		  
+	if ( black == true ) {
+		gl_FragColor = vec4( 0, 0, 1, 1 );
+	}
 
 }

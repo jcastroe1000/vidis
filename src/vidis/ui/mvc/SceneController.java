@@ -373,11 +373,11 @@ public class SceneController extends AController implements GLEventListener {
 					}
 					// links
 					gl.glEnable( GL.GL_BLEND );
-					gl.glEnable( GL.GL_CULL_FACE );
-					gl.glCullFace( GL.GL_BACK );
+//					gl.glEnable( GL.GL_CULL_FACE );
+//					gl.glCullFace( GL.GL_BACK );
 					
-					gl.glBlendFunc( GL.GL_ONE, GL.GL_DST_ALPHA );
-					gl.glColor4d( 0, 0, 1, 0.7 );
+//					gl.glBlendFunc( GL.GL_ONE, GL.GL_DST_ALPHA );
+//					gl.glColor4d( 0, 0, 1, 0.7 );
 					for ( IVisObject o : objects ) {
 						if ( (o instanceof Link) ) {
 							o.render(gl);
@@ -385,6 +385,7 @@ public class SceneController extends AController implements GLEventListener {
 					}
 					gl.glDisable( GL.GL_BLEND );
 					gl.glDisable( GL.GL_CULL_FACE );
+					gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_FILL );
 					
 					// rest
 					gl.glDisable( GL.GL_LIGHTING );

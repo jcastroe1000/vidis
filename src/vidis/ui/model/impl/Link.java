@@ -180,9 +180,10 @@ public class Link extends ASimObject {
 	
 	@Override
 	public void renderObject(GL gl) {
-//		setColors( getVariableColor1(), getVariableColor2() );
-		setColors( new Color( 0f, 0f, 0f, 1f ), getVariableColor2() );
+		setColors( getVariableColor1(), getVariableColor2() );
+//		setColors( Color.RED, Color.BLACK );
 		useColor( gl, getVariableColor1() );
+//		useColor( gl, Color.RED );
 		
 		useMaterial(gl);
 		
@@ -299,27 +300,34 @@ public class Link extends ASimObject {
 	private void silhouetteFrontBackFace(GL gl) {
 		// silhouette edges using fixed functionality pipeline
 		
+		gl.glDisable( GL.GL_LIGHTING );
 		gl.glEnable( GL.GL_CULL_FACE );
 		
-		// Draw fron-facing polygons
-		gl.glPolygonMode( GL.GL_FRONT, GL.GL_FILL );
+		// Draw front-facing polygons
 		gl.glDepthFunc( GL.GL_LESS );
+		
+		gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_FILL);
 		gl.glCullFace( GL.GL_BACK );
+		
 		Link.useShaderProgram(gl);
+		linkProgram.getVariableByName("black").setValue(Boolean.FALSE, gl);
 		gl.glCallList( displayListId );
 		ShaderFactory.removeAllPrograms(gl);
 		
 		// Draw back-facing polygons as black lines
-		gl.glLineWidth( 5.0f );
-		gl.glPolygonMode( GL.GL_BACK, GL.GL_FILL );
+		gl.glLineWidth( 3.0f );
 		gl.glDepthFunc( GL.GL_LEQUAL );
+		
+		gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
 		gl.glCullFace( GL.GL_FRONT );
-		gl.glColor3d( 0, 0, 0 );
-		gl.glDisable( GL.GL_LIGHTING );
-		gl.glDisable( GL.GL_BLEND );
-		gl.glCallList( displayListId2 );
-		gl.glEnable( GL.GL_BLEND );
+		
+		Link.useShaderProgram(gl);
+		linkProgram.getVariableByName("black").setValue(Boolean.TRUE, gl);
+		gl.glCallList( displayListId );
+		ShaderFactory.removeAllPrograms(gl);
+		
 		gl.glEnable( GL.GL_LIGHTING );
+		gl.glDisable( GL.GL_CULL_FACE );
 	}
 	
 	private void preRenderObject( GL gl, Point3d pointA, Point3d pointB) {
@@ -658,7 +666,7 @@ public class Link extends ASimObject {
 
 	@Override
 	public void renderObjectText(GL gl) {
-		textRenderer.setColor( Color.black );
+		textRenderer.setColor( Color.BLUE );
 		
 		
 	}

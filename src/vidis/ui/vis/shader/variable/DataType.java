@@ -7,7 +7,8 @@ public enum DataType {
 	// TODO add other datatypes
 	VEC3("vec3", Vector3d.class),
 	VEC4("vec4", Vector4d.class), //TODO  Vector3f ( create  Vector3f first )
-	FLOAT("float", Float.class);
+	FLOAT("float", Float.class),
+	BOOL("bool", Boolean.class);
 	
 	private String type;
 	private Class javarepresentation;
@@ -27,6 +28,7 @@ public enum DataType {
 		if (type.equals("vec3")) return DataType.VEC3;
 		if (type.equals("vec4")) return DataType.VEC4;
 		if (type.equals("float")) return DataType.FLOAT;
+		if (type.equals("bool")) return DataType.BOOL;
 		return null;
 	}
 	

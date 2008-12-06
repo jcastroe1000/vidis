@@ -71,11 +71,15 @@ public class ShaderVariable implements IShaderVariable {
 				case VEC3: 
 					Vector3f v = (Vector3f) value;
 					gl.glUniform3f(this.address, v.x, v.y, v.z);
-				break;
+					break;
 				case VEC4:
-				break;
+					break;
 				case FLOAT:
-				break;
+					break;
+				case BOOL:
+					Boolean b = (Boolean) value;
+					gl.glUniform1i(this.address, b?1:0);
+					break;
 				}
 			break;
 			case ATTRIBUTE:
