@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.vecmath.Point3d;
+
 import org.apache.log4j.Logger;
 
 import vidis.data.exceptions.ObstructInitCallException;
@@ -309,7 +311,8 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 		SimNode n;
 		try {
 			n = new SimNode(getUserLogic().getClass().newInstance());
-			n.registerVariable( new DefaultVariable(AVariable.COMMON_IDENTIFIERS.ID, "spawn_"+Math.random()));
+			n.registerVariable( new DefaultVariable(AVariable.COMMON_IDENTIFIERS.ID, "spawn_"+(Math.random()*Double.MAX_VALUE)));
+			n.registerVariable( new DefaultVariable(AVariable.COMMON_IDENTIFIERS.POSITION, new Point3d()));
 			Simulator.getInstance().registerComponent(n);
 			Dispatcher.forwardEvent( IVidisEvent.LayoutReLayout );
 			return n.getUserLogic();

@@ -59,7 +59,7 @@ public abstract class ANode extends AUserNode {
 	protected void mySend(APacket p, IUserLink l) {
 		if(!alreadySeen(p.getId()))
 			alreadySeen.put(p.getId(), new HashSet<APacket>());
-		alreadySeen.get(p.getId()).add(p);
+//		alreadySeen.get(p.getId()).add(p);
 		send(p, l);
 	}
 	
@@ -67,11 +67,7 @@ public abstract class ANode extends AUserNode {
 		int id = (int)(Math.random() * (double)Integer.MAX_VALUE);
 		for(IUserLink l : getConnectedLinks()) {
 			if(sourcePacket != null) {
-				if(l.equals(sourcePacket.getLinkToSource())) {
-					// do not send
-				} else {
-					mySend(new AttackPacket(sourcePacket.getId()), l);
-				}
+				mySend(new AttackPacket(sourcePacket.getId()), l);
 			} else {
 				mySend(new AttackPacket(id), l);
 			}
@@ -81,11 +77,7 @@ public abstract class ANode extends AUserNode {
 		int id = (int)(Math.random() * (double)Integer.MAX_VALUE);
 		for(IUserLink l : getConnectedLinks()) {
 			if(sourcePacket != null) {
-				if(l.equals(sourcePacket.getLinkToSource())) {
-					// do not send
-				} else {
-					mySend(new RetreatPacket(sourcePacket.getId()), l);
-				}
+				mySend(new RetreatPacket(sourcePacket.getId()), l);
 			} else {
 				mySend(new RetreatPacket(id), l);
 			}
