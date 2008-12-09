@@ -349,11 +349,15 @@ public class SceneController extends AController implements GLEventListener {
 				for ( IVisObject o : objects ) {
 					if ( (o instanceof Node) ) {
 						if ( ((Node) o).getOnScreenLabel() != null ) {
-							Point3d pkt = ((Node) o).getPosition();
-							Point4d pkt2 = new Point4d( pkt.x, pkt.y, pkt.z, 0 );
-							Point2d result = cam.calc2dfrom3d(pkt2, gl);
-							((Node) o).getOnScreenLabel().setX( result.x );
-							((Node) o).getOnScreenLabel().setY( result.y );
+							try {
+								Point3d pkt = ((Node) o).getPosition();
+								Point4d pkt2 = new Point4d( pkt.x, pkt.y, pkt.z, 0 );
+								Point2d result = cam.calc2dfrom3d(pkt2, gl);
+								((Node) o).getOnScreenLabel().setX( result.x );
+								((Node) o).getOnScreenLabel().setY( result.y );
+							} catch(NullPointerException e) {
+								logger.error(e);
+							}
 						}
 					}
 				}
