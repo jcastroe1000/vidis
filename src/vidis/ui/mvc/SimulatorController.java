@@ -16,8 +16,9 @@ import vidis.ui.config.Configuration;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.JobAppend;
 import vidis.ui.events.VidisEvent;
-import vidis.ui.events.jobs.ALayoutJob;
-import vidis.ui.events.jobs.ARelayoutJob;
+import vidis.ui.events.jobs.jobs.layouts.ALayoutJob;
+import vidis.ui.events.jobs.jobs.layouts.ARelayoutJob;
+import vidis.ui.events.jobs.jobs.layouts.GraphElectricSpringLayoutJob;
 import vidis.ui.model.graph.layouts.GraphLayout;
 import vidis.ui.model.graph.layouts.impl.GraphElectricSpringLayout;
 import vidis.ui.model.graph.layouts.impl.GraphGridLayout;
@@ -123,7 +124,7 @@ public class SimulatorController extends AController {
 			break;
 		case IVidisEvent.LayoutApplyGraphElectricSpring:
 			lastLayout  = GraphElectricSpringLayout.getInstance();
-			Dispatcher.forwardEvent( new JobAppend (new ALayoutJob() {
+			Dispatcher.forwardEvent( new JobAppend (new GraphElectricSpringLayoutJob() {
 				public GraphLayout getLayout() {
 					return GraphElectricSpringLayout.getInstance();
 				}
