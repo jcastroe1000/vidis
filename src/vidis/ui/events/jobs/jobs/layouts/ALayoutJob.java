@@ -1,6 +1,8 @@
-package vidis.ui.events.jobs;
+package vidis.ui.events.jobs.jobs.layouts;
 
 import org.apache.log4j.Logger;
+
+import vidis.ui.events.jobs.ILayoutJob;
 
 public abstract class ALayoutJob implements ILayoutJob {
 	private static Logger logger = Logger.getLogger(ALayoutJob.class);
@@ -10,6 +12,9 @@ public abstract class ALayoutJob implements ILayoutJob {
 		} catch (Exception e) {
 			logger.error(e);
 		}
+	}
+	public boolean mustExecuteUniquely() {
+		return false;
 	}
 
 }
