@@ -1,7 +1,6 @@
 package vidis.sim;
 
 import java.io.File;
-import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
@@ -16,7 +15,6 @@ import org.apache.log4j.Logger;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
 import vidis.data.sim.AComponent;
-import vidis.data.sim.IComponent;
 import vidis.data.sim.SimLink;
 import vidis.data.sim.SimNode;
 import vidis.data.var.AVariable;
@@ -25,6 +23,7 @@ import vidis.sim.classloader.VidisClassLoader;
 import vidis.sim.classloader.modules.impl.AModuleFile;
 import vidis.sim.classloader.modules.impl.dir.FileModuleFile;
 import vidis.sim.exceptions.SimulatorConfigRuntimeException;
+import vidis.sim.simulatorInternals.SimulatorData;
 import vidis.sim.xml.modules.XMLModuleReader;
 import vidis.sim.xml.modules.dataStructure.DocumentData;
 import vidis.sim.xml.modules.dataStructure.DocumentDataConnection;
@@ -32,58 +31,6 @@ import vidis.sim.xml.modules.dataStructure.DocumentDataLink;
 import vidis.ui.model.graph.layouts.AGraphLayout;
 
 public class Simulator {
-	private static class SimulatorData implements Serializable {
-		/**
-		 * serial version UID
-		 */
-		private static final long serialVersionUID = -948286353824490701L;
-
-		public SimulatorData() {
-			now = 0;
-			this.components = new LinkedList<AComponent>();
-		}
-
-		private long now;
-		private List<AComponent> components;
-
-		public long getTime() {
-			return now;
-		}
-
-		public void registerComponent(AComponent component) {
-			components.add(component);
-		}
-
-		public void unregisterComponent(AComponent component) {
-			components.remove(component);
-		}
-
-		public void executeComponents() {
-			synchronized (components) {
-				for (IComponent component : components) {
-					component.execute();
-				}
-				now++;
-			}
-		}
-
-		public void reset() {
-			resetTime();
-		}
-
-		private void resetTime() {
-			this.now = 0;
-		}
-
-		public void killComponents() {
-			synchronized (components) {
-				for (IComponent component : components) {
-					component.kill();
-				}
-			}
-		}
-	}
-
 	/* -- time management for interpolation -- */
 	/**
 	 * lastTime stores the time of the last simulatorStep
@@ -173,14 +120,12 @@ public class Simulator {
 	private Player player;
 
 	public void simulateOneStep() {
-		if (data.components.size() > 0) {
-			if (lastTimes.size() > medianSize)
-				lastTimes.remove(0);
-			long now = System.currentTimeMillis();
-			lastTimes.add(now - lastTime);
-			lastTime = now;
-			data.executeComponents();
-		}
+		if (lastTimes.size() > medianSize)
+			lastTimes.remove(0);
+		long now = System.currentTimeMillis();
+		lastTimes.add(now - lastTime);
+		lastTime = now;
+		data.executeComponents();
 	}
 
 	public long getLastStepDuration() {
@@ -214,11 +159,11 @@ public class Simulator {
 
 		player.stop();
 
-		if (data.components.size() > 0) {
+//		if (data.components.size() > 0) {
 			data.killComponents();
 			reset();
 			data = new SimulatorData();
-		}
+//		}
 
 		if (reader.getDocument().getNodeDensity() != null) {
 			double density = reader.getDocument().getNodeDensity();
@@ -373,7 +318,7 @@ public class Simulator {
 	}
 
 	public List<AComponent> getSimulatorComponents() {
-		return data.components;
+		return data.getComponents();
 	}
 
 	public void registerComponent(AComponent component) {
