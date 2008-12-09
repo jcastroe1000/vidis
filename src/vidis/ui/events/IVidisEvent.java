@@ -63,5 +63,6 @@ public interface IVidisEvent {
 	public final int LayoutReLayout = 5014;
 	
 	public final int AppendJob = 6000;
+	public final int CleanDoneJobs = 6001;
 	
 }
