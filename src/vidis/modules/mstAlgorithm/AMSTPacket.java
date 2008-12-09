@@ -40,13 +40,20 @@ public abstract class AMSTPacket extends AUserPacket {
 		this(p.packetType, p.packetId, p.whoSentThis);
 	}
 	
+	public Type getType() {
+		return packetType;
+	}
+	
 	@DisplayColor
 	public ColorType getColor() {
-		return packetType.getColor();
+		return getType().getColor();
 	}
 	@Display(name="uid")
 	public int getId() {
 		return packetId;
+	}
+	public String getSenderId() {
+		return whoSentThis;
 	}
 	
 	// ------------ random id generator ------------ //
