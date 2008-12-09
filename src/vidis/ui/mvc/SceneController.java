@@ -356,7 +356,7 @@ public class SceneController extends AController implements GLEventListener {
 								((Node) o).getOnScreenLabel().setX( result.x );
 								((Node) o).getOnScreenLabel().setY( result.y );
 							} catch(NullPointerException e) {
-								logger.error(e);
+								logger.error("Node "+o+" has no position.", e);
 							}
 						}
 					}
