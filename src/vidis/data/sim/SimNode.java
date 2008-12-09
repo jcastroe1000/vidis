@@ -247,15 +247,17 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 				if(c.getUserLogic().equals(n)) {
 					try {
 						SimLink s = new SimLink(lclazz.newInstance(), delay);
+						s.registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.ID, "spawn_link_"+(Math.random()*Double.MAX_VALUE)));
 						s.connect(this, (SimNode)c);
 						Simulator.getInstance().registerComponent(s);
+						System.err.println("connected " + this + " with " + c + " through " + s);
 						break;
 					} catch (InstantiationException e) {
-						logger.error(e);
+						logger.fatal(e);
 					} catch (IllegalAccessException e) {
-						logger.error(e);
+						logger.fatal(e);
 					} catch (ClassCastException e) {
-						logger.error(e);
+						logger.fatal(e);
 					}
 				}
 			}
@@ -311,7 +313,7 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 		SimNode n;
 		try {
 			n = new SimNode(getUserLogic().getClass().newInstance());
-			n.registerVariable( new DefaultVariable(AVariable.COMMON_IDENTIFIERS.ID, "spawn_"+(Math.random()*Double.MAX_VALUE)));
+			n.registerVariable( new DefaultVariable(AVariable.COMMON_IDENTIFIERS.ID, "spawn_node_"+(Math.random()*Double.MAX_VALUE)));
 			n.registerVariable( new DefaultVariable(AVariable.COMMON_IDENTIFIERS.POSITION, new Point3d()));
 			Simulator.getInstance().registerComponent(n);
 			Dispatcher.forwardEvent( IVidisEvent.LayoutReLayout );
