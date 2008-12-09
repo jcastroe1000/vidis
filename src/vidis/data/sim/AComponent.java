@@ -5,11 +5,14 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.log4j.Logger;
 
 import vidis.data.annotation.ComponentColor;
 import vidis.data.annotation.ComponentInfo;
@@ -35,6 +38,7 @@ import vidis.data.var.vars.MethodVariable;
  * @see SimPacket
  */
 public abstract class AComponent implements IComponent, IAComponentCon, IVariableChangeListener {
+	private Logger logger = Logger.getLogger(AComponent.class);
 
     // -- IVariableContainer fields -- //
     private List<IVariableChangeListener> variableChangeListeners;
@@ -312,8 +316,12 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
     public void variableChanged(String id) {
 		// System.out.println("AComponent.variableChanged()");
 		synchronized (variableChangeListeners) {
-		    for (IVariableChangeListener l : variableChangeListeners)
-			l.variableChanged(id);
+			try {
+			    for (IVariableChangeListener l : variableChangeListeners)
+				l.variableChanged(id);
+			} catch (ConcurrentModificationException e) {
+				logger.fatal(e);
+			}
 		}
     }
 
