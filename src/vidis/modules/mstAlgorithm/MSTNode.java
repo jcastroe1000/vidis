@@ -1,13 +1,16 @@
 package vidis.modules.mstAlgorithm;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
 import vidis.data.AUserNode;
+import vidis.data.annotation.ColorType;
+import vidis.data.annotation.Display;
+import vidis.data.annotation.DisplayColor;
+import vidis.data.mod.IUserComponent;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserPacket;
 
@@ -20,16 +23,89 @@ import vidis.data.mod.IUserPacket;
  */
 public class MSTNode extends AUserNode {
 	private static Logger logger = Logger.getLogger(MSTNode.class);
+	
+	/**
+	 * this is the state
+	 * @author Dominik
+	 *
+	 */
+	private enum State {
+		WHITE( ColorType.WHITE ),
+		RED( ColorType.RED ),
+		GREEN( ColorType.GREEN );
+		private ColorType color;
+		private State( ColorType c ) {
+			this.color = c;
+		}
+		public ColorType getColor() {
+			return color;
+		}
+	};
+	
+	/**
+	 * stores the state
+	 */
+	private Map<String, State> currentState = new HashMap<String, State>();
+	/**
+	 * stores the counter for a certain query
+	 */
+	private Map<String, Integer> currentCounter = new HashMap<String, Integer>();
+	/**
+	 * stores the parent for a certain query
+	*/
+	private Map<String, String> currentParent = new HashMap<String, String>();
+	/**
+	 * stores the child information for a child (key)
+	 * 
+	 * this means that the MSTNode.getId() == map::key is reachable using one of the links referred
+	 * 
+	 * of course when sending it should be obvious that one should take the shortest
+	 */
+//	private Map<String, List<IUserLink>> currentChild = new HashMap<String, List<IUserLink>>();
 
+	private static boolean TESTING = false;
+	private static boolean INITIALLY_EXPLORE = true;
+	
 	@Override
 	public void init() {
-		if(getId().equalsIgnoreCase("node01")) {
-			// send explore packet
-			for(IUserLink l : getConnectedLinks()) {
-				sendExplore(l);
-			}
+		// set testing mode
+		TESTING = true;
+		INITIALLY_EXPLORE = false;
+		
+		// now do real init
+		
+		// set my state
+		currentState.put(getId(), State.WHITE);
+		
+		// some other init stuff
+		if(TESTING && getId().equalsIgnoreCase("node01")) {
+			explore();
+		} else if(INITIALLY_EXPLORE) {
+			explore();
 		}
 	}
+	
+	@Display(name="Explore")
+	public void explore() {
+		// reset reachable nodes
+		reachableChilds.clear();
+		// set state to red (pending)
+		currentState.put(getId(), State.RED);
+		// send explore packet
+		for(IUserLink l : getConnectedLinks()) {
+			sendExplore(l);
+		}
+	}
+	
+	@DisplayColor
+	public ColorType getColor() {
+		if(TESTING && getId().equalsIgnoreCase("node01")) {
+			return currentState.get(getId()).getColor();
+		} else {
+			return ColorType.GREY;
+		}
+	}
+	
 	public void execute() {
 	}
 	
@@ -37,27 +113,17 @@ public class MSTNode extends AUserNode {
 		return AMSTPacket.generateRandomId();
 	}
 	
-	// ----------- echo stuff ---------- //
-	
-	protected void receive(EchoPacket p) {
-		// append myself to packet trace
-		// forward to parent
+	public String getId() {
+		return super.getId();
 	}
 	
-	// ----------- explore stuff ---------- //
 	/**
 	 * Remembers the parent of a explore round as a mapping
 	 * exploreNodeId -> packetId -> parentNodeLink
 	 * This is used at Echo packets in order to know where to
 	 * forward the answer Echo to.
 	 */
-	private Map<String, Map<Integer, IUserLink>> parents = new HashMap<String, Map<Integer,IUserLink>>();
-	/**
-	 * Remembers the explores from a sender so that we
-	 * can decide whether we handled this exploring round
-	 * already or if we have to handle it now.
-	 */
-	private Map<String, List<Integer>> explores = new HashMap<String, List<Integer>>();
+	private Map<String, Map<Long, IUserLink>> reachableChilds = new HashMap<String, Map<Long,IUserLink>>();
 	
 	protected void sendExplore(IUserLink l) {
 		ExplorePacket p = new ExplorePacket(getNewPacketId(), getId());
@@ -68,49 +134,86 @@ public class MSTNode extends AUserNode {
 		send(p, l);
 	}
 	protected void sendEcho(ExplorePacket pOld, IUserLink l) {
-		EchoPacket p = new EchoPacket(pOld.getId(), pOld.getSenderId());
+		Map<String, Long> hm = new HashMap<String, Long>();
+		hm.put(getId(), l.getDelay());
+		EchoPacket p = new EchoPacket(pOld.getId(), pOld.getQueryierId(),hm);
+		send(p, l);
 	}
-	protected void receive(ExplorePacket p) {
-		// check if we sent this id already to everybody
-		if(!explores.containsKey(p.getSenderId())) {
-			explores.put(p.getSenderId(), new LinkedList<Integer>());
+	protected void sendEcho(EchoPacket pOld, IUserLink l) {
+		Map<String, Long> hm = new HashMap<String, Long>();
+		// update old stuff by adding the current distance
+		for(Entry<String, Long> e : pOld.getDistances().entrySet()) {
+			hm.put(e.getKey(), e.getValue() + l.getDelay());
 		}
-		if(explores.containsKey(p.getSenderId())) {
-			if(explores.get(p.getSenderId()).contains(p.getId())) {
-				// already explored this id, forget it
-			} else {
-				// new explore round, let's do some work
-				{
-					// store parent
-					if(!parents.containsKey(p.getSenderId())) {
-						parents.put(p.getSenderId(), new HashMap<Integer, IUserLink>());
-					}
-					if(parents.containsKey(p.getSenderId())) {
-						if(parents.get(p.getSenderId()).containsKey(p.getId())) {
-							// already seen this, send echo
-//							parents.get(p.getSenderId()).put(p.getId(), p.getLinkToSource());
-							sendEcho(p, parents.get(p.getSenderId()).get(p.getId()));
-						} else {
-							// not seen this yet, store it
-							parents.get(p.getSenderId()).put(p.getId(), p.getLinkToSource());
-						}
-					}
-					// decide: do we have a parent for this sender id and have we informed everybody of this explore?
-					if(explores.get(p.getSenderId()).contains(p.getId()) || getConnectedLinks().size() == 0) { // explore makes no sense, send Echo
-						// answer sender with Echo
-						sendEcho(p, parents.get(p.getSenderId()).get(p.getId()));
-					} else { // explore makes sense, propagate explore
-						// forward to everybody but sender
-						for(IUserLink l : getConnectedLinks()) {
-							if(!l.equals(p.getLinkToSource())) {
-								sendExplore(p, l);
-							}
-						}
-					}
-					// remember exploring round
-					explores.get(p.getSenderId()).add(p.getId());
+		// and now put myself
+		hm.put(getId(), l.getDelay());
+		// finally send it
+		EchoPacket p = new EchoPacket(pOld.getId(), pOld.getQueryierId(), hm);
+		send(p, l);
+	}
+	protected void receive(EchoPacket p) {
+		// check if I am the querier
+		if(p.getQueryierId().equals(getId())) {
+			// fine, we're done with this
+			logger.info("WE'RE DONE FOR: "+p.getDistances() + "!");
+			// put them to the parents list
+			for(Entry<String, Long> e : p.getDistances().entrySet()) {
+				if(!reachableChilds.containsKey(e.getKey())) {
+					reachableChilds.put(e.getKey(), new HashMap<Long, IUserLink>());
+				}
+				reachableChilds.get(e.getKey()).put(e.getValue(), p.getLinkToSource());
+			}
+		} else {
+			for ( IUserLink l : getConnectedLinks() ) {
+				// respond to ONLY the parent by sending a echo
+				if(((MSTNode)l.getOtherNode(this)).getId().equals(currentParent.get(p.getQueryierId()))) {
+					sendEcho(p, l);
 				}
 			}
+		}
+	}
+	protected void receive(ExplorePacket p) {
+		// set / reset white state
+		if( !currentState.containsKey(p.getQueryierId()) || currentState.get(p.getQueryierId()).equals(State.GREEN)) {
+			currentState.put(p.getQueryierId(), State.WHITE);
+		}
+		// real algorithm
+		if ( currentState.get(p.getQueryierId()) == State.WHITE ) {
+			currentState.put(p.getQueryierId(), State.RED);
+			for ( IUserLink l : getConnectedLinks() ) {
+				if ( ! l.equals(p.getLinkToSource()) ) {
+					sendExplore(p, l);
+				}
+			}
+			// set first neighbour
+			currentParent.put( p.getQueryierId(), p.getSourceId());
+		}
+		// increase counter
+		currentCounter.put(p.getQueryierId(), currentCounter.get(p.getQueryierId())+1);
+		
+		// handle green state on every message
+		if ( currentCounter.get(p.getQueryierId()) == getConnectedLinks().size() ) {
+			currentState.put(p.getQueryierId(), State.GREEN);
+			handleGreen(p);
+		}
+	}
+	
+	private void handleGreen(ExplorePacket p) {
+		if(currentState.get(p.getQueryierId()) == State.GREEN || currentCounter.get(p.getQueryierId()) == getConnectedLinks().size()) {
+			// check if I am the querier
+			if(p.getQueryierId().equals(getId())) {
+				// fine, we're done with this
+				logger.info("WE'RE DONE FOR: "+getId()+"!");
+			} else {
+				for ( IUserLink l : getConnectedLinks() ) {
+					// respond to ONLY the parent by sending a echo
+					if(((MSTNode)l.getOtherNode(this)).getId().equals(currentParent.get(p.getQueryierId()))) {
+						sendEcho(p, l);
+					}
+				}
+			}
+		} else {
+			// cannot handle green
 		}
 	}
 	protected void receive(PingPacket p) {
@@ -125,6 +228,9 @@ public class MSTNode extends AUserNode {
 	}
 	
 	public void receive(AMSTPacket p) {
+		if( !currentCounter.containsKey(p.getQueryierId())) {
+			currentCounter.put(p.getQueryierId(), 0);
+		}
 		logger.info("receive: " + p);
 		switch(p.getType()) {
 			case ECHO:

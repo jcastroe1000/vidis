@@ -10,4 +10,7 @@ public class ExplorePacket extends AMSTPacket {
 	public ExplorePacket(ExplorePacket p) {
 		super(p);
 	}
+	public String getSourceId() {
+		return ((MSTNode)getSource()).getId();
+	}
 }

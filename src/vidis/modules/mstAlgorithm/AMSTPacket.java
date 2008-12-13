@@ -52,7 +52,7 @@ public abstract class AMSTPacket extends AUserPacket {
 	public int getId() {
 		return packetId;
 	}
-	public String getSenderId() {
+	public String getQueryierId() {
 		return whoSentThis;
 	}
 	
