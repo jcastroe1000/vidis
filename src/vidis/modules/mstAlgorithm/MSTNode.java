@@ -1,6 +1,8 @@
 package vidis.modules.mstAlgorithm;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -10,7 +12,6 @@ import vidis.data.AUserNode;
 import vidis.data.annotation.ColorType;
 import vidis.data.annotation.Display;
 import vidis.data.annotation.DisplayColor;
-import vidis.data.mod.IUserComponent;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserPacket;
 
@@ -69,8 +70,8 @@ public class MSTNode extends AUserNode {
 	@Override
 	public void init() {
 		// set testing mode
-		TESTING = true;
-		INITIALLY_EXPLORE = false;
+		TESTING = false;
+		INITIALLY_EXPLORE = true;
 		
 		// now do real init
 		
@@ -85,6 +86,11 @@ public class MSTNode extends AUserNode {
 		}
 	}
 	
+	@Display(name="Testping: node08")
+	public void testPing() {
+		ping("node08");
+	}
+	
 	@Display(name="Explore")
 	public void explore() {
 		// reset reachable nodes
@@ -95,6 +101,51 @@ public class MSTNode extends AUserNode {
 		for(IUserLink l : getConnectedLinks()) {
 			sendExplore(l);
 		}
+	}
+	
+	@Display(name="Ping Node")
+	public void ping(MSTNode node) {
+		ping(node.getId());
+	}
+	
+	public void ping(String nodeId) {
+		if(nodeId.equals(getId())) {
+			// local host
+			logger.info("PING "+nodeId+"(localhost): OK");
+		} else {
+			if(reachableChilds.containsKey(nodeId)) {
+				long min = Long.MAX_VALUE;
+				Entry<Long, IUserLink> minEntry = null;
+				// send it to shortest edge
+				for(Entry<Long, IUserLink> e : reachableChilds.get(nodeId).entrySet()) {
+					if(e.getKey() < min) {
+						min = e.getKey();
+						minEntry = e;
+					}
+				}
+				if(minEntry != null && min < Long.MAX_VALUE) {
+					sendPing(new PingPacket(getNewPacketId(),getId(),nodeId), minEntry.getValue());
+				}
+			} else {
+				// unreachable (??)
+				logger.info("Target unreachable from here!");
+			}
+		}
+	}
+	
+	// reset ids
+	private List<Integer> resetPacketsSeen = new LinkedList<Integer>();
+	
+	// reset color packet
+	@Display(name="Reset link colors")
+	public void resetLinkColors() {
+		int id = getNewPacketId();
+		for(IUserLink l : getConnectedLinks()) {
+			send(new AMSTPacket(AMSTPacket.Type.RESETCOLOR, id, getId()) {
+				
+			}, l);
+		}
+		resetPacketsSeen.add(id);
 	}
 	
 	@DisplayColor
@@ -150,6 +201,18 @@ public class MSTNode extends AUserNode {
 		// finally send it
 		EchoPacket p = new EchoPacket(pOld.getId(), pOld.getQueryierId(), hm);
 		send(p, l);
+	}
+	private void sendPong(PingPacket pOld, IUserLink linkToSource) {
+		PongPacket p = new PongPacket(pOld);
+		send(p, linkToSource);
+	}
+	private void sendPing(PingPacket pOld, IUserLink linkToSource) {
+		PingPacket p = new PingPacket(pOld);
+		send(p, linkToSource);
+	}
+	private void sendPong(PongPacket pOld, IUserLink linkToSource) {
+		PongPacket p = new PongPacket(pOld);
+		send(p, linkToSource);
 	}
 	protected void receive(EchoPacket p) {
 		// check if I am the querier
@@ -218,21 +281,81 @@ public class MSTNode extends AUserNode {
 	}
 	protected void receive(PingPacket p) {
 		// decide:
-		// am I receiver -> send Pong back
-		// else -> forward to shortest edge
+		if(p.getTargetId().equals(getId())) {
+			// am I receiver -> send Pong back
+			sendPong(p, p.getLinkToSource());
+		} else {
+			// else -> forward to shortest edge
+			// ask knowledgebase
+			if(reachableChilds.containsKey(p.getTargetId())) {
+				long min = Long.MAX_VALUE;
+				Entry<Long, IUserLink> minEntry = null;
+				// send it to shortest edge
+				for(Entry<Long, IUserLink> e : reachableChilds.get(p.getTargetId()).entrySet()) {
+					if(e.getKey() < min) {
+						min = e.getKey();
+						minEntry = e;
+					}
+				}
+				if(minEntry != null && min < Long.MAX_VALUE) {
+					sendPing(p, minEntry.getValue());
+				}
+			} else {
+				// unreachable (??)
+				logger.info("Target unreachable from here!");
+			}
+		}
 	}
+
 	protected void receive(PongPacket p) {
 		// decide:
-		// am I receiver -> DONE
-		// else -> forward to shortest edge
+		if(p.getTargetId().equals(getId())) {
+			// am I receiver -> send Pong back
+			logger.info("RECEIVED PONG");
+		} else {
+			// else -> forward to shortest edge
+			// ask knowledgebase
+			if(reachableChilds.containsKey(p.getTargetId())) {
+				long min = Long.MAX_VALUE;
+				Entry<Long, IUserLink> minEntry = null;
+				// send it to shortest edge
+				for(Entry<Long, IUserLink> e : reachableChilds.get(p.getTargetId()).entrySet()) {
+					if(e.getKey() < min) {
+						min = e.getKey();
+						minEntry = e;
+					}
+				}
+				if(minEntry != null && min < Long.MAX_VALUE) {
+					sendPong(p, minEntry.getValue());
+				}
+			} else {
+				// unreachable (??)
+				logger.info("Target unreachable from here!");
+			}
+		}
 	}
-	
+
 	public void receive(AMSTPacket p) {
 		if( !currentCounter.containsKey(p.getQueryierId())) {
 			currentCounter.put(p.getQueryierId(), 0);
 		}
 		logger.info("receive: " + p);
 		switch(p.getType()) {
+			case RESETCOLOR:
+				// forward if not seen yet
+				if(!resetPacketsSeen.contains(p.getId())) {
+					for(IUserLink l : getConnectedLinks()) {
+						// all but sender
+						if(!l.equals(p.getLinkToSource())) {
+							send(new AMSTPacket(p.getType(), p.getId(), p.getQueryierId()) {
+							},l);
+						}
+					}
+					resetPacketsSeen.add(p.getId());
+				} else {
+					// do not forward
+				}
+				break;
 			case ECHO:
 				receive((EchoPacket) p);
 				break;

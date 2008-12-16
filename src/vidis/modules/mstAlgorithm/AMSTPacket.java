@@ -15,7 +15,8 @@ public abstract class AMSTPacket extends AUserPacket {
 		EXPLORE(ColorType.CYAN),
 		ECHO(ColorType.BLUE),
 		PING(ColorType.ORANGE),
-		PONG(ColorType.RED);
+		PONG(ColorType.RED),
+		RESETCOLOR(ColorType.BLACK);
 		private ColorType c;
 		private Type(ColorType c) {
 			this.c = c;

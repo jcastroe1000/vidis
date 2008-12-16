@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.apache.log4j.Logger;
-
 import vidis.data.AUserNode;
 import vidis.data.annotation.ColorType;
 import vidis.data.annotation.Display;
@@ -19,8 +17,6 @@ import vidis.data.mod.IUserPacket;
 import vidis.modules.byzantineGenerals.APacket.PacketType;
 
 public abstract class ANode extends AUserNode {
-	private static Logger logger = Logger.getLogger(ANode.class);
-	
 	protected enum NodeType {
 		GOOD(ColorType.GREEN),
 		BAD(ColorType.RED),

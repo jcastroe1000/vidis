@@ -1,13 +1,19 @@
 package vidis.modules.mstAlgorithm;
 
-import org.apache.log4j.Logger;
 
 public class PongPacket extends AMSTPacket {
-	private static Logger logger = Logger.getLogger(PongPacket.class);
-	public PongPacket(int id, String senderId) {
+	private String targetId;
+	public PongPacket(int id, String senderId, String targetId) {
 		super(Type.PONG, id, senderId);
+		this.targetId = targetId;
 	}
 	public PongPacket(PongPacket p) {
-		super(p);
+		this(p.getId(), p.getQueryierId(), p.getTargetId());
+	}
+	public PongPacket(PingPacket p) {
+		this(p.getId(), p.getTargetId(), p.getQueryierId());
+	}
+	public String getTargetId() {
+		return targetId;
 	}
 }
