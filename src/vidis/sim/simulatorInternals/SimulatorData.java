@@ -29,15 +29,17 @@ public class SimulatorData implements Serializable {
 	}
 
 	public void registerComponent(AComponent component) {
+		logger.debug("registerComponent("+component+");");
 		components.add(component);
 	}
 
 	public void unregisterComponent(AComponent component) {
+		logger.debug("UNregisterComponent("+component+");");
 		components.remove(component);
 	}
 
 	public void executeComponents() {
-		System.err.println("simulating: " + now);
+		logger.debug("simulating: " + now);
 		synchronized (components) {
 			for (IComponent component : components) {
 				component.execute();

@@ -28,6 +28,8 @@ public class DefaultLink extends AUserLink {
 			} else if(p instanceof PongPacket) {
 				// accept color of pong
 				c = ((PongPacket)p).getColor();
+			} else if(p instanceof MstPacket) {
+				c = ((MstPacket)p).getColor();
 			} else {
 				c = ColorType.BLACK;
 			}

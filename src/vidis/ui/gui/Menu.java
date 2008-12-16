@@ -134,10 +134,15 @@ public class Menu extends BasicGuiContainer {
 	
 	private void delVar( AVariable var ) {
 		MenuItem m = map.get( var );
-		this.removeChild( m.content );
-		this.root.removeChild( m );
-		this.update();
-		map.remove( var );
+		if ( m == null ) {
+			logger.error( "m was null! This means variable '"+var+"' has no MenuItem!!" );
+		}
+		else {
+			this.removeChild( m.content );
+			this.root.removeChild( m );
+			this.update();
+			map.remove( var );
+		}
 	}
 	
 	

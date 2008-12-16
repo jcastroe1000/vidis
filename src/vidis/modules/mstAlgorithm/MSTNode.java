@@ -85,7 +85,45 @@ public class MSTNode extends AUserNode {
 			explore();
 		}
 	}
+
+	@Display(name="Show MST")
+	public void showMST() {
+		// send ping to everybody
+		for(Entry<String, Map<Long, IUserLink>> e : reachableChilds.entrySet()) {
+			mst(e.getKey());
+		}
+	}
 	
+	private void mst(String nodeId) {
+		if(nodeId.equals(getId())) {
+			// local host
+			logger.info("PING "+nodeId+"(localhost): OK");
+		} else {
+			if(reachableChilds.containsKey(nodeId)) {
+				long min = Long.MAX_VALUE;
+				Entry<Long, IUserLink> minEntry = null;
+				// send it to shortest edge
+				for(Entry<Long, IUserLink> e : reachableChilds.get(nodeId).entrySet()) {
+					if(e.getKey() < min) {
+						min = e.getKey();
+						minEntry = e;
+					}
+				}
+				if(minEntry != null && min < Long.MAX_VALUE) {
+					sendMst(new MstPacket(getNewPacketId(),getId(),nodeId), minEntry.getValue());
+				}
+			} else {
+				// unreachable (??)
+				logger.info("Target unreachable from here!");
+			}
+		}
+	}
+	
+	private void sendMst(MstPacket pOld, IUserLink linkToSource) {
+		MstPacket p = new MstPacket(pOld);
+		send(p, linkToSource);
+	}
+
 	@Display(name="Testping: node08")
 	public void testPing() {
 		ping("node08");
@@ -334,6 +372,33 @@ public class MSTNode extends AUserNode {
 			}
 		}
 	}
+	
+	protected void receive(MstPacket p) {
+		// decide:
+		if(p.getTargetId().equals(getId())) {
+			// am I receiver -> send Pong back
+		} else {
+			// else -> forward to shortest edge
+			// ask knowledgebase
+			if(reachableChilds.containsKey(p.getTargetId())) {
+				long min = Long.MAX_VALUE;
+				Entry<Long, IUserLink> minEntry = null;
+				// send it to shortest edge
+				for(Entry<Long, IUserLink> e : reachableChilds.get(p.getTargetId()).entrySet()) {
+					if(e.getKey() < min) {
+						min = e.getKey();
+						minEntry = e;
+					}
+				}
+				if(minEntry != null && min < Long.MAX_VALUE) {
+					sendMst(p, minEntry.getValue());
+				}
+			} else {
+				// unreachable (??)
+				logger.info("Target unreachable from here!");
+			}
+		}
+	}
 
 	public void receive(AMSTPacket p) {
 		if( !currentCounter.containsKey(p.getQueryierId())) {
@@ -367,6 +432,9 @@ public class MSTNode extends AUserNode {
 				break;
 			case PONG:
 				receive((PongPacket) p);
+				break;
+			case MSTPACKET:
+				receive((MstPacket) p);
 				break;
 		}
 	}
