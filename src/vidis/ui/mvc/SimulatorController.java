@@ -42,7 +42,8 @@ public class SimulatorController extends AController {
 		
 		registerEvent( IVidisEvent.SimulatorPlay, 
 						IVidisEvent.SimulatorLoad,
-						IVidisEvent.SimulatorReload );
+						IVidisEvent.SimulatorReload, 
+						IVidisEvent.SimulatorPause );
 		
 		registerEvent(
 				IVidisEvent.LayoutApplyGraphElectricSpring, 
@@ -61,7 +62,10 @@ public class SimulatorController extends AController {
 			initialize();
 			break;
 		case IVidisEvent.SimulatorPlay:
-			sim.getPlayer().playPause();
+			sim.getPlayer().play();
+			break;
+		case IVidisEvent.SimulatorPause:
+			sim.getPlayer().pause();
 			break;
 		case IVidisEvent.SimulatorLoad:
 			if(event instanceof VidisEvent) {

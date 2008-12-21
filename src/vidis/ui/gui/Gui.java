@@ -23,6 +23,7 @@ import vidis.ui.model.impl.Label;
 import vidis.ui.model.impl.NodeField;
 import vidis.ui.model.impl.PacketField;
 import vidis.ui.model.impl.PercentMarginLayout;
+import vidis.ui.model.impl.PlayPauseStop;
 import vidis.ui.model.impl.TextField;
 import vidis.ui.model.impl.guielements.popupWindows.ApplyLayoutPopupWindow;
 import vidis.ui.model.impl.guielements.popupWindows.OpenMSIMFilePopupWindow_tree;
@@ -69,14 +70,34 @@ public class Gui extends AEventHandler {
 	}
 	private void initializeMenu() {
 		MenuItem root = new MenuItem( null, "root", null );
+		
+		PlayPauseStop pps = new PlayPauseStop();
+		
+		MenuItem playPauseStop = new MenuItem( root, pps, 2.5 );
+		
 		final MenuItem menu = new MenuItem( root, "Menu", null );
-		MenuItem playPause = new MenuItem( menu, "Play", createEventRunnable(IVidisEvent.SimulatorPlay) );
 		MenuItem layout = new MenuItem( menu, "Layout", null );
 		MenuItem l1 = new MenuItem( layout, "Electric Spring Layout", createEventRunnable(IVidisEvent.LayoutApplyGraphElectricSpring) );
 		MenuItem l2 = new MenuItem( layout, "Grid Layout", createEventRunnable(IVidisEvent.LayoutApplyGrid) );
 		MenuItem l3 = new MenuItem( layout, "Spiral Layout", createEventRunnable(IVidisEvent.LayoutApplySpiral) );
 		MenuItem l4 = new MenuItem( layout, "Random Layout", createEventRunnable(IVidisEvent.LayoutApplyRandom) );
-		MenuItem reset = new MenuItem( menu, "Reset", createEventRunnable(IVidisEvent.SimulatorReload) );
+		
+		MenuItem options = new MenuItem( menu, "Options", null );
+		
+		CheckBox wireframeCheckbox = new CheckBox();
+		wireframeCheckbox.setName("myFirstCheckBox");
+		wireframeCheckbox.setText("Wireframe?");
+		wireframeCheckbox.addCheckChangeListener( new CheckChangeListener() {
+			@Override
+			public void onCheckCange(boolean checked) {
+				Configuration.DISPLAY_WIREFRAME = checked;
+			}
+		});
+		wireframeCheckbox.setChecked(false);
+		wireframeCheckbox.setBounds(1, 1, 1.5, 20);
+		
+		MenuItem wireframe = new MenuItem( options, wireframeCheckbox );
+		
 		MenuItem load = new MenuItem( menu, "Load", new MenuAction() {
 			@Override
 			public void execute(Menu menu, MenuItem item) {
@@ -102,6 +123,7 @@ public class Gui extends AEventHandler {
 		this.menu = new Menu( root );
 		menu.setExpanded( false );
 		layout.setExpanded( false );
+		options.setExpanded( false );
 		this.menu.update();
 		mainContainer.addChild( this.menu );
 	}
@@ -136,20 +158,6 @@ public class Gui extends AEventHandler {
 		PacketField pf = new PacketField();
 		pf.setBounds(1, 11, 2, 20);
 		slider.addChild( pf );
-		
-		CheckBox test = new CheckBox();
-		test.setName("myFirstCheckBox");
-		test.setText("Wireframe?");
-		test.addCheckChangeListener( new CheckChangeListener() {
-			@Override
-			public void onCheckCange(boolean checked) {
-				Configuration.DISPLAY_WIREFRAME = checked;
-			}
-		});
-		test.setChecked(false);
-		test.setBounds(1, 1, 1.5, 20);
-		
-		slider.addChild(test);
 		
 		mainContainer.addChild(rightPanel);
 		

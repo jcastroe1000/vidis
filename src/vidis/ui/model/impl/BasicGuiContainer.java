@@ -45,9 +45,11 @@ public class BasicGuiContainer extends AGuiContainer {
 	}
 	public void setColor1( Color c ) {
 		this.color1 = c;
+		updateColor();
 	}
 	public void setColor2( Color c ) {
 		this.color2 = c;
+		updateColor();
 	}
 	
 	protected void setColor(GL gl) {

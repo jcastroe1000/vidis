@@ -15,8 +15,19 @@ public class MenuItem {
 	private static Logger logger = Logger.getLogger(MenuItem.class);
 
 	private class MenuItemLayout implements ILayout {
+		
+		private double h = 1.5;
+		
+		public MenuItemLayout( double h ) {
+//			this.h = h;
+		}
+		
+		public MenuItemLayout() {
+			this( 1.5 );
+		}
+		
 		public double getHeight() {
-			return 1.5;
+			return h;
 		}
 		public double getWidth() {
 			return MenuItem.this.menu.getWidth() - offset;
@@ -25,7 +36,8 @@ public class MenuItem {
 			return offset;
 		}
 		public double getY() {
-			return index * 1.7 - 1.7;
+			double step = h + 0.2;
+			return index * step - step;
 		}
 		public void layout() {
 		}
@@ -80,6 +92,21 @@ public class MenuItem {
 		if ( parent != null ) {
 			parent.addChild( this );
 		}
+	}
+	
+	public MenuItem( MenuItem parent, BasicGuiContainer content, double h ) {
+		this.content = content;
+		this.content.setLayout( new MenuItemLayout( h ) );
+		this.parent = parent;
+		this.setText( text );
+		this.childs = new ArrayList<MenuItem>();
+		if ( parent != null ) {
+			parent.addChild( this );
+		}
+	}
+	
+	public MenuItem( MenuItem parent, BasicGuiContainer content ) {
+		this( parent, content, 1.5 );
 	}
 	
 	protected void expandOrCollapse() {
@@ -139,6 +166,7 @@ public class MenuItem {
 	public void removeChild(MenuItem m) {
 		this.childs.remove( m );
 	}
+	
 
 
 }

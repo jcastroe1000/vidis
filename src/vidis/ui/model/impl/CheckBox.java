@@ -26,7 +26,7 @@ public class CheckBox extends BasicGuiContainer {
 	private Color colorLight = Color.LIGHT_GRAY;
 	private Color colorDark = Color.DARK_GRAY;
 	
-	private Color textColor = Color.white;
+	private Color textColor = Color.BLACK;
 	
 	public CheckBox() {
 		setColor1( Color.gray );
@@ -118,11 +118,14 @@ public class CheckBox extends BasicGuiContainer {
 		
 		// text
 		Rectangle2D r = textRenderer.getBounds( text );
-		float scale = 0.01f;
+		float scale = 0.05f;
+		
+		h = getHeight();
+		w = getWidth();
 		
 		double factor = 0.7;
 		double fontScaleWidth = (getWidth() * factor) / (r.getWidth() * scale);
-		double fontScaleHeight = (getHeight() * factor) / (r.getHeight() * scale);
+		double fontScaleHeight = (h * factor) / (textH * scale);
 		double fontScale = fontScaleHeight;
 		
 		gl.glPushMatrix();
@@ -130,9 +133,15 @@ public class CheckBox extends BasicGuiContainer {
 		//gl.glScaled( fontScale, fontScale, 1);
 			textRenderer.setColor( textColor );
 			textRenderer.begin3DRendering();
+//			textRenderer.draw3D( text, 
+//					(float) (2 * checkBoxSize), 
+//					(float) (getHeight() / 2f - r.getHeight() * scale * fontScale / 2f),
+//					0.5f,
+//					(float) (scale * fontScale) );
+//			textRenderer.end3DRendering();
 			textRenderer.draw3D( text, 
 					(float) (2 * checkBoxSize), 
-					(float) (getHeight() / 2f - r.getHeight() * scale * fontScale / 2f),
+					(float) (h / 2f - r.getHeight() * scale * fontScale / 2f),
 					0.5f,
 					(float) (scale * fontScale) );
 			textRenderer.end3DRendering();
@@ -194,11 +203,11 @@ public class CheckBox extends BasicGuiContainer {
 	
 	@Override
 	protected void onMouseEnter( MouseMovedEvent e ) {
-		textColor = Color.gray;
+		textColor = Color.GRAY;
 	}
 	
 	@Override
 	protected void onMouseExit( MouseMovedEvent e ) {
-		textColor = Color.white;
+		textColor = Color.BLACK;
 	}
 }
