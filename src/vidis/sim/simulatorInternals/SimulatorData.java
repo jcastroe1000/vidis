@@ -1,6 +1,5 @@
 package vidis.sim.simulatorInternals;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,7 +8,7 @@ import org.apache.log4j.Logger;
 import vidis.data.sim.AComponent;
 import vidis.data.sim.IComponent;
 
-public class SimulatorData implements Serializable {
+public class SimulatorData implements ISimulatorData {
 	private static Logger logger = Logger.getLogger(SimulatorData.class);
 	/**
 	 * serial version UID

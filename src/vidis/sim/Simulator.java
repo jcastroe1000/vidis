@@ -20,8 +20,8 @@ import vidis.data.sim.SimNode;
 import vidis.data.var.AVariable;
 import vidis.data.var.vars.DefaultVariable;
 import vidis.sim.classloader.VidisClassLoader;
-import vidis.sim.classloader.modules.impl.AModuleFile;
 import vidis.sim.classloader.modules.impl.dir.FileModuleFile;
+import vidis.sim.classloader.modules.interfaces.IModuleFileComponent;
 import vidis.sim.exceptions.SimulatorConfigRuntimeException;
 import vidis.sim.simulatorInternals.SimulatorData;
 import vidis.sim.xml.modules.XMLModuleReader;
@@ -48,7 +48,7 @@ public class Simulator {
 
 	private SimulatorData data;
 	
-	private List<AModuleFile> simFileHistory = new LinkedList<AModuleFile>();
+	private List<IModuleFileComponent> simFileHistory = new LinkedList<IModuleFileComponent>();
 	
 	private static boolean RUN_WITH_3D = true;
 
@@ -138,7 +138,7 @@ public class Simulator {
 		return median;
 	}
 	
-	public void importSimFile(AModuleFile f) {
+	public void importSimFile(IModuleFileComponent f) {
 		simFileHistory.add(f);
 		
 		XMLModuleReader reader = XMLModuleReader.parse(f);

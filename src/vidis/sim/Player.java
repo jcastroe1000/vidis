@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 public class Player {
 	private boolean paused = true;
 	private boolean stopped = false;
-	private boolean kill = false;
+	private boolean killed = false;
 	private Thread worker;
 
 	public Player() {
@@ -15,7 +15,7 @@ public class Player {
 			public void run() {
 				long steps = 0;
 				long sleepTime = 250;
-				while (!kill) {
+				while (!killed) {
 					steps = alive(steps, sleepTime);
 				}
 			}
@@ -89,8 +89,8 @@ public class Player {
 	}
 
 	public void kill() {
-		stopped = true;
-		kill = true;
+		stop();
+		killed = true;
 	}
 
 	public boolean isPaused() {

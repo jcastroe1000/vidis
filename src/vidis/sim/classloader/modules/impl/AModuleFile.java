@@ -3,9 +3,9 @@ package vidis.sim.classloader.modules.impl;
 import java.io.IOException;
 import java.io.InputStream;
 
-import vidis.sim.classloader.modules.interfaces.IModuleComponent;
+import vidis.sim.classloader.modules.interfaces.IModuleFileComponent;
 
-public abstract class AModuleFile implements IModuleComponent {
+public abstract class AModuleFile implements IModuleFileComponent {
 	public abstract String getName();
 	
 	public boolean isModule() {
