@@ -2,6 +2,8 @@ package vidis.data.var;
 
 import java.util.Set;
 
+import vidis.data.var.vars.AVariable;
+
 
 /**
  * This interface defines all methods used for handling our variable system

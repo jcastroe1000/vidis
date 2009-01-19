@@ -1,12 +1,12 @@
-package vidis.data.var;
+package vidis.data.var.vars;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import vidis.data.var.vars.FieldVariable;
-import vidis.data.var.vars.MethodVariable;
+import vidis.data.var.IVariable;
+import vidis.data.var.IVariableChangeListener;
 
-public abstract class AVariable implements IVariableChangeProducer {
+public abstract class AVariable implements IVariable {
 	public static final class COMMON_SCOPES {
 		public static final String USER = "user";
 		public static final String SYSTEM = "system";
@@ -29,22 +29,6 @@ public abstract class AVariable implements IVariableChangeProducer {
 		this();
 		setIdentifier(id);
 	}
-	
-	/**
-	 * retrieves the data contained within this variable.
-	 * @return the data object to get
-	 */
-	public abstract Object getData();
-	
-	/**
-	 * retrieves the data type class contained within this variable.
-	 * <p>
-	 * This method should be used whenever type checking is required
-	 * instead of getData().getClass()!
-	 * </p>  
-	 * @return the class object of the contained data
-	 */
-	public abstract Class<?> getDataType();
 	
 	/**
 	 * retrieve the identifier of this variable
@@ -105,12 +89,6 @@ public abstract class AVariable implements IVariableChangeProducer {
 	public String getIdentifierWithoutNamespace() {
 		return getIdentifierWithoutNamespace(this.getIdentifier());
 	}
-	
-	/**
-	 * updates the variable content
-	 * @param data the new object
-	 */
-	public abstract void update(Object data);
 	
 	/**
 	 * retrieves the namespace or scope of this variable. This could

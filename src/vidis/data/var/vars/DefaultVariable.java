@@ -1,6 +1,5 @@
 package vidis.data.var.vars;
 
-import vidis.data.var.AVariable;
 import vidis.data.var.IVariableChangeListener;
 
 /**

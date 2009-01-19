@@ -2,7 +2,6 @@ package vidis.data.var.vars;
 
 import java.lang.reflect.Field;
 
-import vidis.data.var.AVariable;
 
 /**
  * a field variable; this class uses reflection to get the

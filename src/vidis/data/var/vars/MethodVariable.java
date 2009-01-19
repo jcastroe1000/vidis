@@ -3,7 +3,6 @@ package vidis.data.var.vars;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import vidis.data.var.AVariable;
 
 /**
  * a method variable; this variable uses reflection to retrieve the
