@@ -222,7 +222,7 @@ public class Simulator {
 		Collections.sort(linkIds);
 		for (String id : linkIds) {
 			DocumentDataLink documentLink = document.getLinkById(id);
-			String classpath = document.getClasspath() + "." + documentLink.getClasspath();
+			String classpath = document.getPackageName() + "." + documentLink.getClasspath();
 			try {
 //				Class<?> clazz = Class.forName(classpath);
 				Class<?> clazz = VidisClassLoader.getInstance().loadClass(classpath);
@@ -264,7 +264,7 @@ public class Simulator {
 		nodeIds.addAll(document.getNodes().keySet());
 		Collections.sort(nodeIds);
 		for (String nodeId : nodeIds) {
-			String classpath = document.getClasspath() + "." + document.getNodeById(nodeId).getClasspath();
+			String classpath = document.getPackageName() + "." + document.getNodeById(nodeId).getClasspath();
 			try {
 				// Class<?> clasS =
 				// ClassLoader.getSystemClassLoader().loadClass(classpath);

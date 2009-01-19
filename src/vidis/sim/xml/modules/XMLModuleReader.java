@@ -71,11 +71,15 @@ public class XMLModuleReader implements CommonDomParser {
 			int moduleNodesFound) throws DocumentMalformedException {
 		for (int j = 0; j < module.getChildNodes().getLength(); j++) {
 			Node moduleChild = module.getChildNodes().item(j);
-			if (moduleChild.getNodeName().equalsIgnoreCase("id")) {
-				moduleNodesFound = analyze_id(data,
+			if (moduleChild.getNodeName().equalsIgnoreCase("id")
+					||
+					moduleChild.getNodeName().equalsIgnoreCase("description")) {
+				moduleNodesFound = analyze_description(data,
 						moduleNodesFound, moduleChild);
-			} else if (moduleChild.getNodeName().equalsIgnoreCase("classpath")) {
-				moduleNodesFound = analyze_classpath(data,
+			} else if (moduleChild.getNodeName().equalsIgnoreCase("classpath")
+					||
+					moduleChild.getNodeName().equalsIgnoreCase("package")) {
+				moduleNodesFound = analyze_package(data,
 						moduleNodesFound, moduleChild);
 			} else if (moduleChild.getNodeName().equalsIgnoreCase("nodeDensity")) {
 				moduleNodesFound = analyze_nodeDensity(data,
@@ -347,20 +351,20 @@ public class XMLModuleReader implements CommonDomParser {
 		return moduleNodesFound;
 	}
 
-	private static int analyze_classpath(DocumentData data,
+	private static int analyze_package(DocumentData data,
 			int moduleNodesFound, Node moduleChild) {
 		String classpath = moduleChild.getFirstChild().getNodeValue();
 		// System.out.println("module.classpath=" + classpath);
-		data.setClasspath(classpath);
+		data.setPackageName(classpath);
 		moduleNodesFound++;
 		return moduleNodesFound;
 	}
 
-	private static int analyze_id(DocumentData data, int moduleNodesFound,
+	private static int analyze_description(DocumentData data, int moduleNodesFound,
 			Node moduleChild) {
 		String id = moduleChild.getFirstChild().getNodeValue();
 		// System.out.println("module.id=" + id);
-		data.setId(id);
+		data.setDescription(id);
 		moduleNodesFound++;
 		return moduleNodesFound;
 	}

@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DocumentData {
-	private String id;
-	private String classpath;
+	private String description;
+	private String packageName;
 	private Double density;
 	private Map<String, DocumentDataNode> nodes;
 	private Map<String, DocumentDataLink> links;
@@ -24,12 +24,12 @@ public class DocumentData {
 		return new DocumentData();
 	}
 
-	public String getId() {
-		return id;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Double getNodeDensity() {
@@ -40,12 +40,12 @@ public class DocumentData {
 		this.density = density;
 	}
 
-	public String getClasspath() {
-		return classpath;
+	public String getPackageName() {
+		return packageName;
 	}
 
-	public void setClasspath(String classpath) {
-		this.classpath = classpath;
+	public void setPackageName(String packageName) {
+		this.packageName = packageName;
 	}
 
 	public Map<String, DocumentDataNode> getNodes() {

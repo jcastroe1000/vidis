@@ -1,6 +1,6 @@
 <module>
-	<id>demo simulation</id>
-	<classpath>vidis.modules.echoAlgorithm</classpath>
+	<description>demo simulation</description>
+	<package>vidis.modules.echoAlgorithm</package>
 	<!-- density between 0.0 and 1.0 -->
 	<nodeDensity>0.4</nodeDensity>
 	<objects>
