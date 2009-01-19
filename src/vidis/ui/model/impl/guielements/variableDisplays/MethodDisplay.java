@@ -4,7 +4,7 @@ import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
-import vidis.data.var.AVariable;
+import vidis.data.var.vars.AVariable;
 import vidis.data.var.vars.MethodVariable;
 import vidis.ui.events.MouseClickedEvent;
 import vidis.ui.model.impl.Button;

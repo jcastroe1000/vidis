@@ -6,7 +6,7 @@ import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
-import vidis.data.var.AVariable;
+import vidis.data.var.vars.AVariable;
 
 public class StringDisplay extends Display {
 	private static Logger logger = Logger.getLogger(StringDisplay.class);

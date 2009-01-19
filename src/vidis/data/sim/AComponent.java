@@ -19,13 +19,13 @@ import vidis.data.annotation.ComponentInfo;
 import vidis.data.annotation.Display;
 import vidis.data.annotation.DisplayColor;
 import vidis.data.mod.IUserComponent;
-import vidis.data.var.AVariable;
 import vidis.data.var.IVariableChangeListener;
-import vidis.data.var.AVariable.COMMON_IDENTIFIERS;
-import vidis.data.var.AVariable.COMMON_SCOPES;
+import vidis.data.var.vars.AVariable;
 import vidis.data.var.vars.DefaultVariable;
 import vidis.data.var.vars.FieldVariable;
 import vidis.data.var.vars.MethodVariable;
+import vidis.data.var.vars.AVariable.COMMON_IDENTIFIERS;
+import vidis.data.var.vars.AVariable.COMMON_SCOPES;
 
 /**
  * this is the abstract component superclass that implements

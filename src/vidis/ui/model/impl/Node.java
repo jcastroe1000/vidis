@@ -5,8 +5,8 @@ import java.awt.Color;
 import javax.media.opengl.GL;
 import javax.vecmath.Vector3d;
 
-import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
+import vidis.data.var.vars.AVariable;
 import vidis.ui.config.Configuration;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.MouseMovedEvent;

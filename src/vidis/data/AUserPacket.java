@@ -6,8 +6,8 @@ import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
 import vidis.data.mod.IUserPacket;
 import vidis.data.sim.ISimPacketCon;
-import vidis.data.var.AVariable;
-import vidis.data.var.AVariable.COMMON_SCOPES;
+import vidis.data.var.vars.AVariable;
+import vidis.data.var.vars.AVariable.COMMON_SCOPES;
 
 /**
  * abstract user packet represents a packet by a user;

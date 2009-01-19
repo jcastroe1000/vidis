@@ -14,7 +14,7 @@ import vidis.data.exceptions.ObstructInitCallException;
 import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
 import vidis.data.mod.IUserPacket;
-import vidis.data.var.AVariable;
+import vidis.data.var.vars.AVariable;
 import vidis.data.var.vars.DefaultVariable;
 import vidis.sim.Simulator;
 import vidis.sim.exceptions.ObstructInitRuntimeCallException;

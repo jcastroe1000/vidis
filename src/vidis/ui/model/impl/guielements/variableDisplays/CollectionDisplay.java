@@ -8,7 +8,7 @@ import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
-import vidis.data.var.AVariable;
+import vidis.data.var.vars.AVariable;
 import vidis.data.var.vars.DefaultVariable;
 import vidis.ui.model.impl.Label;
 import vidis.ui.model.impl.guielements.scrollpane.AScrollpane3D;

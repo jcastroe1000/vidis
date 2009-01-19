@@ -9,7 +9,7 @@ import javax.vecmath.Tuple2i;
 
 import org.apache.log4j.Logger;
 
-import vidis.data.var.AVariable;
+import vidis.data.var.vars.AVariable;
 
 public class Tuple2Display extends Display {
 	private static Logger logger = Logger.getLogger(Tuple2Display.class);

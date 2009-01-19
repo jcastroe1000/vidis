@@ -7,9 +7,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import vidis.data.var.AVariable;
 import vidis.data.var.IVariableChangeListener;
 import vidis.data.var.IVariableContainer;
+import vidis.data.var.vars.AVariable;
 import vidis.data.var.vars.MethodVariable;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.structure.ASimObject;

@@ -1,6 +1,6 @@
 package vidis.data.mod;
 
-import vidis.data.var.AVariable;
+import vidis.data.var.vars.AVariable;
 
 /**
  * Basic module component interface that all user implemented modules must implement.

@@ -1,6 +1,6 @@
 package vidis.ui.model.impl.guielements.variableDisplays;
 
-import vidis.data.var.AVariable;
+import vidis.data.var.vars.AVariable;
 import vidis.ui.model.impl.Label;
 
 public abstract class Display extends Label {

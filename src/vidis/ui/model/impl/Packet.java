@@ -9,8 +9,8 @@ import javax.vecmath.Vector3d;
 
 import org.apache.log4j.Logger;
 
-import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
+import vidis.data.var.vars.AVariable;
 import vidis.sim.Simulator;
 import vidis.ui.config.Configuration;
 import vidis.ui.events.IVidisEvent;

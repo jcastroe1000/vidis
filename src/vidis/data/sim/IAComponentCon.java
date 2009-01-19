@@ -2,7 +2,7 @@ package vidis.data.sim;
 
 import java.util.Set;
 
-import vidis.data.var.AVariable;
+import vidis.data.var.vars.AVariable;
 
 /**
  * interface for all abstract user components

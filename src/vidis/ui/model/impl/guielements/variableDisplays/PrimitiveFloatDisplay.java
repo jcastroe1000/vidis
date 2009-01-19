@@ -4,7 +4,7 @@ import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
-import vidis.data.var.AVariable;
+import vidis.data.var.vars.AVariable;
 import vidis.util.Rounding;
 
 public class PrimitiveFloatDisplay extends Display {

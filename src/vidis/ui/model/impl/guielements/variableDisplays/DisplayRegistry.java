@@ -15,7 +15,7 @@ import javax.vecmath.Tuple3i;
 
 import org.apache.log4j.Logger;
 
-import vidis.data.var.AVariable;
+import vidis.data.var.vars.AVariable;
 
 /**
  * holds all known displays and decides which should be instantiated

@@ -17,7 +17,7 @@ import vidis.data.mod.IUserNode;
 import vidis.data.sim.AComponent;
 import vidis.data.sim.SimLink;
 import vidis.data.sim.SimNode;
-import vidis.data.var.AVariable;
+import vidis.data.var.vars.AVariable;
 import vidis.data.var.vars.DefaultVariable;
 import vidis.sim.classloader.VidisClassLoader;
 import vidis.sim.classloader.modules.impl.dir.FileModuleFile;

@@ -13,8 +13,8 @@ import javax.vecmath.Vector3d;
 import org.apache.log4j.Logger;
 
 import vidis.data.sim.SimLink;
-import vidis.data.var.AVariable;
 import vidis.data.var.IVariableContainer;
+import vidis.data.var.vars.AVariable;
 import vidis.ui.config.Configuration;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.model.structure.ASimObject;

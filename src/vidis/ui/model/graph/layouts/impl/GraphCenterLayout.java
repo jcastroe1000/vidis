@@ -9,7 +9,7 @@ import javax.vecmath.Point3d;
 import org.apache.log4j.Logger;
 
 import vidis.data.sim.SimNode;
-import vidis.data.var.AVariable;
+import vidis.data.var.vars.AVariable;
 import vidis.ui.model.graph.layouts.AGraphLayout;
 import vidis.ui.model.graph.layouts.GraphLayout;
 
