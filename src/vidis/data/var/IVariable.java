@@ -1,5 +1,7 @@
 package vidis.data.var;
 
+import vidis.data.var.vars.MethodVariable;
+
 public interface IVariable extends IVariableChangeProducer {
 	/**
 	 * retrieves the identifier of this variable.
@@ -32,4 +34,13 @@ public interface IVariable extends IVariableChangeProducer {
 	 * @return the data object to get
 	 */
 	public abstract Object getData();
+	
+	/**
+	 * retrieves the data contained within this variable if
+	 * the variable data depends on parameters.
+	 * @see MethodVariable#getData(Object...)
+	 * @param args the arguments needed
+	 * @return the data object to get
+	 */
+	public abstract Object getData(Object... args);
 }

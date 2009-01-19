@@ -71,6 +71,10 @@ public abstract class AVariable implements IVariable {
 	 * @return the variable class type
 	 */
 	public abstract Class<? extends AVariable> getVariableType();
+	
+	public Object getData(Object... args) {
+		return getData();
+	}
 
 	/**
 	 * retrieves the namespace or scope of this variable. This

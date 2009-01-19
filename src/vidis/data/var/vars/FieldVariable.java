@@ -2,6 +2,8 @@ package vidis.data.var.vars;
 
 import java.lang.reflect.Field;
 
+import org.apache.log4j.Logger;
+
 
 /**
  * a field variable; this class uses reflection to get the
@@ -33,6 +35,7 @@ public class FieldVariable extends AVariable {
 	private Field field;
 	private Object last_value;
 	private boolean changed = false;
+	private static Logger logger = Logger.getLogger(FieldVariable.class);
 
 	private Object invoke() throws IllegalArgumentException, IllegalAccessException {
 		Object tmp = field.get(object);
@@ -46,10 +49,8 @@ public class FieldVariable extends AVariable {
 
 	public String toString() {
 		try {
-			// tmp = field.invoke(object, arguments);
 			return invoke().toString();
 		} catch (IllegalArgumentException e) {
-			//Logger.output(LogLevel.ERROR, this, e);
 			return e.getMessage();
 		} catch (IllegalAccessException e) {
 			return "field is not public!";
@@ -68,11 +69,9 @@ public class FieldVariable extends AVariable {
 		try {
 			return invoke();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger .error(e);
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		}
 		return null;
 	}
