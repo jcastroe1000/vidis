@@ -3,6 +3,9 @@ package vidis.data.var;
 import java.util.ArrayList;
 import java.util.List;
 
+import vidis.data.var.vars.FieldVariable;
+import vidis.data.var.vars.MethodVariable;
+
 public abstract class AVariable implements IVariableChangeProducer {
 	public static final class COMMON_SCOPES {
 		public static final String USER = "user";
@@ -27,24 +30,21 @@ public abstract class AVariable implements IVariableChangeProducer {
 		setIdentifier(id);
 	}
 	
-//	@Deprecated
-//	public AVariable(String id, DisplayType type) {
-//		this(id);
-////		setDisplayType(type);
-//	}
-	
+	/**
+	 * retrieves the data contained within this variable.
+	 * @return the data object to get
+	 */
 	public abstract Object getData();
-	public abstract Class<?> getDataType();
 	
-//	@Deprecated
-//	private void setDisplayType(DisplayType type) {
-//		this.displayType = type;
-//	}
-//	
-//	@Deprecated
-//	public DisplayType getDisplayType() {
-//		return displayType;
-//	}
+	/**
+	 * retrieves the data type class contained within this variable.
+	 * <p>
+	 * This method should be used whenever type checking is required
+	 * instead of getData().getClass()!
+	 * </p>  
+	 * @return the class object of the contained data
+	 */
+	public abstract Class<?> getDataType();
 	
 	/**
 	 * retrieve the identifier of this variable
@@ -79,15 +79,31 @@ public abstract class AVariable implements IVariableChangeProducer {
 		return variableChangeListeners;
 	}
 	
+	/**
+	 * retrieves the variable class type of this variable.
+	 * @see DefaultVariable
+	 * @see FieldVariable
+	 * @see MethodVariable
+	 * @return the variable class type
+	 */
 	public abstract Class<? extends AVariable> getVariableType();
 
+	/**
+	 * retrieves the namespace or scope of this variable. This
+	 * could be one of: system, user
+	 * @see #getNamespace(String)
+	 * @return the namespace
+	 */
 	public String getNameSpace() {
-		String ns = "";
-		int occ = getIdentifier().indexOf('.');
-		if (occ >= 0) {
-			ns = getIdentifier().substring(0, occ);
-		}
-		return ns;
+		return getNamespace(this.getIdentifier());
+	}
+	
+	/**
+	 * retrieves the identifier without the initial namespace.
+	 * @return the identifier without namespace
+	 */
+	public String getIdentifierWithoutNamespace() {
+		return getIdentifierWithoutNamespace(this.getIdentifier());
 	}
 	
 	/**
@@ -96,7 +112,13 @@ public abstract class AVariable implements IVariableChangeProducer {
 	 */
 	public abstract void update(Object data);
 	
-	
+	/**
+	 * retrieves the namespace or scope of this variable. This could
+	 * be one of: system, user. This method is a generic static
+	 * version used within {@link #getNameSpace()}.
+	 * @param id the id to check
+	 * @return the namespace of the parameter id
+	 */
 	public static String getNamespace( String id ) {
 		String ns = "";
 		int occ = id.indexOf('.');
@@ -106,6 +128,13 @@ public abstract class AVariable implements IVariableChangeProducer {
 		return ns;
 	}
 	
+	/**
+	 * retrieves the identifier without the initial namespace.
+	 *  This method is a generic static
+	 * version used within {@link #getIdentifierWithoutNamespace()}.
+	 * @param id the identifier to trim the namespace from
+	 * @return the identifier without namespace
+	 */
 	public static String getIdentifierWithoutNamespace( String id ) {
 		return id.replaceFirst(getNamespace(id) + ".", "");
 	}
