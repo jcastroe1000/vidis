@@ -3,6 +3,8 @@ package vidis.data.var.vars;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.apache.log4j.Logger;
+
 
 /**
  * a method variable; this variable uses reflection to retrieve the
@@ -12,6 +14,7 @@ import java.lang.reflect.Method;
  *
  */
 public class MethodVariable extends AVariable {
+	private static Logger logger = Logger.getLogger(MethodVariable.class);
 	/**
 	 * the constructor you should use
 	 * @param id the identifier of this variable
@@ -57,14 +60,11 @@ public class MethodVariable extends AVariable {
     	try {
 			return method.invoke(object);
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		}
 		return null;
     }
@@ -73,14 +73,11 @@ public class MethodVariable extends AVariable {
     	try {
 			return method.invoke(object, args);
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		}
 		return null;
     }
