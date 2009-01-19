@@ -1,7 +1,5 @@
 package vidis.ui.model.impl.guielements.variableDisplays;
 
-import java.awt.Color;
-
 import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
@@ -25,7 +23,7 @@ public class PrimitiveByteDisplay extends Display {
 	@Override
 	public void renderContainer(GL gl) {
 		if ( var != null ) {
-			String txt = "   " + AVariable.getIdentifierWithoutNamespace(var.getIdentifier()) + " -> ";
+			String txt = "   " + var.getIdentifierWithoutNamespace() + " -> ";
 			Object num = var.getData();
 			if (Byte.class.isAssignableFrom(num.getClass()) || num.getClass().equals(Byte.TYPE)) {
 				txt += ((Byte)num);

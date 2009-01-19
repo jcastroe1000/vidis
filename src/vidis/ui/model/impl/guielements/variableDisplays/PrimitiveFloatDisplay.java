@@ -1,15 +1,10 @@
 package vidis.ui.model.impl.guielements.variableDisplays;
 
-import java.awt.Color;
-
 import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
 import vidis.data.var.AVariable;
-import vidis.data.var.vars.DefaultVariable;
-import vidis.data.var.vars.FieldVariable;
-import vidis.data.var.vars.MethodVariable;
 import vidis.util.Rounding;
 
 public class PrimitiveFloatDisplay extends Display {
@@ -29,7 +24,7 @@ public class PrimitiveFloatDisplay extends Display {
 	@Override
 	public void renderContainer(GL gl) {
 		if ( var != null ) {
-			String txt = "   " + AVariable.getIdentifierWithoutNamespace(var.getIdentifier()) + " -> ";
+			String txt = "   " + var.getIdentifierWithoutNamespace() + " -> ";
 			Object num = var.getData();
 			if (Float.class.isAssignableFrom(num.getClass()) || num.getClass().equals(Float.TYPE)) {
 				txt += Rounding.round((Float)num, 3);

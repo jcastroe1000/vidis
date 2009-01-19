@@ -1,16 +1,10 @@
 package vidis.ui.model.impl.guielements.variableDisplays;
 
-import java.awt.Color;
-
 import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
 import vidis.data.var.AVariable;
-import vidis.data.var.vars.DefaultVariable;
-import vidis.data.var.vars.FieldVariable;
-import vidis.data.var.vars.MethodVariable;
-import vidis.util.Rounding;
 
 public class PrimitiveLongDisplay extends Display {
 	private static Logger logger = Logger.getLogger(PrimitiveLongDisplay.class);
@@ -29,7 +23,7 @@ public class PrimitiveLongDisplay extends Display {
 	@Override
 	public void renderContainer(GL gl) {
 		if ( var != null ) {
-			String txt = "   " + AVariable.getIdentifierWithoutNamespace(var.getIdentifier()) + " -> ";
+			String txt = "   " + var.getIdentifierWithoutNamespace() + " -> ";
 			Object num = var.getData();
 			if (Long.class.isAssignableFrom(num.getClass()) || num.getClass().equals(Long.TYPE)) {
 				txt += (Long)num;
