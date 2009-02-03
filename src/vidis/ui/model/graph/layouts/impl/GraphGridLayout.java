@@ -75,50 +75,66 @@ public class GraphGridLayout extends AGraphLayout {
 		Point3d nextPoint = new Point3d(currentPoint);
 		// test where we are
 		if ( nextPoint.z == 0 ) {
-			// lower bound, go right and then up
-			if(state == State.DOWN) {
-				state = State.RIGHT;
-				nextPoint.x += x;
-			} else if (state == State.RIGHT ) {
-				state = State.UP;
-				nextPoint.z += z;
-			}
+			generatePoint_zEQ0(nextPoint);
 		} else if (nextPoint.x == 0) {
-			// left bound, go up and then right
-			if(state == State.LEFT) {
-				state = State.UP;
-				nextPoint.z += z;
-			} else if (state == State.UP) {
-				state = State.RIGHT;
-				nextPoint.x += x;
-			}
+			generatePoint_xEQ0(nextPoint);
 		} else if (nextPoint.x == nextPoint.z) {
-			// middle, if coming from left, go down
-			// if coming from down, go left
-			if(state == State.RIGHT) {
-				state = State.DOWN;
-				nextPoint.z -= z;
-			} else if (state == State.UP) {
-				state = State.LEFT;
-				nextPoint.x -= x;
-			}
+			generatePoint_xEQz(nextPoint);
 		} else {
-			if(state == State.UP) {
-				// go up
-				nextPoint.z += z;
-			} else if (state == State.LEFT) {
-				// go left
-				nextPoint.x -= x;
-			} else if(state ==State.RIGHT) {
-				// go right
-				nextPoint.x += x;
-			} else if(state == State.DOWN) {
-				// go down
-				nextPoint.z -= z;
-			}
+			generatePoint_else(nextPoint);
 		}
 		points.add(nextPoint);
 		return nextPoint;
+	}
+
+	private void generatePoint_else(Point3d nextPoint) {
+		if(state == State.UP) {
+			// go up
+			nextPoint.z += z;
+		} else if (state == State.LEFT) {
+			// go left
+			nextPoint.x -= x;
+		} else if(state ==State.RIGHT) {
+			// go right
+			nextPoint.x += x;
+		} else if(state == State.DOWN) {
+			// go down
+			nextPoint.z -= z;
+		}
+	}
+
+	private void generatePoint_xEQz(Point3d nextPoint) {
+		// middle, if coming from left, go down
+		// if coming from down, go left
+		if(state == State.RIGHT) {
+			state = State.DOWN;
+			nextPoint.z -= z;
+		} else if (state == State.UP) {
+			state = State.LEFT;
+			nextPoint.x -= x;
+		}
+	}
+
+	private void generatePoint_xEQ0(Point3d nextPoint) {
+		// left bound, go up and then right
+		if(state == State.LEFT) {
+			state = State.UP;
+			nextPoint.z += z;
+		} else if (state == State.UP) {
+			state = State.RIGHT;
+			nextPoint.x += x;
+		}
+	}
+
+	private void generatePoint_zEQ0(Point3d nextPoint) {
+		// lower bound, go right and then up
+		if(state == State.DOWN) {
+			state = State.RIGHT;
+			nextPoint.x += x;
+		} else if (state == State.RIGHT ) {
+			state = State.UP;
+			nextPoint.z += z;
+		}
 	}
 	
 	public void apply(Collection<SimNode> nodes) throws Exception {
