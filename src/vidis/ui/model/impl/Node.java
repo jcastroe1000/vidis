@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.media.opengl.GL;
 import javax.vecmath.Vector3d;
 
+import vidis.data.var.IVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.data.var.vars.AVariable;
 import vidis.ui.config.Configuration;
@@ -83,7 +84,8 @@ public class Node extends ASimObject {
 				return (String) v.getData();
 			}
 			else {
-				return "No '"+key+"' variable set!";
+				// fallback to ID
+				return (String) fetchVariableContainer().getVariableById( AVariable.COMMON_IDENTIFIERS.ID ).getData();
 			}
 		}
 
@@ -95,7 +97,8 @@ public class Node extends ASimObject {
 				return (String) v.getData();
 			}
 			else {
-				return "No '"+key+"' variable set!";
+				// fallback to empty string
+				return "";
 			}
 		}
 
