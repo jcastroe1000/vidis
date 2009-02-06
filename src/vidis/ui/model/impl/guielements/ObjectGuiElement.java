@@ -29,6 +29,10 @@ public abstract class ObjectGuiElement extends BasicGuiContainer {
 		requireTextRenderer();
 	}
 	
+	protected abstract boolean hasHeader1();
+	protected abstract boolean hasHeader2();
+	
+	
 	public void init() {
 		setColor1( Color.white );
 		setColor2( Color.white );
@@ -49,14 +53,20 @@ public abstract class ObjectGuiElement extends BasicGuiContainer {
 			
 			@Override
 			public void renderContainer(GL gl) {
-				super.renderContainer(gl);
-				double h = getHeight();
-				double w = getWidth();
-				gl.glPushMatrix();
-					gl.glTranslated(0, 0, 0);
-					renderTextToRect(gl, getHeaderLine1(), Color.white, 0, h / 2d, w, h / 2d );
-					renderTextToRect(gl, getHeaderLine2(), Color.white, 0, 0, w, h / 2d );
-				gl.glPopMatrix();
+				if(hasHeader1() || hasHeader2()) {
+					super.renderContainer(gl);
+					double h = getHeight();
+					double w = getWidth();
+					gl.glPushMatrix();
+						gl.glTranslated(0, 0, 0);
+						if(hasHeader1()) {
+							renderTextToRect(gl, getHeaderLine1(), Color.white, 0, h / 2d, w, h / 2d );
+						}
+						if(hasHeader2()) {
+							renderTextToRect(gl, getHeaderLine2(), Color.white, 0, 0, w, h / 2d );
+						}
+					gl.glPopMatrix();
+				}
 			}
 		};
 		((BasicGuiContainer)onScreenLabel).setColor1( Color.BLACK );

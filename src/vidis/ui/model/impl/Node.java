@@ -62,7 +62,19 @@ public class Node extends ASimObject {
 			Node.this.setHighlighted( false );
 			super.onMouseExit(e);
 		}
-
+		
+		@Override
+		protected boolean hasHeader1() {
+			String id = "user.header1";
+			return fetchVariableContainer().hasVariable(id);
+		}
+		
+		@Override
+		protected boolean hasHeader2() {
+			String id = "user.header2";
+			return fetchVariableContainer().hasVariable(id);
+		}
+		
 		@Override
 		protected String getHeaderLine1() {
 			String key = "user.header1";
