@@ -12,6 +12,8 @@ import vidis.util.graphs.graph.algorithm.TopologicalSorting;
  *
  * A cylic path is a path from a vertex back to itself by following the
  * direction of the edges.
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
  */
 
 public class DirectedAcyclicGraphImpl extends GraphImpl implements DirectedAcyclicGraph {

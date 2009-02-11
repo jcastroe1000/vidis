@@ -15,6 +15,8 @@ import vidis.util.graphs.util.Queue;
  * A concrete subclass of GraphTraversal that uses breadth-first search
  * in traversing a graph. Note that the traverse() method will only
  * traverse the connected set to which the Vertex the traversal will start at belongs.
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
  */
 
 public class BreadthFirstGraphTraversal extends GraphTraversal {

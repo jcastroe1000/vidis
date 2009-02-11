@@ -2,6 +2,11 @@ package vidis.util.graphs.util;
 
 import java.util.*;
 
+/**
+ * A collections class.
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
+ */
 public class Collections {
 
   /**

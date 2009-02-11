@@ -2,7 +2,8 @@ package vidis.util.graphs.graph;
 
 /**
  * A <tt>Visitor</tt> that notifies a traversal to stop at a particular <tt>Vertex</tt>.
- *
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
  */
 
 class StopAtVisitor extends NullVisitor {

@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * The Heap class implements a heap data structure, also called a priority queue.
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
  */
 
 public class Heap implements Serializable {

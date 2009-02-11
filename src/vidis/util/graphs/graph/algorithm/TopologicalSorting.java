@@ -13,6 +13,8 @@ import vidis.util.graphs.graph.Visitor;
 /**
  * A concrete subclass of GraphTraversal that performs a topological sort
  * against a directed acyclic graph.
+ * 
+ * @author Ralf Vandenhouten
  */
 
 public class TopologicalSorting extends GraphTraversal {

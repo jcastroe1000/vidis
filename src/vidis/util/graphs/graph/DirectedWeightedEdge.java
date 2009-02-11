@@ -2,6 +2,8 @@ package vidis.util.graphs.graph;
 
 /**
  * Represents a directed and weighted edge in a graph.
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
  */
 public class DirectedWeightedEdge extends DirectedEdge {
 

@@ -5,6 +5,8 @@ import java.io.*;
 /**
  * A node in a <tt>Heap</tt>, encapsulating the actual object represented by
  * the noode plus the priority of the node in the heap.
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
  */
 
 public class HeapNode implements Serializable {

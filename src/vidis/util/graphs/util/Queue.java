@@ -9,6 +9,8 @@ import java.io.*;
  * this class does not extend java.util.LinkedList but delegates its methods
  * to a java.util.LinkedList. Therefore, unlike java.util.Stack,
  * the methods from java.util.LinkedList are not available.
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
  */
 
 public class Queue implements Serializable {

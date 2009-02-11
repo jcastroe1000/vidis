@@ -7,6 +7,8 @@ import java.io.*;
  * A Comparator to compare HeapNodes based on their priority.
  * Two <tt>HeapNode</tt>s are the same if they have the same priority,
  * regardless of the object encaspulated by the <tt>HeapNode</tt>s.
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
  */
 public class HeapNodeComparator implements Comparator<Object>, Serializable {
   /**

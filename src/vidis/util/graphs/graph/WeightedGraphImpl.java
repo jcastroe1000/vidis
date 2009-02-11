@@ -6,6 +6,8 @@ import java.util.TreeSet;
 /**
  * An implementation of the WeightedGraph interface where all
  * edges in the graph have a weight.
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
  */
 
 public class WeightedGraphImpl extends GraphImpl implements WeightedGraph {

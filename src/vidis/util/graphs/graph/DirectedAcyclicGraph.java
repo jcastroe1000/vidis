@@ -8,6 +8,8 @@ import java.util.*;
  *
  * A cylic path is a path from a vertex back to itself by following the
  * direction of the edges.
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
  */
 
 public interface DirectedAcyclicGraph extends Graph {

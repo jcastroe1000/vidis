@@ -15,6 +15,8 @@ import vidis.util.graphs.graph.algorithm.GraphTraversal;
  * An implementation of the Graph interface. A Graph object
  * represents a graph data structure, which are vertices
  * connected by edges, where the edges are non-directional.
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
  */
 public class GraphAdMatrix implements Graph {
 

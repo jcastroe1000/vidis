@@ -2,6 +2,8 @@ package vidis.util.graphs.graph;
 
 /**
  * Represents an undirected edge in a graph.
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
  */
 public class Edge implements GraphComponent {
   /**

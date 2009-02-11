@@ -5,6 +5,8 @@ import vidis.util.graphs.graph.GraphException;
 /**
  * Thrown when a <tt>GraphColoring</tt> class needs more colors than
  * specified by the caller.
+ * 
+ * @author Ralf Vandenhouten
  */
 
 public class NotEnoughColorsException extends GraphException {

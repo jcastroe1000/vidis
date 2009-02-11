@@ -1,5 +1,11 @@
 package vidis.util.graphs.graph;
 
+/**
+ * A network exception.
+ * 
+ * @author Ralf Vandenhouten
+ *
+ */
 public class NetworkException extends GraphException {
 
     public NetworkException() {

@@ -5,6 +5,8 @@ import java.io.*;
 
 /**
  * An interface for Graphs.
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
  */
 public interface Graph extends Serializable {
 

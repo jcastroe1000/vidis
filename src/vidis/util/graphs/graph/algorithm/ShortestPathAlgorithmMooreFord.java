@@ -16,6 +16,8 @@ import vidis.util.graphs.util.Queue;
  * of E.F. Moore and L.R. Ford.
  * Note that the Moore-Ford method can only be applied to graphs without a
  * cycle that has a negative length.
+ * 
+ * @author Ralf Vandenhouten
  */
 
 public class ShortestPathAlgorithmMooreFord extends ShortestPathAlgorithm {

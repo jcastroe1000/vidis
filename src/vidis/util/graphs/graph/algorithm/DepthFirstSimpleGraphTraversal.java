@@ -14,6 +14,8 @@ import vidis.util.graphs.graph.Visitor;
  * A concrete subclass of GraphTraversal that uses depth-first search
  * in traversing a graph. Note that the traverse() method will only
  * traverse the connected set to which the Vertex the traversal will start at belongs.
+ * 
+ * @author Ralf Vandenhouten
  */
 
 public class DepthFirstSimpleGraphTraversal extends GraphTraversal {

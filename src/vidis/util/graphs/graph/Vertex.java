@@ -5,6 +5,8 @@ package vidis.util.graphs.graph;
  * A vertex in a graph. This class encapsulates an object that the vertex will represent.
  * Hence, a Vertex can represent any object that extends java.lang.Object by simply
  * calling setObject() or specifying the objet on the constructor.
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
  */
 public class Vertex implements GraphComponent {
 

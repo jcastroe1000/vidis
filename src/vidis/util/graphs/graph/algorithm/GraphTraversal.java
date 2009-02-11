@@ -16,6 +16,8 @@ import vidis.util.graphs.graph.Visitor;
  * algorithm to be used.
  *
  * Concrete implementations of this class must never modify the Graph itself.
+ * 
+ * @author Ralf Vandenhouten
  */
 
 public abstract class GraphTraversal implements Serializable {

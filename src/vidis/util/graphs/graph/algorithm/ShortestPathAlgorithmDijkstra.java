@@ -18,6 +18,8 @@ import vidis.util.graphs.util.HeapNodeComparator;
  * A concrete implementation of ShortestPathAlgorithm using Dijkstra's method.
  * Note that the Dijkstra method can only be used for graphs with
  * non-negative edge weights.
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
  */
 
 public class ShortestPathAlgorithmDijkstra extends ShortestPathAlgorithm {

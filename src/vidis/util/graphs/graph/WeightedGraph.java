@@ -3,6 +3,8 @@ package vidis.util.graphs.graph;
 
 /**
  * A interface for a Graph where all edges have a specified weight.
+ * 
+ * @author Jesus M. Salvo Jr., Ralf Vandenhouten
  */
 
 public interface WeightedGraph extends Graph {
