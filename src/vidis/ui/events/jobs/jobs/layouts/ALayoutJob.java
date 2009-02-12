@@ -17,6 +17,7 @@ import vidis.ui.events.jobs.ILayoutJob;
 public abstract class ALayoutJob implements ILayoutJob {
 	private static Logger logger = Logger.getLogger(ALayoutJob.class);
 	public void run() {
+		logger.info("starting job: " + this);
 		try {
 			getLayout().apply(getNodes());
 		} catch (Exception e) {

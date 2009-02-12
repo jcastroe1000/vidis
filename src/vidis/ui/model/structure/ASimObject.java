@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import vidis.data.annotation.ColorType;
 import vidis.data.var.IVariableContainer;
 import vidis.data.var.vars.AVariable;
+import vidis.data.var.vars.DefaultVariable;
 import vidis.ui.events.AEventHandler;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.VidisEvent;
@@ -92,6 +93,14 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 		return obj.getVariableIds();
 	}
 	
+	protected boolean hasVariableId( String id ) {
+		return obj.hasVariable( id );
+	}
+	
+	protected void registerVariable(AVariable var) {
+		obj.registerVariable(var);
+	}
+	
 	protected final void useColor( GL gl, Color c ) {
 		gl.glColor4d( c.getRed() / 255d, c.getGreen() / 255d, c.getBlue() / 255d, c.getAlpha() / 255d );
 	}
@@ -118,6 +127,10 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	}
 	
 	public Point3d getPosition() {
+		if(!hasVariableId( AVariable.COMMON_IDENTIFIERS.POSITION )) {
+			logger.warn( "object position not set!" );
+			registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.POSITION, new Point3d(0,0,0)));
+		}
 		return new Point3d( (Tuple3d)getVariableById( AVariable.COMMON_IDENTIFIERS.POSITION ).getData() );
 	}
 	

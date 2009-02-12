@@ -39,17 +39,29 @@ public class JobController extends AController {
 		registerEvent( IVidisEvent.AppendJob, IVidisEvent.CleanDoneJobs );
 		// register the job remover job :-P
 		Dispatcher.forwardEvent( new JobAppend(new IJob() {
-			private double executeEvery = 5000;
-			private double last = System.currentTimeMillis();
+			private long executeEvery = 5000;
+			private long last = System.currentTimeMillis();
 			public boolean mustExecuteUniquely() {
 				return true;
 			}
 			public void run() {
-				if(System.currentTimeMillis() - last < executeEvery) {
-					// execute a cleanup
-					Dispatcher.forwardEvent( IVidisEvent.CleanDoneJobs );
-					last = System.currentTimeMillis();
+				while(true) {
+					if(System.currentTimeMillis() - last < executeEvery) {
+						// execute a cleanup
+						Dispatcher.forwardEvent( IVidisEvent.CleanDoneJobs );
+						last = System.currentTimeMillis();
+					}
+					try {
+						Thread.sleep(executeEvery);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
+			}
+			@Override
+			public String toString() {
+				return "job remover job";
 			}
 		}) );
 	}
@@ -61,7 +73,7 @@ public class JobController extends AController {
 		for(Entry<IJob, Future<?>> e : futureJobs.entrySet()) {
 			if(e.getValue().isDone()) {
 				// report it
-				logger.info("Finished job: " + e.getKey());
+				logger.info("Finished job: " + e.getKey() + " @ " + e.getValue());
 				// clean done jobs
 				futureJobsToRemove.add(e.getKey());
 			}
@@ -99,6 +111,7 @@ public class JobController extends AController {
 							}
 						}
 					}
+					logger.info("received job: " + j + "; submitting: " + submit);
 					if(submit) {
 						Future<?> fj = executer.submit(j);
 						futureJobs.put(j, fj);

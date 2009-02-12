@@ -174,6 +174,7 @@ public class SimulatorController extends AController {
 			break;
 		case IVidisEvent.LayoutApplyGrid:
 			try {
+				logger.info("sending grid layout job");
 				lastLayout  = GraphGridLayout.getInstance();
 				Dispatcher.forwardEvent( new JobAppend (new ALayoutJob() {
 					public IGraphLayout getLayout() {
@@ -181,6 +182,9 @@ public class SimulatorController extends AController {
 					}
 					public Collection<SimNode> getNodes() {
 						return SimulatorController.this.getNodes();
+					}
+					public String toString() {
+						return getLayout() + " on " + getNodes().size();
 					}
 				}));
 				} catch (Exception e) {
