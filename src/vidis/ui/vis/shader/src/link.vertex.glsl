@@ -36,10 +36,18 @@ vec3 recalculateVertex(vec3 packet, vec3 vertex, float distance) {
 vec3 calculateAddVec( vec3 dir ) {
 	float l = length( dir );
 	if ( l <= 1.5 ) {
-		return functioner( l ) * normalize( dir ) - dir;
+		return maximizeAddVec ( functioner( l ) * normalize( dir ) - dir );
 	}else {
 		return vec3( 0, 0, 0 );
 	}
+}
+
+vec3 maximizeAddVec( vec3 vec ) {
+	float maxLength = 1.0;
+	if ( length ( vec ) > maxLength ) {
+		vec = vec -  ( vec * ( maxLength - length (vec) ) ); 
+	}
+	return vec;
 }
 
 
