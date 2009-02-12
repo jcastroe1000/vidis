@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -32,31 +31,26 @@ import vidis.ui.mvc.api.Dispatcher;
 public class JobController extends AController {
 	private static Logger logger = Logger.getLogger(JobController.class);
 	
-	private BlockingQueue<Runnable> jobs = new ArrayBlockingQueue<Runnable>( 150 );
-	private ThreadPoolExecutor executer = new ThreadPoolExecutor( 3, 3, 30, TimeUnit.SECONDS, jobs);
+	private ThreadPoolExecutor executer = new ThreadPoolExecutor( 3, 3, 30, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>( 150 ));
+	
+	private Map<IJob, Future<?>> futureJobs = new HashMap<IJob, Future<?>>();
+	private List<IJob> futureJobsToRemove = new LinkedList<IJob>();
+	
+	private static long last = System.currentTimeMillis();
 	
 	public JobController() {
 		registerEvent( IVidisEvent.AppendJob, IVidisEvent.CleanDoneJobs );
 		// register the job remover job :-P
 		Dispatcher.forwardEvent( new JobAppend(new IJob() {
 			private long executeEvery = 5000;
-			private long last = System.currentTimeMillis();
 			public boolean mustExecuteUniquely() {
 				return true;
 			}
 			public void run() {
-				while(true) {
-					if(System.currentTimeMillis() - last < executeEvery) {
-						// execute a cleanup
-						Dispatcher.forwardEvent( IVidisEvent.CleanDoneJobs );
-						last = System.currentTimeMillis();
-					}
-					try {
-						Thread.sleep(executeEvery);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				if(System.currentTimeMillis() - last < executeEvery) {
+					// execute a cleanup
+					Dispatcher.forwardEvent( IVidisEvent.CleanDoneJobs );
+					last = System.currentTimeMillis();
 				}
 			}
 			@Override
@@ -65,9 +59,6 @@ public class JobController extends AController {
 			}
 		}) );
 	}
-	
-	private Map<IJob, Future<?>> futureJobs = new HashMap<IJob, Future<?>>();
-	private List<IJob> futureJobsToRemove = new LinkedList<IJob>();
 	
 	private void removeDoneFutureJobs() {
 		for(Entry<IJob, Future<?>> e : futureJobs.entrySet()) {
