@@ -99,6 +99,8 @@ public class SimulatorController extends AController {
 						if(Configuration.USE_AUTOMATIC_DETAIL_LEVEL) {
 							// reset detail level
 							Configuration.DETAIL_LEVEL = 0.0;
+							
+							Dispatcher.forwardEvent(IVidisEvent.AutoAdjustDetailLevel);
 						}
 						
 						// apply a nice layout

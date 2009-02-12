@@ -88,6 +88,7 @@ public class SceneController extends AController implements GLEventListener {
 	private NodeField nodeCapturingSource = null;
 	private PacketField packetCapturingSource = null;
 	private int warnLevel_laptopTooSlow;
+	private int autoAdjustDetailLevelCounter;
 	
 	public SceneController() {
 		logger.debug( "Constructor()" );
@@ -109,12 +110,17 @@ public class SceneController extends AController implements GLEventListener {
 					   IVidisEvent.StartPacketCapturing );
 		
 		registerEvent( IVidisEvent.SelectASimObject );
+		
+		registerEvent( IVidisEvent.AutoAdjustDetailLevel );
 	}
 	
 	@Override
 	public void handleEvent( IVidisEvent event ) {
 		logger.debug( "handleEvent( "+event+" )" );
 		switch ( event.getID() ) {
+		case IVidisEvent.AutoAdjustDetailLevel:
+			autoAdjustDetailLevelCounter = Configuration.USE_AUTOMATIC_DETAIL_LEVEL_COUNTER;
+			break;
 		case IVidisEvent.InitScene:
 			initialize();
 
@@ -287,7 +293,8 @@ public class SceneController extends AController implements GLEventListener {
 		}
 		
 		double fpsMiddle = median(fps_log);
-		if(Configuration.USE_AUTOMATIC_DETAIL_LEVEL) {
+		if(Configuration.USE_AUTOMATIC_DETAIL_LEVEL && autoAdjustDetailLevelCounter > 0) {
+			autoAdjustDetailLevelCounter--;
 			// here we check if we have to decrease / increase the detail level
 			if( fpsMiddle > 0 && fps_log.size() == fps_log_max ) {
 				if ( ! inRange(fpsMiddle, wantedFps-2, wantedFps+2) ) {

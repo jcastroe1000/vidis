@@ -71,4 +71,6 @@ public interface IVidisEvent {
 	public final int AppendJob = 6000;
 	public final int CleanDoneJobs = 6001;
 	
+	public final int AutoAdjustDetailLevel = 7000;
+	
 }
