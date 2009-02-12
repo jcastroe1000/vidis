@@ -90,12 +90,16 @@ public class Player {
 
 	public void stop() {
 		stopped = true;
-		paused = true;
+		paused = false;
 	}
 
 	public void kill() {
 		stop();
 		killed = true;
+	}
+	
+	public boolean isStopped() {
+		return stopped;
 	}
 
 	public boolean isPaused() {

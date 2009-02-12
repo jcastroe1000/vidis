@@ -9,6 +9,7 @@ import java.awt.Color;
 
 import org.apache.log4j.Logger;
 
+import vidis.sim.Simulator;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.mvc.api.Dispatcher;
 
@@ -64,23 +65,25 @@ public class PlayPauseStop extends BasicGuiContainer {
 		this.addChild( stop );
 	}
 	
+	private boolean isPause() {
+		return Simulator.getInstance().getPlayer().isPaused();
+	}
+	
+	private boolean isStop() {
+		return Simulator.getInstance().getPlayer().isStopped();
+	}
+	
 	private void update(){
-		if ( isPlay ) {
+		if ( !isStop() ) {
 			play.setColor1( Color.GREEN );
 		}
 		else {
 			play.setColor1( Color.GRAY );
 		}
-		if ( isPause ) {
+		if ( isPause()       ) {
 			pause.setColor1( Color.YELLOW );
-		}
-		else {
+		} else {
 			pause.setColor1( Color.GRAY );
 		}
-		
 	}
-	
-	
-	
-	
 }
