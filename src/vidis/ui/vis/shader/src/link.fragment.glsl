@@ -44,7 +44,7 @@ void main() {
 	vec4 reflect_color = vec4( (gl_Color * 0.5).xyz, 0.01);
 	vec4 refract_color = vec4( gl_Color.xyz, 0.3 );
 	
-	fresnel_T = fresnel_T * 0.5;	
+	fresnel_T = fresnel_T * 1.5;	
 	fresnel_R = fresnel_R * 0.5;
 
 	gl_FragColor =

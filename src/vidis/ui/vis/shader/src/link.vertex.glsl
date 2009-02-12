@@ -25,6 +25,9 @@ attribute vec3 packet9;
 varying vec3 normal;
 varying vec3 incom;
 
+vec3 maximizeAddVec( vec3 vec );
+
+
 float functioner(float distance) {
 	return (distance + (1.0/distance)*0.014);
 }
@@ -33,6 +36,7 @@ vec3 recalculateVertex(vec3 packet, vec3 vertex, float distance) {
 	return packet + functioner(distance) * normalize (vertex - packet);
 }
 
+// another useless performance consumer
 vec3 calculateAddVec( vec3 dir ) {
 	float l = length( dir );
 	if ( l <= 1.5 ) {
@@ -43,11 +47,15 @@ vec3 calculateAddVec( vec3 dir ) {
 }
 
 vec3 maximizeAddVec( vec3 vec ) {
-	float maxLength = 1.0;
+	float maxLength = 0.1;
+	vec3 vecr;
 	if ( length ( vec ) > maxLength ) {
-		vec = vec -  ( vec * ( maxLength - length (vec) ) ); 
+		vecr = normalize ( vec ) * maxLength;
 	}
-	return vec;
+	else {
+		vecr = vec;
+	}
+	return vecr;
 }
 
 
