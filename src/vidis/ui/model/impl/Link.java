@@ -8,7 +8,9 @@ package vidis.ui.model.impl;
 import java.awt.Color;
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import javax.media.opengl.GL;
 import javax.vecmath.Point3d;
@@ -183,6 +185,13 @@ public class Link extends ASimObject {
 			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
 	}
 	
+	private Queue<Packet> dir1 = new LinkedList<Packet>();
+	private Queue<Packet> dir2 = new LinkedList<Packet>();
+	private boolean near( Packet a, Packet b ) {
+		Vector3d tmp = new Vector3d( b.getPosition() );
+		tmp.sub( a.getPosition() );
+		return tmp.length() < 0.2;
+	}
 	@Override
 	public void renderObject(GL gl) {
 		setColors( getVariableColor1(), getVariableColor2() );
@@ -192,10 +201,44 @@ public class Link extends ASimObject {
 		
 		useMaterial(gl);
 		
+		// packets
+		dir1.clear();
+		dir2.clear();
+		
+		for ( Packet p : packets ) {
+			int dir = (Integer) p.getVariableContainer().getVariableById( AVariable.COMMON_IDENTIFIERS.PACKETDIRECTION ).getData();
+			if (  dir == 1 ) {
+				boolean add = true;
+				for ( Packet x : dir1 ) {
+					if ( near( p, x ) ) {
+						add = false;	
+					}
+				}
+				if ( add ) dir1.add( p );
+			}
+			else if ( dir == -1 ) {
+				boolean add = true;
+				for ( Packet x : dir2 ) {
+					if ( near( p, x ) ) {
+						add = false;	
+					}
+				}
+				if ( add ) dir2.add( p );
+			}
+			if ( dir1.size() + dir2.size() >= 9 ) {
+				break;
+			}
+		}
+		
+		
+		
 		// data for link vertex shader
 		for( int i=0; i<9; i++) {
-			if(packets.size() > i) {
-				Packet p = packets.get(i);
+			
+			Packet p = dir1.poll();
+			if ( p == null ) p = dir2.poll();
+			
+			if ( p != null ) {
 				Point3d point = p.getPosition();
 				if(point != null) {
 					Vector3d pos = new Vector3d(point);
