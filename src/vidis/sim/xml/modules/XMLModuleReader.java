@@ -150,10 +150,24 @@ public class XMLModuleReader implements CommonDomParser {
 		if (linkChild.hasChildNodes()) {
 			for (int m = 0; m < linkChild.getChildNodes().getLength(); m++) {
 				Node varNode = linkChild.getChildNodes().item(m);
-				if (varNode.hasChildNodes()) {
-					String varName = varNode.getNodeName();
-					String varValue = varNode.getFirstChild().getNodeValue();
-					dataLink.addVariable(varName, varValue);
+				if(varNode.getNodeName().equalsIgnoreCase("variable")) {
+					if (varNode.hasChildNodes()) {
+						String varName = null;
+						String varValue = null;
+						for(int n=0; n<varNode.getChildNodes().getLength(); n++) {
+							Node tmp = varNode.getChildNodes().item(n);
+							if(tmp.getNodeName().equalsIgnoreCase("id")) {
+								varName = tmp.getFirstChild().getNodeValue();
+							} else if(tmp.getNodeName().equalsIgnoreCase("value")) {
+								varValue = tmp.getFirstChild().getNodeValue();
+							}
+						}
+						if(varName != null && varValue != null) {
+//							String varName = varNode.getNodeName();
+//							String varValue = varNode.getFirstChild().getNodeValue();
+							dataLink.addVariable(varName, varValue);
+						}
+					}
 				}
 			}
 			nodeNodesFound++;
@@ -224,10 +238,24 @@ public class XMLModuleReader implements CommonDomParser {
 		if (nodeChild.hasChildNodes()) {
 			for (int m = 0; m < nodeChild.getChildNodes().getLength(); m++) {
 				Node varNode = nodeChild.getChildNodes().item(m);
-				if (varNode.hasChildNodes()) {
-					String varName = varNode.getNodeName();
-					String varValue = varNode.getFirstChild().getNodeValue();
-					dataNode.addVariable(varName, varValue);
+				if(varNode.getNodeName().equalsIgnoreCase("variable")) {
+					if (varNode.hasChildNodes()) {
+						String varName = null;
+						String varValue = null;
+						for(int n=0; n<varNode.getChildNodes().getLength(); n++) {
+							Node tmp = varNode.getChildNodes().item(n);
+							if(tmp.getNodeName().equalsIgnoreCase("id")) {
+								varName = tmp.getFirstChild().getNodeValue();
+							} else if(tmp.getNodeName().equalsIgnoreCase("value")) {
+								varValue = tmp.getFirstChild().getNodeValue();
+							}
+						}
+						if(varName != null && varValue != null) {
+//							String varName = varNode.getNodeName();
+//							String varValue = varNode.getFirstChild().getNodeValue();
+							dataNode.addVariable(varName, varValue);
+						}
+					}
 				}
 			}
 			nodeNodesFound++;

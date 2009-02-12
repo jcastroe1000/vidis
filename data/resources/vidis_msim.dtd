@@ -1,0 +1,34 @@
+<!ELEMENT class ( #PCDATA ) >
+
+<!ELEMENT connection ( nodeA, nodeB, link ) >
+
+<!ELEMENT connections ( connection* ) >
+
+<!ELEMENT delay ( #PCDATA ) >
+
+<!ELEMENT description ( #PCDATA ) >
+
+<!ELEMENT id ( #PCDATA ) >
+
+<!ELEMENT link ( id, class, delay, variables* )* >
+
+<!ELEMENT module ( description?, package, nodeDensity?, objects?, connections? ) >
+
+<!ELEMENT node ( id, class, variables? ) >
+
+<!ELEMENT nodeA ( #PCDATA ) >
+
+<!ELEMENT nodeB ( #PCDATA ) >
+
+<!ELEMENT nodeDensity ( #PCDATA ) >
+
+<!ELEMENT objects ( node*, link* ) >
+
+<!ELEMENT package ( #PCDATA ) >
+
+<!ELEMENT variables ( variable* ) >
+
+<!ELEMENT variable (id, value) >
+
+<!ELEMENT value ( #PCDATA ) >
+

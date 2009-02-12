@@ -8,8 +8,14 @@
 			<id>node01</id>
 			<class>VarTestNode</class>
 			<variables>
-				<name>first Test Node</name>
-				<namespace.namespace1.varname>Testvariable aus msim File</namespace.namespace1.varname>
+				<variable>
+					<id>name</id>
+					<value>first Test Node</value>
+				</variable>
+				<variable>
+					<id>namespace.namespace1.varname</id>
+					<value>Testvariable aus msim File</value>
+				</variable>
 			</variables>
 		</node>
 	</objects>

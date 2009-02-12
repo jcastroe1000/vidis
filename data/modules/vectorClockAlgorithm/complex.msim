@@ -45,7 +45,10 @@
 			<id>link01</id>
 			<class>DefaultLink</class>
 			<variables>
-				<name>link01</name>
+				<variable>
+					<id>name</id>
+					<value>link01</value>
+				</variable>
 			</variables>
 			<delay>10</delay>
 		</link>
@@ -53,7 +56,10 @@
 			<id>link02</id>
 			<class>DefaultLink</class>
 			<variables>
-				<name>link02</name>
+				<variable>
+					<id>name</id>
+					<value>link02</value>
+				</variable>
 			</variables>
 			<delay>30</delay>
 		</link>
@@ -61,7 +67,10 @@
 			<id>link03</id>
 			<class>DefaultLink</class>
 			<variables>
-				<name>link03</name>
+				<variable>
+					<id>name</id>
+					<value>link03</value>
+				</variable>
 			</variables>
 			<delay>10</delay>
 		</link>
@@ -69,7 +78,10 @@
 			<id>link04</id>
 			<class>DefaultLink</class>
 			<variables>
-				<name>link04</name>
+				<variable>
+					<id>name</id>
+					<value>link04</value>
+				</variable>
 			</variables>
 			<delay>30</delay>
 		</link>
@@ -77,7 +89,10 @@
 			<id>link05</id>
 			<class>DefaultLink</class>
 			<variables>
-				<name>link05</name>
+				<variable>
+					<id>name</id>
+					<value>link05</value>
+				</variable>
 			</variables>
 			<delay>60</delay>
 		</link>
@@ -85,7 +100,10 @@
 			<id>link06</id>
 			<class>DefaultLink</class>
 			<variables>
-				<name>link06</name>
+				<variable>
+					<id>name</id>
+					<value>link06</value>
+				</variable>
 			</variables>
 			<delay>60</delay>
 		</link>
@@ -93,7 +111,10 @@
 			<id>link07</id>
 			<class>DefaultLink</class>
 			<variables>
-				<name>link07</name>
+				<variable>
+					<id>name</id>
+					<value>link07</value>
+				</variable>
 			</variables>
 			<delay>60</delay>
 		</link>
@@ -101,7 +122,10 @@
 			<id>link08</id>
 			<class>DefaultLink</class>
 			<variables>
-				<name>link08</name>
+				<variable>
+					<id>name</id>
+					<value>link08</value>
+				</variable>
 			</variables>
 			<delay>60</delay>
 		</link>
@@ -109,7 +133,10 @@
 			<id>link09</id>
 			<class>DefaultLink</class>
 			<variables>
-				<name>link09</name>
+				<variable>
+					<id>name</id>
+					<value>link09</value>
+				</variable>
 			</variables>
 			<delay>60</delay>
 		</link>
@@ -117,7 +144,10 @@
 			<id>link10</id>
 			<class>DefaultLink</class>
 			<variables>
-				<name>link10</name>
+				<variable>
+					<id>name</id>
+					<value>link10</value>
+				</variable>
 			</variables>
 			<delay>60</delay>
 		</link>

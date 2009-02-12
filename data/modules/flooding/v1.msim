@@ -8,70 +8,100 @@
 			<id>node01</id>
 			<class>BullyElectionAlgorithmNode</class>
 			<variables>
-				<name>Node 1</name>
+				<variable>
+					<id>name</id>
+					<value>Node 1</value>
+				</variable>
 			</variables>
 		</node>
 		<node>
 			<id>node02</id>
 			<class>BullyElectionAlgorithmNode</class>
 			<variables>
-				<name>Node 2</name>
+				<variable>
+					<id>name</id>
+					<value>Node 2</value>
+				</variable>
 			</variables>
 		</node>
 		<node>
 			<id>node03</id>
 			<class>BullyElectionAlgorithmNode</class>
 			<variables>
-				<name>Node 3</name>
+				<variable>
+					<id>name</id>
+					<value>Node 3</value>
+				</variable>
 			</variables>
 		</node>
 		<node>
 			<id>node04</id>
 			<class>BullyElectionAlgorithmNode</class>
 			<variables>
-				<name>Node 4</name>
+				<variable>
+					<id>name</id>
+					<value>Node 4</value>
+				</variable>
 			</variables>
 		</node>
 		<node>
 			<id>node05</id>
 			<class>BullyElectionAlgorithmNode</class>
 			<variables>
-				<name>Node 5</name>
+				<variable>
+					<id>name</id>
+					<value>Node 5</value>
+				</variable>
 			</variables>
 		</node>
 		<node>
 			<id>node06</id>
 			<class>BullyElectionAlgorithmNode</class>
 			<variables>
-				<name>Node 6</name>
+				<variable>
+					<id>name</id>
+					<value>Node 6</value>
+				</variable>
 			</variables>
 		</node>
 		<node>
 			<id>node07</id>
 			<class>BullyElectionAlgorithmNode</class>
 			<variables>
-				<name>Node 7</name>
+				<variable>
+					<id>name</id>
+					<value>Node 7</value>
+				</variable>
 			</variables>
 		</node>
 		<node>
 			<id>node08</id>
 			<class>BullyElectionAlgorithmNode</class>
 			<variables>
-				<name>Node 8</name>
+				<variable>
+					<id>name</id>
+					<value>Node 8</value>
+				</variable>
 			</variables>
 		</node>
 		<node>
 			<id>node09</id>
 			<class>BullyElectionAlgorithmNode</class>
 			<variables>
-				<name>Node 9</name>
+				<variable>
+					<id>name</id>
+					<value>Node 9</value>
+				</variable>
 			</variables>
 		</node>
 		<node>
 			<id>node10</id>
 			<class>BullyElectionAlgorithmNode</class>
 			<variables>
-				<name>Node 10</name>
+				<variable>
+					<id>name</id>
+					<value>Node 10</value>
+				</variable>
 			</variables>
 		</node>
 		<link>

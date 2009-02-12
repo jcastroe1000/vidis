@@ -8,7 +8,10 @@
 			<id>node01</id>
 			<class>EchoNode</class>
 			<variables>
-				<initer>true</initer>
+				<variable>
+					<id>initer</id>
+					<value>true></value>
+				</variable>
 			</variables>
 		</node>
 		<node>

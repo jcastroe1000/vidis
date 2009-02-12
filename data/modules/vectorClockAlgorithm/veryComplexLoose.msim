@@ -104,232 +104,151 @@
 		<link>
 			<id>link0</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link0</name>
-			</variables>
 			<delay>1</delay>
 		</link>
 		<link>
 			<id>link01</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link01</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link02</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link02</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link03</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link03</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link04</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link04</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link05</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link05</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link06</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link06</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link07</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link07</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link08</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link08</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link09</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link09</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link10</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link10</name>
-			</variables>
 			<delay>30</delay>
 		</link>
 		<link>
 			<id>link11</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link11</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link12</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link12</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link13</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link13</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link14</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link14</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link15</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link15</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link16</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link16</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link17</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link17</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link18</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link18</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link19</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link19</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link20</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link20</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link21</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link21</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link22</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link22</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link23</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>link23</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link24</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>wer das liest ist dumm</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link25</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>triangle_1</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link26</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>triangle_2</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>link27</id>
 			<class>DefaultLink</class>
-			<variables>
-				<name>triangle_3</name>
-			</variables>
 			<delay>3</delay>
 		</link>
 		<link>
 			<id>cross</id>
 			<class>DefaultLink</class>
 			<variables>
-				<name>THIS LINK SHOWS THAT 9 PACKETS HAVE SHADER, NOT MORE!</name>
+				<variable>
+					<id>name</id>
+					<value>THIS LINK SHOWS THAT 9 PACKETS HAVE SHADER, NOT MORE!</value>
+				</variable>
 			</variables>
 			<delay>240</delay>
 		</link>
