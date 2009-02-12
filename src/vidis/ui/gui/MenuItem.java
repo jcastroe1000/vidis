@@ -115,8 +115,7 @@ public class MenuItem {
 	}
 	
 	protected void expandOrCollapse() {
-		this.expanded = !this.expanded;
-		this.menu.update();
+		this.setExpanded( ! this.expanded );
 	}
 
 	public void addChild( MenuItem child ) {
@@ -153,6 +152,7 @@ public class MenuItem {
 
 	public void setExpanded(boolean expanded) {
 		this.expanded = expanded;
+		logger.fatal( "expand -> update" );
 		this.menu.update();
 	}
 
@@ -172,6 +172,9 @@ public class MenuItem {
 		this.childs.remove( m );
 	}
 	
-
+	@Override
+	public String toString() {
+		return this.getText();
+	}
 
 }

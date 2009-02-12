@@ -71,6 +71,7 @@ public class Gui extends AEventHandler {
 		};
 	}
 	private void initializeMenu() {
+		logger.fatal( "initializing menu" );
 		MenuItem root = new MenuItem( null, "root", null );
 		
 		PlayPauseStop pps = new PlayPauseStop();

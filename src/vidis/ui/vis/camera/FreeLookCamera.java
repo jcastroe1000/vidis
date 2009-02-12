@@ -431,7 +431,7 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 		newOne.forwardTo3D = oldOne.forwardTo3D;
 		newOne.guiCoords = oldOne.guiCoords;
 		newOne.guiCoordsRelative = oldOne.guiCoordsRelative;
-		logger.fatal( "calc3DMousePoint oldOne=" + oldOne.hashCode() + ", newOne=" + newOne.hashCode() );		
+//		logger.fatal( "calc3DMousePoint oldOne=" + oldOne.hashCode() + ", newOne=" + newOne.hashCode() );		
 		
 		Point p = newOne.mouseEvent.getPoint();
 		DoubleBuffer point1 = DoubleBuffer.allocate(3);

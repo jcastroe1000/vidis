@@ -345,7 +345,7 @@ public class Simulator {
 	public IUserNode findUserNodeForId(String id) throws NotFoundException {
 		for ( AComponent c : getSimulatorComponents() ) {
 			if ( c instanceof SimNode ) {
-				if ( c.getVariableById( AVariable.COMMON_IDENTIFIERS.ID ).equals(id) ) {
+				if ( c.getVariableById( AVariable.COMMON_IDENTIFIERS.ID ).getData().equals(id) ) {
 					return ((SimNode)c).getUserLogic();
 				}
 			}

@@ -67,13 +67,22 @@ public class Menu extends BasicGuiContainer {
 	}
 	
 	public void update() {
+		logger.debug( "updating menu");
 		index = update( root, 0, 0 );
 	}
 	
+	/**
+	 * walks through the menu tree and assigns every visible element an index
+	 * @param x
+	 * @param index
+	 * @param offset
+	 * @return
+	 */
 	private int update( MenuItem x, int index, double offset  ) {
+//		logger.fatal( "update( " + x.getText() + ", " + index + ", " + offset + " )" );
+//		logger.fatal( x.getChilds().size()==0?"no children":(x.isExpanded()?"visible":"invisible") + " children: " + x.getChilds() );
 		x.setIndex( index );
 		x.setOffset( offset );
-		logger.fatal( "---> "+x.getText() + "_" + index);
 		if ( x.isExpanded() ) {
 			for ( MenuItem child : x.getChilds() ) {
 				index ++;
@@ -167,6 +176,7 @@ public class Menu extends BasicGuiContainer {
 		
 		this.addChild( tmp.content );
 		tmp.setMenu(this);
+		logger.fatal( "addVar -> update" );
 		this.update();
 	}
 	
@@ -178,6 +188,7 @@ public class Menu extends BasicGuiContainer {
 		else {
 			removeMenuItem( m );
 			this.root.removeChild( m );
+			logger.fatal( "delVar -> update" );
 			this.update();
 			map.remove( var );
 		}
