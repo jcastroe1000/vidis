@@ -21,6 +21,7 @@ import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserNode;
 import vidis.data.mod.IUserPacket;
 import vidis.data.var.vars.AVariable;
+import vidis.data.var.vars.DefaultVariable;
 import vidis.sim.Simulator;
 import vidis.sim.exceptions.ObstructInitRuntimeCallException;
 import vidis.ui.events.IVidisEvent;
@@ -174,6 +175,8 @@ public class SimLink extends AComponent implements ISimLinkCon {
 		    	deliver(packet, to);
 		    } else {
 		    	queue(packet, to);
+		    	// add direction variable to packet
+		    	packet.registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.PACKETDIRECTION, getDirectionForPacket(packet)));
 		    }
 		}
     }

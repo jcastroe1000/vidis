@@ -23,6 +23,7 @@ public abstract class AVariable implements IVariable {
 		public static final String PACKETSSENT = COMMON_SCOPES.SYSTEM + ".packetsSent";
 		public static final String PACKETSRECEIVED = COMMON_SCOPES.SYSTEM + ".packetsReceived";
 		public static final String NAME = COMMON_SCOPES.USER + ".name";
+		public static final String PACKETDIRECTION = COMMON_SCOPES.SYSTEM + ".packetDirection";
 	}
 	private String identifier;
 //	private DisplayType displayType = DisplayType.SHOW_SWING;
