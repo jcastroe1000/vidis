@@ -440,10 +440,7 @@ public class Link extends ASimObject {
 		// calc axis
 			Vector3d AB = new Vector3d( pointB );
 			AB.sub( pointA );
-			if(Configuration.USE_AUTOMATIC_DETAIL_LEVEL)
-				segments = (int) Math.round( ( Configuration.DETAIL_LEVEL * segments_max + segments_min) * AB.length() );
-			else
-				segments = (int) Math.round( ( segments_max + segments_min) * AB.length() );
+			segments = (int) Math.round( ( Configuration.DETAIL_LEVEL * segments_max + segments_min) * AB.length() );
 			AB.normalize();
 			
 			right = VecUtil.cross( AB, up );
