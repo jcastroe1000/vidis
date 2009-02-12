@@ -236,7 +236,7 @@ public class Link extends ASimObject {
 		
 		
 		// data for link vertex shader
-		for( int i=0; i<9; i++) {
+		for( int i=0; i<10; i++) {
 			
 			Packet p = dir1.poll();
 			if ( p == null ) p = dir2.poll();
@@ -253,7 +253,16 @@ public class Link extends ASimObject {
 			}
 		}
 		
-		silhouetteFrontBackFace(gl);
+		if ( ! Configuration.DISPLAY_WIREFRAME ) {
+			silhouetteFrontBackFace(gl);
+		}
+		else {
+			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
+			Link.useShaderProgram(gl);
+			linkProgram.getVariableByName("black").setValue(Boolean.FALSE, gl);
+			gl.glCallList( displayListId );
+			ShaderFactory.removeAllPrograms(gl);
+		}
 		
 		
 		
@@ -436,7 +445,7 @@ public class Link extends ASimObject {
 		surfaceControlPointsRightUp.clear();
 		
 		int segments_min = 3;
-		int segments_max = 45;
+		int segments_max = 25;
 		// calc axis
 			Vector3d AB = new Vector3d( pointB );
 			AB.sub( pointA );
