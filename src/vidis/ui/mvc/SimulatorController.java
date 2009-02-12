@@ -97,9 +97,6 @@ public class SimulatorController extends AController {
 						Simulator.getInstance().importSimFile(f);
 						
 						if(Configuration.USE_AUTOMATIC_DETAIL_LEVEL) {
-							// reset detail level
-							Configuration.DETAIL_LEVEL = 0.0;
-							
 							Dispatcher.forwardEvent(IVidisEvent.AutoAdjustDetailLevel);
 						}
 						
@@ -134,6 +131,9 @@ public class SimulatorController extends AController {
 						}
 					})
 					);
+			if(Configuration.USE_AUTOMATIC_DETAIL_LEVEL) {
+				Dispatcher.forwardEvent(IVidisEvent.AutoAdjustDetailLevel);
+			}
 			break;
 		case IVidisEvent.LayoutApplyGraphElectricSpring:
 			lastLayout  = GraphElectricSpringLayout.getInstance();
@@ -145,6 +145,9 @@ public class SimulatorController extends AController {
 					return SimulatorController.this.getNodes();
 				}
 			}));
+			if(Configuration.USE_AUTOMATIC_DETAIL_LEVEL) {
+				Dispatcher.forwardEvent(IVidisEvent.AutoAdjustDetailLevel);
+			}
 			break;
 		case IVidisEvent.LayoutApplyRandom:
 			try {
@@ -160,6 +163,9 @@ public class SimulatorController extends AController {
 				} catch (Exception e) {
 					logger.error(e);
 				}
+				if(Configuration.USE_AUTOMATIC_DETAIL_LEVEL) {
+					Dispatcher.forwardEvent(IVidisEvent.AutoAdjustDetailLevel);
+				}
 			break;
 		case IVidisEvent.LayoutApplySpiral:
 			try {
@@ -174,6 +180,9 @@ public class SimulatorController extends AController {
 				}));
 				} catch (Exception e) {
 					logger.error(e);
+				}
+				if(Configuration.USE_AUTOMATIC_DETAIL_LEVEL) {
+					Dispatcher.forwardEvent(IVidisEvent.AutoAdjustDetailLevel);
 				}
 			break;
 		case IVidisEvent.LayoutApplyGrid:
@@ -193,6 +202,9 @@ public class SimulatorController extends AController {
 				}));
 				} catch (Exception e) {
 					logger.error(e);
+				}
+				if(Configuration.USE_AUTOMATIC_DETAIL_LEVEL) {
+					Dispatcher.forwardEvent(IVidisEvent.AutoAdjustDetailLevel);
 				}
 			break;
 		}

@@ -119,6 +119,9 @@ public class SceneController extends AController implements GLEventListener {
 		logger.debug( "handleEvent( "+event+" )" );
 		switch ( event.getID() ) {
 		case IVidisEvent.AutoAdjustDetailLevel:
+			// reset detail level
+			Configuration.DETAIL_LEVEL = 0.0;
+			// then start adjusting
 			autoAdjustDetailLevelCounter = Configuration.USE_AUTOMATIC_DETAIL_LEVEL_COUNTER;
 			break;
 		case IVidisEvent.InitScene:
