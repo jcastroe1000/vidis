@@ -96,8 +96,10 @@ public class SimulatorController extends AController {
 						// load file
 						Simulator.getInstance().importSimFile(f);
 						
-						// reset detail level
-						Configuration.DETAIL_LEVEL = 0.0;
+						if(Configuration.USE_AUTOMATIC_DETAIL_LEVEL) {
+							// reset detail level
+							Configuration.DETAIL_LEVEL = 0.0;
+						}
 						
 						// apply a nice layout
 						Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGrid );

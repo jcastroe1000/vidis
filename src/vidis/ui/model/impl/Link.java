@@ -99,9 +99,14 @@ public class Link extends ASimObject {
 			Tuple3d posA = (Tuple3d) getVariableById( SimLink.POINT_A ).getData();
 			Tuple3d posB = (Tuple3d) getVariableById( SimLink.POINT_B ).getData();
 			
-			if ( lastDetailLevel != Configuration.DETAIL_LEVEL || ( ! knownPointA.equals( posA ) && ! knownPointB.equals( posB ) ) ) {
-				// fix if detail level changes
-				lastDetailLevel = Configuration.DETAIL_LEVEL;
+			if ( (lastDetailLevel != Configuration.DETAIL_LEVEL && Configuration.USE_AUTOMATIC_DETAIL_LEVEL) 
+					|| ( ! knownPointA.equals( posA ) && ! knownPointB.equals( posB ) ) ) {
+				if(Configuration.USE_AUTOMATIC_DETAIL_LEVEL) {
+					// fix if detail level changes
+					lastDetailLevel = Configuration.DETAIL_LEVEL;
+				}
+				
+				logger.info("doing pre render");
 				
 				// recalculate geometry
 				knownPointA = new Point3d( posA );
@@ -437,7 +442,10 @@ public class Link extends ASimObject {
 		// calc axis
 			Vector3d AB = new Vector3d( pointB );
 			AB.sub( pointA );
-			segments = (int) Math.round( ( Configuration.DETAIL_LEVEL * segments_max + segments_min) * AB.length() );
+			if(Configuration.USE_AUTOMATIC_DETAIL_LEVEL)
+				segments = (int) Math.round( ( Configuration.DETAIL_LEVEL * segments_max + segments_min) * AB.length() );
+			else
+				segments = (int) Math.round( ( segments_max + segments_min) * AB.length() );
 			AB.normalize();
 			
 			right = VecUtil.cross( AB, up );

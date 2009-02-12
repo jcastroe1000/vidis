@@ -287,16 +287,18 @@ public class SceneController extends AController implements GLEventListener {
 		}
 		
 		double fpsMiddle = median(fps_log);
-		// here we check if we have to decrease / increase the detail level
-		if( fpsMiddle > 0 && fps_log.size() == fps_log_max ) {
-			if ( ! inRange(fpsMiddle, wantedFps-2, wantedFps+2) ) {
-				double factor = (fpsMiddle / wantedFps) - 1;
-				double adjust = 0.005 * factor;
-				Configuration.DETAIL_LEVEL = Math.max(0, Math.min(1.5, Configuration.DETAIL_LEVEL + adjust ));
-				if ( Configuration.DETAIL_LEVEL == 0 ) {
-					warnLevel_laptopTooSlow++;
-					if(warnLevel_laptopTooSlow >= fps_log_max*2 && warnLevel_laptopTooSlow % (fps_log_max*2) == 0)
-						logger.warn( " YOUR COMPUTER/LAPTOP IS TOO SLOW TO RUN THIS PROGRAM WITH MINIMUM DETAIL LEVEL, GET YOURSELF A NEW ONE!" );
+		if(Configuration.USE_AUTOMATIC_DETAIL_LEVEL) {
+			// here we check if we have to decrease / increase the detail level
+			if( fpsMiddle > 0 && fps_log.size() == fps_log_max ) {
+				if ( ! inRange(fpsMiddle, wantedFps-2, wantedFps+2) ) {
+					double factor = (fpsMiddle / wantedFps) - 1;
+					double adjust = 0.005 * factor;
+					Configuration.DETAIL_LEVEL = Math.max(0, Math.min(1.5, Configuration.DETAIL_LEVEL + adjust ));
+					if ( Configuration.DETAIL_LEVEL == 0 ) {
+						warnLevel_laptopTooSlow++;
+						if(warnLevel_laptopTooSlow >= fps_log_max*2 && warnLevel_laptopTooSlow % (fps_log_max*2) == 0)
+							logger.warn( " YOUR COMPUTER/LAPTOP IS TOO SLOW TO RUN THIS PROGRAM WITH MINIMUM DETAIL LEVEL, GET YOURSELF A NEW ONE!" );
+					}
 				}
 			}
 		}
