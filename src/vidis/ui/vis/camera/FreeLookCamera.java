@@ -13,6 +13,7 @@ import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GLCanvas;
 import javax.media.opengl.glu.GLU;
 import javax.vecmath.Point2d;
 import javax.vecmath.Point3d;
@@ -256,6 +257,7 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 					
 					robot.mouseMove( mouseDownPoint.x, mouseDownPoint.y ); 
 					
+					
 					calcNewDirVector( deltaX, deltaY );
 //					logger.fatal( "delta=("+deltaX+", "+deltaY+")");
 				}
@@ -276,9 +278,15 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 			logger.fatal( "MousePressed" + ((AMouseEvent)event).mouseEvent.getButton() );
 			if ( ((AMouseEvent)event).mouseEvent.getButton() == MouseEvent.BUTTON3 ) {
 				mouseLookOn = true;
-				mouseDownPoint = new Point(
-						((AMouseEvent)event).mouseEvent.getXOnScreen(),
-						((AMouseEvent)event).mouseEvent.getYOnScreen() );
+				
+				MouseEvent m = ((AMouseEvent)event).mouseEvent;
+			
+				
+
+//				int xpos = ((AMouseEvent)event).mouseEvent.getXOnScreen();
+//				int ypos = ((AMouseEvent)event).mouseEvent.getYOnScreen();
+//				mouseDownPoint = new Point( xpos, ypos );
+				mouseDownPoint = findPointOnScreen( m );
 				relativeMouseDownPoint = ((AMouseEvent)event).mouseEvent.getPoint();
 			}
 			
@@ -294,6 +302,14 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 			break;
 		}
 	}
+	
+	private Point findPointOnScreen( MouseEvent e ) {
+		Point inner = e.getPoint();
+		GLCanvas src = (GLCanvas) e.getSource();
+		Point add = src.getLocationOnScreen();
+		return new Point( e.getPoint().x + add.x, e.getPoint().y + add.y );
+	}
+	
 	
 	private void calcNewDirVector( int deltaX, int deltaY ) {
 		double dumbX = deltaX / 1000d;
