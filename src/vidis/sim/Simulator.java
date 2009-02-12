@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.vecmath.Point3d;
-
 import org.apache.log4j.Logger;
 
 import vidis.data.mod.IUserLink;
@@ -36,7 +34,6 @@ import vidis.sim.xml.modules.dataStructure.DocumentData;
 import vidis.sim.xml.modules.dataStructure.DocumentDataConnection;
 import vidis.sim.xml.modules.dataStructure.DocumentDataLink;
 import vidis.ui.model.graph.layouts.AGraphLayout;
-import vidis.ui.model.graph.layouts.impl.GraphSpiralLayout;
 
 public class Simulator {
 	/* -- time management for interpolation -- */
