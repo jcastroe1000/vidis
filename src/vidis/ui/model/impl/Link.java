@@ -100,13 +100,11 @@ public class Link extends ASimObject {
 			Tuple3d posB = (Tuple3d) getVariableById( SimLink.POINT_B ).getData();
 			
 			if ( (lastDetailLevel != Configuration.DETAIL_LEVEL && Configuration.USE_AUTOMATIC_DETAIL_LEVEL) 
-					|| ( ! knownPointA.equals( posA ) && ! knownPointB.equals( posB ) ) ) {
+					|| ( ! knownPointA.equals( posA ) || ! knownPointB.equals( posB ) ) ) {
 				if(Configuration.USE_AUTOMATIC_DETAIL_LEVEL) {
 					// fix if detail level changes
 					lastDetailLevel = Configuration.DETAIL_LEVEL;
 				}
-				
-				logger.info("doing pre render");
 				
 				// recalculate geometry
 				knownPointA = new Point3d( posA );
