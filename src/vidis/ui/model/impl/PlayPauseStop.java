@@ -20,17 +20,12 @@ public class PlayPauseStop extends BasicGuiContainer {
 	private Button pause;
 	private Button stop;
 	
-	private boolean isPlay = false;
-	private boolean isPause = false;
-	
 	public PlayPauseStop() {
 		
 		play = new Button() {
 			@Override
 			public void onClick() {
 				Dispatcher.forwardEvent( IVidisEvent.SimulatorPlay );
-				isPlay = true;
-				isPause = false;
 				update();
 			}
 		};
@@ -41,7 +36,6 @@ public class PlayPauseStop extends BasicGuiContainer {
 			@Override
 			public void onClick() {
 				Dispatcher.forwardEvent( IVidisEvent.SimulatorPause ); 
-				isPause = !isPause;
 				update();
 			}
 		};
@@ -52,8 +46,6 @@ public class PlayPauseStop extends BasicGuiContainer {
 			@Override
 			public void onClick() {
 				Dispatcher.forwardEvent( IVidisEvent.SimulatorReload );
-				isPlay = false;
-				isPause = false;
 				update();
 			}
 		};
