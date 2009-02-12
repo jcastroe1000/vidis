@@ -52,7 +52,7 @@ void main() {
 		  refract_color * fresnel_T;
 		  
 	if ( black == true ) {
-		gl_FragColor = vec4( 0, 0, 1, 1 );
+		gl_FragColor = vec4( 0, 0, 0, 1 );
 	}
 
 }

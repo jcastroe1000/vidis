@@ -149,17 +149,17 @@ public class Gui extends AEventHandler {
 //		slider.setColor2(Color.pink);
 		rightPanel.addChild(slider);
 		
-		TextField tf = new TextField();
-		tf.setBounds(1, 5, 2, 20);
-		slider.addChild( tf );
-		
-		NodeField nf = new NodeField();
-		nf.setBounds(1, 18, 2, 20);
-		slider.addChild( nf );
-		
-		PacketField pf = new PacketField();
-		pf.setBounds(1, 11, 2, 20);
-		slider.addChild( pf );
+//		TextField tf = new TextField();
+//		tf.setBounds(1, 5, 2, 20);
+//		slider.addChild( tf );
+//		
+//		NodeField nf = new NodeField();
+//		nf.setBounds(1, 18, 2, 20);
+//		slider.addChild( nf );
+//		
+//		PacketField pf = new PacketField();
+//		pf.setBounds(1, 11, 2, 20);
+//		slider.addChild( pf );
 		
 		mainContainer.addChild(rightPanel);
 		
