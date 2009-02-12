@@ -26,6 +26,10 @@ import org.apache.log4j.Logger;
 import vidis.ui.events.AEventHandler;
 import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.IVidisEvent;
+import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.MouseMovedEvent;
+import vidis.ui.events.MousePressedEvent;
+import vidis.ui.events.MouseReleasedEvent;
 import vidis.ui.events.StartEvent;
 import vidis.ui.events.StopEvent;
 import vidis.ui.mvc.api.Dispatcher;
@@ -265,8 +269,8 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 			}
 			else {
 				try {
-					calc3DMousePoint( ((AMouseEvent)event) );
-					Dispatcher.forwardEvent( event );
+					IVidisEvent newOne = calc3DMousePoint( ((AMouseEvent)event) );
+					Dispatcher.forwardEvent( newOne );
 				}
 				catch ( Exception e ) {
 					logger.error( "exception", e );
@@ -413,8 +417,23 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 	}
 	
 	
-	public Vector4d calc3DMousePoint( AMouseEvent e ) {
-		Point p = e.mouseEvent.getPoint();
+	public AMouseEvent calc3DMousePoint( AMouseEvent oldOne ) {
+		AMouseEvent newOne = null;
+		if ( oldOne instanceof MouseClickedEvent ) {
+			newOne = new MouseClickedEvent( oldOne.mouseEvent );
+		} else if ( oldOne instanceof MouseMovedEvent ) {
+			newOne = new MouseMovedEvent( oldOne.mouseEvent );
+		} else if ( oldOne instanceof MousePressedEvent ) {
+			newOne = new MousePressedEvent( oldOne.mouseEvent );
+		} else if ( oldOne instanceof MouseReleasedEvent ) {
+			newOne = new MouseReleasedEvent( oldOne.mouseEvent );
+		}
+		newOne.forwardTo3D = oldOne.forwardTo3D;
+		newOne.guiCoords = oldOne.guiCoords;
+		newOne.guiCoordsRelative = oldOne.guiCoordsRelative;
+		logger.fatal( "calc3DMousePoint oldOne=" + oldOne.hashCode() + ", newOne=" + newOne.hashCode() );		
+		
+		Point p = newOne.mouseEvent.getPoint();
 		DoubleBuffer point1 = DoubleBuffer.allocate(3);
 		DoubleBuffer point2 = DoubleBuffer
 				.allocate(3);
@@ -471,10 +490,11 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 		mul.scale(y, P1P2);
 		Vector4d ret = new Vector4d();
 		ret.add( Px1, mul);
-		e.ray = new Vector3d( P1P2.x, P1P2.y, P1P2.z );
-		e.rayOrigin = new Point3d( Px1.x, Px1.y, Px1.z );
-		e.rayCalculated = true;
-		return ret;
+		newOne.ray = new Vector3d( P1P2.x, P1P2.y, P1P2.z );
+		newOne.rayOrigin = new Point3d( Px1.x, Px1.y, Px1.z );
+		newOne.rayCalculated = true;
+		
+		return newOne;
 	}
 	public Point getMouseDownPoint() {
 		if ( relativeMouseDownPoint == null ) {

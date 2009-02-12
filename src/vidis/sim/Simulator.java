@@ -27,6 +27,7 @@ import vidis.data.var.vars.DefaultVariable;
 import vidis.sim.classloader.VidisClassLoader;
 import vidis.sim.classloader.modules.impl.dir.FileModuleFile;
 import vidis.sim.classloader.modules.interfaces.IModuleFileComponent;
+import vidis.sim.exceptions.NotFoundException;
 import vidis.sim.exceptions.SimulatorConfigRuntimeException;
 import vidis.sim.simulatorInternals.SimulatorData;
 import vidis.sim.xml.modules.XMLModuleReader;
@@ -339,5 +340,16 @@ public class Simulator {
 
 	public Player getPlayer() {
 		return player;
+	}
+
+	public IUserNode findUserNodeForId(String id) throws NotFoundException {
+		for ( AComponent c : getSimulatorComponents() ) {
+			if ( c instanceof SimNode ) {
+				if ( c.getVariableById( AVariable.COMMON_IDENTIFIERS.ID ).equals(id) ) {
+					return ((SimNode)c).getUserLogic();
+				}
+			}
+		}
+		throw new NotFoundException();
 	}
 }

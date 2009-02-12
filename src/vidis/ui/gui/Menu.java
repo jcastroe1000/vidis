@@ -12,11 +12,15 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import vidis.data.mod.IUserNode;
 import vidis.data.var.IVariableChangeListener;
 import vidis.data.var.IVariableContainer;
 import vidis.data.var.vars.AVariable;
 import vidis.data.var.vars.MethodVariable;
+import vidis.sim.Simulator;
+import vidis.sim.exceptions.NotFoundException;
 import vidis.ui.model.impl.BasicGuiContainer;
+import vidis.ui.model.impl.NodeField;
 import vidis.ui.model.structure.ASimObject;
 import vidis.ui.model.structure.IGuiContainer;
 import vidis.ui.model.structure.ILayout;
@@ -126,12 +130,41 @@ public class Menu extends BasicGuiContainer {
 	Map<AVariable, MenuItem> map = new HashMap<AVariable, MenuItem>();
 	
 	private void addVar( final AVariable var ) {
-		MenuItem tmp = new MenuItem( this.root, var.getIdentifier(), new MenuAction() {
-			public void execute(Menu menu, MenuItem item) {
-				var.getData();
-			}
-		});
+		MenuItem tmp;
+		MethodVariable v = (MethodVariable) var;
+		Class[] expectedParameter = v.getExpectedMethodParameterTypes();
+		if ( expectedParameter.length == 1 && IUserNode.class.isAssignableFrom( expectedParameter[0] ) ) {
+			tmp = new MenuItem( this.root, var.getIdentifier(), null );
+			final NodeField nf = new NodeField();
+			MenuItem wireframe = new MenuItem( tmp, nf );
+			MenuItem enter = new MenuItem ( tmp, "execute",  new MenuAction() {
+				public void execute(Menu menu, MenuItem item) {
+					try {
+						var.getData( Simulator.getInstance().findUserNodeForId( nf.getNode().getId() ) );
+					} catch (NotFoundException e) {
+						logger.fatal(e);
+					}
+				}
+			});
+//			tmp.setExpanded( false );
+			this.addChild( wireframe.content );
+			this.addChild( enter.content );
+			wireframe.setMenu(this);
+			enter.setMenu(this);
+			
+		}
+		else if ( expectedParameter.length > 0 ) {
+			tmp = new MenuItem( this.root, "not supported=" + var.getIdentifier(), null );
+		}
+		else {
+			tmp = new MenuItem( this.root, var.getIdentifier(), new MenuAction() {
+				public void execute(Menu menu, MenuItem item) {
+					var.getData();
+				}
+			});
+		}
 		map.put(var, tmp);
+		
 		this.addChild( tmp.content );
 		tmp.setMenu(this);
 		this.update();
@@ -143,16 +176,23 @@ public class Menu extends BasicGuiContainer {
 			logger.error( "m was null! This means variable '"+var+"' has no MenuItem!!" );
 		}
 		else {
-			this.removeChild( m.content );
+			removeMenuItem( m );
 			this.root.removeChild( m );
 			this.update();
 			map.remove( var );
 		}
 	}
 	
+	private void removeMenuItem( MenuItem m ) {
+		this.removeChild( m.content );
+		for ( MenuItem c : m.getChilds() ) {
+			removeMenuItem( c );
+		}
+	}
 	
 	
-	public void updateButtons() {
+	
+	private void updateButtons() {
 		List<AVariable> oldButtons = new ArrayList<AVariable>( map.keySet() );
 		List<AVariable> newButtons = new ArrayList<AVariable>();
 		IVariableContainer c = selectedObject.getVariableContainer();

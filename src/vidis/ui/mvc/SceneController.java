@@ -32,6 +32,7 @@ import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.CameraEvent;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.MouseReleasedEvent;
 import vidis.ui.events.ObjectEvent;
 import vidis.ui.events.VidisEvent;
 import vidis.ui.input.InputListener;
@@ -46,7 +47,6 @@ import vidis.ui.model.structure.IVisObject;
 import vidis.ui.mvc.api.AController;
 import vidis.ui.mvc.api.Dispatcher;
 import vidis.ui.vis.Light;
-import vidis.ui.vis.camera.DefaultCamera;
 import vidis.ui.vis.camera.FreeLookCamera;
 import vidis.ui.vis.camera.GuiCamera;
 import vidis.ui.vis.camera.ICamera;
@@ -87,6 +87,7 @@ public class SceneController extends AController implements GLEventListener {
 	
 	private NodeField nodeCapturingSource = null;
 	private PacketField packetCapturingSource = null;
+	
 	private int warnLevel_laptopTooSlow;
 	private int autoAdjustDetailLevelCounter;
 	
@@ -104,7 +105,9 @@ public class SceneController extends AController implements GLEventListener {
 					   IVidisEvent.ObjectUnregister );
 		
 		registerEvent( IVidisEvent.MouseClickedEvent,
-					   IVidisEvent.MouseMovedEvent );
+				   IVidisEvent.MousePressedEvent,
+				   IVidisEvent.MouseReleasedEvent,
+				   IVidisEvent.MouseMovedEvent );
 		
 		registerEvent( IVidisEvent.StartNodeCapturing,
 					   IVidisEvent.StartPacketCapturing );
@@ -157,6 +160,7 @@ public class SceneController extends AController implements GLEventListener {
 			unregisterObject( o );
 			
 			break;
+		case IVidisEvent.MouseReleasedEvent:
 		case IVidisEvent.MouseClickedEvent:
 		case IVidisEvent.MouseMovedEvent:
 			try {
@@ -278,9 +282,9 @@ public class SceneController extends AController implements GLEventListener {
 			drawModel( gl, c);
 			
 			// TEXT
-			if ( c instanceof DefaultCamera ) {
-				draw3DText( gl );
-			}
+//			if ( c instanceof FreeLookCamera ) {
+//				draw3DText( gl );
+//			}
 			
 		}
 		
@@ -558,11 +562,14 @@ public class SceneController extends AController implements GLEventListener {
 		}
 		if ( nearestObject != null ) {
 			if ( e instanceof MouseClickedEvent ) {
-				nearestObject.onClick();
+				logger.fatal( "Im here " + e.rayCalculated + " / " + e.hashCode());
 				if ( nearestObject instanceof Node ) {
 					if ( nodeCapturingSource != null ) {
 						nodeCapturingSource.setNode( (Node) nearestObject );
 						nodeCapturingSource = null;
+					}
+					else {
+						nearestObject.onClick();
 					}
 				}
 				else if ( nearestObject instanceof Packet ) {
@@ -570,6 +577,12 @@ public class SceneController extends AController implements GLEventListener {
 						packetCapturingSource.setPacket( (Packet) nearestObject );
 						packetCapturingSource = null;
 					}
+					else {
+						nearestObject.onClick();
+					}
+				}
+				else {
+					nearestObject.onClick();
 				}
 			}
 		}

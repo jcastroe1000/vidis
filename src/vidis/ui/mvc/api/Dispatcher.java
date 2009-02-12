@@ -31,6 +31,8 @@ public class Dispatcher {
 		logger.debug( "forwardEvent( "+ event + " )" );
 		if ( eventHandler.containsKey( event.getID() )) {
 			for ( IController c : eventHandler.get( event.getID() ) ) {
+				if ( event.getID() != IVidisEvent.FPS )
+				logger.fatal( "dispatching event " + event.getID() + " / " + event.hashCode() + " to " + c.getClass().getSimpleName());
 				c.fireEvent( event );
 			}
 		}

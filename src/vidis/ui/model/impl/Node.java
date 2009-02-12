@@ -258,7 +258,12 @@ public class Node extends ASimObject {
 	}
 
 	public String getId() {
+		try {
 		return (String) getVariableById( AVariable.COMMON_IDENTIFIERS.ID ).getData();
+		}
+		catch ( Exception e ) {
+			return "I AM NOT AN ID";
+		}
 	}
 	
 	public void kill() {

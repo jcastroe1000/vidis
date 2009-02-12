@@ -31,11 +31,6 @@ public class GuiController extends AController {
 		logger.debug("Constructor()");
 		registerEvent( IVidisEvent.InitGui );
 		
-		registerEvent( IVidisEvent.MouseClickedEvent,
-				   IVidisEvent.MousePressedEvent,
-				   IVidisEvent.MouseReleasedEvent,
-				   IVidisEvent.MouseMovedEvent );
-		
 		registerEvent( 	IVidisEvent.ObjectRegister, 
 				   		IVidisEvent.ObjectUnregister );
 		
@@ -57,7 +52,7 @@ public class GuiController extends AController {
 			gui.addContainer( (IGuiContainer) ((VidisEvent)event).getData() );
 			break;
 		case IVidisEvent.SelectASimObject:
-			logger.error("Selected  " + ((VidisEvent<ASimObject>)event).getData() );
+			logger.error("Selected  " + ((VidisEvent<ASimObject>)event).getData() + " hash=" + event.hashCode() );
 			gui.setSelection( ((VidisEvent<ASimObject>)event).getData() );
 			break;
 		
