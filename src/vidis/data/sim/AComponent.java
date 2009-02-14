@@ -149,7 +149,7 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 				    }
 				} else if (a.annotationType().equals(ComponentInfo.class)) {
 				    ComponentInfo aa = (ComponentInfo) a;
-				    String id = COMMON_SCOPES.USER + ".name";
+				    String id = COMMON_SCOPES.USER + ".header1";
 				    if (hasVariable(id)) {
 				    	((DefaultVariable)getVariableById(id)).update(aa.name());
 				    } else {
