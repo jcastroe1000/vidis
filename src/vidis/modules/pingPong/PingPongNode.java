@@ -16,7 +16,7 @@ public class PingPongNode extends AUserNode {
 		for(IUserLink l : getConnectedLinks())
 			send(new Ping(), l);
 	}
-
+	
 	public void receive(IUserPacket packet) {
 		if(packet instanceof Ping) {
 			send(new Pong(), packet.getLinkToSource());
