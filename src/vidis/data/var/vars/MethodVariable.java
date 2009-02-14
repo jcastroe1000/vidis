@@ -76,7 +76,7 @@ public class MethodVariable extends AVariable {
     
     public Object getData(Object... args) {
     	try {
-			return method.invoke(object, args);
+    		return method.invoke(object, args);
 		} catch (IllegalArgumentException e) {
 			logger.error(e);
 		} catch (IllegalAccessException e) {

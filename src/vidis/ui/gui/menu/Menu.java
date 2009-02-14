@@ -7,6 +7,7 @@ package vidis.ui.gui.menu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -142,50 +143,86 @@ public class Menu extends BasicGuiContainer {
 	private void addVar( final AVariable var ) {
 		MenuItem tmp;
 		MethodVariable v = (MethodVariable) var;
-		Class[] expectedParameter = v.getExpectedMethodParameterTypes();
-		if ( expectedParameter.length == 1 ) {
-			if (  IUserNode.class.isAssignableFrom( expectedParameter[0] ) ) {
-				tmp = new MenuItem( this.root, var.getIdentifier(), null );
-				final NodeField nf = new NodeField();
-				MenuItem wireframe = new MenuItem( tmp, nf );
-				MenuItem enter = new MenuItem ( tmp, "execute",  new MenuAction() {
-					public void execute(Menu menu, MenuItem item) {
-						try {
-							var.getData( Simulator.getInstance().findUserNodeForId( nf.getNode().getId() ) );
-						} catch (NotFoundException e) {
-							logger.fatal(e);
+		Class<?>[] expectedParameter = v.getExpectedMethodParameterTypes();
+		if ( expectedParameter.length > 0 ) {
+			tmp = new MenuItem( this.root, var.getIdentifierWithoutNamespace(), null );
+			final List<BasicGuiContainer> params = new LinkedList<BasicGuiContainer>();
+			for(int i=0; i<expectedParameter.length; i++) {
+				Class<?> param = expectedParameter[i];
+				// now pick right menu thingy
+				if (  IUserNode.class.isAssignableFrom( param ) ) {
+					final NodeField nf = new NodeField();
+					MenuItem wireframe = new MenuItem( tmp, nf );
+					this.addChild( wireframe.content );
+					wireframe.setMenu(this);
+					logger.fatal("add nodefield as param");
+					params.add(nf);
+				} else if ( String.class.isAssignableFrom( expectedParameter[0] ) ) {
+					final TextField tf = new TextField();
+					MenuItem wireframe = new MenuItem( tmp, tf );
+		//			tmp.setExpanded( false );
+					this.addChild( wireframe.content );
+					wireframe.setMenu(this);
+					logger.fatal("add textfield as param");
+					params.add(tf);
+				}
+				else {
+					tmp = new MenuItem( this.root, "not supported=" + var.getIdentifierWithoutNamespace(), null );
+				}
+			}
+			logger.fatal("added params: " + params.size());
+			// add confirm/execute button
+			MenuItem enter = new MenuItem ( tmp, "execute",  new MenuAction() {
+				public void execute(Menu menu, MenuItem item) {
+					boolean execute = true;
+					// get data from fields
+					ArrayList<Object> data = new ArrayList<Object>();
+					if(params.size() == 0) {
+						logger.fatal("got no data arguments! cannot wrap parameters, troublesome?");
+					}
+					for(BasicGuiContainer c : params) {
+						if(c instanceof NodeField) {
+							// must be a node instance
+							NodeField nf = (NodeField) c;
+							try {
+								IUserNode p = Simulator.getInstance().findUserNodeForId( nf.getNode().getId() );
+								data.add(p);
+							} catch (NotFoundException e) {
+								logger.fatal(e);
+								execute = false;
+							}
+						} else if(c instanceof TextField) {
+							// must be a text instance
+							TextField tf = (TextField) c;
+							data.add(tf.getText());
+						} else {
+							logger.fatal("cannot determine field instance!");
+							execute = false;
 						}
 					}
-				});
-	//			tmp.setExpanded( false );
-				this.addChild( wireframe.content );
-				this.addChild( enter.content );
-				wireframe.setMenu(this);
-				enter.setMenu(this);
-			}
-			else if ( String.class.isAssignableFrom( expectedParameter[0] ) ) {
-				tmp = new MenuItem( this.root, var.getIdentifier(), null );
-				final TextField tf = new TextField();
-				MenuItem wireframe = new MenuItem( tmp, tf );
-				MenuItem enter = new MenuItem ( tmp, "execute",  new MenuAction() {
-					public void execute(Menu menu, MenuItem item) {
-						var.getData( tf.getText() );
+					if(execute) {
+						// now check each parameter for null arguments
+						for(Object p : data) {
+							if(p == null) {
+								logger.fatal("calling execute with a null argument!");
+							}
+						}
+						if(data.size() == 0) {
+							logger.fatal("got no arguments! this may be troublesome?");
+						}
+						if(execute) {
+							// now execute it if passed
+							logger.fatal("execute function with params: " + data);
+							Object result = var.getData( data.toArray() );
+							logger.fatal("executed function, result=" + result);
+						}
 					}
-				});
-	//			tmp.setExpanded( false );
-				this.addChild( wireframe.content );
-				this.addChild( enter.content );
-				wireframe.setMenu(this);
-				enter.setMenu(this);
-			}
-			else {
-				tmp = new MenuItem( this.root, "not supported=" + var.getIdentifier(), null );
-			}
-		}
-		else if ( expectedParameter.length > 0 ) {
-			tmp = new MenuItem( this.root, "not supported=" + var.getIdentifier(), null );
-		}
-		else {
+				}
+			});
+//			tmp.setExpanded( false );
+			this.addChild( enter.content );
+			enter.setMenu(this);
+		} else {
 			tmp = new MenuItem( this.root, var.getIdentifierWithoutNamespace(), new MenuAction() {
 				public void execute(Menu menu, MenuItem item) {
 					var.getData();
