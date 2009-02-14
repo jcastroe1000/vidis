@@ -186,7 +186,7 @@ public class Menu extends BasicGuiContainer {
 			tmp = new MenuItem( this.root, "not supported=" + var.getIdentifier(), null );
 		}
 		else {
-			tmp = new MenuItem( this.root, var.getIdentifier(), new MenuAction() {
+			tmp = new MenuItem( this.root, var.getIdentifierWithoutNamespace(), new MenuAction() {
 				public void execute(Menu menu, MenuItem item) {
 					var.getData();
 				}
