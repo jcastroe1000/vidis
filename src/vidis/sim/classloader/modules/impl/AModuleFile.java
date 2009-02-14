@@ -8,18 +8,11 @@ package vidis.sim.classloader.modules.impl;
 import java.io.IOException;
 import java.io.InputStream;
 
-import vidis.sim.classloader.modules.interfaces.IModuleFileComponent;
+import vidis.sim.classloader.modules.interfaces.IModuleFile;
 
-public abstract class AModuleFile implements IModuleFileComponent {
+public abstract class AModuleFile implements IModuleFile {
 	public abstract String getName();
 	
-	public boolean isModule() {
-		return false;
-	}
-	public boolean isModuleFile() {
-		return true;
-	}
-
 	public abstract InputStream getInputStream() throws IOException;
 	
 }

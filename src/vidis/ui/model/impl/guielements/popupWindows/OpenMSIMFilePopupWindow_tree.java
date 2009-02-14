@@ -8,8 +8,9 @@ package vidis.ui.model.impl.guielements.popupWindows;
 import org.apache.log4j.Logger;
 
 import vidis.sim.classloader.modules.impl.AModule;
-import vidis.sim.classloader.modules.impl.AModuleFile;
+import vidis.sim.classloader.modules.interfaces.IModule;
 import vidis.sim.classloader.modules.interfaces.IModuleComponent;
+import vidis.sim.classloader.modules.interfaces.IModuleFile;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.VidisEvent;
 import vidis.ui.model.impl.PercentMarginLayout;
@@ -35,7 +36,7 @@ public class OpenMSIMFilePopupWindow_tree extends PopupWindow {
 			protected void clickedOn(TreeElement<IModuleComponent> element) {
 				if( element.getObject() != null) {
 					logger.info("CLICKED ON: " + element.getObject().getName() );
-					if(element.getObject().isModule()) {
+					if(element.getObject() instanceof AModule) {
 	//					// module directory, expand/close
 	//					if(element.isExpanded())
 	//						element.collapse();
@@ -57,7 +58,12 @@ public class OpenMSIMFilePopupWindow_tree extends PopupWindow {
 		for( AModule module : ResourceManager.getModules() ) {
 			TreeElement<IModuleComponent> treeModule = tree.createTreeElement(module.getName(), module);
 			tree.addChild( treeModule );
-			for( AModuleFile moduleFile : module.getModuleFiles()) {
+			for( IModule moduleFile : module.getModules()) {
+				treeModule.addChild(
+						tree.createTreeElement(moduleFile.getName(), (IModuleComponent) moduleFile)
+				);
+			}
+			for( IModuleFile moduleFile : module.getModuleFiles()) {
 				treeModule.addChild(
 						tree.createTreeElement(moduleFile.getName(), (IModuleComponent) moduleFile)
 				);

@@ -78,6 +78,10 @@ public class ResourceManager {
 		// FIXME
 		return "";
 	}
+	
+	public static String getModulesPath() {
+		return modulesPath;
+	}
 
 	public static final long getMemoryTotal() {
 		return Runtime.getRuntime().totalMemory();

@@ -19,8 +19,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import vidis.sim.classloader.modules.impl.AModule;
-import vidis.sim.classloader.modules.impl.AModuleFile;
-import vidis.sim.classloader.modules.interfaces.IModuleComponent;
+import vidis.sim.classloader.modules.interfaces.IModule;
+import vidis.sim.classloader.modules.interfaces.IModuleFile;
 
 /**
  * a jar msim module; can also be used to load a remote
@@ -28,7 +28,7 @@ import vidis.sim.classloader.modules.interfaces.IModuleComponent;
  * @author Dominik
  *
  */
-public class JarModule extends AModule implements IModuleComponent {
+public class JarModule extends AModule {
 	private JarFile f;
 	private File ff;
 	
@@ -43,9 +43,8 @@ public class JarModule extends AModule implements IModuleComponent {
 		ff = new File(f.getName());
 	}
 
-	@Override
-	public List<AModuleFile> getModuleFiles() {
-		List<AModuleFile> moduleFiles = new LinkedList<AModuleFile>();
+	public List<IModuleFile> getModuleFiles() {
+		List<IModuleFile> moduleFiles = new LinkedList<IModuleFile>();
 		
 		Enumeration<JarEntry> es = f.entries();
 		while(es.hasMoreElements()) {
@@ -91,5 +90,11 @@ public class JarModule extends AModule implements IModuleComponent {
 		} catch (IOException e) {
 		}
 		return ff.getName();
+	}
+	
+	public List<IModule> getModules() {
+		List<IModule> modules = new LinkedList<IModule>();
+		// do not add more childs; all msims are displayed at root of a jar module
+		return modules;
 	}
 }

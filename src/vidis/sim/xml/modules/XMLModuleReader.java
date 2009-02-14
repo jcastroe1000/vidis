@@ -20,7 +20,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import vidis.sim.classloader.modules.impl.dir.FileModuleFile;
-import vidis.sim.classloader.modules.interfaces.IModuleFileComponent;
+import vidis.sim.classloader.modules.interfaces.IModuleFile;
 import vidis.sim.exceptions.DocumentMalformedException;
 import vidis.sim.xml.CommonDomParser;
 import vidis.sim.xml.modules.dataStructure.DocumentData;
@@ -35,10 +35,10 @@ import vidis.sim.xml.modules.dataStructure.DocumentDataNode;
  * 
  */
 public class XMLModuleReader implements CommonDomParser {
-	private IModuleFileComponent simFile;
+	private IModuleFile simFile;
 	private DocumentData document;
 
-	private XMLModuleReader(IModuleFileComponent simFile, DocumentData document) {
+	private XMLModuleReader(IModuleFile simFile, DocumentData document) {
 		this.simFile = simFile;
 		this.document = document;
 	}
@@ -406,7 +406,7 @@ public class XMLModuleReader implements CommonDomParser {
 		return parse(new FileModuleFile(f));
 	}
 
-	public static XMLModuleReader parse(IModuleFileComponent simFile) {
+	public static XMLModuleReader parse(IModuleFile simFile) {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
 		try {
@@ -427,7 +427,7 @@ public class XMLModuleReader implements CommonDomParser {
 		return null;
 	}
 
-	public IModuleFileComponent getSimFile() {
+	public IModuleFile getSimFile() {
 		return simFile;
 	}
 

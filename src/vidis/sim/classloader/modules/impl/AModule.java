@@ -5,19 +5,37 @@
 	You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>. */
 package vidis.sim.classloader.modules.impl;
 
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.util.jar.JarFile;
 
-import vidis.sim.classloader.modules.interfaces.IModuleComponent;
+import org.apache.log4j.Logger;
 
-public abstract class AModule implements IModuleComponent {
-	public abstract List<AModuleFile> getModuleFiles();
+import vidis.sim.classloader.modules.impl.dir.DirectoryModule;
+import vidis.sim.classloader.modules.impl.jar.JarModule;
+import vidis.sim.classloader.modules.interfaces.IModule;
 
+public abstract class AModule implements IModule {
+	private static Logger logger = Logger.getLogger(AModule.class);
+	
 	public abstract String getName();
 	
-	public boolean isModuleFile() {
-		return false;
+	protected IModule getImplementation(File f) {
+		if(f.isDirectory()) {
+			return new DirectoryModule(f);
+		} else {
+			if(f.getName().toLowerCase().endsWith(".jar")) {
+				try {
+					JarFile jf = new JarFile(f);
+					return new JarModule( jf );
+				} catch (IOException e) {
+					logger.error(e);
+				}
+			}
+			return null;
+		}
 	}
-	public boolean isModule() {
-		return true;
+	protected IModule getImplementation(JarFile f) {
+		return new JarModule(f);
 	}
 }

@@ -10,7 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import vidis.sim.classloader.modules.impl.AModule;
-import vidis.sim.classloader.modules.impl.AModuleFile;
+import vidis.sim.classloader.modules.interfaces.IModule;
+import vidis.sim.classloader.modules.interfaces.IModuleFile;
 
 /**
  * this kind of module can be used to load
@@ -24,10 +25,9 @@ public class DirectoryModule extends AModule {
 	public DirectoryModule(File file) {
 		f = file;
 	}
-
-	@Override
-	public List<AModuleFile> getModuleFiles() {
-		List<AModuleFile> moduleFiles = new LinkedList<AModuleFile>();
+	
+	public List<IModuleFile> getModuleFiles() {
+		List<IModuleFile> moduleFiles = new LinkedList<IModuleFile>();
 		
 		File moduleFolder = f;
 		if(moduleFolder.exists()) {
@@ -49,5 +49,25 @@ public class DirectoryModule extends AModule {
 	public String getName() {
 		return f.getName();
 	}
-
+	
+	public List<IModule> getModules() {
+		List<IModule> modules = new LinkedList<IModule>();
+		File[] files = f.listFiles();
+		if(files.length > 0) {
+			for(int i=0; i<files.length; i++) {
+				File file = files[i];
+				if(file.exists()) {
+					if(file.isDirectory()) {
+						if(! file.getName().startsWith(".")) {
+							IModule f = getImplementation(file);
+							if(f != null) {
+								modules.add(f);
+							}
+						}
+					}
+				}
+			}
+		}
+		return modules;
+	}
 }

@@ -25,7 +25,7 @@ public class TreeElement<T> extends BasicGuiContainer {
 	protected Tree<T> root;
 	
 	public TreeElement(String name, T obj) {
-		expanded = false;
+		expanded = true;
 		this.obj = obj;
 		this.display = name;
 		childs = new LinkedList<TreeElement<T>>();
@@ -85,7 +85,7 @@ public class TreeElement<T> extends BasicGuiContainer {
 			if(level > 0) {
 				for(TreeElement<T> c : childs) {
 					if(c.my != null)
-						c.my.setVisible(expanded);
+						c.my.setVisible(isExpanded());
 				}
 			} else {
 				my.setVisible(true);
@@ -98,15 +98,16 @@ public class TreeElement<T> extends BasicGuiContainer {
 	}
 
 	public boolean isExpanded() {
+		expanded = true;
 		return expanded;
 	}
 	public void expand() {
 		expanded = true;
 	}
 	public void collapse() {
-		expanded = false;
-		for(TreeElement<T> c : childs) {
-			c.collapse();
-		}
+//		expanded = false;
+//		for(TreeElement<T> c : childs) {
+//			c.collapse();
+//		}
 	}
 }
