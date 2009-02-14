@@ -12,7 +12,7 @@ import javax.vecmath.Point2d;
 
 import org.apache.log4j.Logger;
 
-import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.structure.IGuiContainer;
 import vidis.ui.model.structure.ILayout;
@@ -38,7 +38,7 @@ public class ASlider3D extends BasicGuiContainer {
 		
 		top = new BasicGuiContainer() {
 			@Override
-			protected void onMouseClicked(MouseClickedEvent e) {
+			protected void onMouseClicked(AMouseEvent e) {
 				super.onMouseClicked(e);
 				// scroll up
 				scrollDown();
@@ -134,7 +134,7 @@ public class ASlider3D extends BasicGuiContainer {
 		
 		bottom = new BasicGuiContainer() {
 			@Override
-			protected void onMouseClicked(MouseClickedEvent e) {
+			protected void onMouseClicked(AMouseEvent e) {
 				super.onMouseClicked(e);
 				scrollUp();
 			}
@@ -291,7 +291,7 @@ public class ASlider3D extends BasicGuiContainer {
 	}
 	
 	@Override
-	protected void onMouseClicked(MouseClickedEvent e) {
+	protected void onMouseClicked(AMouseEvent e) {
 		Point2d coords = new Point2d(e.guiCoords.x - getParent().getAbsoluteX(), e.guiCoords.y - getParent().getAbsoluteY());
 		double c_y = coords.y;
 		double m_y = getHeight();

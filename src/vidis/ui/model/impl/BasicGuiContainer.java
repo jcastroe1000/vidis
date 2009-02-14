@@ -11,10 +11,7 @@ import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
-import vidis.ui.events.MouseClickedEvent;
-import vidis.ui.events.MouseMovedEvent;
-import vidis.ui.events.MousePressedEvent;
-import vidis.ui.events.MouseReleasedEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.model.structure.AGuiContainer;
 import vidis.util.ColorGenerator;
 
@@ -126,13 +123,13 @@ public class BasicGuiContainer extends AGuiContainer {
 	}
 	
 	@Override
-	protected synchronized void onMouseEnter( MouseMovedEvent e ) {
+	protected synchronized void onMouseEnter( AMouseEvent e ) {
 		logger.debug( "onMouseEnter() on " + this );
 		setHighlighted( true );
 		updateColor();
 	}
 	@Override
-	protected synchronized void onMouseExit( MouseMovedEvent e ) {
+	protected synchronized void onMouseExit( AMouseEvent e ) {
 		logger.debug( "onMouseExit() on " + this );
 		setHighlighted( false );
 		updateColor();
@@ -149,19 +146,19 @@ public class BasicGuiContainer extends AGuiContainer {
 	}
 
 	@Override
-	protected void onMouseClicked(MouseClickedEvent e) {
+	protected void onMouseClicked(AMouseEvent e) {
 		// TODO Auto-generated method stub
 		logger.info( "onMouseClicked() on " + this );
 	}
 
 	@Override
-	protected void onMousePressed(MousePressedEvent e) {
+	protected void onMousePressed(AMouseEvent e) {
 		// TODO Auto-generated method stub
 		logger.info( "onMousePressed() on " + this );
 	}
 
 	@Override
-	protected void onMouseReleased(MouseReleasedEvent e) {
+	protected void onMouseReleased( AMouseEvent e) {
 		// TODO Auto-generated method stub
 		logger.info( "onMouseReleased() on " + this );
 	}

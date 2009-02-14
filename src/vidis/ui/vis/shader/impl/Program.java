@@ -13,7 +13,6 @@ import javax.media.opengl.GL;
 import vidis.ui.vis.shader.IProgram;
 import vidis.ui.vis.shader.IShader;
 import vidis.ui.vis.shader.IShaderVariable;
-import vidis.ui.vis.shader.variable.ShaderVariable;
 
 public class Program implements IProgram {
 	private List<IShader> shader;

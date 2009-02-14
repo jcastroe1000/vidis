@@ -19,12 +19,8 @@ import javax.vecmath.Point2i;
 import org.apache.log4j.Logger;
 
 import vidis.ui.events.AEventHandler;
-import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.IVidisEvent;
-import vidis.ui.events.MouseClickedEvent;
-import vidis.ui.events.MouseMovedEvent;
-import vidis.ui.events.MousePressedEvent;
-import vidis.ui.events.MouseReleasedEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.mvc.api.Dispatcher;
 import vidis.ui.vis.camera.GuiCamera;
 import vidis.util.ResourceManager;
@@ -193,12 +189,11 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 //		case IVidisEvent.GuiMouseEvent:
 //			handleMouseEvent( (GuiMouseEvent) e );
 //			break;
-		case IVidisEvent.MouseMovedEvent:
-			handleMouseMovedEvent( (MouseMovedEvent) e );
+		case IVidisEvent.MouseMovedEvent_GUI:
+			handleMouseMovedEvent( (AMouseEvent) e );
 			break;
-		case IVidisEvent.MouseClickedEvent:
-		case IVidisEvent.MousePressedEvent:
-		case IVidisEvent.MouseReleasedEvent:
+		case IVidisEvent.MousePressedEvent_GUI:
+		case IVidisEvent.MouseReleasedEvent_GUI:
 			handleMouseEvent( (AMouseEvent) e );
 			break;
 		}
@@ -214,7 +209,7 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	
 	private static Set<IGuiContainer> underMouse = new HashSet<IGuiContainer>();
 	
-	private void handleMouseMovedEvent( MouseMovedEvent e ) {
+	private void handleMouseMovedEvent( AMouseEvent e ) {
 		if ( this.isVisible() ) {
 			// we need to check absolute mouse moved coordinates
 			// to be sure that every element receives its event
@@ -249,18 +244,18 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 			}
 			// forward to 3d
 			if ( parent == null && underMouse.contains( this ) && underMouse.size() == 1 ) {
-				e.forwardTo3D = true;
-				Dispatcher.forwardEvent( e );
+				AMouseEvent nextEvent = new AMouseEvent( e.getID() + 10, e.mouseEvent );
+				Dispatcher.forwardEvent( nextEvent );
 			}
 		}
 	}
 	
-	protected abstract void onMouseEnter( MouseMovedEvent e );
-	protected abstract void onMouseExit( MouseMovedEvent e );
+	protected abstract void onMouseEnter( AMouseEvent e );
+	protected abstract void onMouseExit( AMouseEvent e );
 	
-	protected abstract void onMousePressed( MousePressedEvent e );
-	protected abstract void onMouseReleased( MouseReleasedEvent e );
-	protected abstract void onMouseClicked( MouseClickedEvent e );
+	protected abstract void onMousePressed( AMouseEvent e );
+	protected abstract void onMouseReleased( AMouseEvent e );
+	protected abstract void onMouseClicked( AMouseEvent e );
 	
 	
 	/**
@@ -290,14 +285,12 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	private void dispatchMouseEvent( AMouseEvent e ) {
 		logger.info("dispatchMouseEvent() " + e + ", " + this);
 		switch ( e.getID() ) {
-		case IVidisEvent.MouseClickedEvent:
-			onMouseClicked( (MouseClickedEvent) e );
+		case IVidisEvent.MousePressedEvent_GUI:
+			onMousePressed( e );
 			break;
-		case IVidisEvent.MousePressedEvent:
-			onMousePressed( (MousePressedEvent) e );
-			break;
-		case IVidisEvent.MouseReleasedEvent:
-			onMouseReleased( (MouseReleasedEvent) e );
+		case IVidisEvent.MouseReleasedEvent_GUI:
+			onMouseReleased( e );
+			onMouseClicked( e );
 			break;
 		}
 	}
@@ -333,8 +326,8 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 				
 				if ( ! childFound ) {
 					if ( parent == null ) {
-						e.forwardTo3D = true;
-						Dispatcher.forwardEvent( e );
+						AMouseEvent nextEvent = new AMouseEvent( e.getID() + 10, e.mouseEvent );
+						Dispatcher.forwardEvent( nextEvent );
 					}
 					dispatchMouseEvent( e );
 				}

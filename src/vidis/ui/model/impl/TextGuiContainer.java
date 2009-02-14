@@ -8,8 +8,7 @@ package vidis.ui.model.impl;
 import javax.media.opengl.GL;
 import javax.swing.JOptionPane;
 
-import vidis.ui.events.GuiMouseEvent;
-import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 
 
 public class TextGuiContainer extends BasicGuiContainer {
@@ -49,7 +48,7 @@ public class TextGuiContainer extends BasicGuiContainer {
 	}
 	
 	@Override
-	protected void onMouseClicked( MouseClickedEvent e ) {
+	protected void onMouseClicked( AMouseEvent e ) {
 		JOptionPane.showMessageDialog(null, "you clicked on an TextGuiContainer!");
 	}
 

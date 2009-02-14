@@ -28,13 +28,11 @@ import javax.vecmath.Vector3d;
 import org.apache.log4j.Logger;
 
 import vidis.ui.config.Configuration;
-import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.CameraEvent;
 import vidis.ui.events.IVidisEvent;
-import vidis.ui.events.MouseClickedEvent;
-import vidis.ui.events.MouseReleasedEvent;
 import vidis.ui.events.ObjectEvent;
 import vidis.ui.events.VidisEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.input.InputListener;
 import vidis.ui.model.impl.Link;
 import vidis.ui.model.impl.Node;
@@ -104,10 +102,8 @@ public class SceneController extends AController implements GLEventListener {
 		registerEvent( IVidisEvent.ObjectRegister, 
 					   IVidisEvent.ObjectUnregister );
 		
-		registerEvent( IVidisEvent.MouseClickedEvent,
-				   IVidisEvent.MousePressedEvent,
-				   IVidisEvent.MouseReleasedEvent,
-				   IVidisEvent.MouseMovedEvent );
+		registerEvent( IVidisEvent.MouseReleasedEvent_3D2,
+				   IVidisEvent.MouseMovedEvent_3D2 );
 		
 		registerEvent( IVidisEvent.StartNodeCapturing,
 					   IVidisEvent.StartPacketCapturing );
@@ -160,17 +156,9 @@ public class SceneController extends AController implements GLEventListener {
 			unregisterObject( o );
 			
 			break;
-		case IVidisEvent.MouseReleasedEvent:
-		case IVidisEvent.MouseClickedEvent:
-		case IVidisEvent.MouseMovedEvent:
-			try {
-			if ( ((AMouseEvent)event).rayCalculated ) {
-//				logger.warn("handling Mouse event");
-				handleMouseEvent( (AMouseEvent)event );
-			}
-			} catch(Exception e) {
-				logger.error(e);
-			}
+		case IVidisEvent.MouseReleasedEvent_3D2:
+		case IVidisEvent.MouseMovedEvent_3D2:
+			handleMouseEvent( (AMouseEvent)event );
 			break;
 		case IVidisEvent.StartNodeCapturing:
 			nodeCapturingSource = ((VidisEvent<NodeField>)event).getData();
@@ -217,9 +205,15 @@ public class SceneController extends AController implements GLEventListener {
 		
 		// add some default objects
 		
-		registerObject( new Grid() );
-		registerObject( new Axis() );
-		registerObject( selector );
+		// the axis was only for debugging purpose
+//		registerObject( new Axis() );
+		
+		// for logo screenshot
+//		registerObject( new Grid() );
+
+		
+		// for logo screenshot
+//		registerObject( selector );
 	}
 	
 	
@@ -561,8 +555,7 @@ public class SceneController extends AController implements GLEventListener {
 			}
 		}
 		if ( nearestObject != null ) {
-			if ( e instanceof MouseClickedEvent ) {
-				logger.fatal( "Im here " + e.rayCalculated + " / " + e.hashCode());
+			if ( e.getID() == IVidisEvent.MouseReleasedEvent_3D2 ) {
 				if ( nearestObject instanceof Node ) {
 					if ( nodeCapturingSource != null ) {
 						nodeCapturingSource.setNode( (Node) nearestObject );

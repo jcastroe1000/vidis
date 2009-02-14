@@ -9,15 +9,12 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import javax.media.opengl.GL;
-import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
 import vidis.ui.events.IVidisEvent;
-import vidis.ui.events.MouseClickedEvent;
-import vidis.ui.events.MousePressedEvent;
-import vidis.ui.events.MouseReleasedEvent;
 import vidis.ui.events.VidisEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.mvc.api.Dispatcher;
 
 public class NodeField extends BasicGuiContainer {
@@ -178,13 +175,13 @@ public class NodeField extends BasicGuiContainer {
 	}
 	
 	@Override
-	protected void onMousePressed(MousePressedEvent e) {
+	protected void onMousePressed(AMouseEvent e) {
 	}
 	@Override
-	protected void onMouseReleased(MouseReleasedEvent e) {
+	protected void onMouseReleased(AMouseEvent e) {
 	}
 	@Override
-	protected void onMouseClicked(MouseClickedEvent e) {
+	protected void onMouseClicked(AMouseEvent e) {
 		startNodeCapturing();
 	}
 	

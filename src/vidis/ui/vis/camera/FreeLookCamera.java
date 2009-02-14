@@ -24,14 +24,10 @@ import javax.vecmath.Vector4d;
 import org.apache.log4j.Logger;
 
 import vidis.ui.events.AEventHandler;
-import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.IVidisEvent;
-import vidis.ui.events.MouseClickedEvent;
-import vidis.ui.events.MouseMovedEvent;
-import vidis.ui.events.MousePressedEvent;
-import vidis.ui.events.MouseReleasedEvent;
 import vidis.ui.events.StartEvent;
 import vidis.ui.events.StopEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.mvc.api.Dispatcher;
 
 public class FreeLookCamera extends AEventHandler implements ICamera {
@@ -100,7 +96,9 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 		this.lookDir.normalize();
 	}
 	public void init(GL gl) {
-		gl.glClearColor(0.9f, 0.9f, 0.9f, 1f);
+//		gl.glClearColor(0.9f, 0.9f, 0.9f, 1f);
+		// for logo screenshot
+		gl.glClearColor(1f, 1f, 1f, 1f);
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 		gl.glEnable(GL.GL_LINE_SMOOTH);
 		gl.glEnable(GL.GL_BLEND);
@@ -115,6 +113,7 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 		
 		gl.glViewport((int)target.getX(), (int)target.getY(), (int)target.getWidth(), (int)target.getHeight());
 	
+		gl.glLineWidth( 1f );
 		
 	}
 	public void applyProjectionMatrix(GL gl) {
@@ -248,8 +247,16 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 				this.moveRight = false;
 			}
 			break;
-		case IVidisEvent.MouseClickedEvent:
-		case IVidisEvent.MouseMovedEvent:
+		case IVidisEvent.MouseMovedEvent_3D1:
+			try {
+				IVidisEvent newOne = calc3DMousePoint( ((AMouseEvent)event) );
+				Dispatcher.forwardEvent( newOne );
+			}
+			catch ( Exception e ) {
+				logger.error( "exception", e );
+			}
+			break;
+		case IVidisEvent.MouseMovedEvent_AWT:
 			if ( mouseLookOn ) {
 				AMouseEvent event0 = (AMouseEvent)event;
 				MouseEvent event1 = (MouseEvent) event0.mouseEvent;
@@ -267,17 +274,8 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 				}
 				lastPoint = currPoint;
 			}
-			else {
-				try {
-					IVidisEvent newOne = calc3DMousePoint( ((AMouseEvent)event) );
-					Dispatcher.forwardEvent( newOne );
-				}
-				catch ( Exception e ) {
-					logger.error( "exception", e );
-				}
-			}
 			break;
-		case IVidisEvent.MousePressedEvent:
+		case IVidisEvent.MousePressedEvent_3D1:
 			
 			logger.fatal( "MousePressed" + ((AMouseEvent)event).mouseEvent.getButton() );
 			if ( ((AMouseEvent)event).mouseEvent.getButton() == MouseEvent.BUTTON3 ) {
@@ -296,11 +294,20 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 			
 			logger.fatal( "mouseLookOn = " + mouseLookOn );
 			break;
-		case IVidisEvent.MouseReleasedEvent:
+		case IVidisEvent.MouseReleasedEvent_3D1:
 			logger.fatal( "MouseReleased" );
 			if ( ((AMouseEvent)event).mouseEvent.getButton() == MouseEvent.BUTTON3 ) {
 				mouseLookOn = false;
 				lastPoint = null;
+			}
+			else {
+				try {
+					IVidisEvent newOne = calc3DMousePoint( ((AMouseEvent)event) );
+					Dispatcher.forwardEvent( newOne );
+				}
+				catch ( Exception e ) {
+					logger.error( "exception", e );
+				}
 			}
 			logger.fatal( "mouseLookOn = " + mouseLookOn );
 			break;
@@ -418,19 +425,8 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 	
 	
 	public AMouseEvent calc3DMousePoint( AMouseEvent oldOne ) {
-		AMouseEvent newOne = null;
-		if ( oldOne instanceof MouseClickedEvent ) {
-			newOne = new MouseClickedEvent( oldOne.mouseEvent );
-		} else if ( oldOne instanceof MouseMovedEvent ) {
-			newOne = new MouseMovedEvent( oldOne.mouseEvent );
-		} else if ( oldOne instanceof MousePressedEvent ) {
-			newOne = new MousePressedEvent( oldOne.mouseEvent );
-		} else if ( oldOne instanceof MouseReleasedEvent ) {
-			newOne = new MouseReleasedEvent( oldOne.mouseEvent );
-		}
-		newOne.forwardTo3D = oldOne.forwardTo3D;
-		newOne.guiCoords = oldOne.guiCoords;
-		newOne.guiCoordsRelative = oldOne.guiCoordsRelative;
+		AMouseEvent newOne = new AMouseEvent( oldOne.getID() + 10, oldOne.mouseEvent );
+		
 //		logger.fatal( "calc3DMousePoint oldOne=" + oldOne.hashCode() + ", newOne=" + newOne.hashCode() );		
 		
 		Point p = newOne.mouseEvent.getPoint();
@@ -492,7 +488,6 @@ public class FreeLookCamera extends AEventHandler implements ICamera {
 		ret.add( Px1, mul);
 		newOne.ray = new Vector3d( P1P2.x, P1P2.y, P1P2.z );
 		newOne.rayOrigin = new Point3d( Px1.x, Px1.y, Px1.z );
-		newOne.rayCalculated = true;
 		
 		return newOne;
 	}

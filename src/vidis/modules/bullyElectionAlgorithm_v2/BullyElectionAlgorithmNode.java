@@ -13,15 +13,19 @@ import vidis.data.mod.IUserLink;
 import vidis.data.mod.IUserPacket;
 
 public class BullyElectionAlgorithmNode extends AUserNode {
+	
     public String bully = null;
+    @Display(name="checkTimeout")
     public int checkTimeout = -1;
+    @Display(name="restartTimeout")
     public int startTimeout = -1;
+    @Display(name="enabled")
     public boolean enabled = true;
-
+    @Display(name="gotBully")
     public boolean gotBully() {
     	return bully != null;
     }
-    
+    @Display(name="bully")
     public String getBully() {
     	return bully;
     }

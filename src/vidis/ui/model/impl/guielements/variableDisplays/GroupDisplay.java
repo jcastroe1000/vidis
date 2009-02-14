@@ -13,7 +13,7 @@ import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
-import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.Label;
 
@@ -68,7 +68,7 @@ public class GroupDisplay extends Label {
 	}
 	
 	@Override
-	protected void onMouseClicked(MouseClickedEvent e) {
+	protected void onMouseClicked(AMouseEvent e) {
 		if ( showContent ) {
 			setShowContent( false );
 		}

@@ -13,10 +13,10 @@ public interface IVidisEvent {
 	public final int KeyReleasedEvent = 1;
 	public final int KeyTypedEvent = 2;
 	
-	public final int MousePressedEvent = 3;
-	public final int MouseReleasedEvent = 4;
-	public final int MouseClickedEvent = 5;
-	public final int MouseMovedEvent = 13;
+//	public final int MousePressedEvent = 3;
+//	public final int MouseReleasedEvent = 4;
+//	public final int MouseClickedEvent = 5;
+//	public final int MouseMovedEvent = 13;
 	
 	public final int Init = 6;
 	public final int InitScene = 7;
@@ -73,4 +73,21 @@ public interface IVidisEvent {
 	
 	public final int AutoAdjustDetailLevel = 7000;
 	
+	public final int MouseMovedEvent_AWT = 90001;
+	public final int MousePressedEvent_AWT = 90002;
+	public final int MouseReleasedEvent_AWT = 90003;
+	
+	public final int MouseMovedEvent_GUI = 90011;
+	public final int MousePressedEvent_GUI = 90012;
+	public final int MouseReleasedEvent_GUI = 90013;
+	
+	public final int MouseMovedEvent_3D1 = 90021;
+	public final int MousePressedEvent_3D1 = 90022;
+	public final int MouseReleasedEvent_3D1 = 90023;
+	
+	public final int MouseMovedEvent_3D2 = 90031;
+	public final int MousePressedEvent_3D2 = 90032;
+	public final int MouseReleasedEvent_3D2 = 90033;
+	
+		
 }

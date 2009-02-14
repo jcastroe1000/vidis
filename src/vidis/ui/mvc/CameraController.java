@@ -8,10 +8,9 @@ package vidis.ui.mvc;
 
 import org.apache.log4j.Logger;
 
-import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.CameraEvent;
 import vidis.ui.events.IVidisEvent;
-import vidis.ui.events.MouseMovedEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.mvc.api.AController;
 import vidis.ui.mvc.api.Dispatcher;
 import vidis.ui.vis.camera.FreeLookCamera;
@@ -39,6 +38,10 @@ public class CameraController extends AController{
 						IVidisEvent.ZoomIn,
 						IVidisEvent.ZoomOut);
 		
+		registerEvent(	IVidisEvent.MouseMovedEvent_AWT,
+						IVidisEvent.MouseMovedEvent_3D1,
+						IVidisEvent.MousePressedEvent_3D1,
+						IVidisEvent.MouseReleasedEvent_3D1 );
 	}
 	
 	@Override
@@ -60,17 +63,14 @@ public class CameraController extends AController{
 		case IVidisEvent.ScrollRight:
 			forwardEventToOtherHandler( defaultCamera, event );
 			break;
-		case IVidisEvent.MouseClickedEvent:
-		case IVidisEvent.MouseMovedEvent:
-		case IVidisEvent.MousePressedEvent:
-		case IVidisEvent.MouseReleasedEvent:
-			try {
-			if ( ((AMouseEvent)event).rayCalculated == false && ((AMouseEvent)event).forwardTo3D == true ) {
-				if ( !(event instanceof MouseMovedEvent && ((AMouseEvent)event).mouseEvent.getPoint().equals( defaultCamera.getMouseDownPoint() ))) {
-					defaultCamera.fireEvent( event );
-				}
-			}} catch(Exception e) {
-				logger.error(e);
+		case IVidisEvent.MouseMovedEvent_AWT:
+			defaultCamera.fireEvent( event );
+			break;
+		case IVidisEvent.MouseMovedEvent_3D1:
+		case IVidisEvent.MousePressedEvent_3D1:
+		case IVidisEvent.MouseReleasedEvent_3D1:
+			if ( !(event.getID() == IVidisEvent.MouseMovedEvent_3D1 && ((AMouseEvent)event).mouseEvent.getPoint().equals( defaultCamera.getMouseDownPoint() ))) {
+				defaultCamera.fireEvent( event );
 			}
 			break;
 		}

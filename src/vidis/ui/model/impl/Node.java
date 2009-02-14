@@ -10,12 +10,11 @@ import java.awt.Color;
 import javax.media.opengl.GL;
 import javax.vecmath.Vector3d;
 
-import vidis.data.var.IVariable;
 import vidis.data.var.IVariableContainer;
 import vidis.data.var.vars.AVariable;
 import vidis.ui.config.Configuration;
 import vidis.ui.events.IVidisEvent;
-import vidis.ui.events.MouseMovedEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.model.impl.guielements.ObjectGuiElement;
 import vidis.ui.model.impl.guielements.variableDisplays.CompositeScrollPane;
 import vidis.ui.model.structure.ASimObject;
@@ -58,13 +57,13 @@ public class Node extends ASimObject {
 //		};
 		
 		@Override
-		protected synchronized void onMouseEnter(MouseMovedEvent e) {
+		protected synchronized void onMouseEnter(AMouseEvent e) {
 			Node.this.setHighlighted( true );
 			super.onMouseEnter(e);
 		}
 		
 		@Override
-		protected synchronized void onMouseExit(MouseMovedEvent e) {
+		protected synchronized void onMouseExit(AMouseEvent e) {
 			Node.this.setHighlighted( false );
 			super.onMouseExit(e);
 		}

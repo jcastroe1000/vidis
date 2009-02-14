@@ -12,9 +12,7 @@ import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
-import vidis.ui.events.MouseClickedEvent;
-import vidis.ui.events.MousePressedEvent;
-import vidis.ui.events.MouseReleasedEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 
 /**
  * represents a common known Label to write something onto the screen
@@ -113,13 +111,13 @@ public class Label extends BasicGuiContainer {
 	}
 	
 	@Override
-	protected void onMousePressed(MousePressedEvent e) {
+	protected void onMousePressed(AMouseEvent e) {
 	}
 	@Override
-	protected void onMouseReleased(MouseReleasedEvent e) {
+	protected void onMouseReleased(AMouseEvent e) {
 	}
 	@Override
-	protected void onMouseClicked(MouseClickedEvent e) {
+	protected void onMouseClicked(AMouseEvent e) {
 	}
 	
 	public void setText( String text ) {

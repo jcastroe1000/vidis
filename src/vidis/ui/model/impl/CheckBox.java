@@ -14,10 +14,7 @@ import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
-import vidis.ui.events.MouseClickedEvent;
-import vidis.ui.events.MouseMovedEvent;
-import vidis.ui.events.MousePressedEvent;
-import vidis.ui.events.MouseReleasedEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 
 public class CheckBox extends BasicGuiContainer {
 	private static Logger logger = Logger.getLogger(CheckBox.class);
@@ -158,13 +155,13 @@ public class CheckBox extends BasicGuiContainer {
 	}
 	
 	@Override
-	protected void onMousePressed(MousePressedEvent e) {
+	protected void onMousePressed(AMouseEvent e) {
 	}
 	@Override
-	protected void onMouseReleased(MouseReleasedEvent e) {
+	protected void onMouseReleased(AMouseEvent e) {
 	}
 	@Override
-	protected void onMouseClicked(MouseClickedEvent e) {
+	protected void onMouseClicked(AMouseEvent e) {
 		if ( checked == false ) {
 			checked = true;
 		}
@@ -207,12 +204,12 @@ public class CheckBox extends BasicGuiContainer {
 	}
 	
 	@Override
-	protected void onMouseEnter( MouseMovedEvent e ) {
+	protected void onMouseEnter( AMouseEvent e ) {
 		textColor = Color.GRAY;
 	}
 	
 	@Override
-	protected void onMouseExit( MouseMovedEvent e ) {
+	protected void onMouseExit( AMouseEvent e ) {
 		textColor = Color.BLACK;
 	}
 }

@@ -5,8 +5,10 @@
 	You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>. */
 package vidis.util.graphs.graph;
 
-import java.util.*;
-import java.io.*;
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 /**
  * An interface for Graphs.

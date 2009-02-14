@@ -7,7 +7,6 @@ package vidis.ui.mvc;
 
 import org.apache.log4j.Logger;
 
-import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.CameraEvent;
 import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.ObjectEvent;
@@ -39,6 +38,10 @@ public class GuiController extends AController {
 		registerEvent( IVidisEvent.ShowGuiContainer );
 		
 		registerEvent( IVidisEvent.SelectASimObject );
+		
+		registerEvent( IVidisEvent.MouseMovedEvent_AWT,
+					   IVidisEvent.MousePressedEvent_AWT,
+					   IVidisEvent.MouseReleasedEvent_AWT );
 	}
 	
 	@Override
@@ -55,14 +58,10 @@ public class GuiController extends AController {
 			logger.error("Selected  " + ((VidisEvent<ASimObject>)event).getData() + " hash=" + event.hashCode() );
 			gui.setSelection( ((VidisEvent<ASimObject>)event).getData() );
 			break;
-		
-		case IVidisEvent.MouseClickedEvent:
-		case IVidisEvent.MousePressedEvent:
-		case IVidisEvent.MouseReleasedEvent:
-		case IVidisEvent.MouseMovedEvent:
-			if ( ((AMouseEvent)event).rayCalculated == false && ((AMouseEvent)event).forwardTo3D == false && ((AMouseEvent)event).guiCoords == null && guiCamera != null ) {
-				guiCamera.fireEvent( event );
-			}
+		case IVidisEvent.MouseMovedEvent_AWT:
+		case IVidisEvent.MousePressedEvent_AWT:
+		case IVidisEvent.MouseReleasedEvent_AWT:
+			guiCamera.fireEvent( event );
 			break;
 		case IVidisEvent.FPS:
 			String fps = ((VidisEvent)event).getData().toString();

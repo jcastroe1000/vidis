@@ -13,12 +13,7 @@ import javax.media.opengl.GL;
 
 import org.apache.log4j.Logger;
 
-import vidis.ui.events.MouseClickedEvent;
-import vidis.ui.events.MouseMovedEvent;
-import vidis.ui.events.MousePressedEvent;
-import vidis.ui.events.MouseReleasedEvent;
-import vidis.ui.model.structure.IGuiContainer;
-import vidis.ui.model.structure.ILayout;
+import vidis.ui.events.mouse.AMouseEvent;
 
 public class Button extends BasicGuiContainer {
 	private static Logger logger = Logger.getLogger(Button.class);
@@ -180,23 +175,23 @@ public class Button extends BasicGuiContainer {
 	}
 	
 	@Override
-	protected void onMousePressed(MousePressedEvent e) {
+	protected void onMousePressed(AMouseEvent e) {
 		pressed = true;
 	}
 	@Override
-	protected void onMouseReleased(MouseReleasedEvent e) {
+	protected void onMouseReleased(AMouseEvent e) {
 		pressed = false;
 		onClick();
 	}
 	
 	@Override
-	protected synchronized void onMouseExit( MouseMovedEvent e ) {
+	protected synchronized void onMouseExit( AMouseEvent e ) {
 		pressed = false;
 		super.onMouseExit( e );
 	}
 	
 	@Override
-	protected synchronized void onMouseEnter( MouseMovedEvent e ) {
+	protected synchronized void onMouseEnter( AMouseEvent e ) {
 		if ( (e.mouseEvent.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) == InputEvent.BUTTON1_DOWN_MASK ) {
 			pressed = true;
 		}

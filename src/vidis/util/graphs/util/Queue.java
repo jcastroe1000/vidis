@@ -5,8 +5,9 @@
 	You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>. */
 package vidis.util.graphs.util;
 
-import java.util.*;
-import java.io.*;
+import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A Queue represents a first-in-first-out (FIFO) data structure.

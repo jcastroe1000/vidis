@@ -21,6 +21,7 @@ import vidis.sim.Simulator;
 import vidis.sim.exceptions.NotFoundException;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.NodeField;
+import vidis.ui.model.impl.TextField;
 import vidis.ui.model.structure.ASimObject;
 import vidis.ui.model.structure.IGuiContainer;
 import vidis.ui.model.structure.ILayout;
@@ -142,25 +143,44 @@ public class Menu extends BasicGuiContainer {
 		MenuItem tmp;
 		MethodVariable v = (MethodVariable) var;
 		Class[] expectedParameter = v.getExpectedMethodParameterTypes();
-		if ( expectedParameter.length == 1 && IUserNode.class.isAssignableFrom( expectedParameter[0] ) ) {
-			tmp = new MenuItem( this.root, var.getIdentifier(), null );
-			final NodeField nf = new NodeField();
-			MenuItem wireframe = new MenuItem( tmp, nf );
-			MenuItem enter = new MenuItem ( tmp, "execute",  new MenuAction() {
-				public void execute(Menu menu, MenuItem item) {
-					try {
-						var.getData( Simulator.getInstance().findUserNodeForId( nf.getNode().getId() ) );
-					} catch (NotFoundException e) {
-						logger.fatal(e);
+		if ( expectedParameter.length == 1 ) {
+			if (  IUserNode.class.isAssignableFrom( expectedParameter[0] ) ) {
+				tmp = new MenuItem( this.root, var.getIdentifier(), null );
+				final NodeField nf = new NodeField();
+				MenuItem wireframe = new MenuItem( tmp, nf );
+				MenuItem enter = new MenuItem ( tmp, "execute",  new MenuAction() {
+					public void execute(Menu menu, MenuItem item) {
+						try {
+							var.getData( Simulator.getInstance().findUserNodeForId( nf.getNode().getId() ) );
+						} catch (NotFoundException e) {
+							logger.fatal(e);
+						}
 					}
-				}
-			});
-//			tmp.setExpanded( false );
-			this.addChild( wireframe.content );
-			this.addChild( enter.content );
-			wireframe.setMenu(this);
-			enter.setMenu(this);
-			
+				});
+	//			tmp.setExpanded( false );
+				this.addChild( wireframe.content );
+				this.addChild( enter.content );
+				wireframe.setMenu(this);
+				enter.setMenu(this);
+			}
+			else if ( String.class.isAssignableFrom( expectedParameter[0] ) ) {
+				tmp = new MenuItem( this.root, var.getIdentifier(), null );
+				final TextField tf = new TextField();
+				MenuItem wireframe = new MenuItem( tmp, tf );
+				MenuItem enter = new MenuItem ( tmp, "execute",  new MenuAction() {
+					public void execute(Menu menu, MenuItem item) {
+						var.getData( tf.getText() );
+					}
+				});
+	//			tmp.setExpanded( false );
+				this.addChild( wireframe.content );
+				this.addChild( enter.content );
+				wireframe.setMenu(this);
+				enter.setMenu(this);
+			}
+			else {
+				tmp = new MenuItem( this.root, "not supported=" + var.getIdentifier(), null );
+			}
 		}
 		else if ( expectedParameter.length > 0 ) {
 			tmp = new MenuItem( this.root, "not supported=" + var.getIdentifier(), null );

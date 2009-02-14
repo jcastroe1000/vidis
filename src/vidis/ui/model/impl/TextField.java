@@ -13,9 +13,7 @@ import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
-import vidis.ui.events.MouseClickedEvent;
-import vidis.ui.events.MousePressedEvent;
-import vidis.ui.events.MouseReleasedEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 
 public class TextField extends BasicGuiContainer {
 	private static Logger logger = Logger.getLogger(TextField.class);
@@ -166,13 +164,13 @@ public class TextField extends BasicGuiContainer {
 	}
 	
 	@Override
-	protected void onMousePressed(MousePressedEvent e) {
+	protected void onMousePressed(AMouseEvent e) {
 	}
 	@Override
-	protected void onMouseReleased(MouseReleasedEvent e) {
+	protected void onMouseReleased(AMouseEvent e) {
 	}
 	@Override
-	protected void onMouseClicked(MouseClickedEvent e) {
+	protected void onMouseClicked(AMouseEvent e) {
 		setText( JOptionPane.showInputDialog( "Enter value" ) );
 	}
 	

@@ -15,18 +15,15 @@ import org.apache.log4j.Logger;
 
 import vidis.ui.config.Configuration;
 import vidis.ui.events.AEventHandler;
-import vidis.ui.events.AMouseEvent;
 import vidis.ui.events.IVidisEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.BasicMarginLayout;
 import vidis.ui.model.impl.CheckBox;
 import vidis.ui.model.impl.CheckChangeListener;
 import vidis.ui.model.impl.Label;
-import vidis.ui.model.impl.NodeField;
-import vidis.ui.model.impl.PacketField;
 import vidis.ui.model.impl.PercentMarginLayout;
 import vidis.ui.model.impl.PlayPauseStop;
-import vidis.ui.model.impl.TextField;
 import vidis.ui.model.impl.guielements.popupWindows.ApplyLayoutPopupWindow;
 import vidis.ui.model.impl.guielements.popupWindows.OpenMSIMFilePopupWindow_tree;
 import vidis.ui.model.impl.guielements.scrollpane.AScrollpane3D;
@@ -292,7 +289,6 @@ public class Gui extends AEventHandler {
 			if ( me.guiCoords != null ) {
 				me.guiCoords.y = mainContainer.getHeight() - me.guiCoords.y;
 			}
-			
 		}
 		// workaround for clicking ( FIXME: gui should use normal mouseEvent with guiCoords set! )
 //		if ( e instanceof GuiMouseEvent ) {

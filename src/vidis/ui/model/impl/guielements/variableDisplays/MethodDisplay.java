@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 
 import vidis.data.var.vars.AVariable;
 import vidis.data.var.vars.MethodVariable;
-import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.model.impl.Button;
 import vidis.ui.model.structure.IGuiContainer;
 import vidis.ui.model.structure.ILayout;
@@ -25,7 +25,7 @@ public class MethodDisplay extends Display {
 		super(v);
 		final MethodVariable var = (MethodVariable) v;
 		exec = new Button() {
-			protected void onMouseClicked(MouseClickedEvent e) {
+			protected void onMouseClicked(AMouseEvent e) {
 				if ( var.getMethodExpectsParameters() ) {
 					// FIXME
 				}

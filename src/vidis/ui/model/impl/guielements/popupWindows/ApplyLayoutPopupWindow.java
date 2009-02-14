@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 
 import vidis.ui.events.IVidisEvent;
-import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.model.impl.Label;
 import vidis.ui.model.impl.PercentMarginLayout;
 import vidis.ui.model.impl.guielements.PopupWindow;
@@ -49,7 +49,7 @@ public class ApplyLayoutPopupWindow extends PopupWindow {
 	private void createElement(ScrollPane3D scrollPane, String title) {
 		Label tmp1 = new Label(title) {
 			@Override
-			protected void onMouseClicked(MouseClickedEvent e) {
+			protected void onMouseClicked(AMouseEvent e) {
 				super.onMouseClicked(e);
 				// forward event
 				Dispatcher.forwardEvent(ApplyLayoutPopupWindow.this.mapTitleInt.get(getText()));

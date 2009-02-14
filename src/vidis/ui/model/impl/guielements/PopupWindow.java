@@ -9,7 +9,7 @@ import java.awt.Color;
 
 import org.apache.log4j.Logger;
 
-import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.Label;
 import vidis.ui.model.impl.PercentMarginLayout;
@@ -31,7 +31,7 @@ public abstract class PopupWindow extends BasicGuiContainer {
 		// upper right close button
 		Label tmp2 = new Label("[X]") {
 			@Override
-			protected void onMouseClicked(MouseClickedEvent e) {
+			protected void onMouseClicked(AMouseEvent e) {
 				close();
 			}
 		};

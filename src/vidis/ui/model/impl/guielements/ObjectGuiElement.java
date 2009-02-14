@@ -14,7 +14,7 @@ import javax.media.opengl.GL;
 import org.apache.log4j.Logger;
 
 import vidis.data.var.IVariableContainer;
-import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.guielements.variableDisplays.CompositeScrollPane;
 import vidis.ui.model.structure.IGuiContainer;
@@ -52,7 +52,7 @@ public abstract class ObjectGuiElement extends BasicGuiContainer {
 				return 14;
 			}
 			@Override
-			protected void onMouseClicked(MouseClickedEvent e) {
+			protected void onMouseClicked(AMouseEvent e) {
 				ObjectGuiElement.this.onMouseClicked(e);
 			}
 			
@@ -90,7 +90,7 @@ public abstract class ObjectGuiElement extends BasicGuiContainer {
 				return ObjectGuiElement.this.getWidth();
 			}
 			@Override
-			protected void onMouseClicked(MouseClickedEvent e) {
+			protected void onMouseClicked(AMouseEvent e) {
 				ObjectGuiElement.this.onMouseClicked(e);
 			}
 			
@@ -177,7 +177,7 @@ public abstract class ObjectGuiElement extends BasicGuiContainer {
 	}
 
 	@Override
-	protected void onMouseClicked(MouseClickedEvent e) {
+	protected void onMouseClicked(AMouseEvent e) {
 		if ( mode == Mode.MINIMIZED ) mode = Mode.NORMAL;
 		else if ( mode == Mode.NORMAL ) mode = Mode.EXPANDED;
 		else if ( mode == Mode.EXPANDED ) mode = Mode.EXPANDED2;

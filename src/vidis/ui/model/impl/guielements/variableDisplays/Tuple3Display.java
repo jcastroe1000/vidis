@@ -5,8 +5,6 @@
 	You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>. */
 package vidis.ui.model.impl.guielements.variableDisplays;
 
-import java.awt.Color;
-
 import javax.media.opengl.GL;
 import javax.vecmath.Tuple3b;
 import javax.vecmath.Tuple3d;

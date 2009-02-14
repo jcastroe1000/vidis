@@ -15,12 +15,10 @@ import java.awt.event.MouseWheelListener;
 
 import org.apache.log4j.Logger;
 
+import vidis.ui.events.IVidisEvent;
 import vidis.ui.events.KeyPressedEvent;
 import vidis.ui.events.KeyReleasedEvent;
-import vidis.ui.events.MouseClickedEvent;
-import vidis.ui.events.MouseMovedEvent;
-import vidis.ui.events.MousePressedEvent;
-import vidis.ui.events.MouseReleasedEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.mvc.api.Dispatcher;
 
 public class InputListener implements KeyListener, MouseWheelListener, MouseListener, MouseMotionListener {
@@ -53,8 +51,8 @@ public class InputListener implements KeyListener, MouseWheelListener, MouseList
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		logger.warn( "mouseClicked("+e+")");
-		Dispatcher.forwardEvent( new MouseClickedEvent( e ) );
+//		logger.warn( "mouseClicked("+e+")");
+//		Dispatcher.forwardEvent( new MouseClickedEvent( e ) );
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -65,20 +63,20 @@ public class InputListener implements KeyListener, MouseWheelListener, MouseList
 
 	public void mousePressed(MouseEvent e) {
 		logger.debug( "mousePressed("+e+")");
-		Dispatcher.forwardEvent( new MousePressedEvent( e ) );
+		Dispatcher.forwardEvent( new AMouseEvent( IVidisEvent.MousePressedEvent_AWT, e ) );
 	}
 
 	public void mouseReleased(MouseEvent e) {
 		logger.debug( "mouseReleased("+e+")");
-		Dispatcher.forwardEvent( new MouseReleasedEvent( e ) );
+		Dispatcher.forwardEvent(new AMouseEvent( IVidisEvent.MouseReleasedEvent_AWT, e ) );
 	}
 	
 	public void mouseDragged(MouseEvent e) {
-		Dispatcher.forwardEvent( new MouseMovedEvent( e ) );
+		Dispatcher.forwardEvent( new AMouseEvent( IVidisEvent.MouseMovedEvent_AWT, e ) ); 
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		Dispatcher.forwardEvent( new MouseMovedEvent( e ) ); 
+		Dispatcher.forwardEvent( new AMouseEvent( IVidisEvent.MouseMovedEvent_AWT, e ) ); 
 	}
 
 	

@@ -8,7 +8,7 @@ package vidis.ui.model.impl.guielements.tree;
 import java.util.LinkedList;
 import java.util.List;
 
-import vidis.ui.events.MouseClickedEvent;
+import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.Label;
 
@@ -59,7 +59,7 @@ public class TreeElement<T> extends BasicGuiContainer {
 			asdf += display;
 			my = new Label( asdf ) {
 				@Override
-				protected void onMouseClicked(MouseClickedEvent e) {
+				protected void onMouseClicked(AMouseEvent e) {
 					if(isExpanded()) {
 						collapse();
 					} else {
