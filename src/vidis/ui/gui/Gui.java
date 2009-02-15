@@ -364,6 +364,7 @@ public class Gui extends AEventHandler {
 				}
 				else {
 					if ( mainContainer.getChilds().contains( c ) ) {
+						// FIXME this child may already be removed..
 						mainContainer.removeChild( c );
 						logger.fatal( "removing object " + c + " from gui" );
 					}
@@ -371,6 +372,10 @@ public class Gui extends AEventHandler {
 			}
 		}
 		objectsToUnregister.clear();
+	}
+	
+	public void resetMenu() {
+		menu.resetMenu();
 	}
 }
 

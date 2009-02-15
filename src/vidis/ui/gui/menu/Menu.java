@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
 
@@ -138,7 +139,12 @@ public class Menu extends BasicGuiContainer {
 		updateButtons();
 	}
 	
-	Map<AVariable, MenuItem> map = new HashMap<AVariable, MenuItem>();
+	Map<AVariable, MenuItem> map = new ConcurrentHashMap<AVariable, MenuItem>();
+	
+	private void putMap( AVariable v, MenuItem m ) {
+		logger.info( "putting into map: var="+v+", menuitem="+m + " / " + Thread.currentThread().getName() );
+		map.put( v, m );
+	}
 	
 	private void addVar( final AVariable var ) {
 		MenuItem tmp;
@@ -187,7 +193,11 @@ public class Menu extends BasicGuiContainer {
 							} catch (NotFoundException e) {
 								logger.fatal(e);
 								execute = false;
+							} catch ( NullPointerException e ) {
+								logger.info( "No parameter provided!" );
+								execute = false;
 							}
+							
 						} else if(c instanceof TextField) {
 							// must be a text instance
 							TextField tf = (TextField) c;
@@ -223,23 +233,26 @@ public class Menu extends BasicGuiContainer {
 				}
 			});
 		}
-		map.put(var, tmp);
+		if ( tmp != null ) {
+//			map.put(var, tmp);
+			putMap(var, tmp);
 		
-		this.addChild( tmp.content );
-		tmp.setMenu(this);
-		logger.fatal( "addVar -> update" );
-		this.update();
+			this.addChild( tmp.content );
+			tmp.setMenu(this);
+			logger.fatal( "addVar -> update"+ " / "   + Thread.currentThread().getName() );
+			this.update();
+		}
 	}
 	
 	private void delVar( AVariable var ) {
 		MenuItem m = map.get( var );
 		if ( m == null ) {
-			logger.error( "m was null! This means variable '"+var+"' has no MenuItem!!" );
+			logger.error( "m was null! This means variable '"+var+"' has no MenuItem!!"+ " / "  + Thread.currentThread().getName());
 		}
 		else {
 			removeMenuItem( m );
 			this.root.removeChild( m );
-			logger.fatal( "delVar -> update" );
+			logger.fatal( "delVar -> update"+ " / "   + Thread.currentThread().getName() );
 			this.update();
 			map.remove( var );
 		}
@@ -255,39 +268,57 @@ public class Menu extends BasicGuiContainer {
 	
 	
 	private void updateButtons() {
-		List<AVariable> oldButtons = new ArrayList<AVariable>( map.keySet() );
-		List<AVariable> newButtons = new ArrayList<AVariable>();
-		IVariableContainer c = selectedObject.getVariableContainer();
-		for ( String id : c.getVariableIds() ) {
-			final AVariable var = c.getVariableById( id );
-			if ( var.getVariableType().equals( MethodVariable.class ) && var.getDataType().equals( Void.TYPE ) ) {
-//				logger.error( "-> " + var.getIdentifier() );
-				newButtons.add( var );
+		
+			List<AVariable> oldButtons = new ArrayList<AVariable>( map.keySet() );
+			List<AVariable> newButtons = new ArrayList<AVariable>();
+			IVariableContainer c = selectedObject.getVariableContainer();
+			for ( String id : c.getVariableIds() ) {
+				final AVariable var = c.getVariableById( id );
+				if ( var.getVariableType().equals( MethodVariable.class ) && var.getDataType().equals( Void.TYPE ) ) {
+	//				logger.error( "-> " + var.getIdentifier() );
+					newButtons.add( var );
+				}
+			}
+			
+			
+			List<AVariable> toDelete = new ArrayList<AVariable>();
+		try {	
+			
+			for ( AVariable m : oldButtons ) {
+				if ( newButtons.contains( m ) ) {
+					// ok - remove it form new ( the rest in new is really new )
+					newButtons.remove( m );
+				}
+				else {
+					// need to delete this one
+					toDelete.add( m );
+				}
+			}
+			// delete toDelete & add newButtons
+//			for ( AVariable m : toDelete ) {
+//				delVar( m );
+//			}
+			for ( AVariable m : newButtons ) {
+				addVar( m );
 			}
 		}
-		
-		
-		List<AVariable> toDelete = new ArrayList<AVariable>();
-		for ( AVariable m : oldButtons ) {
-			if ( newButtons.contains( m ) ) {
-				// ok - remove it form new ( the rest in new is really new )
-				newButtons.remove( m );
-			}
-			else {
-				// need to delete this one
-				toDelete.add( m );
+		catch ( Exception e ) {
+			logger.fatal( "MENU BUG?!", e );
+		}
+		finally {
+			if ( toDelete != null ) {
+				for ( AVariable m : toDelete ) {
+					delVar( m );
+				}
 			}
 		}
-		// delete toDelete & add newButtons
-		for ( AVariable m : toDelete ) {
-			delVar( m );
+	}
+	
+	public void resetMenu() {
+		List<AVariable> delete = new ArrayList<AVariable>( map.keySet() );
+		
+		for ( AVariable v : delete ) {
+			delVar( v );
 		}
-		for ( AVariable m : newButtons ) {
-			addVar( m );
-		}
-		
-		
-		
-		
 	}
 }
