@@ -129,7 +129,7 @@ public abstract class ASimObject extends AEventHandler implements ISimObject {
 	public Point3d getPosition() {
 		if(!hasVariableId( AVariable.COMMON_IDENTIFIERS.POSITION )) {
 			logger.warn( "object position not set!" );
-			registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.POSITION, new Point3d(0,0,0)));
+			registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.POSITION, new Point3d(1000,1000,1000)));
 		}
 		return new Point3d( (Tuple3d)getVariableById( AVariable.COMMON_IDENTIFIERS.POSITION ).getData() );
 	}
