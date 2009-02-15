@@ -245,17 +245,23 @@ public class BullyElectionAlgorithmNode extends AUserNode {
     		return ColorType.GREY;
     }
     
-    @Display ( name="name" )
-    public String toString() {
-    	String out = "{"+ getBullyId() +"}";
+    @Display ( name="header1" )
+    public String getHeader1() {
+    	String out = getBullyId();
+    	return out;
+    }
+    
+    @Display (name="header2")
+    public String getHeader2() {
+    	String out = "";
     	if ( gotBully() ) {
 	    	if(bully.equals(getBullyId()))
-	    		out += "-Bully=ME!";
+	    		out += "Bully=ME!";
 	    	else {
-	    		out+="-Bully="+bully;
+	    		out+="Bully="+bully;
 	    	}
     	} else {
-    		out+="-Bully=???";
+    		out+="Bully=???";
     	}
     	if(checkTimeout > -1) {
 			out+="-CHECK="+checkTimeout;
