@@ -99,25 +99,35 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 	private IGuiContainer parent;
 	
 	public Set<IGuiContainer> getChilds() {
-		return childs;
+		Set<IGuiContainer> copy = null;
+		synchronized ( childs ) {
+			copy = new HashSet<IGuiContainer>( childs );
+		}
+		return copy;
 	}
 	public IGuiContainer getParent() {
 		return parent;
 	}
 	public void addChild( IGuiContainer c ) {
-		this.childs.add( c );
-		c.setParent( this );
-		if (c.getLayout() != null ) {
-			c.getLayout().layout();
+		synchronized ( childs ) {
+			this.childs.add( c );
+			c.setParent( this );
+			if (c.getLayout() != null ) {
+				c.getLayout().layout();
+			}
 		}
 	}
 	public void removeAllChilds() {
-		this.childs.clear();
+		synchronized ( childs ) {
+			this.childs.clear();
+		}
 	}
 	
 	public void removeChild(IGuiContainer c) {
 		c.setParent( null );
-		this.childs.remove( c );
+		synchronized ( childs ) {
+			this.childs.remove( c );
+		}
 	}
 	public void setParent( IGuiContainer c ) {
 		this.parent = c;
@@ -149,9 +159,11 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 					gl.glEnable( GL.GL_SCISSOR_TEST );
 				}
 				// render them
-				for ( IGuiContainer c : childs ) {
-					if ( c.isVisible() ) {
-						c.renderBox(gl, z + IGuiContainer.Z_OFFSET);
+				synchronized ( childs ) {
+					for ( IGuiContainer c : childs ) {
+						if ( c.isVisible() ) {
+							c.renderBox(gl, z + IGuiContainer.Z_OFFSET);
+						}
 					}
 				}
 				if ( useScissorTestNow ) {
@@ -199,9 +211,11 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 		}
 		
 		if (forward)
-		for (IGuiContainer c : childs) {
-			c.fireEvent( e );
-		}
+			synchronized ( childs ) {
+				for (IGuiContainer c : childs) {
+					c.fireEvent( e );
+				}
+			}
 	}
 	
 //	private boolean mouseInContainerOld = false;
@@ -237,9 +251,11 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 				}
 			}
 			// forward to all childs
-			for ( IGuiContainer c : childs ) {
-				if ( c.isVisible() ) {
-					c.fireEvent( e );
+			synchronized ( childs ) {
+				for ( IGuiContainer c : childs ) {
+					if ( c.isVisible() ) {
+						c.fireEvent( e );
+					}
 				}
 			}
 			// forward to 3d
@@ -309,11 +325,13 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 				boolean childFound = false;
 				try {
 					List<IGuiContainer> toFire = new ArrayList<IGuiContainer>();
-					for ( IGuiContainer c : childs ) {
-						if ( c.isPointInContainer( point ) ) {
-							if ( c.isVisible() ) {
-								toFire.add( c );
-								childFound = true;
+					synchronized ( childs ) {
+						for ( IGuiContainer c : childs ) {
+							if ( c.isPointInContainer( point ) ) {
+								if ( c.isVisible() ) {
+									toFire.add( c );
+									childFound = true;
+								}
 							}
 						}
 					}
@@ -425,8 +443,10 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 
 	public void setVisible( boolean visible ) {
 		this.visible = visible;
-		for ( IGuiContainer c : childs ) {
-			c.setVisible( visible );
+		synchronized ( childs ) {
+			for ( IGuiContainer c : childs ) {
+				c.setVisible( visible );
+			}
 		}
 	}
 	
