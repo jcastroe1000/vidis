@@ -111,8 +111,13 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 				Display t = (Display) a;
 				String id = COMMON_SCOPES.USER + "." + t.name();
 				if (hasVariable(id)) {
-				    // only update
-				    ((MethodVariable)getVariableById(id)).update(getUserLogic(), m);
+					try {
+					    // only update
+					    ((MethodVariable)getVariableById(id)).update(getUserLogic(), m);
+					} catch(ClassCastException e) {
+						// variable is not a method variable; override it with a method variable
+						registerVariable(new MethodVariable(id, getUserLogic(), m));
+					}
 				} else {
 				    registerVariable(new MethodVariable(id, getUserLogic(), m));
 				}
@@ -143,7 +148,11 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 				    ComponentColor aa = (ComponentColor) a;
 				    String id = AVariable.COMMON_IDENTIFIERS.COLOR;
 				    if (hasVariable(id)) {
-				    	((DefaultVariable)getVariableById(id)).update(aa.color());
+				    	try {
+				    		((DefaultVariable)getVariableById(id)).update(aa.color());
+				    	} catch(ClassCastException e) {
+				    		registerVariable(new DefaultVariable(id, aa.color()));
+				    	}
 				    } else {
 				    	registerVariable(new DefaultVariable(id, aa.color()));
 				    }
@@ -151,7 +160,11 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 				    ComponentInfo aa = (ComponentInfo) a;
 				    String id = COMMON_SCOPES.USER + ".header1";
 				    if (hasVariable(id)) {
-				    	((DefaultVariable)getVariableById(id)).update(aa.name());
+				    	try {
+				    		((DefaultVariable)getVariableById(id)).update(aa.name());
+				    	} catch(ClassCastException e) {
+				    		registerVariable(new DefaultVariable(id, aa.name()));
+				    	}
 				    } else {
 				    	registerVariable(new DefaultVariable(id, aa.name()));
 				    }
@@ -180,8 +193,12 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
 				    }
 				    String id = ns + d.name();
 				    if (hasVariable(id)) {
-						// only update
-						((FieldVariable)getVariableById(id)).update(getUserLogic(), f);
+				    	try {
+							// only update
+							((FieldVariable)getVariableById(id)).update(getUserLogic(), f);
+				    	} catch(ClassCastException e) {
+				    		registerVariable(new FieldVariable(id, getUserLogic(), f));
+				    	}
 				    } else {
 				    	registerVariable(new FieldVariable(id, getUserLogic(), f));
 				    }
