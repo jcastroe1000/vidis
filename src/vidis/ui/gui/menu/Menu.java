@@ -155,7 +155,7 @@ public class Menu extends BasicGuiContainer {
 					MenuItem wireframe = new MenuItem( tmp, nf );
 					this.addChild( wireframe.content );
 					wireframe.setMenu(this);
-					logger.fatal("add nodefield as param");
+					logger.debug("add nodefield as param");
 					params.add(nf);
 				} else if ( String.class.isAssignableFrom( expectedParameter[0] ) ) {
 					final TextField tf = new TextField();
@@ -163,23 +163,20 @@ public class Menu extends BasicGuiContainer {
 		//			tmp.setExpanded( false );
 					this.addChild( wireframe.content );
 					wireframe.setMenu(this);
-					logger.fatal("add textfield as param");
+					logger.debug("add textfield as param");
 					params.add(tf);
 				}
 				else {
 					tmp = new MenuItem( this.root, "not supported=" + var.getIdentifierWithoutNamespace(), null );
 				}
 			}
-			logger.fatal("added params: " + params.size());
+			logger.debug("added params: " + params.size());
 			// add confirm/execute button
 			MenuItem enter = new MenuItem ( tmp, "execute",  new MenuAction() {
 				public void execute(Menu menu, MenuItem item) {
 					boolean execute = true;
 					// get data from fields
 					ArrayList<Object> data = new ArrayList<Object>();
-					if(params.size() == 0) {
-						logger.fatal("got no data arguments! cannot wrap parameters, troublesome?");
-					}
 					for(BasicGuiContainer c : params) {
 						if(c instanceof NodeField) {
 							// must be a node instance
@@ -204,17 +201,14 @@ public class Menu extends BasicGuiContainer {
 						// now check each parameter for null arguments
 						for(Object p : data) {
 							if(p == null) {
-								logger.fatal("calling execute with a null argument!");
+								logger.warn("calling execute with a null argument!");
 							}
-						}
-						if(data.size() == 0) {
-							logger.fatal("got no arguments! this may be troublesome?");
 						}
 						if(execute) {
 							// now execute it if passed
-							logger.fatal("execute function with params: " + data);
+							logger.debug("execute function with params: " + data);
 							Object result = var.getData( data.toArray() );
-							logger.fatal("executed function, result=" + result);
+							logger.debug("executed function, result=" + result);
 						}
 					}
 				}
