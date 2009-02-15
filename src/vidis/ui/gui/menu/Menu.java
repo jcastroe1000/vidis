@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
@@ -116,15 +117,23 @@ public class Menu extends BasicGuiContainer {
 		}
 	}
 	
+	private Queue<String> varChanges = new LinkedList<String>();
+	
+	public void reactOnVarChanges() {
+		while ( !varChanges.isEmpty() ) {
+			reactOnVarChange(varChanges.poll());
+		}
+	}
+	
 	private IVariableChangeListener listener = new IVariableChangeListener() {
 		public void variableAdded(String id) {
-			reactOnVarChange(id);
+			varChanges.add(id);
 		}
 		public void variableChanged(String id) {
-			reactOnVarChange(id);
+			varChanges.add(id);
 		}
 		public void variableRemoved(String id) {
-			reactOnVarChange(id);
+			varChanges.add(id);
 		}
 		
 	};

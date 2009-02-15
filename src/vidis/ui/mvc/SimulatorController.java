@@ -101,7 +101,7 @@ public class SimulatorController extends AController {
 						}
 						
 						// apply a nice layout
-						Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGrid );
+						Dispatcher.forwardEvent( IVidisEvent.LayoutApplySpiral );
 					}
 				}
 				

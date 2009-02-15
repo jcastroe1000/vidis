@@ -89,5 +89,7 @@ public interface IVidisEvent {
 	public final int MousePressedEvent_3D2 = 90032;
 	public final int MouseReleasedEvent_3D2 = 90033;
 	
+	public final int UpdateFromRenderLoop = 100000;
+	
 		
 }

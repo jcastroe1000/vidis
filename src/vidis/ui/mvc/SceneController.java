@@ -244,6 +244,8 @@ public class SceneController extends AController implements GLEventListener {
 	 */
 	public void display(GLAutoDrawable drawable) {
 		
+		Dispatcher.forwardEvent( IVidisEvent.UpdateFromRenderLoop );
+		
 		// do thedateObjects(); update thing
 		updateObjects();
 		

@@ -42,6 +42,8 @@ public class GuiController extends AController {
 		registerEvent( IVidisEvent.MouseMovedEvent_AWT,
 					   IVidisEvent.MousePressedEvent_AWT,
 					   IVidisEvent.MouseReleasedEvent_AWT );
+		
+		registerEvent( IVidisEvent.UpdateFromRenderLoop );
 	}
 	
 	@Override
@@ -50,6 +52,9 @@ public class GuiController extends AController {
 		switch ( event.getID() ) {
 		case IVidisEvent.InitGui:
 			initialize();
+			break;
+		case IVidisEvent.UpdateFromRenderLoop:
+			gui.updateMenu();
 			break;
 		case IVidisEvent.ShowGuiContainer:
 			gui.addContainer( (IGuiContainer) ((VidisEvent)event).getData() );
@@ -69,7 +74,7 @@ public class GuiController extends AController {
 				gui.fps.setText( String.format( "%4.1ffps", Double.parseDouble(fps) ) );
 			break;
 		case IVidisEvent.ObjectRegister:
-			logger.fatal( "OBJECT REGISTER EVENT IN GuiController" );
+//			logger.fatal( "OBJECT REGISTER EVENT IN GuiController" );
 //			gui.registerObject( ((ObjectEvent)event).getObject() );
 			IVisObject o = ((ObjectEvent)event).getObject();
 			if ( o instanceof ASimObject ) {

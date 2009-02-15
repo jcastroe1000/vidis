@@ -136,6 +136,9 @@ public class MenuItem {
 
 	public void setText(String text) {
 		this.text = text;
+		if ( this.content instanceof Button ) {
+			((Button)this.content).setText(text);
+		}
 	}
 
 	public String getText() {

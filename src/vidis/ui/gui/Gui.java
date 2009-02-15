@@ -62,6 +62,10 @@ public class Gui extends AEventHandler {
 		initializeMenu();
 	}
 	
+	public void updateMenu() {
+		menu.reactOnVarChanges();
+	}
+	
 	private MenuAction createEventRunnable( final int event ) {
 		return new MenuAction() {
 			@Override
@@ -70,6 +74,9 @@ public class Gui extends AEventHandler {
 			}
 		};
 	}
+	
+	private MenuItem load;
+	
 	private void initializeMenu() {
 		logger.fatal( "initializing menu" );
 		MenuItem root = new MenuItem( null, "root", null );
@@ -101,14 +108,16 @@ public class Gui extends AEventHandler {
 		
 		MenuItem wireframe = new MenuItem( options, wireframeCheckbox );
 		
-		MenuItem load = new MenuItem( menu, "Load", new MenuAction() {
+		load = new MenuItem( menu, "Open Load", new MenuAction() {
 			@Override
 			public void execute(Menu menu, MenuItem item) {
 				if ( OpenMSIMFilePopupWindow_tree.getInstance().isVisible() ) {
 					OpenMSIMFilePopupWindow_tree.getInstance().setVisible( false );
+					load.setText( "Open Load" );
 				}
 				else {
 					OpenMSIMFilePopupWindow_tree.getInstance().setVisible( true );
+					load.setText( "Close Load" );
 				}
 			}
 		});
@@ -279,6 +288,7 @@ public class Gui extends AEventHandler {
 		fps.setName("FPS");
 		fps.setLayout(new BasicMarginLayout(0, -1, -1, 0, 1.5, 6 ));
 		fps.setTextColor( Color.black );
+		fps.setOpaque( false) ;
 		fps.setText("0fps");
 		mainContainer.addChild(fps);
 	}
