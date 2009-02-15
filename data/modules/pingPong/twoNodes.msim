@@ -13,7 +13,7 @@
 		<link>
 			<id>link</id>
 			<class>Link</class>
-			<delay>3</delay>
+			<delay>10</delay>
 		</link>
 	</objects>
 	<connections>
