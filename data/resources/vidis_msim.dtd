@@ -10,7 +10,7 @@
 
 <!ELEMENT id ( #PCDATA ) >
 
-<!ELEMENT link ( id, class, delay, variables* )* >
+<!ELEMENT link ( id, class, delay, variables*, #PCDATA )* >
 
 <!ELEMENT module ( description?, package, nodeDensity?, objects?, connections? ) >
 
