@@ -44,6 +44,9 @@ public class GuiController extends AController {
 					   IVidisEvent.MouseReleasedEvent_AWT );
 		
 		registerEvent( IVidisEvent.UpdateFromRenderLoop );
+		
+		registerEvent( 	IVidisEvent.SimulatorLoad, 
+		   		IVidisEvent.SimulatorReload );
 	}
 	
 	@Override
@@ -52,6 +55,10 @@ public class GuiController extends AController {
 		switch ( event.getID() ) {
 		case IVidisEvent.InitGui:
 			initialize();
+			break;
+		case IVidisEvent.SimulatorReload:
+		case IVidisEvent.SimulatorLoad:
+			gui.resetMenu();
 			break;
 		case IVidisEvent.UpdateFromRenderLoop:
 			gui.updateMenu();
