@@ -9,7 +9,6 @@ import java.awt.Color;
 
 import org.apache.log4j.Logger;
 
-import vidis.ui.events.mouse.AMouseEvent;
 import vidis.ui.model.impl.BasicGuiContainer;
 import vidis.ui.model.impl.Label;
 import vidis.ui.model.impl.PercentMarginLayout;
@@ -25,23 +24,24 @@ public abstract class PopupWindow extends BasicGuiContainer {
 		// titlebar
 		Label tmp = new Label(title);
 		tmp.setLayout( new PercentMarginLayout(0, -0.93, 0, 0, -0.07, -1) );
-		tmp.setTextColor( Color.LIGHT_GRAY );
+		tmp.setTextColor( Color.DARK_GRAY );
+		tmp.setOpaque( false );
 		addChild( tmp );
 		
-		// upper right close button
-		Label tmp2 = new Label("[X]") {
-			@Override
-			protected void onMouseClicked(AMouseEvent e) {
-				close();
-			}
-		};
+//		// upper right close button
+//		Label tmp2 = new Label("[X]") {
+//			@Override
+//			protected void onMouseClicked(AMouseEvent e) {
+//				close();
+//			}
+//		};
 //		tmp2.setBounds(0, 0, 3, 3);
-		tmp2.setLayout( new PercentMarginLayout(-0.9, -0.93, 0, 0, -0.07, -0.1) );
-		tmp2.setTextColor( Color.LIGHT_GRAY );
-		addChild( tmp2 );
+//		tmp2.setLayout( new PercentMarginLayout(-0.9, -0.93, 0, 0, -0.07, -0.1) );
+//		tmp2.setTextColor( Color.LIGHT_GRAY );
+//		addChild( tmp2 );
 	}
 	
 	protected final void close() {
-		this.setVisible( false );
+//		this.setVisible( false );
 	}
 }
