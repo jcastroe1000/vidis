@@ -64,6 +64,7 @@ public class Gui extends AEventHandler {
 	
 	public void updateMenu() {
 		menu.reactOnVarChanges();
+		pps.update();
 	}
 	
 	private MenuAction createEventRunnable( final int event ) {
@@ -76,12 +77,13 @@ public class Gui extends AEventHandler {
 	}
 	
 	private MenuItem load;
+	private PlayPauseStop pps;
 	
 	private void initializeMenu() {
 		logger.fatal( "initializing menu" );
 		MenuItem root = new MenuItem( null, "root", null );
 		
-		PlayPauseStop pps = new PlayPauseStop();
+		pps = new PlayPauseStop();
 		
 		MenuItem playPauseStop = new MenuItem( root, pps, 2.5 );
 		

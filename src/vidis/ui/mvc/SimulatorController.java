@@ -118,7 +118,7 @@ public class SimulatorController extends AController {
 			break;
 		case IVidisEvent.SimulatorReload:
 			sim.reload();
-			Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGrid );
+			Dispatcher.forwardEvent( IVidisEvent.LayoutApplySpiral );
 			break;
 		case IVidisEvent.LayoutReLayout:
 			Dispatcher.forwardEvent(
@@ -128,6 +128,10 @@ public class SimulatorController extends AController {
 						}
 						public Collection<SimNode> getNodes() {
 							return SimulatorController.this.getNodes();
+						}
+						@Override
+						public String toString() {
+							return "Relayout Layout Job";
 						}
 					})
 					);
@@ -144,6 +148,10 @@ public class SimulatorController extends AController {
 				public Collection<SimNode> getNodes() {
 					return SimulatorController.this.getNodes();
 				}
+				@Override
+				public String toString() {
+					return "Electric Spring Layout Job";
+				}
 			}));
 			if(Configuration.USE_AUTOMATIC_DETAIL_LEVEL) {
 				Dispatcher.forwardEvent(IVidisEvent.AutoAdjustDetailLevel);
@@ -158,6 +166,10 @@ public class SimulatorController extends AController {
 					}
 					public Collection<SimNode> getNodes() {
 						return SimulatorController.this.getNodes();
+					}
+					@Override
+					public String toString() {
+						return "Random Layout Job";
 					}
 				}));
 				} catch (Exception e) {
@@ -176,6 +188,10 @@ public class SimulatorController extends AController {
 					}
 					public Collection<SimNode> getNodes() {
 						return SimulatorController.this.getNodes();
+					}
+					@Override
+					public String toString() {
+						return "Spiral Layout Job";
 					}
 				}));
 				} catch (Exception e) {
@@ -196,8 +212,9 @@ public class SimulatorController extends AController {
 					public Collection<SimNode> getNodes() {
 						return SimulatorController.this.getNodes();
 					}
+					@Override
 					public String toString() {
-						return getLayout() + " on " + getNodes().size();
+						return "Grid Layout Job";
 					}
 				}));
 				} catch (Exception e) {

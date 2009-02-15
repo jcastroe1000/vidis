@@ -38,6 +38,8 @@ public class SimPacket extends AComponent implements ISimPacketCon {
     public SimPacket(IUserPacket packet, SimLink link, SimNode source, SimNode target) {
 		super();
 		init();
+		
+		
 		init(packet);
 		// set variables
 		setThrough(link);

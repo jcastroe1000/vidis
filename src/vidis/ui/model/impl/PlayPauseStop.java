@@ -7,6 +7,8 @@ package vidis.ui.model.impl;
 
 import java.awt.Color;
 
+import javax.media.opengl.GL;
+
 import org.apache.log4j.Logger;
 
 import vidis.sim.Simulator;
@@ -65,7 +67,7 @@ public class PlayPauseStop extends BasicGuiContainer {
 		return Simulator.getInstance().getPlayer().isStopped();
 	}
 	
-	private void update(){
+	public void update(){
 		if ( !isStop() ) {
 			play.setColor1( Color.GREEN );
 		}

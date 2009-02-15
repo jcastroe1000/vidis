@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.vecmath.Point3d;
+
 import org.apache.log4j.Logger;
 
 import vidis.data.annotation.ComponentColor;
@@ -232,6 +234,13 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
     	initVarsClass();
 		initVarsMethods();
 		initVarsFields();
+		if(!hasVariable(AVariable.COMMON_IDENTIFIERS.POSITION)) {
+			logger.debug("set a far position");
+			// set a distant position in order to not spawn at 0,0,0
+			registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.POSITION, new Point3d(1000,1000,1000)));
+		} else {
+			logger.debug("DID NOT set a far position");
+		}
     }
 
     public final void registerVariable(AVariable var) {
