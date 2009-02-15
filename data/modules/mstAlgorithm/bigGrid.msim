@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE module SYSTEM "../../resources/vidis_msim.dtd" >
+<!DOCTYPE module PUBLIC "http://vidis.googlecode.com/svn/trunk/data/resources/vidis_msim.dtd" >
 <module>
 	<description>demo simulation</description>
 	<package>vidis.modules.mstAlgorithm</package>
