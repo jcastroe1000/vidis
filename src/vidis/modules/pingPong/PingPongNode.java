@@ -20,11 +20,6 @@ public class PingPongNode extends AUserNode {
 	public void receive(IUserPacket packet) {
 		if(packet instanceof Ping) {
 			send(new Pong(), packet.getLinkToSource());
-			
-			// TODO implement it like this
-			// check if this ping is for me
-			// if true: respond with pong packet
-			// if false: forward to all
 		} else if(packet instanceof Pong) {
 			// say: hooray!
 		}
