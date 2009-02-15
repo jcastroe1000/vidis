@@ -9,7 +9,7 @@
 			<class>MSTNode</class>
 			<variables>
 				<variable>
-					<id>name</id>
+					<id>header1</id>
 					<value>Node 1</value>
 				</variable>
 			</variables>
@@ -19,7 +19,7 @@
 			<class>MSTNode</class>
 			<variables>
 				<variable>
-					<id>name</id>
+					<id>header1</id>
 					<value>Node 2</value>
 				</variable>
 			</variables>
@@ -29,7 +29,7 @@
 			<class>MSTNode</class>
 			<variables>
 				<variable>
-					<id>name</id>
+					<id>header1</id>
 					<value>Node 3</value>
 				</variable>
 			</variables>
@@ -39,7 +39,7 @@
 			<class>MSTNode</class>
 			<variables>
 				<variable>
-					<id>name</id>
+					<id>header1</id>
 					<value>Node 4</value>
 				</variable>
 			</variables>
@@ -49,7 +49,7 @@
 			<class>MSTNode</class>
 			<variables>
 				<variable>
-					<id>name</id>
+					<id>header1</id>
 					<value>Node 5</value>
 				</variable>
 			</variables>
@@ -59,7 +59,7 @@
 			<class>MSTNode</class>
 			<variables>
 				<variable>
-					<id>name</id>
+					<id>header1</id>
 					<value>Node 6</value>
 				</variable>
 			</variables>
@@ -69,7 +69,7 @@
 			<class>MSTNode</class>
 			<variables>
 				<variable>
-					<id>name</id>
+					<id>header1</id>
 					<value>Node 7</value>
 				</variable>
 			</variables>
@@ -79,7 +79,7 @@
 			<class>MSTNode</class>
 			<variables>
 				<variable>
-					<id>name</id>
+					<id>header1</id>
 					<value>Node 8</value>
 				</variable>
 			</variables>
@@ -89,7 +89,7 @@
 			<class>MSTNode</class>
 			<variables>
 				<variable>
-					<id>name</id>
+					<id>header1</id>
 					<value>Node 9</value>
 				</variable>
 			</variables>
@@ -99,7 +99,7 @@
 			<class>MSTNode</class>
 			<variables>
 				<variable>
-					<id>name</id>
+					<id>header1</id>
 					<value>Node 10</value>
 				</variable>
 			</variables>
