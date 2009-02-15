@@ -48,7 +48,7 @@ public class CompositeScrollPane extends AScrollpane3D implements IVariableChang
 			// do nothing dude
 		} else {
 			AVariable var = this.vcontainer.getVariableById(id);
-			if ( !var.getVariableType().equals( MethodVariable.class ) && !var.getDataType().equals( Void.TYPE ) ) {
+			if ( !var.getDataType().equals( Void.TYPE ) ) {
 				BasicGuiContainer varContainer = createNewDisplay( id );
 				mapVariableContainer.put( id, varContainer );
 	//			this.addChild( varContainer );
