@@ -258,7 +258,7 @@ public abstract class AGuiContainer extends AEventHandler implements IGuiContain
 					}
 				}
 			}
-			logger.fatal(  parent +"== null && "+ underMouse.contains( this ) +" && "+underMouse.size()+" == 1" );
+//			logger.fatal(  parent +"== null && "+ underMouse.contains( this ) +" && "+underMouse.size()+" == 1" );
 			// forward to 3d
 			if ( parent == null && underMouse.contains( this ) && underMouse.size() == 1 ) {
 				AMouseEvent nextEvent = new AMouseEvent( e.getID() + 10, e.mouseEvent );

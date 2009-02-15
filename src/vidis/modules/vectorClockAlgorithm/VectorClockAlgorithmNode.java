@@ -21,11 +21,11 @@ public class VectorClockAlgorithmNode extends AUserNode {
     @Display(name="Automatische Events")
 	public boolean autoEvents = false;
 
-    @Display(name="header1")
+//    @Display(name="header1")
     public String getName() {
     	return getId();
     }
-    @Display(name = "header2")
+//    @Display(name = "header2")
     public String toString()  {
     	return "["+getTimeVector()+"]";
     }
