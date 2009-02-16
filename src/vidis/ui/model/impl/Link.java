@@ -43,7 +43,7 @@ public class Link extends ASimObject {
 	DoubleBuffer surfaceControlPointsRightUp = DoubleBuffer.allocate( 3 * 4 * 3 );
 	DoubleBuffer surfaceControlPointsLeftUp = DoubleBuffer.allocate( 3 * 4 * 3 );
 
-//	DoubleBuffer linesControlPoints = DoubleBuffer.allocate( 3 * 3 * 5 ); // 3 doubles per point, 3 points per line, 5 lines
+	DoubleBuffer linesControlPoints = DoubleBuffer.allocate( 3 * 3 * 5 ); // 3 doubles per point, 3 points per line, 5 lines
 //	DoubleBuffer lineControlPoints = DoubleBuffer.allocate( 3 * 3 ); // 3 doubles per point, 3 points
 //	
 //	DoubleBuffer lineDownControlPoints = DoubleBuffer.allocate( 3 * 3 ); // 3 doubles per point, 3 points
@@ -197,74 +197,87 @@ public class Link extends ASimObject {
 	}
 	@Override
 	public void renderObject(GL gl) {
-		setColors( getVariableColor1(), getVariableColor2() );
-//		setColors( Color.RED, Color.BLACK );
-		useColor( gl, getVariableColor1() );
-//		useColor( gl, Color.RED );
 		
-		useMaterial(gl);
-		
-		// packets
-		dir1.clear();
-		dir2.clear();
-		
-		for ( Packet p : packets ) {
-			int dir = (Integer) p.getVariableContainer().getVariableById( AVariable.COMMON_IDENTIFIERS.PACKETDIRECTION ).getData();
-			if (  dir == 1 ) {
-				boolean add = true;
-				for ( Packet x : dir1 ) {
-					if ( near( p, x ) ) {
-						add = false;	
-					}
-				}
-				if ( add ) dir1.add( p );
-			}
-			else if ( dir == -1 ) {
-				boolean add = true;
-				for ( Packet x : dir2 ) {
-					if ( near( p, x ) ) {
-						add = false;	
-					}
-				}
-				if ( add ) dir2.add( p );
-			}
-			if ( dir1.size() + dir2.size() >= 9 ) {
-				break;
-			}
-		}
-		
-		
-		
-		// data for link vertex shader
-		for( int i=0; i<10; i++) {
+		if ( Configuration.NICE_LINKS ) {
 			
-			Packet p = dir1.poll();
-			if ( p == null ) p = dir2.poll();
+			setColors( getVariableColor1(), getVariableColor2() );
+	//		setColors( Color.RED, Color.BLACK );
+			useColor( gl, getVariableColor1() );
+	//		useColor( gl, Color.RED );
 			
-			if ( p != null ) {
-				Point3d point = p.getPosition();
-				if(point != null) {
-					Vector3d pos = new Vector3d(point);
-					linkProgram.getVariableByName("packet" + i).setValue(pos, gl);
+			useMaterial(gl);
+			
+			// packets
+			dir1.clear();
+			dir2.clear();
+			
+			for ( Packet p : packets ) {
+				int dir = (Integer) p.getVariableContainer().getVariableById( AVariable.COMMON_IDENTIFIERS.PACKETDIRECTION ).getData();
+				if (  dir == 1 ) {
+					boolean add = true;
+					for ( Packet x : dir1 ) {
+						if ( near( p, x ) ) {
+							add = false;	
+						}
+					}
+					if ( add ) dir1.add( p );
 				}
-				//linkProgram.getVariableByName( "packet" + j++ ).setValue( ((Packet)packets.toArray()[i]).getPosition(), gl );
-			} else {
-				linkProgram.getVariableByName("packet"+i).setValue(new Vector3d(100,100,100), gl);
+				else if ( dir == -1 ) {
+					boolean add = true;
+					for ( Packet x : dir2 ) {
+						if ( near( p, x ) ) {
+							add = false;	
+						}
+					}
+					if ( add ) dir2.add( p );
+				}
+				if ( dir1.size() + dir2.size() >= 9 ) {
+					break;
+				}
 			}
-		}
+			
+			
+			
+			// data for link vertex shader
+			for( int i=0; i<10; i++) {
+				
+				Packet p = dir1.poll();
+				if ( p == null ) p = dir2.poll();
+				
+				if ( p != null ) {
+					Point3d point = p.getPosition();
+					if(point != null) {
+						Vector3d pos = new Vector3d(point);
+						linkProgram.getVariableByName("packet" + i).setValue(pos, gl);
+					}
+					//linkProgram.getVariableByName( "packet" + j++ ).setValue( ((Packet)packets.toArray()[i]).getPosition(), gl );
+				} else {
+					linkProgram.getVariableByName("packet"+i).setValue(new Vector3d(100,100,100), gl);
+				}
+			}
+			
+			if ( ! Configuration.DISPLAY_WIREFRAME ) {
+				silhouetteFrontBackFace(gl);
+			}
+			else {
+				gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
+				Link.useShaderProgram(gl);
+				linkProgram.getVariableByName("black").setValue(Boolean.FALSE, gl);
+				gl.glCallList( displayListId );
+				ShaderFactory.removeAllPrograms(gl);
+			}
 		
-		if ( ! Configuration.DISPLAY_WIREFRAME ) {
-			silhouetteFrontBackFace(gl);
 		}
 		else {
-			gl.glPolygonMode( GL.GL_FRONT_AND_BACK, GL.GL_LINE );
-			Link.useShaderProgram(gl);
-			linkProgram.getVariableByName("black").setValue(Boolean.FALSE, gl);
-			gl.glCallList( displayListId );
-			ShaderFactory.removeAllPrograms(gl);
+			
+			setColors( getVariableColor1(), getVariableColor2() );
+			useColor( gl, getVariableColor1() );
+
+			gl.glPushMatrix();
+				gl.glCallList( displayListId );
+			gl.glPopMatrix();
+			
 		}
-		
-		
 		
 //		silhouetteStencil(gl);
 		
@@ -392,32 +405,61 @@ public class Link extends ASimObject {
 	
 	private void preRenderObject( GL gl, Point3d pointA, Point3d pointB) {
 		requireTextRenderer();
-		if ( displayListId != -1 ) {
-			gl.glDeleteLists(displayListId, 1);
-			gl.glDeleteLists( displayListId2, 1 );
-			displayListId = -1;
-			displayListId2 = -1;
-		}
-		if ( displayListId == -1 ) {
-			displayListId = gl.glGenLists(1);
-			displayListId2 = gl.glGenLists(1);
-		}
+		
 		calculateControlPoints(pointA, pointB, radius);
-		gl.glNewList( displayListId, GL.GL_COMPILE );
-			gl.glEnable( GL.GL_MAP2_VERTEX_3 );
-			drawBuffer( gl, surfaceControlPointsLeftDown );
-			drawBuffer( gl, surfaceControlPointsLeftUp );
-			drawBuffer( gl, surfaceControlPointsRightDown );
-			drawBuffer( gl, surfaceControlPointsRightUp );
-		gl.glEndList();
-		calculateControlPoints(pointA, pointB, radius*1.1d);
-		gl.glNewList( displayListId2, GL.GL_COMPILE );
-			gl.glEnable( GL.GL_MAP2_VERTEX_3 );
-			drawBuffer( gl, surfaceControlPointsLeftDown );
-			drawBuffer( gl, surfaceControlPointsLeftUp );
-			drawBuffer( gl, surfaceControlPointsRightDown );
-			drawBuffer( gl, surfaceControlPointsRightUp );
-		gl.glEndList();
+		
+		if ( Configuration.NICE_LINKS ) {
+			
+			if ( displayListId != -1 ) {
+				gl.glDeleteLists(displayListId, 1);
+				gl.glDeleteLists( displayListId2, 1 );
+				displayListId = -1;
+				displayListId2 = -1;
+			}
+			if ( displayListId == -1 ) {
+				displayListId = gl.glGenLists(1);
+				displayListId2 = gl.glGenLists(1);
+			}
+			
+			gl.glNewList( displayListId, GL.GL_COMPILE );
+				gl.glEnable( GL.GL_MAP2_VERTEX_3 );
+				drawBuffer( gl, surfaceControlPointsLeftDown );
+				drawBuffer( gl, surfaceControlPointsLeftUp );
+				drawBuffer( gl, surfaceControlPointsRightDown );
+				drawBuffer( gl, surfaceControlPointsRightUp );
+			gl.glEndList();
+			calculateControlPoints(pointA, pointB, radius*1.1d);
+			gl.glNewList( displayListId2, GL.GL_COMPILE );
+				gl.glEnable( GL.GL_MAP2_VERTEX_3 );
+				drawBuffer( gl, surfaceControlPointsLeftDown );
+				drawBuffer( gl, surfaceControlPointsLeftUp );
+				drawBuffer( gl, surfaceControlPointsRightDown );
+				drawBuffer( gl, surfaceControlPointsRightUp );
+			gl.glEndList();
+		}
+		else {
+			if ( displayListId != -1 ) {
+				gl.glDeleteLists(displayListId, 1);
+				gl.glDeleteLists( displayListId2, 1 );
+				displayListId = -1;
+				displayListId2 = -1;
+			}
+			if ( displayListId == -1 ) {
+				displayListId = gl.glGenLists(1);
+			}
+			gl.glNewList( displayListId, GL.GL_COMPILE );
+				gl.glMap1d( GL.GL_MAP1_VERTEX_3, 0, 1, 3, 3, linesControlPoints.array(), 0 );
+				gl.glEnable( GL.GL_MAP1_VERTEX_3 );
+				
+				gl.glPushMatrix();
+				gl.glBegin( GL.GL_LINE_STRIP );
+					for ( int i=0; i<20; i++ ) {
+						gl.glEvalCoord1d(i/20.0);
+					}
+				gl.glEnd();
+				gl.glPopMatrix();
+			gl.glEndList();
+		}
 	}
 	
 	private int segments = 20;
@@ -438,6 +480,7 @@ public class Link extends ASimObject {
 	}
 	
 	private void calculateControlPoints( Point3d pointA, Point3d pointB, double radius ) {
+		
 		// clean cache
 		surfaceControlPointsLeftDown.clear();
 		surfaceControlPointsLeftUp.clear();
@@ -462,7 +505,7 @@ public class Link extends ASimObject {
 			Point3d pointM = calculateMiddle(pointA, pointB, 1.0);
 		// line
 			
-//			fillLineBuffer(pointA, pointM, pointB, linesControlPoints, 0 );
+			fillLineBuffer(pointA, pointM, pointB, linesControlPoints, 0 );
 			
 		// surface
 			// calculate control points
@@ -661,7 +704,7 @@ public class Link extends ASimObject {
 			
 	}
 	
-/*	private void fillLineBuffer( Point3d a, Point3d b, Point3d c, DoubleBuffer buf, int offset ) {
+	private void fillLineBuffer( Point3d a, Point3d b, Point3d c, DoubleBuffer buf, int offset ) {
 		buf.put( offset + 0, a.x );
 		buf.put( offset + 1, a.y );
 		buf.put( offset + 2, a.z );
@@ -673,7 +716,7 @@ public class Link extends ASimObject {
 		buf.put( offset + 6, c.x );
 		buf.put( offset + 7, c.y );
 		buf.put( offset + 8, c.z );
-	}*/
+	}
 	
 	private void fillSegment( int segment, DoubleBuffer buf, Point3d d, Point3d c, Point3d b, Point3d a ) {
 		buf.put( 12 * segment + 0, a.x );

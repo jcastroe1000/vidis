@@ -226,7 +226,12 @@ public class Node extends ASimObject {
 		int stacks = (int)Math.round(Configuration.DETAIL_LEVEL * stacks_max + stacks_min);
 		requireTextRenderer();
 		gl.glNewList( displayListId, GL.GL_COMPILE );
-			glut.glutSolidSphere( 0.5, slices, stacks );
+			if ( Configuration.NICE_NODES ) {
+				glut.glutSolidSphere( 0.5, slices, stacks );
+			}
+			else {
+				glut.glutSolidSphere( 0.5, 4, 4 );
+			}
 		gl.glEndList();
 	}
 

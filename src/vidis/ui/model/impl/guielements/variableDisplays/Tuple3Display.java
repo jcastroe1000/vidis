@@ -14,6 +14,7 @@ import javax.vecmath.Tuple3i;
 import org.apache.log4j.Logger;
 
 import vidis.data.var.vars.AVariable;
+import vidis.util.Rounding;
 
 public class Tuple3Display extends Display {
 	private static Logger logger = Logger.getLogger(Tuple3Display.class);
@@ -31,11 +32,15 @@ public class Tuple3Display extends Display {
 	private String convertUnknownTupleToString() {
 		Object tuple = var.getData();
 		if ( tuple instanceof Tuple3d ) {
-			return ((Tuple3d)tuple).toString();
+			return Rounding.round(((Tuple3d) tuple).getX(), 3) + "; " + 
+			Rounding.round(((Tuple3d) tuple).getY(), 3) + "; " + 
+			Rounding.round(((Tuple3d) tuple).getZ(), 3);
 		} else if ( tuple instanceof Tuple3b ) {
 			return ((Tuple3b)tuple).toString();
 		} else if ( tuple instanceof Tuple3f ) {
-			return ((Tuple3f)tuple).toString();
+			return Rounding.round(((Tuple3f) tuple).getX(), 3) + ", " + 
+			Rounding.round(((Tuple3f) tuple).getY(), 3) + "; " + 
+			Rounding.round(((Tuple3f) tuple).getZ(), 3);
 		} else if ( tuple instanceof Tuple3i ) {
 			return ((Tuple3i)tuple).toString();
 		} else {
@@ -47,7 +52,7 @@ public class Tuple3Display extends Display {
 	
 	@Override
 	public void renderContainer(GL gl) {
-		String txt = var.getIdentifier().replaceAll(var.getNameSpace()+".", "   ") + " [T]-> " + convertUnknownTupleToString();
+		String txt = var.getIdentifier().replaceAll(var.getNameSpace()+".", "   ") + " -> (" + convertUnknownTupleToString() + ")";
 		this.setText(txt);
 		super.renderContainer(gl);
 	}

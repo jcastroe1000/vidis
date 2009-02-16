@@ -60,6 +60,9 @@ public class Configuration {
 	 */
 	public static boolean DISPLAY_WIREFRAME = false;
 	
+	public static boolean NICE_LINKS = false;
+	public static boolean NICE_NODES = false;
+	
 	/**
 	 * adjustable detail level within [0 .. 1] (where 0 is poor, 1 is best)
 	 * 
