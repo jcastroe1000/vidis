@@ -32,15 +32,15 @@ public class Tuple3Display extends Display {
 	private String convertUnknownTupleToString() {
 		Object tuple = var.getData();
 		if ( tuple instanceof Tuple3d ) {
-			return Rounding.round(((Tuple3d) tuple).getX(), 3) + "; " + 
-			Rounding.round(((Tuple3d) tuple).getY(), 3) + "; " + 
-			Rounding.round(((Tuple3d) tuple).getZ(), 3);
+			return Rounding.round(((Tuple3d) tuple).x, 3) + "; " + 
+			Rounding.round(((Tuple3d) tuple).y, 3) + "; " + 
+			Rounding.round(((Tuple3d) tuple).z, 3);
 		} else if ( tuple instanceof Tuple3b ) {
 			return ((Tuple3b)tuple).toString();
 		} else if ( tuple instanceof Tuple3f ) {
-			return Rounding.round(((Tuple3f) tuple).getX(), 3) + ", " + 
-			Rounding.round(((Tuple3f) tuple).getY(), 3) + "; " + 
-			Rounding.round(((Tuple3f) tuple).getZ(), 3);
+			return Rounding.round(((Tuple3f) tuple).x, 3) + ", " + 
+			Rounding.round(((Tuple3f) tuple).y, 3) + "; " + 
+			Rounding.round(((Tuple3f) tuple).z, 3);
 		} else if ( tuple instanceof Tuple3i ) {
 			return ((Tuple3i)tuple).toString();
 		} else {
