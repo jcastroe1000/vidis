@@ -6,9 +6,11 @@
 package vidis.modules.bullyElectionAlgorithm_v2;
 
 import vidis.data.annotation.ColorType;
+import vidis.data.annotation.ComponentColor;
 import vidis.data.annotation.Display;
 import vidis.data.annotation.DisplayColor;
 
+@ComponentColor(color=ColorType.GREEN)
 public class ElectionPacket extends ABullyPacket {
 
     private String id;
