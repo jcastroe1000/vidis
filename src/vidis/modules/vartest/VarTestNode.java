@@ -37,22 +37,17 @@ public class VarTestNode extends AUserNode {
 		return "integerExecuteCount = " + integerExecuteCount;
 	}
 	
-	@Display(name="spawn&connect a node")
+	@Display(name="spawn&connect node")
 	public void mySpawn() {
 		spawnNewNode().connect(this, DefaultLink.class, 5);
 	}
-	@Display(name="connect to specific node")
+	@Display(name="connect to node")
 	public void myConnect(IUserNode n) {
 		connect(n, DefaultLink.class, 5);
 	}
-	@Display(name="disconnect from specific node")
+	@Display(name="disconnect from node")
 	public void myDisconnect(IUserNode o) {
 		disconnect(o);
-	}
-	@Display(name="disconnect from all")
-	public void myDisconnect() {
-		for(IUserLink l : getConnectedLinks())
-			disconnect(l.getOtherNode(this));
 	}
 
     public void receive(IUserPacket packet) {
