@@ -33,6 +33,7 @@ import vidis.data.var.vars.FieldVariable;
 import vidis.data.var.vars.MethodVariable;
 import vidis.data.var.vars.AVariable.COMMON_IDENTIFIERS;
 import vidis.data.var.vars.AVariable.COMMON_SCOPES;
+import vidis.sim.Simulator;
 
 /**
  * this is the abstract component superclass that implements
@@ -406,4 +407,15 @@ public abstract class AComponent implements IComponent, IAComponentCon, IVariabl
     protected boolean isSleeping() {
     	return sleep >= 0;
     }
+
+	protected boolean isConnectedTo(SimNode simNode) {
+		for(AComponent c : Simulator.getInstance().getSimulatorComponents()) {
+			if( c instanceof SimLink) {
+				SimLink l = (SimLink) c;
+				if(l.isConnectedTo(simNode))
+					return true;
+			}
+		}
+		return false;
+	}
 }

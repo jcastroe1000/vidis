@@ -251,6 +251,9 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 				AComponent c = Simulator.getInstance().getSimulatorComponents().get(i);
 				if(c.getUserLogic().equals(n)) {
 					try {
+						if(c.isConnectedTo(this)) {
+							throw new InstantiationException("This nodes are already connected, multiple connections are not allowed.");
+						}
 						SimLink s = new SimLink(lclazz.newInstance(), delay);
 						s.registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.ID, "spawn_link_"+(Math.random()*Double.MAX_VALUE)));
 						s.connect(this, (SimNode)c);
