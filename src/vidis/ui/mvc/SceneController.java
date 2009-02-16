@@ -209,11 +209,11 @@ public class SceneController extends AController implements GLEventListener {
 //		registerObject( new Axis() );
 		
 		// for logo screenshot
-//		registerObject( new Grid() );
+		registerObject( new Grid() );
 
 		
 		// for logo screenshot
-//		registerObject( selector );
+		registerObject( selector );
 	}
 	
 	
