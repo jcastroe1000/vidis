@@ -250,7 +250,7 @@ public class SimulatorController extends AController {
 		// start playing
 		//sim.getPlayer().play();
 //		Dispatcher.forwardEvent( IVidisEvent.LayoutApplyGraphElectricSpring );
-		Dispatcher.forwardEvent( new VidisEvent<File>( IVidisEvent.SimulatorLoad, ResourceManager.getModuleFile("vectorClockAlgorithm", "simple.msim") ) );
+//		Dispatcher.forwardEvent( new VidisEvent<File>( IVidisEvent.SimulatorLoad, ResourceManager.getModuleFile("vectorClockAlgorithm", "simple.msim") ) );
 	}
 	
 	private List<SimNode> getNodes() {
