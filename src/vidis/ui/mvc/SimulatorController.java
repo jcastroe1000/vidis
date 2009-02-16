@@ -57,6 +57,8 @@ public class SimulatorController extends AController {
 				IVidisEvent.LayoutApplyGrid,
 				IVidisEvent.LayoutReLayout
 		);
+		
+		registerEvent(IVidisEvent.ExportSimFile);
 	}
 	
 	@Override
@@ -71,6 +73,9 @@ public class SimulatorController extends AController {
 			break;
 		case IVidisEvent.SimulatorPause:
 			sim.getPlayer().pause();
+			break;
+		case IVidisEvent.ExportSimFile:
+			sim.exportSimFile(new File("export/out.msim"));
 			break;
 		case IVidisEvent.SimulatorLoad:
 			if(event instanceof VidisEvent) {

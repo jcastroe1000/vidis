@@ -57,6 +57,8 @@ public class InputController extends AController {
 		keyMap.put(KeyEvent.VK_Q, IVidisEvent.ZoomIn);
 		keyMap.put(KeyEvent.VK_E, IVidisEvent.ZoomOut);
 		
+		keyMap.put(KeyEvent.VK_0, IVidisEvent.ExportSimFile);
+		
 	}
 	
 	

@@ -56,6 +56,7 @@ public interface IVidisEvent {
 	public final int SimulatorLoad = 5002;
 	public final int SimulatorReload = 5003;
 	public final int SimulatorPause = 5004;
+	public final int ExportSimFile = 5005;
 	
 	
 	public final int FPS 			= 10001;
@@ -90,6 +91,5 @@ public interface IVidisEvent {
 	public final int MouseReleasedEvent_3D2 = 90033;
 	
 	public final int UpdateFromRenderLoop = 100000;
-	
 		
 }

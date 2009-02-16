@@ -36,7 +36,7 @@ public class JarModuleFile extends AModuleFile {
 //					 got module information
 					for(Entry<Object, Object> e : es.getValue().entrySet()) {
 						if(e.getKey().equals(new Attributes.Name("MSIM-Name"))) {
-							return e.getValue().toString() + " (" + this.e.getName() + ")";
+							return e.getValue().toString();
 						}
 					}
 				}

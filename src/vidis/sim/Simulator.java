@@ -6,6 +6,10 @@
 package vidis.sim;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
@@ -156,6 +160,58 @@ public class Simulator {
 		FileModuleFile f = new FileModuleFile(file);
 		
 		importSimFile(f);
+	}
+	
+	public void exportSimFile(File file) {
+		if(true) // TODO feature that is not working yet how it should
+			return;
+		try {
+			PrintStream out = new PrintStream(new FileOutputStream(file));
+			try {
+				// output header
+				out.println("<module>");
+				out.println("	<description>" + "VIDIS generated MSIM File" + "</description>");
+				out.println("	<package></package>"); // FIXME we need to generate the most general package for all classes
+				out.println("	<nodedensity>0.5</nodedensity>");
+				out.println("	<objects>");
+				// nodes & links
+				for(AComponent c : getSimulatorComponents()) {
+					if(c instanceof SimLink) {
+						SimLink l = (SimLink) c;
+						out.println("<link>");
+						out.println("<id>"+l.getId()+"</id>");
+						out.println("<class>"+l.getUserLogic().getClass().getSimpleName()+"</class>");
+						out.println("<delay>"+l.getDelay()+"</delay>");
+						out.println("</link>");
+					} else if(c instanceof SimNode) {
+						SimNode l = (SimNode) c;
+						out.println("<node>");
+						out.println("<id>"+l.getId()+"</id>");
+						out.println("<class>"+l.getUserLogic().getClass().getSimpleName()+"</class>");
+						out.println("</node>");
+					}
+				}
+				out.println("	</objects>");
+				out.println("	<connections>");
+				// connections
+				for(AComponent c : getSimulatorComponents()) {
+					if(c instanceof SimLink) {
+						SimLink l = (SimLink) c;
+						out.println("<connection>");
+						out.println("<nodeA>"+l.getNodeASim().getId()+"</nodeA>");
+						out.println("<nodeB>"+l.getNodeBSim().getId()+"</nodeB>");
+						out.println("<link>"+l.getId()+"</link>");
+						out.println("</connection>");
+					}
+				}
+				out.println("	</connections>");
+				out.println("</module>");
+			} finally {
+				out.close();
+			}
+		} catch (FileNotFoundException e) {
+			logger.error("could not open printstream to write msim file", e);
+		}
 	}
 
 	private final void init(XMLModuleReader reader) {
