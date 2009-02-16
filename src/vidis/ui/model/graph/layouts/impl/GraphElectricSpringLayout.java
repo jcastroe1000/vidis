@@ -136,7 +136,7 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 		// ----- theoretic base: http://www.ics.uci.edu/~ses/papers/grafdraw.pdf (site 5-7)
 		
 		// this ensures that this algorithm terminates
-		int maximum_relaxations = 1000;
+		int maximum_relaxations = 150;
 		
 		List<Double> delta_history = new LinkedList<Double>();
 		double delta = 0;
