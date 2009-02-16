@@ -6,7 +6,6 @@
 package vidis.ui.gui.menu;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
 
-import sun.awt.Mutex;
 import vidis.data.mod.IUserNode;
 import vidis.data.var.IVariableChangeListener;
 import vidis.data.var.IVariableContainer;
