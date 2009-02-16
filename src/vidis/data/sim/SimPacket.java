@@ -46,7 +46,7 @@ public class SimPacket extends AComponent implements ISimPacketCon {
 		setFrom(source);
 		setTo(target);
 		
-		//System.err.println(getVariableIds());
+		logger.info(getVariableIds());
 		// set 3d object; this (SimPacket) class should be fully initialized at this
 		// call!
 		// setObject3D(new Packet3D(this));
@@ -137,7 +137,7 @@ public class SimPacket extends AComponent implements ISimPacketCon {
     		kill();
     		return noPos;
     	}
-	    	// FIXME
+	    	// FIXME find out what to fix
 	//		double alpha = getThrough().getAlphaForPacket(this);
 			double direction = getThrough().getDirectionForPacket(this);
 			SimNode nodeA = getThrough().getNodeASim();

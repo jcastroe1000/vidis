@@ -136,7 +136,7 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 		// ----- theoretic base: http://www.ics.uci.edu/~ses/papers/grafdraw.pdf (site 5-7)
 		
 		// this ensures that this algorithm terminates
-		int maximum_relaxations = 150;
+		int maximum_relaxations = 350;
 		
 		List<Double> delta_history = new LinkedList<Double>();
 		double delta = 0;
@@ -151,7 +151,7 @@ public class GraphElectricSpringLayout extends AGraphLayout {
 				delta_history.remove(0);
 			double diff = Collections.max(delta_history) - Collections.min(delta_history);
 			logger.debug("iterations left: "+maximum_relaxations+", diff<?eps: " + diff + "<?"+0.1);
-			if(maximum_relaxations <= 0)
+			if(maximum_relaxations <= 0 && diff > 0.4)
 				break;
 			if(delta_history.size() > 1 && diff < 0.05 && delta < 1)
 				break;

@@ -13,6 +13,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -35,6 +36,7 @@ import vidis.sim.xml.modules.dataStructure.DocumentDataNode;
  * 
  */
 public class XMLModuleReader implements CommonDomParser {
+	private static Logger logger = Logger.getLogger(XMLModuleReader.class);
 	private IModuleFile simFile;
 	private DocumentData document;
 
@@ -414,15 +416,15 @@ public class XMLModuleReader implements CommonDomParser {
 			Document document = builder.parse(new InputSource(simFile.getInputStream()));
 			return new XMLModuleReader(simFile, analyze(document));
 		} catch (ParserConfigurationException e) {
-			System.err.println(e.getMessage());
+			logger.error(e.getMessage());
 		} catch (FileNotFoundException e) {
-			System.err.println(e.getMessage());
+			logger.error(e.getMessage());
 		} catch (SAXException e) {
-			System.err.println(e.getMessage());
+			logger.error(e.getMessage());
 		} catch (IOException e) {
-			System.err.println(e.getMessage());
+			logger.error(e.getMessage());
 		} catch (DocumentMalformedException e) {
-			System.err.println(e.getMessage());
+			logger.error(e.getMessage());
 		}
 		return null;
 	}

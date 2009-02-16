@@ -258,7 +258,7 @@ public class SimNode extends AComponent implements ISimNodeCon, Comparable<SimNo
 						s.registerVariable(new DefaultVariable(AVariable.COMMON_IDENTIFIERS.ID, "spawn_link_"+(Math.random()*Double.MAX_VALUE)));
 						s.connect(this, (SimNode)c);
 						Simulator.getInstance().registerComponent(s);
-						System.err.println("connected " + this + " with " + c + " through " + s);
+						logger.info("connected " + this + " with " + c + " through " + s);
 						break;
 					} catch (InstantiationException e) {
 						logger.fatal(e);

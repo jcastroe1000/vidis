@@ -32,7 +32,6 @@ public class JarModuleFile extends AModuleFile {
 	public String getName() {
 		try {
 			for(Entry<String,Attributes> es : f.getManifest().getEntries().entrySet()) {
-//				System.err.println(es.getKey() + ":"+ es.getValue().size() + ": ");
 				if(es.getKey().equals(this.e.getName())) {
 //					 got module information
 					for(Entry<Object, Object> e : es.getValue().entrySet()) {

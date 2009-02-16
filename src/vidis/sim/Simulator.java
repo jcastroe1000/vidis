@@ -197,7 +197,6 @@ public class Simulator {
 				SimNode nodeA = nodes.get(documentConnection.getNodeA().getId());
 				SimNode nodeB = nodes.get(documentConnection.getNodeB().getId());
 				if(link.isConnected()) {
-//					System.err.println("TRYING TO MULTIPLE CONNECT THIS LINK: " + link + " TO ("+nodeA+","+nodeB+") IS ALREADY CONNECTED! PLEASE WATCH YOUR CONFIGURATION!");
 					logger.error("TRYING TO MULTIPLE CONNECT THIS LINK: " + link + " TO ("+nodeA+","+nodeB+") IS ALREADY CONNECTED! PLEASE WATCH YOUR CONFIGURATION!");
 				} else {
 					link.connect(nodeA, nodeB);

@@ -5,6 +5,8 @@
 	You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>. */
 package vidis.data.var.vars;
 
+import org.apache.log4j.Logger;
+
 import vidis.data.var.IVariableChangeListener;
 
 /**
@@ -19,6 +21,7 @@ public class DefaultVariable extends AVariable {
 	 * the data of this variable
 	 */
 	private Object data;
+	private static Logger logger = Logger.getLogger(DefaultVariable.class);
 
 	/**
 	 * the public constructor of this variable
@@ -85,8 +88,8 @@ public class DefaultVariable extends AVariable {
 			// changed
 			synchronized (this.getVariableChangeListeners()) {
 				for (IVariableChangeListener l : this.getVariableChangeListeners()) {
-					// System.err.println(l.toString() + ".variableChanged(" +
-					// getIdentifier() + ")");
+					logger .info(l.toString() + ".variableChanged(" +
+							getIdentifier() + ")");
 					l.variableChanged(getIdentifier());
 				}
 			}

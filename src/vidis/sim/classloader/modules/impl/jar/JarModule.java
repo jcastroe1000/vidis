@@ -69,7 +69,6 @@ public class JarModule extends AModule {
 			}
 			// check attributes
 			for(Entry<String,Attributes> es : f.getManifest().getEntries().entrySet()) {
-//				System.err.println(es.getKey() + ":"+ es.getValue().size() + ": ");
 				if(es.getKey().equals("Module")) {
 					// got module information
 					for(Entry<Object, Object> e : es.getValue().entrySet()) {
@@ -85,7 +84,7 @@ public class JarModule extends AModule {
 //					return mod.getValue("Module-Name");
 //				}
 //			} else {
-//				System.err.println("module not found");
+//				logger.warning("module not found");
 //			}
 		} catch (IOException e) {
 		}
