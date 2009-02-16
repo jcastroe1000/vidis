@@ -163,6 +163,19 @@ public class Menu extends BasicGuiContainer {
 		map.put( v, m );
 	}
 	
+	private Queue<MenuItem> scheuduledForCollapse = new LinkedList<MenuItem>();
+	
+	private synchronized void scheuduleForCollapse( MenuItem i ) {
+		scheuduledForCollapse.add( i );
+	}
+	
+	private synchronized void collapseThemNow() {
+		while ( ! scheuduledForCollapse.isEmpty() ) {
+			scheuduledForCollapse.poll().setExpanded( false );
+		}
+	}
+	
+	
 	private void addVar( final AVariable var ) {
 		MenuItem tmp;
 		MethodVariable v = (MethodVariable) var;
@@ -240,7 +253,9 @@ public class Menu extends BasicGuiContainer {
 					}
 				}
 			});
-//			tmp.setExpanded( false );
+//			tmp.setExpanded( false ); does not work since it executes update
+			scheuduleForCollapse( tmp );
+			
 			this.addChild( enter.content );
 			enter.setMenu(this);
 		} else {
@@ -259,6 +274,8 @@ public class Menu extends BasicGuiContainer {
 			logger.fatal( "addVar -> update"+ " / "   + Thread.currentThread().getName() );
 			this.update();
 		}
+		
+		collapseThemNow();
 	}
 	
 	private void delVar( AVariable var ) {
