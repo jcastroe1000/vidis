@@ -111,8 +111,10 @@ public class Menu extends BasicGuiContainer {
 	private void reactOnVarChange( String id ) {
 		if ( selectedObject != null ) {
 			AVariable var = selectedObject.getVariableContainer().getVariableById(id);
-			if ( var.getVariableType().equals( MethodVariable.class ) && var.getDataType().equals( Void.TYPE ) ) {
-				updateButtons();
+			if (var != null) {
+ 				if ( var.getVariableType().equals( MethodVariable.class ) && var.getDataType().equals( Void.TYPE ) ) {
+					updateButtons();
+				}
 			}
 		}
 	}
@@ -120,8 +122,10 @@ public class Menu extends BasicGuiContainer {
 	private Queue<String> varChanges = new LinkedList<String>();
 	
 	public void reactOnVarChanges() {
-		while ( !varChanges.isEmpty() ) {
-			reactOnVarChange(varChanges.poll());
+		synchronized (varChanges) {
+			while ( !varChanges.isEmpty() ) {
+				reactOnVarChange(varChanges.poll());
+			}
 		}
 	}
 	
