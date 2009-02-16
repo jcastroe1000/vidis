@@ -1,12 +1,12 @@
 <module>
 	<description>demo simulation</description>
-	<package>vidis.modules.bullyElectionAlgorithm</package>
+	<package>vidis.modules.flooding</package>
 	<!-- density between 0.0 and 1.0 -->
 	<nodeDensity>0.3</nodeDensity>
 	<objects>
 		<node>
 			<id>node01</id>
-			<class>BullyElectionAlgorithmNode</class>
+			<class>FloodNode</class>
 			<variables>
 				<variable>
 					<id>name</id>
@@ -16,7 +16,7 @@
 		</node>
 		<node>
 			<id>node02</id>
-			<class>BullyElectionAlgorithmNode</class>
+			<class>FloodNode</class>
 			<variables>
 				<variable>
 					<id>name</id>
@@ -26,7 +26,7 @@
 		</node>
 		<node>
 			<id>node03</id>
-			<class>BullyElectionAlgorithmNode</class>
+			<class>FloodNode</class>
 			<variables>
 				<variable>
 					<id>name</id>
@@ -36,7 +36,7 @@
 		</node>
 		<node>
 			<id>node04</id>
-			<class>BullyElectionAlgorithmNode</class>
+			<class>FloodNode</class>
 			<variables>
 				<variable>
 					<id>name</id>
@@ -46,7 +46,7 @@
 		</node>
 		<node>
 			<id>node05</id>
-			<class>BullyElectionAlgorithmNode</class>
+			<class>FloodNode</class>
 			<variables>
 				<variable>
 					<id>name</id>
@@ -56,7 +56,7 @@
 		</node>
 		<node>
 			<id>node06</id>
-			<class>BullyElectionAlgorithmNode</class>
+			<class>FloodNode</class>
 			<variables>
 				<variable>
 					<id>name</id>
@@ -66,7 +66,7 @@
 		</node>
 		<node>
 			<id>node07</id>
-			<class>BullyElectionAlgorithmNode</class>
+			<class>FloodNode</class>
 			<variables>
 				<variable>
 					<id>name</id>
@@ -76,7 +76,7 @@
 		</node>
 		<node>
 			<id>node08</id>
-			<class>BullyElectionAlgorithmNode</class>
+			<class>FloodNode</class>
 			<variables>
 				<variable>
 					<id>name</id>
@@ -86,7 +86,7 @@
 		</node>
 		<node>
 			<id>node09</id>
-			<class>BullyElectionAlgorithmNode</class>
+			<class>FloodNode</class>
 			<variables>
 				<variable>
 					<id>name</id>
@@ -96,7 +96,7 @@
 		</node>
 		<node>
 			<id>node10</id>
-			<class>BullyElectionAlgorithmNode</class>
+			<class>FloodNode</class>
 			<variables>
 				<variable>
 					<id>name</id>
@@ -107,17 +107,17 @@
 		<link>
 			<id>link01</id>
 			<class>DefaultLink</class>
-			<delay>60</delay>
+			<delay>10</delay>
 		</link>
 		<link>
 			<id>link02</id>
 			<class>DefaultLink</class>
-			<delay>15</delay>
+			<delay>4</delay>
 		</link>
 		<link>
 			<id>link03</id>
 			<class>DefaultLink</class>
-			<delay>10</delay>
+			<delay>4</delay>
 		</link>
 		<link>
 			<id>link04</id>
@@ -127,47 +127,47 @@
 		<link>
 			<id>link05</id>
 			<class>DefaultLink</class>
-			<delay>35</delay>
+			<delay>8</delay>
 		</link>
 		<link>
 			<id>link06</id>
 			<class>DefaultLink</class>
-			<delay>15</delay>
+			<delay>6</delay>
 		</link>
 		<link>
 			<id>link07</id>
 			<class>DefaultLink</class>
-			<delay>12</delay>
+			<delay>4</delay>
 		</link>
 		<link>
 			<id>link08</id>
 			<class>DefaultLink</class>
-			<delay>12</delay>
+			<delay>4</delay>
 		</link>
 		<link>
 			<id>link09</id>
 			<class>DefaultLink</class>
-			<delay>12</delay>
+			<delay>4</delay>
 		</link>
 		<link>
 			<id>link10</id>
 			<class>DefaultLink</class>
-			<delay>12</delay>
+			<delay>4</delay>
 		</link>
 		<link>
 			<id>link11</id>
 			<class>DefaultLink</class>
-			<delay>32</delay>
+			<delay>8</delay>
 		</link>
 		<link>
 			<id>link12</id>
 			<class>DefaultLink</class>
-			<delay>32</delay>
+			<delay>8</delay>
 		</link>
 		<link>
 			<id>collisionLink01</id>
 			<class>DefaultLink</class>
-			<delay>32</delay>
+			<delay>8</delay>
 		</link>
 	</objects>
 	<connections>
