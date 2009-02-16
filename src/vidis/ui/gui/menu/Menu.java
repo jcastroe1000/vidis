@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
 
+import sun.awt.Mutex;
 import vidis.data.mod.IUserNode;
 import vidis.data.var.IVariableChangeListener;
 import vidis.data.var.IVariableContainer;
@@ -122,7 +123,7 @@ public class Menu extends BasicGuiContainer {
 	
 	private Queue<String> varChanges = new LinkedList<String>();
 	
-	public void reactOnVarChanges() {
+	public synchronized void reactOnVarChanges() {
 		try {
 			while ( !varChanges.isEmpty() ) {
 				reactOnVarChange(varChanges.poll());
