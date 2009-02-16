@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+
+Name: Module
+Module-Name: Ping Pong Demo
+
+Name: data/modules/pingPong/twoNodes.msim
+MSIM-Name: Two nodes example
+

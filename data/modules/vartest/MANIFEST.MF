@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+
+Name: Module
+Module-Name: BETA area (Spawn,Connect,Disconnect,..)
+
+Name: data/modules/vartest/onenode.msim
+MSIM-Name: Test 1
+

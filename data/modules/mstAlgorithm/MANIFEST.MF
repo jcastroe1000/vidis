@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+
+Name: Module
+Module-Name: MST (Echo) Algorithm
+
+Name: data/modules/mstAlgorithm/v1.msim
+MSIM-Name: Example 1
+
+Name: data/modules/mstAlgorithm/v2.msim
+MSIM-Name: Example 2
+

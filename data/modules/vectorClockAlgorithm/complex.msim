@@ -50,7 +50,7 @@
 					<value>link01</value>
 				</variable>
 			</variables>
-			<delay>10</delay>
+			<delay>5</delay>
 		</link>
 		<link>
 			<id>link02</id>
@@ -61,7 +61,7 @@
 					<value>link02</value>
 				</variable>
 			</variables>
-			<delay>30</delay>
+			<delay>10</delay>
 		</link>
 		<link>
 			<id>link03</id>
@@ -72,7 +72,7 @@
 					<value>link03</value>
 				</variable>
 			</variables>
-			<delay>10</delay>
+			<delay>5</delay>
 		</link>
 		<link>
 			<id>link04</id>
@@ -83,7 +83,7 @@
 					<value>link04</value>
 				</variable>
 			</variables>
-			<delay>30</delay>
+			<delay>10</delay>
 		</link>
 		<link>
 			<id>link05</id>
@@ -94,7 +94,7 @@
 					<value>link05</value>
 				</variable>
 			</variables>
-			<delay>60</delay>
+			<delay>11</delay>
 		</link>
 		<link>
 			<id>link06</id>
@@ -105,7 +105,7 @@
 					<value>link06</value>
 				</variable>
 			</variables>
-			<delay>60</delay>
+			<delay>11</delay>
 		</link>
 		<link>
 			<id>link07</id>
@@ -116,7 +116,7 @@
 					<value>link07</value>
 				</variable>
 			</variables>
-			<delay>60</delay>
+			<delay>11</delay>
 		</link>
 		<link>
 			<id>link08</id>
@@ -127,7 +127,7 @@
 					<value>link08</value>
 				</variable>
 			</variables>
-			<delay>60</delay>
+			<delay>11</delay>
 		</link>
 		<link>
 			<id>link09</id>
@@ -138,7 +138,7 @@
 					<value>link09</value>
 				</variable>
 			</variables>
-			<delay>60</delay>
+			<delay>11</delay>
 		</link>
 		<link>
 			<id>link10</id>
@@ -149,7 +149,7 @@
 					<value>link10</value>
 				</variable>
 			</variables>
-			<delay>60</delay>
+			<delay>11</delay>
 		</link>
 
 	</objects>
