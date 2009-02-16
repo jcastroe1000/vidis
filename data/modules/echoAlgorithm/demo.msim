@@ -71,67 +71,67 @@
 		<link>
 			<id>link01</id>
 			<class>DefaultLink</class>
-			<delay>60</delay>
+			<delay>10</delay>
 		</link>
 		<link>
 			<id>link02</id>
 			<class>DefaultLink</class>
-			<delay>15</delay>
+			<delay>4</delay>
 		</link>
 		<link>
 			<id>link03</id>
 			<class>DefaultLink</class>
-			<delay>10</delay>
+			<delay>5</delay>
 		</link>
 		<link>
 			<id>link04</id>
 			<class>DefaultLink</class>
-			<delay>6</delay>
+			<delay>2</delay>
 		</link>
 		<link>
 			<id>link05</id>
 			<class>DefaultLink</class>
-			<delay>35</delay>
+			<delay>10</delay>
 		</link>
 		<link>
 			<id>link06</id>
 			<class>DefaultLink</class>
-			<delay>15</delay>
+			<delay>5</delay>
 		</link>
 		<link>
 			<id>link07</id>
 			<class>DefaultLink</class>
-			<delay>12</delay>
+			<delay>4</delay>
 		</link>
 		<link>
 			<id>link08</id>
 			<class>DefaultLink</class>
-			<delay>12</delay>
+			<delay>4</delay>
 		</link>
 		<link>
 			<id>link09</id>
 			<class>DefaultLink</class>
-			<delay>12</delay>
+			<delay>4</delay>
 		</link>
 		<link>
 			<id>link10</id>
 			<class>DefaultLink</class>
-			<delay>12</delay>
+			<delay>4</delay>
 		</link>
 		<link>
 			<id>link11</id>
 			<class>DefaultLink</class>
-			<delay>32</delay>
+			<delay>10</delay>
 		</link>
 		<link>
 			<id>link12</id>
 			<class>DefaultLink</class>
-			<delay>32</delay>
+			<delay>10</delay>
 		</link>
 		<link>
 			<id>collisionLink01</id>
 			<class>DefaultLink</class>
-			<delay>32</delay>
+			<delay>10</delay>
 		</link>
 	</objects>
 	<connections>
