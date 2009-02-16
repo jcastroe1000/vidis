@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-
-Name: Module
-Module-Name: Tommy tests VIDIS (Simulate DHT)
-
-Name: data/modules/tommy/tommy1.msim
-MSIM-Name: Example 1
-
