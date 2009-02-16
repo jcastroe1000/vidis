@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -122,10 +123,12 @@ public class Menu extends BasicGuiContainer {
 	private Queue<String> varChanges = new LinkedList<String>();
 	
 	public void reactOnVarChanges() {
-		synchronized (varChanges) {
+		try {
 			while ( !varChanges.isEmpty() ) {
 				reactOnVarChange(varChanges.poll());
 			}
+		} catch(NoSuchElementException e) {
+			logger.error("This should not happen.", e);
 		}
 	}
 	
