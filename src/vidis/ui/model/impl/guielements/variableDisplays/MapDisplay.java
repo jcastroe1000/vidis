@@ -28,7 +28,7 @@ public class MapDisplay extends Display {
 	@Override
 	public void renderContainer(GL gl) {
 		if ( var != null ) {
-			String txt = var.getIdentifier().replaceAll(var.getNameSpace()+".", "   ") + " -> " + var.getData().toString();
+			String txt = prefix + var.getIdentifierWithoutNamespace() + " -> " + var.getData().toString();
 			this.setText(txt);
 			super.renderContainer(gl);
 		}

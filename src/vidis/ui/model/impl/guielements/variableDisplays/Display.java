@@ -10,6 +10,7 @@ import vidis.ui.model.impl.Label;
 
 public abstract class Display extends Label {
 
+	final static String prefix = "   ";
 	protected AVariable var;
 	
 	public Display( AVariable var ) {

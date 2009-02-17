@@ -16,6 +16,7 @@ import vidis.ui.model.impl.Button;
 import vidis.ui.model.structure.IGuiContainer;
 import vidis.ui.model.structure.ILayout;
 
+@Deprecated
 public class MethodDisplay extends Display {
 	private static Logger logger = Logger.getLogger(MethodDisplay.class);
 

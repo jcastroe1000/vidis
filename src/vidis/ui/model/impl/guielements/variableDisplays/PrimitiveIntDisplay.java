@@ -28,7 +28,7 @@ public class PrimitiveIntDisplay extends Display {
 	@Override
 	public void renderContainer(GL gl) {
 		if ( var != null ) {
-			String txt = "   " + var.getIdentifierWithoutNamespace() + " -> ";
+			String txt = prefix + var.getIdentifierWithoutNamespace() + " -> ";
 			Object num = var.getData();
 			if (Integer.class.isAssignableFrom(num.getClass()) || num.getClass().equals(Integer.TYPE)) {
 				txt += (Integer)num;

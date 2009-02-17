@@ -52,7 +52,7 @@ public class Tuple3Display extends Display {
 	
 	@Override
 	public void renderContainer(GL gl) {
-		String txt = var.getIdentifier().replaceAll(var.getNameSpace()+".", "   ") + " -> (" + convertUnknownTupleToString() + ")";
+		String txt = prefix + var.getIdentifierWithoutNamespace() + " -> (" + convertUnknownTupleToString() + ")";
 		this.setText(txt);
 		super.renderContainer(gl);
 	}

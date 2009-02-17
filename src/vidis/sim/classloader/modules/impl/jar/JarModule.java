@@ -64,7 +64,7 @@ public class JarModule extends AModule {
 			// check mainlevel
 			for(Entry<Object,Object> e : f.getManifest().getMainAttributes().entrySet()) {
 				if(e.getKey().equals(new Attributes.Name("Module-Name"))) {
-					return e.getValue().toString() + " (" + ff.getName() + ")";
+					return e.getValue().toString();
 				}
 			}
 			// check attributes
@@ -73,7 +73,7 @@ public class JarModule extends AModule {
 					// got module information
 					for(Entry<Object, Object> e : es.getValue().entrySet()) {
 						if(e.getKey().equals(new Attributes.Name("Module-Name"))) {
-							return e.getValue().toString() + " (" + ff.getName() + ")";
+							return e.getValue().toString();
 						}
 					}
 				}

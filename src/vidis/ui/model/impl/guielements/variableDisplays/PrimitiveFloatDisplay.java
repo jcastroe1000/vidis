@@ -29,7 +29,7 @@ public class PrimitiveFloatDisplay extends Display {
 	@Override
 	public void renderContainer(GL gl) {
 		if ( var != null ) {
-			String txt = "   " + var.getIdentifierWithoutNamespace() + " -> ";
+			String txt = prefix + var.getIdentifierWithoutNamespace() + " -> ";
 			Object num = var.getData();
 			if (Float.class.isAssignableFrom(num.getClass()) || num.getClass().equals(Float.TYPE)) {
 				txt += Rounding.round((Float)num, 3);

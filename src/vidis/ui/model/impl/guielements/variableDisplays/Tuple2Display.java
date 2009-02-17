@@ -44,7 +44,7 @@ public class Tuple2Display extends Display {
 	
 	@Override
 	public void renderContainer(GL gl) {
-		String txt = var.getIdentifier().replaceAll(var.getNameSpace()+".", "   ") + " [T]-> " + convertUnknownTupleToString();
+		String txt = prefix + var.getIdentifierWithoutNamespace() + " -> " + convertUnknownTupleToString();
 		this.setText(txt);
 		super.renderContainer(gl);
 	}

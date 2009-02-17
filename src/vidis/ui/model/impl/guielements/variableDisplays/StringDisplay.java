@@ -28,7 +28,7 @@ public class StringDisplay extends Display {
 	@Override
 	public void renderContainer(GL gl) {
 		if ( var != null ) {
-			String txt = var.getIdentifierWithoutNamespace() + " -> " + var.getData();
+			String txt = prefix + var.getIdentifierWithoutNamespace() + " -> " + var.getData();
 			this.setText(txt);
 			super.renderContainer(gl);
 		}

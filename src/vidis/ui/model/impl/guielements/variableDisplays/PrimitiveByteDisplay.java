@@ -28,7 +28,7 @@ public class PrimitiveByteDisplay extends Display {
 	@Override
 	public void renderContainer(GL gl) {
 		if ( var != null ) {
-			String txt = "   " + var.getIdentifierWithoutNamespace() + " -> ";
+			String txt = prefix + var.getIdentifierWithoutNamespace() + " -> ";
 			Object num = var.getData();
 			if (Byte.class.isAssignableFrom(num.getClass()) || num.getClass().equals(Byte.TYPE)) {
 				txt += ((Byte)num);

@@ -29,7 +29,7 @@ public class NumberDisplay extends Display {
 	@Override
 	public void renderContainer(GL gl) {
 		if ( var != null ) {
-			String txt = "   " + var.getIdentifierWithoutNamespace() + " -> ";
+			String txt = prefix + var.getIdentifierWithoutNamespace() + " -> ";
 			Object num = var.getData();
 			if(Byte.class.isAssignableFrom(num.getClass())) {
 				txt += (Byte)num;

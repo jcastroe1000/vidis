@@ -29,7 +29,7 @@ public class PrimitiveDoubleDisplay extends Display {
 	@Override
 	public void renderContainer(GL gl) {
 		if ( var != null ) {
-			String txt = "   " + var.getIdentifierWithoutNamespace() + " -> ";
+			String txt = prefix + var.getIdentifierWithoutNamespace() + " -> ";
 			Object num = var.getData();
 			if (Double.class.isAssignableFrom(num.getClass()) || num.getClass().equals(Double.TYPE)) {
 				txt += Rounding.round((Double)num, 3);

@@ -28,7 +28,7 @@ public class PrimitiveLongDisplay extends Display {
 	@Override
 	public void renderContainer(GL gl) {
 		if ( var != null ) {
-			String txt = "   " + var.getIdentifierWithoutNamespace() + " -> ";
+			String txt = prefix + var.getIdentifierWithoutNamespace() + " -> ";
 			Object num = var.getData();
 			if (Long.class.isAssignableFrom(num.getClass()) || num.getClass().equals(Long.TYPE)) {
 				txt += (Long)num;

@@ -49,16 +49,30 @@ public abstract class ObjectGuiElement extends BasicGuiContainer {
 			}
 			@Override
 			public double getWidth() {
-				return 14;
+				return width;
 			}
 			@Override
 			protected void onMouseClicked(AMouseEvent e) {
 				ObjectGuiElement.this.onMouseClicked(e);
 			}
 			
+			private double width;
+			
 			@Override
 			public void renderContainer(GL gl) {
 				if(hasHeader1() || hasHeader2()) {
+					try {
+					double w1 = calculateTextWidth(gl, getHeaderLine1() );
+					double w2 = calculateTextWidth(gl, getHeaderLine2() );
+					double w3 = w1>w2?w1:w2;
+					this.width = w3;
+					}
+					catch (Exception e) {
+						//XXX POSSIBLE BUG ( QUICKFIX FOR PRESENTATION )
+						logger.error( "XXX POSSIBLE BUT CHECK ME!!", e );
+						this.width = 14;
+					}
+					
 					super.renderContainer(gl);
 					double h = getHeight();
 					double w = getWidth();
@@ -211,6 +225,13 @@ public abstract class ObjectGuiElement extends BasicGuiContainer {
 					(float) (scale * fontScale) );
 			textRenderer.end3DRendering();
 		gl.glPopMatrix();
+	}
+	
+	private double calculateTextWidth( GL gl, String text ) {
+		Rectangle2D r = textRenderer.getBounds( text );
+		float scale = 0.01f;
+		double factor = 0.7;
+		return 3* scale * r.getWidth();
 	}
 	
 	protected abstract String getHeaderLine1();
